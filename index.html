@@ -15,109 +15,70 @@
             color: #333;
         }
 
-        /* --- MOBİL İÇİN EKLENEN SARMALAYICI (WRAPPER) ALANLAR --- */
         .tournament-wrapper {
             width: 100%;
             overflow-x: auto;
-            /* Mobilde pürüzsüz kaydırma sağlar */
             -webkit-overflow-scrolling: touch; 
             display: flex;
-            justify-content: center; /* Masaüstünde ortala */
+            justify-content: center;
         }
 
         .tournament-inner {
             display: flex;
             flex-direction: column;
+            align-items: center;
             width: max-content;
-            padding: 0 40px; /* Kenar boşlukları */
+            padding: 0 40px; 
         }
 
-        .headers { display: flex; gap: 60px; margin-bottom: 20px; }
-        .header-title { width: 340px; text-align: center; color: #9ca3af; font-style: italic; font-weight: 600; }
-        .bracket { display: flex; gap: 60px; }
-        .column { width: 340px; display: flex; flex-direction: column; }
-        
-        /* Yuva yüksekliklerini eski kompakt haline getirdik */
-        .match-slot { height: 140px; display: flex; align-items: center; position: relative; } 
-        .match-slot.double { height: 280px; }
-        .match-slot.quad { height: 560px; }
+        .headers { display: flex; gap: 40px; margin-bottom: 20px; width: 100%; justify-content: center; }
+        .header-title { width: 280px; text-align: center; color: #9ca3af; font-style: italic; font-weight: 600; }
+        .bracket { display: flex; gap: 40px; align-items: stretch; }
+        .column { width: 280px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .match-slot { display: flex; align-items: center; position: relative; width: 100%; padding: 20px 0; } 
 
         /* --- KART TASARIMI --- */
         .match-card {
-            background: #ffffff;
-            width: 100%;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e5e7eb;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 2; 
-            transition: all 0.2s ease;
+            background: #ffffff; width: 100%; padding: 15px; border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb;
+            box-sizing: border-box; position: relative; z-index: 2; transition: all 0.2s ease;
         }
+        .match-card.clickable:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); cursor: pointer; }
+        .match-card.show-scorers { border-bottom-left-radius: 0; border-bottom-right-radius: 0; z-index: 10; }
 
-        .match-card.clickable:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Kart açıldığında alt köşeleri düzleştir */
-        .match-card.show-scorers {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            z-index: 10; /* Diğer kartların üstüne çıkması için */
-        }
-
-        .match-date { font-size: 11px; color: #9ca3af; text-align: center; margin-bottom: 12px; font-weight: 500;}
+        .match-date { font-size: 11px; color: #9ca3af; text-align: center; margin-bottom: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;}
         .match-teams { display: flex; align-items: center; justify-content: space-between; }
-        
-        .team { font-size: 14px; font-weight: 700; flex: 1; display: flex; align-items: center; gap: 5px; color: #1f2937; }
+        .team { font-size: 13px; font-weight: 700; flex: 1; display: flex; align-items: center; gap: 5px; color: #1f2937; }
         .team.right { justify-content: flex-end; text-align: right; }
-        
         .score-box { display: flex; gap: 6px; align-items: center; margin: 0 10px; }
         .score { background: #f3f4f6; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: 800; font-size: 15px; color: #374151;}
-        .score.winner { background: #fde047; color: #854d0e; }
 
-        /* --- AÇILIR KAPANIR (DROPDOWN) GOLCÜLER MENÜSÜ --- */
+        /* --- PUAN DURUMU (GRUP) TABLOSU --- */
+        .group-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; text-align: center; }
+        .group-table th { color: #9ca3af; font-weight: 600; padding-bottom: 8px; border-bottom: 1px dashed #e5e7eb; }
+        .group-table td { padding: 8px 0; color: #4b5563; font-weight: 500; border-bottom: 1px solid #f3f4f6; }
+        .group-table tr:last-child td { border-bottom: none; }
+        .group-table tr.advancing td { color: #16a34a; font-weight: 700; }
+        .group-table td.team-name { text-align: left; padding-left: 5px; font-weight: 600; }
+
+        /* GOLCÜLER DROPDOWN */
         .match-scorers {
-            position: absolute;
-            top: 100%; /* Kartın tam altından başlar */
-            left: -1px; /* Kenarlık payı */
-            width: calc(100% + 2px);
-            background: #ffffff;
-            padding: 12px 15px;
-            box-sizing: border-box;
-            border: 1px solid #e5e7eb;
-            border-top: 1px dashed #e5e7eb;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            
-            /* Başlangıçta gizli ayarlar */
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #6b7280;
+            position: absolute; top: 100%; left: -1px; width: calc(100% + 2px);
+            background: #ffffff; padding: 12px 15px; box-sizing: border-box;
+            border: 1px solid #e5e7eb; border-top: 1px dashed #e5e7eb; border-radius: 0 0 8px 8px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); opacity: 0; visibility: hidden;
+            transform: translateY(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; justify-content: space-between; font-size: 11px; color: #6b7280;
         }
-
-        /* Tıklandığında aktifleşen sınıf */
-        .match-card.show-scorers .match-scorers {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
+        .match-card.show-scorers .match-scorers { opacity: 1; visibility: visible; transform: translateY(0); }
         .scorer-left, .scorer-right { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .scorer-right { text-align: right; }
 
         /* --- ÇİZGİLER --- */
-        .column:not(:last-child) .match-card::after { content: ""; position: absolute; right: -30px; top: 50%; width: 30px; border-top: 2px solid #d1d5db; }
-        .match-slot.double::before, .match-slot.quad::before { content: ""; position: absolute; left: -30px; top: 25%; bottom: 25%; border-left: 2px solid #d1d5db; }
-        .match-slot.double::after, .match-slot.quad::after { content: ""; position: absolute; left: -30px; top: 50%; width: 30px; border-top: 2px solid #d1d5db; }
+        .column.semi-left .match-card::after { content: ""; position: absolute; right: -20px; top: 50%; width: 20px; border-top: 2px solid #d1d5db; }
+        .column.center-side .match-slot::before { content: ""; position: absolute; left: -20px; top: 50%; width: 20px; border-top: 2px solid #d1d5db; }
+        .column.center-side .match-slot::after { content: ""; position: absolute; right: -20px; top: 50%; width: 20px; border-top: 2px solid #d1d5db; }
+        .column.semi-right .match-card::after { content: ""; position: absolute; left: -20px; top: 50%; width: 20px; border-top: 2px solid #d1d5db; }
 
         /* --- ANİMASYONLAR --- */
         @keyframes shootBall {
@@ -136,42 +97,73 @@
         .goal-ball { position: absolute; top: 50%; left: 50%; font-size: 40px; pointer-events: none; z-index: 99; animation: shootBall 1s ease-out forwards; }
         .goal-text { position: absolute; top: 50%; left: 50%; font-size: 32px; font-weight: 900; color: #16a34a; text-shadow: 2px 2px 0px #fff, -2px -2px 0px #fff, 2px -2px 0px #fff, -2px 2px 0px #fff, 0 4px 8px rgba(0,0,0,0.2); pointer-events: none; z-index: 100; white-space: nowrap; animation: goalTextPopup 1.2s ease-out forwards; }
 
-        /* --- MOBİL UYARLAMA (Responsive) --- */
+        /* --- MOBİL UYARLAMA --- */
         @media (max-width: 1024px) {
-            .tournament-wrapper {
-                justify-content: flex-start; /* Mobilde ortalamayı iptal et, soldan kaydırma başlasın */
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body { padding: 20px 0; }
-            .tournament-inner { padding: 0 20px; }
-            
-            /* Tasarımı bozmadan sadece biraz küçültüyoruz ki ekrana daha rahat sığsın */
-            .column { width: 280px; }
-            .header-title { width: 280px; }
-            .headers { gap: 40px; }
-            .bracket { gap: 40px; }
-            
-            /* Çizgilerin yeni oranlara göre matematiksel olarak güncellenmesi */
-            .column:not(:last-child) .match-card::after { right: -20px; width: 20px; }
-            .match-slot.double::before, .match-slot.quad::before { left: -20px; }
-            .match-slot.double::after, .match-slot.quad::after { left: -20px; width: 20px; }
+            .headers { display: none; }
+            .tournament-wrapper { justify-content: flex-start; }
+            .tournament-inner { padding: 0 10px; width: 100%; }
+            .bracket { flex-direction: column; align-items: center; gap: 20px; width: 100%; padding-bottom: 50px;}
+            .column { width: 100%; max-width: 350px; }
+            .column.semi-left .match-card::after, .column.center-side .match-slot::before,
+            .column.center-side .match-slot::after, .column.semi-right .match-card::after { display: none; }
         }
 
-        /* --- İMZA ALANI --- */
-        .signature {
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #9ca3af;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 14px;
-            z-index: 100;
-            pointer-events: none; /* Tıklamayı engeller, alttaki elementlere engel olmaz */
+        /* --- MACKOLİK TARZI FİKSTÜR MODAL (DARK THEME) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); z-index: 1000;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(4px);
         }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #11141a; width: 90%; max-width: 450px;
+            border-radius: 12px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            animation: modalFadeIn 0.3s ease; color: #ffffff;
+        }
+        @keyframes modalFadeIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .modal-header {
+            background: #11141a; 
+            color: #ffffff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #2d3542;
+        }
+        .modal-title { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 10px; }
+        .modal-close { color: #9ca3af; font-size: 28px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+        .modal-close:hover { color: #ffffff; }
+        
+        .fixture-date-header {
+            background: #0a3161; color: #fde047; 
+            padding: 8px 20px; font-size: 12px; font-weight: 700;
+        }
+        .fixture-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 20px; border-bottom: 1px solid #2d3542;
+            background: #1a1f27; color: #ffffff; font-weight: 600; font-size: 14px;
+        }
+        .fixture-row:hover { background: #222933; }
+        
+        .f-status { width: 45px; font-size: 13px; color: #a0aec0; font-weight: 600;}
+        .f-team { flex: 1; }
+        .f-team.home { text-align: right; padding-right: 15px; }
+        .f-team.away { text-align: left; padding-left: 15px; }
+        
+        .f-score { background: transparent; padding: 0; font-weight: 700; font-size: 15px; width: 30px; text-align: center;}
+        .f-score.v { color: #a0aec0; font-size: 14px; font-weight: normal;}
+        
+        .f-star { color: #6b7280; font-size: 16px; width: 20px; text-align: right; cursor: pointer; transition: color 0.2s;}
+        .f-star:hover { color: #fde047; }
+
+        .fixture-content { display: none; max-height: 70vh; overflow-y: auto; }
+        .fixture-content.active { display: block; }
+
+        .fixture-content::-webkit-scrollbar { width: 6px; }
+        .fixture-content::-webkit-scrollbar-track { background: #11141a; }
+        .fixture-content::-webkit-scrollbar-thumb { background: #2d3542; border-radius: 4px; }
+        .fixture-content::-webkit-scrollbar-thumb:hover { background: #4a5568; }
+
+        /* --- İMZA ALANI --- */
+        .signature { position: fixed; bottom: 20px; right: 30px; color: #9ca3af; font-style: italic; font-weight: 600; font-size: 14px; z-index: 100; pointer-events: none; background: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 5px;}
     </style>
 </head>
 <body>
@@ -180,93 +172,171 @@
         <div class="tournament-inner">
             
             <div class="headers">
-                <div class="header-title">Eleme Maçları</div>
-                <div class="header-title">Yarı Final</div>
-                <div class="header-title">Kupa Maçı</div>
+                <div class="header-title">A Grubu</div>
+                <div class="header-title">Yarı Final 1</div>
+                <div class="header-title">Şampiyonluk Maçı</div>
+                <div class="header-title">Yarı Final 2</div>
+                <div class="header-title">B Grubu</div>
             </div>
 
             <div class="bracket">
-                <div class="column">
+                
+                <div class="column group-left">
                     <div class="match-slot">
-                        <div class="match-card">
-                            <div class="match-date">9 Mart 2026</div>
-                            <div class="match-teams"><div class="team">Web Tasarım ve Kodlama</div><div class="score-box"><div class="score">0</div> : <div class="score">0</div></div><div class="team right">Halkla ilişkiler 1</div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span></div>
-                                <div class="scorer-right"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="match-slot">
-                        <div class="match-card">
-                            <div class="match-date">9 Mart 2026</div>
-                            <div class="match-teams"><div class="team">Halkla İlişkiler 2</div><div class="score-box"><div class="score">0</div> : <div class="score">0</div></div><div class="team right">Maliye 1</div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span><span></span></div>
-                                <div class="scorer-right"><span></span><span></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="match-slot">
-                        <div class="match-card">
-                            <div class="match-date">9 Mart 2026</div>
-                            <div class="match-teams"><div class="team">İşletme 1</div><div class="score-box"><div class="score">0</div> : <div class="score">0</div></div><div class="team right">Maliye 2</div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span><span></span></div>
-                                <div class="scorer-right"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="match-slot">
-                        <div class="match-card">
-                            <div class="match-date">9 Mart 2026</div>
-                            <div class="match-teams"><div class="team">İç Mekan 1</div><div class="score-box"><div class="score">0</div> : <div class="score">0</div></div><div class="team right">Mimari Restorasyon</div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span><span></span></div>
-                                <div class="scorer-right"><span></span><span></span></div>
-                            </div>
+                        <div class="match-card clickable group-card" data-group="A" title="Fikstürü Görmek İçin Tıkla">
+                            <div class="match-date">A Grubu Puan Durumu 🔍</div>
+                            <table class="group-table">
+                                <tr><th class="team-name">Takım</th><th>O</th><th>G</th><th>B</th><th>M</th><th>P</th></tr>
+                                <tr><td class="team-name">Maliye 1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td class="team-name">İç Mekan Tasarımı 1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td class="team-name">Mimari 1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td class="team-name">Halkla İlişkiler 2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                            </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="column">
-                    <div class="match-slot double">
+                <div class="column semi-left">
+                    <div class="match-slot">
                         <div class="match-card">
-                            <div class="match-date">10 Mart 2026</div>
-                            <div class="match-teams"><div class="team"></div><div class="score-box"><div class="score">0</div> : <div class="score">0</div></div><div class="team right"></div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span><span></span></div>
-                                <div class="scorer-right"></div>
+                            <div class="match-date">Yarı Final 1 | 12 Mart 2026</div>
+                            <div class="match-teams">
+                                <div class="team">A Grubu 1.si</div>
+                                <div class="score-box"><div class="score">0</div> : <div class="score">0</div></div>
+                                <div class="team right">B Grubu 2.si</div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="match-slot double">
-                        <div class="match-card">
-                            <div class="match-date">10 Mart 2026</div>
-                            <div class="match-teams"><div class="team"></div><div class="score-box"><div class="score">0</div> : <div class="score">0</div></div><div class="team right"></div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span><span></span></div>
-                                <div class="scorer-right"><span></span><span></span></div>
-                            </div>
+                            <div class="match-scorers"><div class="scorer-left"><span></span></div><div class="scorer-right"><span></span></div></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="column">
-                    <div class="match-slot quad">
+                <div class="column center-side">
+                    <div class="match-slot">
                         <div class="match-card">
-                            <div class="match-date">11 Mart 2026</div>
-                            <div class="match-teams"><div class="team"></div><div class="score-box">🏆 <div class="score">0</div> : <div class="score">0</div>🏆 </div><div class="team right"></div></div>
-                            <div class="match-scorers">
-                                <div class="scorer-left"><span></span><span></span><span></span></div>
-                                <div class="scorer-right"></div>
+                            <div class="match-date">BÜYÜK FİNAL | 13 Mart 2026</div>
+                            <div class="match-teams">
+                                <div class="team">Yarı Final 1 Kaz.</div>
+                                <div class="score-box">🏆 <div class="score">0</div> : <div class="score">0</div> 🏆</div>
+                                <div class="team right">Yarı Final 2 Kaz.</div>
                             </div>
+                            <div class="match-scorers"><div class="scorer-left"><span></span></div><div class="scorer-right"><span></span></div></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="column semi-right">
+                    <div class="match-slot">
+                        <div class="match-card">
+                            <div class="match-date">Yarı Final 2 | 12 Mart 2026</div>
+                            <div class="match-teams">
+                                <div class="team">B Grubu 1.si</div>
+                                <div class="score-box"><div class="score">0</div> : <div class="score">0</div></div>
+                                <div class="team right">A Grubu 2.si</div>
+                            </div>
+                            <div class="match-scorers"><div class="scorer-left"><span></span></div><div class="scorer-right"><span></span></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column group-right">
+                    <div class="match-slot">
+                        <div class="match-card clickable group-card" data-group="B" title="Fikstürü Görmek İçin Tıkla">
+                            <div class="match-date">B Grubu Puan Durumu 🔍</div>
+                            <table class="group-table">
+                                <tr><th class="team-name">Takım</th><th>O</th><th>G</th><th>B</th><th>M</th><th>P</th></tr>
+                                <tr><td class="team-name">İşletme 1/2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td class="team-name">Web Tasarım ve Kodlama</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td class="team-name">Maliye 2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td class="team-name">Halkla İlişkiler 1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="fixtureModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">🏆 Grup Fikstürü</div>
+                <div class="modal-close" id="closeModal">&times;</div>
+            </div>
+
+            <div class="fixture-content" id="fixture-A">
+                <div class="fixture-date-header">9 Mart 2026 - Pazartesi</div>
+                <div class="fixture-row">
+                    <div class="f-status">15:00</div><div class="f-team home">Halkla İlişkiler 2</div>
+                    <div class="f-score v">v</div><div class="f-team away">Maliye 1</div>
+                    <div class="f-star">☆</div>
+                </div>
+                <div class="fixture-row">
+                    <div class="f-status">16:00</div><div class="f-team home">Mimari</div>
+                    <div class="f-score v">v</div><div class="f-team away">İç Mekan Tas. 1</div>
+                    <div class="f-star">☆</div>
+                </div>
+
+                <div class="fixture-date-header">10 Mart 2026 - Salı</div>
+                <div class="fixture-row">
+                    <div class="f-status">15:00</div><div class="f-team home">Mimari</div>
+                    <div class="f-score v">v</div><div class="f-team away">Maliye 1</div>
+                    <div class="f-star">☆</div>
+                </div>
+                <div class="fixture-row">
+                    <div class="f-status">16:00</div><div class="f-team home">İç Mekan Tas. 1</div>
+                    <div class="f-score v">v</div><div class="f-team away">Halkla İlişkiler 2</div>
+                    <div class="f-star">☆</div>
+                </div>
+
+                <div class="fixture-date-header">11 Mart 2026 - Çarşamba</div>
+                <div class="fixture-row">
+                    <div class="f-status">15:00</div><div class="f-team home">Maliye 1</div>
+                    <div class="f-score v">v</div><div class="f-team away">İç Mekan Tas. 1</div>
+                    <div class="f-star">☆</div>
+                </div>
+                <div class="fixture-row">
+                    <div class="f-status">16:00</div><div class="f-team home">Mimari</div>
+                    <div class="f-score v">v</div><div class="f-team away">Halkla İlişkiler 2</div>
+                    <div class="f-star">☆</div>
+                </div>
+            </div>
+
+            <div class="fixture-content" id="fixture-B">
+                <div class="fixture-date-header">9 Mart 2026 - Pazartesi</div>
+                <div class="fixture-row">
+                    <div class="f-status">17:00</div><div class="f-team home">İşletme 1/2</div>
+                    <div class="f-score v">v</div><div class="f-team away">Halkla İlişkiler 1</div>
+                    <div class="f-star">☆</div>
+                </div>
+                <div class="fixture-row">
+                    <div class="f-status">18:00</div><div class="f-team home">Maliye 2</div>
+                    <div class="f-score v">v</div><div class="f-team away">Web Tasarım ve Kodlama</div>
+                    <div class="f-star">☆</div>
+                </div>
+
+                <div class="fixture-date-header">10 Mart 2026 - Salı</div>
+                <div class="fixture-row">
+                    <div class="f-status">17:00</div><div class="f-team home">Web Tasarım ve Kodlama</div>
+                    <div class="f-score v">v</div><div class="f-team away">Halkla İlişkiler 1</div>
+                    <div class="f-star">☆</div>
+                </div>
+                <div class="fixture-row">
+                    <div class="f-status">18:00</div><div class="f-team home">Maliye 2</div>
+                    <div class="f-score v">v</div><div class="f-team away">İşletme 1/2</div>
+                    <div class="f-star">☆</div>
+                </div>
+
+                <div class="fixture-date-header">11 Mart 2026 - Çarşamba</div>
+                <div class="fixture-row">
+                    <div class="f-status">17:00</div><div class="f-team home">Web Tasarım ve Kodlama</div>
+                    <div class="f-score v">v</div><div class="f-team away">İşletme 1/2</div>
+                    <div class="f-star">☆</div>
+                </div>
+                <div class="fixture-row">
+                    <div class="f-status">18:00</div><div class="f-team home">Maliye 2</div>
+                    <div class="f-score v">v</div><div class="f-team away">Halkla İlişkiler 1</div>
+                    <div class="f-star">☆</div>
                 </div>
             </div>
 
@@ -277,22 +347,33 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.match-card');
+            const allCards = document.querySelectorAll('.match-card');
 
-            cards.forEach(card => {
-                // Sadece içinde golcü listesi varsa tıklanabilir yap
-                if (card.querySelector('.match-scorers')) {
+            allCards.forEach(card => {
+                if (card.classList.contains('group-card')) {
+                    card.addEventListener('click', function() {
+                        const groupName = this.getAttribute('data-group');
+                        const modalTitle = document.getElementById('modalTitle');
+                        const modalOverlay = document.getElementById('fixtureModal');
+                        const fixtureContents = document.querySelectorAll('.fixture-content');
+
+                        modalTitle.innerText = `🏆 ${groupName} Grubu Fikstürü`;
+                        
+                        fixtureContents.forEach(content => content.classList.remove('active'));
+                        document.getElementById(`fixture-${groupName}`).classList.add('active');
+
+                        modalOverlay.classList.add('active');
+                    });
+                } 
+                else if (card.querySelector('.match-scorers')) {
                     card.classList.add('clickable');
                     card.style.cursor = 'pointer';
 
                     card.addEventListener('click', function() {
-                        // "show-scorers" sınıfını aç/kapat (toggle)
                         const isOpening = !this.classList.contains('show-scorers');
                         this.classList.toggle('show-scorers');
 
-                        // Animasyon sadece kart AÇILIRKEN çıksın
                         if (isOpening) {
-                            // Zaten bir animasyon oynuyorsa üst üste binmesin
                             if (this.querySelector('.goal-text')) return;
 
                             const ball = document.createElement('div');
@@ -306,13 +387,25 @@
                             this.appendChild(ball);
                             this.appendChild(text);
 
-                            // Animasyon bitince elementleri temizle
                             setTimeout(() => {
-                                ball.remove();
-                                text.remove();
+                                if(ball.parentNode) ball.remove();
+                                if(text.parentNode) text.remove();
                             }, 1200);
                         }
                     });
+                }
+            });
+
+            const closeModal = document.getElementById('closeModal');
+            const modalOverlay = document.getElementById('fixtureModal');
+            
+            closeModal.addEventListener('click', () => {
+                modalOverlay.classList.remove('active');
+            });
+
+            modalOverlay.addEventListener('click', (e) => {
+                if(e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
                 }
             });
         });
@@ -320,4 +413,3 @@
 
 </body>
 </html>
-
