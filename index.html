@@ -11,10 +11,94 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f3f4f6;
             margin: 0;
-            padding: 50px 0;
+            padding: 90px 0 50px 0; /* Navbar için üstten ekstra boşluk eklendi */
             color: #333;
         }
 
+        /* --- NAVBAR & YAN MENÜ --- */
+        .navbar {
+            background-color: #11141a;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            color: #fde047;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1002; /* Menünün üstünde kalması için */
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            border-radius: 3px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Çarpı animasyonu */
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -250px; /* Başlangıçta gizli */
+            width: 250px;
+            height: 100vh;
+            background-color: #1a1f27;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        .side-menu.active {
+            right: 0; /* Menü açıldığında */
+        }
+
+        .menu-link {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 15px;
+            font-weight: 600;
+            border-bottom: 1px solid #2d3542;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-link:hover {
+            background-color: #222933;
+            color: #fde047;
+        }
+
+        /* --- TURNUVA AĞACI TASARIMI --- */
         .tournament-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -108,7 +192,7 @@
             .column.center-side .match-slot::after, .column.semi-right .match-card::after { display: none; }
         }
 
-        /* --- MACKOLİK TARZI FİKSTÜR MODAL (DARK THEME) --- */
+        /* --- MACKOLİK TARZI FİKSTÜR MODAL --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); z-index: 1000;
@@ -167,6 +251,21 @@
     </style>
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="nav-brand">🏆 Turnuva Ağacı</div>
+        <div class="hamburger" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div class="side-menu" id="side-menu">
+        <a href="index.html" class="menu-link">🏠 Ana Sayfa</a>
+        <a href="istatistik.html" class="menu-link" id="istatistik-link">📊 İstatistik</a>
+        
+    </div>
 
     <div class="tournament-wrapper">
         <div class="tournament-inner">
@@ -348,6 +447,25 @@
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // YENİ: Navbar ve Hamburger Menü İşlevleri
+            const hamburger = document.getElementById('hamburger-menu');
+            const sideMenu = document.getElementById('side-menu');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                sideMenu.classList.toggle('active');
+            });
+
+            // Menü dışına tıklandığında menüyü kapat
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !sideMenu.contains(e.target) && sideMenu.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    sideMenu.classList.remove('active');
+                }
+            });
+
+            // Mevcut Kart ve Modal İşlevleri
             const allCards = document.querySelectorAll('.match-card');
 
             allCards.forEach(card => {
@@ -416,7 +534,3 @@
 </body>
 
 </html>
-
-
-
-
