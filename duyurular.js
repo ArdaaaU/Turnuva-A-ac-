@@ -1,6 +1,7 @@
 /**
  * Turnuva Duyuruları Modülü (duyurular.js)
  * Hem duyurular.html hem de index.html tarafından ortak kullanılan veri ve yönetim katmanı.
+ * Supabase (PostgreSQL) entegrasyonu ve yerel önbellek senkronizasyonunu destekler.
  */
 
 // Varsayılan Turnuva Duyuruları
@@ -8,7 +9,7 @@ const DEFAULT_ANNOUNCEMENTS = [
     {
         id: "d-1",
         title: "🏆 Turnuva 2026 Resmen Başladı! Grup Maçları Takvimi Açıklandı",
-        category: "onemli", // onemli, mac, kural, genel
+        category: "onemli",
         categoryLabel: "🚨 Önemli Duyuru",
         date: "11 Mart 2026",
         author: "Turnuva Komitesi",
@@ -56,7 +57,9 @@ const ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 const DEFAULT_PIN = '3519';
 
-// Duyuruları Getir (localStorage'da kayıtlı dizi boş olsa dahi onu döndürür)
+let _realtimeSubscribed = false;
+
+// Duyuruları Getir (Hızlı render için önbelleği döndürür)
 function getAnnouncements() {
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
@@ -74,7 +77,7 @@ function getAnnouncements() {
     return DEFAULT_ANNOUNCEMENTS;
 }
 
-// Duyuruları Kaydet
+// Duyuruları Kaydet (Önbelleğe yazar ve olay tetikler)
 function saveAnnouncements(list) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
@@ -92,12 +95,11 @@ function getLatestAnnouncement() {
     const list = getAnnouncements();
     if (!list || list.length === 0) return null;
     
-    // Önce sabitlenmişlerden ilkini, yoksa listenin ilk elemanını döndür
     const pinned = list.find(a => a.pinned);
     return pinned || list[0];
 }
 
-// Yeni Duyuru Ekle
+// Yeni Duyuru Ekle (Yerel + Supabase)
 function addAnnouncement(item) {
     const list = getAnnouncements();
     const newItem = {
@@ -124,13 +126,34 @@ function addAnnouncement(item) {
     }
 
     saveAnnouncements(list);
+
+    // Supabase Çevrim İçi Kayıt
+    if (typeof getSupabaseClient === 'function') {
+        const client = getSupabaseClient();
+        if (client) {
+            client.from('duyurular').insert([{
+                id: newItem.id,
+                title: newItem.title,
+                category: newItem.category,
+                category_label: newItem.categoryLabel,
+                date: newItem.date,
+                author: newItem.author,
+                pinned: newItem.pinned,
+                summary: newItem.summary,
+                content: newItem.content
+            }]).then(({ error }) => {
+                if (error) console.error('Supabase ekleme hatası:', error);
+            }).catch(err => console.error('Supabase ekleme istisnası:', err));
+        }
+    }
+
     return newItem;
 }
 
-// Duyuru Güncelle
+// Duyuru Güncelle (Yerel + Supabase)
 function updateAnnouncement(id, updatedFields) {
     const list = getAnnouncements();
-    const index = list.findIndex(a => a.id === id);
+    const index = list.findIndex(a => String(a.id) === String(id));
     if (index === -1) return null;
 
     const current = list[index];
@@ -144,16 +167,47 @@ function updateAnnouncement(id, updatedFields) {
     };
 
     list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-
     saveAnnouncements(list);
+
+    // Supabase Çevrim İçi Güncelleme
+    if (typeof getSupabaseClient === 'function') {
+        const client = getSupabaseClient();
+        if (client) {
+            const updated = list[index];
+            client.from('duyurular').update({
+                title: updated.title,
+                category: updated.category,
+                category_label: updated.categoryLabel,
+                date: updated.date,
+                author: updated.author,
+                pinned: updated.pinned,
+                summary: updated.summary,
+                content: updated.content
+            }).eq('id', String(id)).then(({ error }) => {
+                if (error) console.error('Supabase güncelleme hatası:', error);
+            }).catch(err => console.error('Supabase güncelleme istisnası:', err));
+        }
+    }
+
     return list[index];
 }
 
-// Duyuru Sil
+// Duyuru Sil (Yerel + Supabase)
 function deleteAnnouncement(id) {
     let list = getAnnouncements();
     list = list.filter(a => String(a.id) !== String(id));
     saveAnnouncements(list);
+
+    // Supabase Çevrim İçi Silme
+    if (typeof getSupabaseClient === 'function') {
+        const client = getSupabaseClient();
+        if (client) {
+            client.from('duyurular').delete().eq('id', String(id)).then(({ error }) => {
+                if (error) console.error('Supabase silme hatası:', error);
+            }).catch(err => console.error('Supabase silme istisnası:', err));
+        }
+    }
+
     return list;
 }
 
@@ -162,6 +216,95 @@ function resetToDefaultAnnouncements() {
     saveAnnouncements(DEFAULT_ANNOUNCEMENTS);
     return DEFAULT_ANNOUNCEMENTS;
 }
+
+// ============================================================
+// SUPABASE ÇEVRİM İÇİ SENKRONİZASYON VE CANLI (REALTIME) DİNLEME
+// ============================================================
+
+// Supabase'den Duyuruları Çek
+async function syncAnnouncementsFromSupabase() {
+    if (typeof getSupabaseClient !== 'function') return null;
+    const client = getSupabaseClient();
+    if (!client) return null;
+
+    try {
+        const { data, error } = await client
+            .from('duyurular')
+            .select('*')
+            .order('pinned', { ascending: false })
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.warn('Supabase veri çekme uyarısı:', error.message);
+            return null;
+        }
+
+        if (Array.isArray(data)) {
+            const formatted = data.map(item => ({
+                id: item.id,
+                title: item.title,
+                category: item.category || 'genel',
+                categoryLabel: item.category_label || getCategoryLabel(item.category || 'genel'),
+                date: item.date,
+                author: item.author || 'Turnuva Komitesi',
+                pinned: Boolean(item.pinned),
+                summary: item.summary || (item.content ? item.content.slice(0, 110) + '...' : ''),
+                content: item.content || ''
+            }));
+
+            // Sabitlenmişleri en üste sırala
+            formatted.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+            saveAnnouncements(formatted);
+            return formatted;
+        }
+    } catch (e) {
+        console.warn('Supabase senkronizasyon istisnası:', e);
+    }
+    return null;
+}
+
+// Canlı (Realtime) Değişiklikleri Dinle
+function initSupabaseRealtime() {
+    if (_realtimeSubscribed) return;
+    if (typeof getSupabaseClient !== 'function') return;
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    try {
+        client.channel('public:duyurular')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, (payload) => {
+                // Herhangi bir ekleme, düzenleme veya silme olduğunda verileri anında yenile
+                syncAnnouncementsFromSupabase();
+            })
+            .subscribe((status) => {
+                if (status === 'SUBSCRIBED') {
+                    _realtimeSubscribed = true;
+                }
+            });
+    } catch (err) {
+        console.warn('Supabase realtime abonelik hatası:', err);
+    }
+}
+
+// Sayfa Açıldığında Supabase'i Başlat
+if (typeof window !== 'undefined') {
+    const autoInit = () => {
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+            syncAnnouncementsFromSupabase();
+            initSupabaseRealtime();
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', autoInit);
+    } else {
+        autoInit();
+    }
+}
+
+// ============================================================
+// YARDIMCI VE YÖNETİCİ DOĞRULAMA FONKSİYONLARI
+// ============================================================
 
 // Kategori Etiketi
 function getCategoryLabel(cat) {

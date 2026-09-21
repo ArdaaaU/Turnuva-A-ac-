@@ -954,6 +954,10 @@
                 <span>⚡ En Son Güncelleme:</span>
                 <strong id="last-update-badge">-</strong>
             </div>
+            <div class="stat-pill" id="cloud-status-pill" style="display: none;">
+                <span>☁️ Bulut:</span>
+                <strong style="color: var(--emerald);">Supabase Aktif</strong>
+            </div>
         </div>
     </section>
 
@@ -1123,6 +1127,10 @@
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
+
+    <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
 
     <!-- DUYURULAR VERİ VE YÖNETİM SCRIPTİ -->
     <script src="duyurular.js"></script>
@@ -1594,6 +1602,12 @@
             // Başlangıç Yüklemesi
             updateAdminUI();
             renderAnnouncements();
+
+            // Supabase Bulut Durumunu Göster
+            if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+                const cloudPill = document.getElementById('cloud-status-pill');
+                if (cloudPill) cloudPill.style.display = 'inline-flex';
+            }
         });
     </script>
 </body>
