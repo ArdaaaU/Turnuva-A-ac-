@@ -1604,10 +1604,14 @@
             renderAnnouncements();
 
             // Supabase Bulut Durumunu Göster
-            if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-                const cloudPill = document.getElementById('cloud-status-pill');
-                if (cloudPill) cloudPill.style.display = 'inline-flex';
+            function updateCloudPill() {
+                if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+                    const cloudPill = document.getElementById('cloud-status-pill');
+                    if (cloudPill) cloudPill.style.display = 'inline-flex';
+                }
             }
+            updateCloudPill();
+            window.addEventListener('turnuva_announcements_updated', updateCloudPill);
         });
     </script>
 </body>

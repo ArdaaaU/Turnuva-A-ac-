@@ -1,12 +1,10 @@
 /**
  * Supabase Yapılandırması (supabase-config.js)
  * --------------------------------------------
- * 1. https://supabase.com adresine gidip ücretsiz projenizi oluşturun.
- * 2. Sol menüdeki "Project Settings" -> "API" kısmına gidin.
- * 3. Aşağıdaki iki bilgiyi ilgili alanlara yapıştırınız:
  */
 
-const SUPABASE_URL = 'https://uoifjxyflphlwpdoqaso.supabase.co/rest/v1/';
+// Supabase Proje URL'si (sonunda /rest/v1 OLMAMALIDIR)
+const SUPABASE_URL = 'https://uoifjxyflphlwpdoqaso.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_VYgJS4jbBA6xLTTn83PobQ_dO1B-dgG';
 
 let _supabaseClientInstance = null;
@@ -15,9 +13,9 @@ let _supabaseClientInstance = null;
 function isSupabaseConfigured() {
     return Boolean(
         SUPABASE_URL &&
-        SUPABASE_URL !== 'https://uoifjxyflphlwpdoqaso.supabase.co/rest/v1/' &&
+        !SUPABASE_URL.includes('BURAYA') &&
         SUPABASE_ANON_KEY &&
-        SUPABASE_ANON_KEY !== 'sb_publishable_VYgJS4jbBA6xLTTn83PobQ_dO1B-dgG' &&
+        !SUPABASE_ANON_KEY.includes('BURAYA') &&
         SUPABASE_URL.startsWith('https://')
     );
 }
@@ -33,8 +31,11 @@ function getSupabaseClient() {
     }
 
     try {
+        // URL sonunda /rest/v1 veya fazladan slash kalmışsa otomatik temizle
+        const cleanUrl = SUPABASE_URL.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
+        
         if (typeof window !== 'undefined' && window.supabase && typeof window.supabase.createClient === 'function') {
-            _supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            _supabaseClientInstance = window.supabase.createClient(cleanUrl, SUPABASE_ANON_KEY);
             return _supabaseClientInstance;
         }
     } catch (err) {

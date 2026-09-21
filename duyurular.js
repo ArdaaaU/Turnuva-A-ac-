@@ -288,15 +288,20 @@ function initSupabaseRealtime() {
 
 // Sayfa Açıldığında Supabase'i Başlat
 if (typeof window !== 'undefined') {
-    const autoInit = () => {
+    const autoInit = (retries = 15) => {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-            syncAnnouncementsFromSupabase();
-            initSupabaseRealtime();
+            const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+            if (client) {
+                syncAnnouncementsFromSupabase();
+                initSupabaseRealtime();
+            } else if (retries > 0) {
+                setTimeout(() => autoInit(retries - 1), 150);
+            }
         }
     };
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoInit);
+        document.addEventListener('DOMContentLoaded', () => autoInit());
     } else {
         autoInit();
     }
