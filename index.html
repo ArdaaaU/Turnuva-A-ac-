@@ -311,71 +311,6 @@
             font-weight: 500;
         }
 
-        /* --- AŞAMA SEKMELERİ (STAGE TABS) --- */
-        .stage-tabs-wrapper {
-            position: sticky;
-            top: 68px;
-            z-index: 900;
-            background: var(--tab-wrapper-bg);
-            backdrop-filter: blur(10px);
-            padding: 10px 16px 14px 16px;
-            border-bottom: 1px solid var(--border-subtle);
-            margin-bottom: 24px;
-            transition: var(--transition);
-        }
-
-        .stage-tabs {
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            background: var(--tab-bg);
-            padding: 4px;
-            border-radius: 12px;
-            border: 1px solid var(--border-subtle);
-            gap: 4px;
-        }
-
-        .stage-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 9px 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
-
-        .stage-btn:hover {
-            color: var(--text-main);
-            background: rgba(0,0,0,0.05);
-        }
-
-        .stage-btn.active {
-            background: var(--tab-active-bg);
-            color: var(--tab-active-color);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border: 1px solid var(--border-highlight);
-        }
-
-        .mobile-hint {
-            display: none;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-dim);
-            margin-top: 8px;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
 
         /* --- TURNUVA AĞACI TAŞIYICI (BRACKET CONTAINER) --- */
         .bracket-viewport {
@@ -892,9 +827,6 @@
             .hamburger {
                 display: flex;
             }
-            .mobile-hint {
-                display: flex;
-            }
             .bracket-viewport {
                 padding: 10px 12px 30px 12px;
                 scroll-snap-type: x mandatory;
@@ -920,13 +852,6 @@
             }
             .bracket-col {
                 width: 275px;
-            }
-            .stage-tabs {
-                gap: 2px;
-            }
-            .stage-btn {
-                font-size: 11px;
-                padding: 8px 4px;
             }
             .signature {
                 bottom: 10px;
@@ -1659,18 +1584,6 @@
         </div>
     </div>
 
-    <!-- AŞAMA SEKMELERİ (MOBİLDE KOLAY GEÇİŞ) -->
-    <div class="stage-tabs-wrapper">
-        <div class="stage-tabs">
-            <button class="stage-btn active" data-target="all">🌐 Tümü</button>
-            <button class="stage-btn" data-target="col-groups">📋 Gruplar</button>
-            <button class="stage-btn" data-target="col-semis">⚡ Yarı Final</button>
-            <button class="stage-btn" data-target="col-final">🏆 Final</button>
-        </div>
-        <div class="mobile-hint">
-            <span>👈 Sağa-sola kaydırarak ağacı inceleyebilirsiniz 👉</span>
-        </div>
-    </div>
 
     <!-- TURNUVA AĞACI ALANI -->
     <main class="bracket-viewport" id="bracket-viewport">
@@ -2340,27 +2253,6 @@
                 }, 3200);
             }
 
-            // 4. AŞAMA SEKMELERİ (STAGE TABS)
-            const stageBtns = document.querySelectorAll('.stage-btn');
-            const viewport = document.getElementById('bracket-viewport');
-
-            stageBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    stageBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    const targetId = btn.getAttribute('data-target');
-                    if (targetId === 'all') {
-                        viewport.scrollTo({ left: 0, behavior: 'smooth' });
-                    } else {
-                        const targetEl = document.getElementById(targetId);
-                        if (targetEl) {
-                            const offset = targetEl.offsetLeft - viewport.offsetLeft - 16;
-                            viewport.scrollTo({ left: offset, behavior: 'smooth' });
-                        }
-                    }
-                });
-            });
 
             // 5. KULLANICI FİKSTÜR MODALI
             const fixtureModal = document.getElementById('fixture-modal');
