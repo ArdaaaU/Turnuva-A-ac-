@@ -129,3 +129,33 @@ USING (true);
 -- Realtime Dinleme
 ALTER PUBLICATION supabase_realtime ADD TABLE public.turnuva_fikstur;
 
+-- ============================================================
+-- 6. TURNUVA OYUNCU VE İSTATİSTİK TABLOSU (İSTATİSTİKLER İÇİN)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS public.turnuva_istatistik (
+    id TEXT PRIMARY KEY DEFAULT 'main',
+    data JSONB NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- RLS Güvenlik Politikaları
+ALTER TABLE public.turnuva_istatistik ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Herkes istatistikleri okuyabilir" ON public.turnuva_istatistik;
+CREATE POLICY "Herkes istatistikleri okuyabilir" 
+ON public.turnuva_istatistik FOR SELECT 
+USING (true);
+
+DROP POLICY IF EXISTS "İstatistik ekleme izni" ON public.turnuva_istatistik;
+CREATE POLICY "İstatistik ekleme izni" 
+ON public.turnuva_istatistik FOR INSERT 
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "İstatistik güncelleme izni" ON public.turnuva_istatistik;
+CREATE POLICY "İstatistik güncelleme izni" 
+ON public.turnuva_istatistik FOR UPDATE 
+USING (true);
+
+-- Realtime Dinleme
+ALTER PUBLICATION supabase_realtime ADD TABLE public.turnuva_istatistik;
+

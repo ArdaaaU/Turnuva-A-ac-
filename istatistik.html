@@ -44,6 +44,8 @@
             --signature-text: #94a3b8;
             --signature-border: rgba(255, 255, 255, 0.1);
             --drawer-bg: #0f1626;
+            --modal-bg: #131b2e;
+            --modal-overlay: rgba(0, 0, 0, 0.75);
             --hero-title-grad: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
             --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
             --radius-lg: 16px;
@@ -78,6 +80,8 @@
             --signature-text: #475569;
             --signature-border: #cbd5e1;
             --drawer-bg: #ffffff;
+            --modal-bg: #ffffff;
+            --modal-overlay: rgba(0, 0, 0, 0.5);
             --hero-title-grad: linear-gradient(180deg, #0f172a 0%, #334155 100%);
             --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
@@ -478,6 +482,423 @@
             transition: var(--transition);
         }
 
+        /* --- YÖNETİCİ BUTONLARI & GEZİNME --- */
+        .admin-nav-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .admin-nav-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.45);
+        }
+
+        .admin-nav-btn.is-auth {
+            background: var(--bg-card-inner);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .admin-nav-btn.is-auth:hover {
+            background: var(--gold-glow);
+        }
+
+        .admin-logout-nav-btn {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-dim);
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .admin-logout-nav-btn:hover {
+            color: #ef4444;
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            transform: scale(1.05);
+        }
+
+        .admin-active-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            animation: pulseSubtle 2.5s infinite;
+        }
+
+        @keyframes pulseSubtle {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        /* --- MODAL TASARIMI --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background: var(--modal-bg);
+            border: 1px solid var(--border-highlight);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            overflow: hidden;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-size: 22px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-main);
+            background: var(--border-subtle);
+        }
+
+        /* --- İSTATİSTİK YÖNETİM MODAL KARTI --- */
+        .admin-modal-card {
+            background: var(--modal-bg);
+            border: 1px solid var(--border-highlight);
+            width: 100%;
+            max-width: 940px;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .admin-modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .admin-modal-header {
+            padding: 16px 24px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 140px);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .admin-modal-footer {
+            padding: 14px 24px;
+            background: var(--header-bg);
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-section-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .admin-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .admin-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- BUTONLAR & FORMLAR --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-highlight);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--border-subtle);
+        }
+
+        .btn-danger-ghost {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .btn-danger-ghost:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+
+        .admin-text-input {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .admin-text-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold-glow);
+        }
+
+        .admin-num-input {
+            width: 64px;
+            text-align: center;
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 6px 8px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .admin-num-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold-glow);
+        }
+
+        .admin-select {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .admin-select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold-glow);
+        }
+
+        .admin-grid-form {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        @media (max-width: 768px) {
+            .admin-grid-form {
+                grid-template-columns: 1fr 1fr;
+            }
+            .admin-grid-form button {
+                grid-column: span 2;
+            }
+        }
+
+        /* --- OYUNCU TABLOSU DÜZENLEYİCİSİ --- */
+        .admin-player-table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .admin-player-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .admin-player-table th {
+            background: var(--table-header-bg);
+            color: var(--text-dim);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+            white-space: nowrap;
+        }
+
+        .admin-player-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--table-border);
+            vertical-align: middle;
+        }
+
+        .admin-player-table tr:hover td {
+            background-color: var(--table-hover);
+        }
+
+        /* --- TOAST BİLDİRİMİ --- */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-highlight);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            z-index: 3000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
         @media (max-width: 992px) {
             .nav-desktop-links { display: none; }
             .hamburger { display: flex; }
@@ -503,11 +924,22 @@
         </a>
 
         <div class="nav-actions">
+            <span class="admin-active-badge" id="admin-active-badge" style="display: none;">🛡️ Yönetici Modu</span>
+
             <nav class="nav-desktop-links">
                 <a href="index.html" class="nav-link">🏆 Ağaç & Fikstür</a>
                 <a href="istatistik.html" class="nav-link active">📊 İstatistikler</a>
                 <a href="duyurular.html" class="nav-link">📢 Duyurular</a>
             </nav>
+
+            <!-- YÖNETİCİ BUTONLARI -->
+            <button class="admin-nav-btn" id="open-admin-btn" title="Oyuncu & İstatistik Yönetimi">
+                <span id="admin-nav-icon">🔒</span>
+                <span id="admin-nav-text">Yönetici Girişi</span>
+            </button>
+            <button class="admin-logout-nav-btn" id="admin-logout-btn" title="Yöneticiden Çıkış Yap" style="display: none;">
+                🚪
+            </button>
 
             <!-- DARK / LIGHT TEMA BUTONU -->
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Tema Değiştir" title="Açık / Koyu Tema">
@@ -529,6 +961,16 @@
         <a href="index.html" class="nav-link" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link active" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
         <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
+
+        <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+            <button class="admin-nav-btn" id="mobile-open-admin-btn" style="width: 100%; justify-content: center;">
+                <span id="mobile-admin-nav-icon">🔒</span>
+                <span id="mobile-admin-nav-text">Yönetici Girişi</span>
+            </button>
+            <button class="btn btn-danger-ghost" id="mobile-admin-logout-btn" style="width: 100%; text-align: center; margin-top: 8px; display: none;">
+                🚪 Çıkış Yap
+            </button>
+        </div>
     </div>
 
     <!-- HERO -->
@@ -555,7 +997,7 @@
         <div class="stat-card">
             <div class="stat-header">
                 <span class="stat-header-title">⚽ Gol Krallığı</span>
-                <span class="stat-header-badge">Sıfırlandı (0 Gol)</span>
+                <span class="stat-header-badge" id="top-scorer-badge">Sıfırlandı (0 Gol)</span>
             </div>
             <table class="stat-table">
                 <thead>
@@ -565,87 +1007,8 @@
                         <th class="center">Gol</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td class="rank">1</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Enes Çakır</span>
-                                <span class="player-team">Halkla İlişkiler 1</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">2</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Emirhan Sarıçam</span>
-                                <span class="player-team">İşletme 1/2</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">3</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Mahmut</span>
-                                <span class="player-team">Halkla İlişkiler 1</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">4</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Göktuğ Candan</span>
-                                <span class="player-team">Web Tasarım ve Kodlama</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">5</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Yiğit</span>
-                                <span class="player-team">İşletme 1/2</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">6</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Arda E.</span>
-                                <span class="player-team">Halkla İlişkiler 2</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">7</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Emre Bostancıoğlu</span>
-                                <span class="player-team">Halkla İlişkiler 2</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
-                    <tr>
-                        <td class="rank">8</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Aykut Çetinbaş</span>
-                                <span class="player-team">Maliye 1</span>
-                            </div>
-                        </td>
-                        <td class="stat-value goal">0</td>
-                    </tr>
+                <tbody id="top-scorers-tbody">
+                    <!-- Dinamik JS ile doldurulacak -->
                 </tbody>
             </table>
         </div>
@@ -654,87 +1017,18 @@
         <div class="stat-card">
             <div class="stat-header">
                 <span class="stat-header-title">🟥 Kart Raporu</span>
-                <span class="stat-header-badge">Sıfırlandı (0 Kart)</span>
+                <span class="stat-header-badge" id="cards-total-badge">Sıfırlandı (0 Kart)</span>
             </div>
             <table class="stat-table">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Oyuncu</th>
-                        <th class="center">Kart</th>
+                        <th class="center">Kartlar</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td class="rank">1</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Sinan</span>
-                                <span class="player-team">İşletme 1/2</span>
-                            </div>
-                        </td>
-                        <td class="stat-value">
-                            <div class="card-box">
-                                <span class="card-tag-red" title="Kırmızı Kart"></span> 0
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rank">2</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Alperen Gözüm</span>
-                                <span class="player-team">Web Tasarım ve Kodlama</span>
-                            </div>
-                        </td>
-                        <td class="stat-value">
-                            <div class="card-box">
-                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rank">3</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Göktuğ Candan</span>
-                                <span class="player-team">Web Tasarım ve Kodlama</span>
-                            </div>
-                        </td>
-                        <td class="stat-value">
-                            <div class="card-box">
-                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rank">4</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Enes Çakır</span>
-                                <span class="player-team">Halkla İlişkiler 1</span>
-                            </div>
-                        </td>
-                        <td class="stat-value">
-                            <div class="card-box">
-                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rank">5</td>
-                        <td>
-                            <div class="player-info">
-                                <span class="player-name">Serhat Yazıcı</span>
-                                <span class="player-team">Web Tasarım ve Kodlama</span>
-                            </div>
-                        </td>
-                        <td class="stat-value">
-                            <div class="card-box">
-                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
-                            </div>
-                        </td>
-                    </tr>
+                <tbody id="card-reports-tbody">
+                    <!-- Dinamik JS ile doldurulacak -->
                 </tbody>
             </table>
         </div>
@@ -744,20 +1038,162 @@
     <!-- EKRANLA BİRLİKTE HAREKET EDEN SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
-    <!-- ETKİLEŞİM -->
+    <!-- YÖNETİCİ PIN DOĞRULAMA MODALI -->
+    <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true">
+        <div class="modal-container" style="max-width: 400px;">
+            <div class="modal-header">
+                <div class="modal-title">🔐 Yönetici Doğrulaması</div>
+                <button class="modal-close-btn" id="close-pin-modal" aria-label="Kapat">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 20px;">
+                <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                    Oyuncu eklemek, çıkarmak veya istatistikleri (gol, sarı/kırmızı kart) düzenlemek için lütfen yönetici şifresini giriniz.
+                </p>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Yönetici Şifresi</label>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="password" id="admin-pin-input" class="admin-text-input" placeholder="••••" autocomplete="current-password" style="width: 100%; padding-right: 42px; font-size: 15px; letter-spacing: 2px;">
+                        <button type="button" id="toggle-pin-visibility" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 16px; display: flex; align-items: center; justify-content: center;" title="Şifreyi Göster / Gizle">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 14px 20px; background: var(--header-bg); border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="btn btn-secondary" id="cancel-pin-btn" type="button">İptal</button>
+                <button class="btn btn-primary" id="submit-pin-btn" type="button">Giriş Yap</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUNCU & İSTATİSTİK YÖNETİM MODALI -->
+    <div class="modal-overlay" id="stats-admin-modal" role="dialog" aria-modal="true">
+        <div class="admin-modal-card">
+            <div class="admin-modal-header">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <div class="modal-title" style="font-size: 17px;">⚙️ Oyuncu & İstatistik Yönetimi</div>
+                        <span id="admin-cloud-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;">🟢 Bulut Eşitleme Aktif</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Oyuncu ekleyin/çıkarın, gol ve kart durumlarını güncelleyin (Tüm cihazlarda anında eşitlenir)</div>
+                </div>
+                <button class="modal-close-btn" id="close-stats-modal" aria-label="Kapat">&times;</button>
+            </div>
+
+            <div class="admin-modal-body">
+                <!-- 1. YENİ OYUNCU EKLEME FORMU -->
+                <div class="admin-section-box">
+                    <div class="admin-section-header">
+                        <span class="admin-section-title">➕ Yeni Oyuncu Ekle</span>
+                        <span style="font-size: 12px; color: var(--text-dim);">Turnuvaya yeni futbolcu kaydet</span>
+                    </div>
+                    <div class="admin-grid-form">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">Oyuncu Adı Soyadı</label>
+                            <input type="text" id="new-player-name" class="admin-text-input" placeholder="Örn: Ahmet Yılmaz" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">Takım</label>
+                            <input type="text" list="teams-datalist" id="new-player-team" class="admin-text-input" placeholder="Takım seçin veya yazın" style="width: 100%;">
+                            <datalist id="teams-datalist">
+                                <option value="Halkla İlişkiler 1">
+                                <option value="Halkla İlişkiler 2">
+                                <option value="İşletme 1/2">
+                                <option value="Web Tasarım ve Kodlama">
+                                <option value="Maliye 1">
+                                <option value="İç Mekan Tas. 1">
+                            </datalist>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">⚽ Gol</label>
+                            <input type="number" min="0" id="new-player-goals" class="admin-num-input" value="0" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">🟨 Sarı</label>
+                            <input type="number" min="0" id="new-player-yellow" class="admin-num-input" value="0" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">🟥 Kırmızı</label>
+                            <input type="number" min="0" id="new-player-red" class="admin-num-input" value="0" style="width: 100%;">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" id="btn-add-player" style="height: 37px; width: 100%;">
+                                ➕ Ekle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. OYUNCU LİSTESİ VE DÜZENLEYİCİ -->
+                <div class="admin-section-box">
+                    <div class="admin-section-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="admin-section-title">📋 Kayıtlı Oyuncular (<span id="admin-total-players-count">0</span>)</span>
+                        </div>
+                        <input type="text" id="admin-player-search" class="admin-text-input" placeholder="🔍 Oyuncu veya takım ara..." style="width: 220px; padding: 6px 12px; font-size: 12px;">
+                    </div>
+                    
+                    <div class="admin-player-table-wrap">
+                        <table class="admin-player-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 36px;">#</th>
+                                    <th>Oyuncu Adı</th>
+                                    <th>Takım</th>
+                                    <th style="text-align: center; width: 80px;">⚽ Gol</th>
+                                    <th style="text-align: center; width: 80px;">🟨 Sarı</th>
+                                    <th style="text-align: center; width: 80px;">🟥 Kırmızı</th>
+                                    <th style="text-align: center; width: 70px;">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-players-tbody">
+                                <!-- JS ile satırlar dinamik render edilecek -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-modal-footer">
+                <button class="btn btn-danger-ghost" id="admin-reset-stats-btn" type="button">
+                    🔄 Varsayılanlara Sıfırla
+                </button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn btn-secondary" id="cancel-stats-modal-btn" type="button">Kapat</button>
+                    <button class="btn btn-primary" id="save-stats-btn" type="button">
+                        💾 Değişiklikleri Kaydet & Yayınla
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST BİLDİRİMİ -->
+    <div class="toast" id="toast-msg">
+        <span id="toast-icon">✅</span>
+        <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
+    </div>
+
+    <!-- SUPABASE VE İSTATİSTİK MODÜLLERİ -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="istatistik.js"></script>
+
+    <!-- ETKİLEŞİM VE İŞ MANTIĞI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Tema Değiştirme (Dark / Light Mode)
+            // 1. TEMA DEĞİŞTİRME (DARK / LIGHT MODE)
             const themeToggleBtn = document.getElementById('theme-toggle');
-            
-            themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', nextTheme);
-                localStorage.setItem('turnuva-theme', nextTheme);
-            });
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', nextTheme);
+                    localStorage.setItem('turnuva-theme', nextTheme);
+                });
+            }
 
-            // Hamburger Menü
+            // 2. HAMBURGER VE MOBİL ÇEKMECE
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const mobileDrawer = document.getElementById('mobile-drawer');
             const drawerOverlay = document.getElementById('drawer-overlay');
@@ -768,9 +1204,514 @@
                 drawerOverlay.classList.toggle('active');
             };
 
-            hamburgerBtn.addEventListener('click', toggleDrawer);
-            drawerOverlay.addEventListener('click', toggleDrawer);
+            if (hamburgerBtn && drawerOverlay) {
+                hamburgerBtn.addEventListener('click', toggleDrawer);
+                drawerOverlay.addEventListener('click', toggleDrawer);
+            }
+
+            // 3. TOAST BİLDİRİMİ
+            const toastEl = document.getElementById('toast-msg');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            let toastTimeout = null;
+
+            function showToast(message, icon = '✅') {
+                if (!toastEl) return;
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastText.innerText = message;
+                toastIcon.innerText = icon;
+                toastEl.classList.add('show');
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 3200);
+            }
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            // 4. İSTATİSTİK VERİLERİNİ SAYFADA ÇİZME (GOL KRALLIĞI & KART RAPORU)
+            const topScorersTbody = document.getElementById('top-scorers-tbody');
+            const cardReportsTbody = document.getElementById('card-reports-tbody');
+            const topScorerBadge = document.getElementById('top-scorer-badge');
+            const cardsTotalBadge = document.getElementById('cards-total-badge');
+
+            function renderTopScorers(players) {
+                if (!topScorersTbody) return;
+                const sorted = getTopScorers(players);
+
+                if (sorted.length === 0) {
+                    topScorersTbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 24px;">Kayıtlı oyuncu bulunamadı.</td></tr>';
+                    if (topScorerBadge) topScorerBadge.innerText = '0 Oyuncu';
+                    return;
+                }
+
+                // En yüksek golü tespit et
+                const maxGoals = Math.max(...sorted.map(p => parseInt(p.goals, 10) || 0));
+                if (topScorerBadge) {
+                    if (maxGoals > 0) {
+                        const leaders = sorted.filter(p => (parseInt(p.goals, 10) || 0) === maxGoals);
+                        topScorerBadge.innerText = leaders.length === 1 ? `Lider: ${leaders[0].name} (${maxGoals} Gol)` : `Lider: ${maxGoals} Gol (${leaders.length} Oyuncu)`;
+                    } else {
+                        topScorerBadge.innerText = 'Sıfırlandı (0 Gol)';
+                    }
+                }
+
+                topScorersTbody.innerHTML = sorted.map((p, idx) => {
+                    const goals = parseInt(p.goals, 10) || 0;
+                    return `
+                        <tr>
+                            <td class="rank">${idx + 1}</td>
+                            <td>
+                                <div class="player-info">
+                                    <span class="player-name">${escapeHtml(p.name)}</span>
+                                    <span class="player-team">${escapeHtml(p.team)}</span>
+                                </div>
+                            </td>
+                            <td class="stat-value goal">${goals}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            function renderCardReports(players) {
+                if (!cardReportsTbody) return;
+                const cardHolders = getCardReports(players);
+
+                // Toplam sarı ve kırmızı kartı hesapla
+                const allPlayers = players || getPlayersData();
+                let totalYellow = 0;
+                let totalRed = 0;
+                allPlayers.forEach(p => {
+                    totalYellow += parseInt(p.yellowCards, 10) || 0;
+                    totalRed += parseInt(p.redCards, 10) || 0;
+                });
+
+                if (cardsTotalBadge) {
+                    if (totalYellow + totalRed > 0) {
+                        cardsTotalBadge.innerText = `Toplam: ${totalRed} Kırmızı, ${totalYellow} Sarı`;
+                    } else {
+                        cardsTotalBadge.innerText = 'Sıfırlandı (0 Kart)';
+                    }
+                }
+
+                if (cardHolders.length === 0) {
+                    cardReportsTbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 24px;">Henüz ceza veya kart kaydı bulunmuyor.</td></tr>';
+                    return;
+                }
+
+                cardReportsTbody.innerHTML = cardHolders.map((p, idx) => {
+                    const y = parseInt(p.yellowCards, 10) || 0;
+                    const r = parseInt(p.redCards, 10) || 0;
+
+                    return `
+                        <tr>
+                            <td class="rank">${idx + 1}</td>
+                            <td>
+                                <div class="player-info">
+                                    <span class="player-name">${escapeHtml(p.name)}</span>
+                                    <span class="player-team">${escapeHtml(p.team)}</span>
+                                </div>
+                            </td>
+                            <td class="stat-value">
+                                <div class="card-box">
+                                    ${r > 0 ? `<span class="card-tag-red" title="Kırmızı Kart"></span> ${r}` : ''}
+                                    ${y > 0 ? `<span class="card-tag-yellow" title="Sarı Kart"></span> ${y}` : ''}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            function renderAllStatsViews(players) {
+                const list = players || getPlayersData();
+                renderTopScorers(list);
+                renderCardReports(list);
+            }
+
+            // 5. YÖNETİCİ GİRİŞİ VE GÜVENLİK
+            const openAdminBtn = document.getElementById('open-admin-btn');
+            const adminLogoutBtn = document.getElementById('admin-logout-btn');
+            const adminActiveBadge = document.getElementById('admin-active-badge');
+            const mobileOpenAdminBtn = document.getElementById('mobile-open-admin-btn');
+            const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
+
+            const pinModal = document.getElementById('pin-modal');
+            const closePinModal = document.getElementById('close-pin-modal');
+            const cancelPinBtn = document.getElementById('cancel-pin-btn');
+            const submitPinBtn = document.getElementById('submit-pin-btn');
+            const adminPinInput = document.getElementById('admin-pin-input');
+            const togglePinVisibility = document.getElementById('toggle-pin-visibility');
+
+            const statsAdminModal = document.getElementById('stats-admin-modal');
+            const closeStatsModal = document.getElementById('close-stats-modal');
+            const cancelStatsModalBtn = document.getElementById('cancel-stats-modal-btn');
+            const saveStatsBtn = document.getElementById('save-stats-btn');
+            const adminResetStatsBtn = document.getElementById('admin-reset-stats-btn');
+
+            function updateAdminUI() {
+                const isAuth = isAdminAuthenticated();
+
+                if (openAdminBtn) {
+                    if (isAuth) {
+                        openAdminBtn.classList.add('is-auth');
+                        document.getElementById('admin-nav-icon').innerText = '⚙️';
+                        document.getElementById('admin-nav-text').innerText = 'İstatistikleri Yönet';
+                    } else {
+                        openAdminBtn.classList.remove('is-auth');
+                        document.getElementById('admin-nav-icon').innerText = '🔒';
+                        document.getElementById('admin-nav-text').innerText = 'Yönetici Girişi';
+                    }
+                }
+
+                if (mobileOpenAdminBtn) {
+                    if (isAuth) {
+                        mobileOpenAdminBtn.classList.add('is-auth');
+                        document.getElementById('mobile-admin-nav-icon').innerText = '⚙️';
+                        document.getElementById('mobile-admin-nav-text').innerText = 'İstatistikleri Yönet';
+                    } else {
+                        mobileOpenAdminBtn.classList.remove('is-auth');
+                        document.getElementById('mobile-admin-nav-icon').innerText = '🔒';
+                        document.getElementById('mobile-admin-nav-text').innerText = 'Yönetici Girişi';
+                    }
+                }
+
+                if (adminLogoutBtn) adminLogoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
+                if (mobileAdminLogoutBtn) mobileAdminLogoutBtn.style.display = isAuth ? 'block' : 'none';
+                if (adminActiveBadge) adminActiveBadge.style.display = isAuth ? 'inline-flex' : 'none';
+            }
+
+            // PIN Modal Açma / Yönetim Modalı Açma
+            function handleAdminClick() {
+                if (isAdminAuthenticated()) {
+                    openStatsAdminModal();
+                } else {
+                    if (adminPinInput) adminPinInput.value = '';
+                    pinModal.classList.add('active');
+                    setTimeout(() => { if (adminPinInput) adminPinInput.focus(); }, 150);
+                }
+            }
+
+            if (openAdminBtn) openAdminBtn.addEventListener('click', handleAdminClick);
+            if (mobileOpenAdminBtn) {
+                mobileOpenAdminBtn.addEventListener('click', () => {
+                    mobileDrawer.classList.remove('active');
+                    drawerOverlay.classList.remove('active');
+                    hamburgerBtn.classList.remove('active');
+                    handleAdminClick();
+                });
+            }
+
+            // Çıkış Yap
+            function handleLogout() {
+                logoutAdmin();
+                updateAdminUI();
+                showToast('Yönetici oturumu kapatıldı.', '🔒');
+            }
+
+            if (adminLogoutBtn) adminLogoutBtn.addEventListener('click', handleLogout);
+            if (mobileAdminLogoutBtn) mobileAdminLogoutBtn.addEventListener('click', handleLogout);
+
+            // PIN Modalı Kapatma
+            if (closePinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
+            if (cancelPinBtn) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+
+            // PIN Şifre Görünürlüğü
+            if (togglePinVisibility && adminPinInput) {
+                togglePinVisibility.addEventListener('click', () => {
+                    const isPass = adminPinInput.type === 'password';
+                    adminPinInput.type = isPass ? 'text' : 'password';
+                    togglePinVisibility.innerText = isPass ? '🙈' : '👁️';
+                });
+            }
+
+            // PIN Doğrulama
+            function checkPinSubmit() {
+                const pin = adminPinInput.value.trim();
+                if (authenticateAdmin(pin)) {
+                    pinModal.classList.remove('active');
+                    updateAdminUI();
+                    showToast('Yönetici girişi başarılı!', '🔓');
+                    openStatsAdminModal();
+                } else {
+                    showToast('Hatalı şifre! Lütfen tekrar deneyiniz.', '❌');
+                    adminPinInput.value = '';
+                    adminPinInput.focus();
+                }
+            }
+
+            if (submitPinBtn) submitPinBtn.addEventListener('click', checkPinSubmit);
+            if (adminPinInput) {
+                adminPinInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') checkPinSubmit();
+                });
+            }
+
+            // 6. İSTATİSTİK YÖNETİM MODAL VE OYUNCU DÜZENLEYİCİSİ
+            let currentEditingPlayers = [];
+            const adminPlayersTbody = document.getElementById('admin-players-tbody');
+            const adminTotalPlayersCount = document.getElementById('admin-total-players-count');
+            const adminPlayerSearch = document.getElementById('admin-player-search');
+
+            function openStatsAdminModal() {
+                currentEditingPlayers = cloneObject(getPlayersData());
+                populateAdminModal(currentEditingPlayers);
+                statsAdminModal.classList.add('active');
+            }
+
+            if (closeStatsModal) closeStatsModal.addEventListener('click', () => statsAdminModal.classList.remove('active'));
+            if (cancelStatsModalBtn) cancelStatsModalBtn.addEventListener('click', () => statsAdminModal.classList.remove('active'));
+
+            function populateAdminModal(playersList) {
+                if (!adminPlayersTbody) return;
+                const query = (adminPlayerSearch ? adminPlayerSearch.value : '').toLowerCase().trim();
+                
+                const filtered = playersList.filter(p => {
+                    if (!query) return true;
+                    return (p.name && p.name.toLowerCase().includes(query)) ||
+                           (p.team && p.team.toLowerCase().includes(query));
+                });
+
+                if (adminTotalPlayersCount) adminTotalPlayersCount.innerText = playersList.length;
+
+                if (filtered.length === 0) {
+                    adminPlayersTbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">Eşleşen oyuncu bulunamadı.</td></tr>';
+                    return;
+                }
+
+                adminPlayersTbody.innerHTML = filtered.map((p, idx) => {
+                    // Ana listedeki gerçek indeksi bul
+                    const realIndex = currentEditingPlayers.findIndex(item => String(item.id) === String(p.id));
+
+                    return `
+                        <tr data-id="${p.id}" data-real-idx="${realIndex}">
+                            <td style="color: var(--text-dim); font-weight: 700;">${idx + 1}</td>
+                            <td>
+                                <input type="text" class="admin-text-input player-edit-name" value="${escapeHtml(p.name)}" style="width: 100%; min-width: 140px;">
+                            </td>
+                            <td>
+                                <input type="text" list="teams-datalist" class="admin-text-input player-edit-team" value="${escapeHtml(p.team)}" style="width: 100%; min-width: 140px;">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="number" min="0" class="admin-num-input player-edit-goals" value="${p.goals ?? 0}" style="color: var(--emerald); font-weight: 800;">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="number" min="0" class="admin-num-input player-edit-yellow" value="${p.yellowCards ?? 0}" style="color: #facc15; font-weight: 800;">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="number" min="0" class="admin-num-input player-edit-red" value="${p.redCards ?? 0}" style="color: var(--red); font-weight: 800;">
+                            </td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn-danger-ghost player-delete-btn" data-id="${p.id}" style="padding: 5px 8px; font-size: 12px; border-radius: 6px;" title="Oyuncuyu Çıkar">
+                                    🗑️ Sil
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                attachPlayerTableListeners();
+            }
+
+            // Tablodaki satır içi girdi dinleyicileri
+            function attachPlayerTableListeners() {
+                if (!adminPlayersTbody) return;
+
+                // Değer değişiklikleri
+                adminPlayersTbody.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('change', () => {
+                        readTableInputsIntoMemory();
+                    });
+                });
+
+                // Silme butonları
+                adminPlayersTbody.querySelectorAll('.player-delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const pId = btn.getAttribute('data-id');
+                        const p = currentEditingPlayers.find(item => String(item.id) === String(pId));
+                        const pName = p ? p.name : 'Bu oyuncuyu';
+
+                        if (confirm(`"${pName}" isimli oyuncuyu turnuva listesinden çıkarmak istediğinize emin misiniz?`)) {
+                            readTableInputsIntoMemory();
+                            currentEditingPlayers = currentEditingPlayers.filter(item => String(item.id) !== String(pId));
+                            populateAdminModal(currentEditingPlayers);
+                            showToast(`"${pName}" listeden çıkarıldı.`, '🗑️');
+                        }
+                    });
+                });
+            }
+
+            function readTableInputsIntoMemory() {
+                if (!adminPlayersTbody) return;
+                const rows = adminPlayersTbody.querySelectorAll('tr[data-id]');
+
+                rows.forEach(row => {
+                    const pId = row.getAttribute('data-id');
+                    const p = currentEditingPlayers.find(item => String(item.id) === String(pId));
+                    if (!p) return;
+
+                    const nameEl = row.querySelector('.player-edit-name');
+                    const teamEl = row.querySelector('.player-edit-team');
+                    const goalsEl = row.querySelector('.player-edit-goals');
+                    const yellowEl = row.querySelector('.player-edit-yellow');
+                    const redEl = row.querySelector('.player-edit-red');
+
+                    if (nameEl) p.name = nameEl.value.trim() || 'İsimsiz Oyuncu';
+                    if (teamEl) p.team = teamEl.value.trim() || 'Takımsız';
+                    if (goalsEl) p.goals = Math.max(0, parseInt(goalsEl.value, 10) || 0);
+                    if (yellowEl) p.yellowCards = Math.max(0, parseInt(yellowEl.value, 10) || 0);
+                    if (redEl) p.redCards = Math.max(0, parseInt(redEl.value, 10) || 0);
+                });
+            }
+
+            // Oyuncu Arama Kutusu
+            if (adminPlayerSearch) {
+                adminPlayerSearch.addEventListener('input', () => {
+                    readTableInputsIntoMemory();
+                    populateAdminModal(currentEditingPlayers);
+                });
+            }
+
+            // Yeni Oyuncu Ekleme
+            const btnAddPlayer = document.getElementById('btn-add-player');
+            const newPlayerName = document.getElementById('new-player-name');
+            const newPlayerTeam = document.getElementById('new-player-team');
+            const newPlayerGoals = document.getElementById('new-player-goals');
+            const newPlayerYellow = document.getElementById('new-player-yellow');
+            const newPlayerRed = document.getElementById('new-player-red');
+
+            if (btnAddPlayer) {
+                btnAddPlayer.addEventListener('click', () => {
+                    const name = newPlayerName.value.trim();
+                    const team = newPlayerTeam.value.trim();
+                    const goals = Math.max(0, parseInt(newPlayerGoals.value, 10) || 0);
+                    const yellow = Math.max(0, parseInt(newPlayerYellow.value, 10) || 0);
+                    const red = Math.max(0, parseInt(newPlayerRed.value, 10) || 0);
+
+                    if (!name) {
+                        showToast('Lütfen oyuncu adını giriniz.', '⚠️');
+                        newPlayerName.focus();
+                        return;
+                    }
+
+                    readTableInputsIntoMemory();
+
+                    const newPlayerObj = {
+                        id: 'p-' + Date.now(),
+                        name: name,
+                        team: team || 'Takımsız',
+                        goals: goals,
+                        yellowCards: yellow,
+                        redCards: red
+                    };
+
+                    currentEditingPlayers.unshift(newPlayerObj);
+                    populateAdminModal(currentEditingPlayers);
+
+                    // Formu sıfırla
+                    newPlayerName.value = '';
+                    newPlayerTeam.value = '';
+                    newPlayerGoals.value = '0';
+                    newPlayerYellow.value = '0';
+                    newPlayerRed.value = '0';
+
+                    showToast(`"${name}" başarıyla listeye eklendi!`, '➕');
+                });
+            }
+
+            // TÜM DEĞİŞİKLİKLERİ KAYDET VE BULUTA YAYINLA
+            if (saveStatsBtn) {
+                saveStatsBtn.addEventListener('click', async () => {
+                    const originalBtnText = saveStatsBtn.innerHTML;
+                    saveStatsBtn.disabled = true;
+                    saveStatsBtn.innerHTML = '⏳ Veritabanına Kaydediliyor...';
+
+                    try {
+                        readTableInputsIntoMemory();
+
+                        // Bulut ve yerel depolamaya kaydet
+                        const syncResult = await savePlayersData(currentEditingPlayers, true);
+                        renderAllStatsViews(currentEditingPlayers);
+                        statsAdminModal.classList.remove('active');
+
+                        if (syncResult && syncResult.cloudSynced) {
+                            showToast('✅ İstatistikler veritabanına kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
+                        } else {
+                            showToast('İstatistikler başarıyla güncellendi.', '💾');
+                        }
+                    } catch (err) {
+                        console.error('İstatistik kaydetme hatası:', err);
+                        showToast('Kaydedilirken bir hata oluştu, lütfen tekrar deneyin.', '❌');
+                    } finally {
+                        saveStatsBtn.disabled = false;
+                        saveStatsBtn.innerHTML = originalBtnText;
+                    }
+                });
+            }
+
+            // VARSAYILANLARA SIFIRLA
+            if (adminResetStatsBtn) {
+                adminResetStatsBtn.addEventListener('click', async () => {
+                    if (confirm('Tüm oyuncu listesi, gol ve kart sayıları başlangıç durumuna sıfırlanacaktır. Emin misiniz?')) {
+                        const originalResetText = adminResetStatsBtn.innerHTML;
+                        adminResetStatsBtn.disabled = true;
+                        adminResetStatsBtn.innerHTML = '⏳ Sıfırlanıyor...';
+
+                        try {
+                            const defaultData = await resetPlayersData();
+                            currentEditingPlayers = cloneObject(defaultData);
+                            populateAdminModal(currentEditingPlayers);
+                            renderAllStatsViews(currentEditingPlayers);
+                            showToast('İstatistikler varsayılan duruma sıfırlandı ve buluta aktarıldı.', '🔄');
+                        } catch (rErr) {
+                            console.error('Sıfırlama hatası:', rErr);
+                            showToast('Sıfırlanırken bir hata oluştu.', '❌');
+                        } finally {
+                            adminResetStatsBtn.disabled = false;
+                            adminResetStatsBtn.innerHTML = originalResetText;
+                        }
+                    }
+                });
+            }
+
+            // 7. İLK YÜKLEME VE BULUT SENKRONİZASYONU
+            const initialPlayers = getPlayersData();
+            renderAllStatsViews(initialPlayers);
+            updateAdminUI();
+
+            // Supabase senkronizasyonu
+            if (typeof initPlayersDataSync === 'function') {
+                initPlayersDataSync((cloudData) => {
+                    renderAllStatsViews(cloudData);
+                });
+            }
+
+            // Sayfa içi ve sekmeler arası olayları dinle
+            window.addEventListener('turnuva_stats_updated', (e) => {
+                if (e.detail && e.detail.players) {
+                    renderAllStatsViews(e.detail.players);
+                } else {
+                    renderAllStatsViews();
+                }
+            });
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'turnuva_stats_v1') {
+                    renderAllStatsViews();
+                }
+                if (e.key === 'turnuva_admin_authenticated') {
+                    updateAdminUI();
+                }
+            });
         });
     </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
