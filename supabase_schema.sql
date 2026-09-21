@@ -98,3 +98,34 @@ VALUES
     'Turnuva boyunca oyuncuların bireysel performanslarını, en çok gol atan isimleri ve kart raporlarını sitemizin üst menüsünde bulunan ''İstatistikler'' sayfasından anlık olarak inceleyebilirsiniz. Her maç sonunda istatistikler güncellenmektedir.'
 )
 ON CONFLICT (id) DO NOTHING;
+
+-- ============================================================
+-- 5. TURNUVA AĞACI VE FİKSTÜR TABLOSU (AĞAÇ & FİKSTÜR İÇİN)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS public.turnuva_fikstur (
+    id TEXT PRIMARY KEY DEFAULT 'main',
+    data JSONB NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- RLS Güvenlik Politikaları
+ALTER TABLE public.turnuva_fikstur ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Herkes fikstürü okuyabilir" ON public.turnuva_fikstur;
+CREATE POLICY "Herkes fikstürü okuyabilir" 
+ON public.turnuva_fikstur FOR SELECT 
+USING (true);
+
+DROP POLICY IF EXISTS "Fikstür ekleme izni" ON public.turnuva_fikstur;
+CREATE POLICY "Fikstür ekleme izni" 
+ON public.turnuva_fikstur FOR INSERT 
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Fikstür güncelleme izni" ON public.turnuva_fikstur;
+CREATE POLICY "Fikstür güncelleme izni" 
+ON public.turnuva_fikstur FOR UPDATE 
+USING (true);
+
+-- Realtime Dinleme
+ALTER PUBLICATION supabase_realtime ADD TABLE public.turnuva_fikstur;
+

@@ -1048,6 +1048,532 @@
             .ann-banner-link span:first-child { display: none; }
             .ann-banner-link { padding: 4px 8px; }
         }
+
+        /* --- YÖNETİCİ BUTONU VE GEZİNME --- */
+        .admin-nav-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .admin-nav-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.45);
+        }
+
+        .admin-nav-btn.is-auth {
+            background: var(--bg-card-inner);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .admin-nav-btn.is-auth:hover {
+            background: var(--gold-glow);
+        }
+
+        .admin-logout-nav-btn {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-dim);
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .admin-logout-nav-btn:hover {
+            color: #ef4444;
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            transform: scale(1.05);
+        }
+
+        .admin-active-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            margin-left: 8px;
+            animation: pulseSubtle 2.5s infinite;
+        }
+
+        @keyframes pulseSubtle {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        /* --- MAÇ VE AĞAÇ VURGULARI --- */
+        .match-team-row.is-winner .team-label {
+            color: var(--gold) !important;
+            font-weight: 800;
+        }
+
+        .match-team-row.is-winner .team-dot {
+            background: var(--gold) !important;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
+        }
+
+        .match-team-row.is-winner .score-pill {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff !important;
+            border-color: var(--gold);
+            font-weight: 800;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+        }
+
+        .match-status-badge.status-canli {
+            background: rgba(239, 68, 68, 0.15) !important;
+            color: #ef4444 !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            font-weight: 800;
+        }
+
+        .match-status-badge.status-bitti {
+            background: rgba(16, 185, 129, 0.15) !important;
+            color: var(--emerald) !important;
+            border: 1px solid rgba(16, 185, 129, 0.35) !important;
+            font-weight: 700;
+        }
+
+        .winner-pill.champion-crowned {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%) !important;
+            border: 1px solid var(--gold) !important;
+            box-shadow: 0 4px 20px var(--gold-glow) !important;
+            font-size: 13.5px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            animation: pulseChampion 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseChampion {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .bracket-card-admin-hover {
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .bracket-card-admin-hover:hover {
+            border-color: var(--gold) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--gold-glow);
+        }
+
+        .bracket-card-admin-hover .quick-edit-tag {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: var(--gold-glow);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            border-radius: 6px;
+            padding: 2px 7px;
+            font-size: 10.5px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.85;
+            transition: var(--transition);
+        }
+
+        .bracket-card-admin-hover:hover .quick-edit-tag {
+            opacity: 1;
+            transform: scale(1.05);
+            background: var(--gold);
+            color: #ffffff;
+        }
+
+        /* --- GENİŞ ADMİN MODAL STİLLERİ --- */
+        .admin-modal-card {
+            background: var(--modal-bg);
+            border: 1px solid var(--border-highlight);
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .admin-modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .admin-modal-header {
+            padding: 16px 24px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-modal-tabs {
+            display: flex;
+            background: var(--bg-card-inner);
+            border-bottom: 1px solid var(--border-subtle);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .admin-tab-nav-btn {
+            padding: 13px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .admin-tab-nav-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .admin-tab-nav-btn.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+            background: var(--gold-glow);
+        }
+
+        .admin-tab-pane {
+            display: none;
+            padding: 20px 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 150px);
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .admin-tab-pane.active {
+            display: flex;
+        }
+
+        .admin-section-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .admin-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .admin-section-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-match-field-group {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .admin-team-row-edit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .admin-team-input {
+            flex: 1;
+            padding: 9px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .admin-team-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold-glow);
+        }
+
+        .admin-score-input {
+            width: 64px;
+            padding: 9px 8px;
+            text-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .admin-score-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold-glow);
+        }
+
+        .admin-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-subtle);
+        }
+
+        .admin-status-select, .admin-text-input {
+            padding: 6px 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .admin-winner-pills {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .winner-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .winner-btn:hover {
+            color: var(--text-main);
+            border-color: var(--border-highlight);
+        }
+
+        .winner-btn.active-winner {
+            background: var(--gold);
+            color: #ffffff;
+            border-color: var(--gold);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Puan tablosu düzenleyici */
+        .admin-standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .admin-standings-table th {
+            background: var(--table-header-bg);
+            padding: 10px 8px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+
+        .admin-standings-table td {
+            padding: 8px 6px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+
+        .admin-num-input {
+            width: 48px;
+            padding: 6px 4px;
+            text-align: center;
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .admin-num-input:focus {
+            border-color: var(--gold);
+        }
+
+        /* Modal Alt Butonları */
+        .admin-modal-footer {
+            padding: 14px 24px;
+            background: var(--header-bg);
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 9px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.45);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card-inner);
+            color: var(--text-main);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-highlight);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-main);
+            background: var(--bg-card-inner);
+        }
+
+        .btn-danger-ghost {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid transparent;
+        }
+
+        .btn-danger-ghost:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* --- TOAST BİLDİRİMİ --- */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-highlight);
+            color: var(--text-main);
+            padding: 12px 22px;
+            border-radius: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            z-index: 3000;
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body>
@@ -1072,6 +1598,16 @@
                 <span class="moon-icon">🌙</span>
             </button>
 
+            <!-- YÖNETİCİ BUTONU -->
+            <button class="admin-nav-btn" id="open-admin-btn" title="Turnuva Yönetimi">
+                <span id="admin-nav-icon">🔒</span>
+                <span id="admin-nav-text">Yönetici Girişi</span>
+            </button>
+
+            <button class="admin-logout-nav-btn" id="admin-logout-btn" title="Yöneticiden Çıkış Yap" style="display: none;">
+                🚪
+            </button>
+
             <button class="hamburger" id="hamburger-btn" aria-label="Menü">
                 <span></span>
                 <span></span>
@@ -1086,11 +1622,23 @@
         <a href="index.html" class="nav-link active" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
         <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
+        <div style="border-top: 1px solid var(--border-subtle); margin: 10px 0; padding-top: 10px;">
+            <button class="admin-nav-btn" id="mobile-open-admin-btn" style="width: 100%; justify-content: center;">
+                <span id="mobile-admin-nav-icon">🔒</span>
+                <span id="mobile-admin-nav-text">Yönetici Girişi</span>
+            </button>
+            <button class="btn-danger-ghost" id="mobile-admin-logout-btn" style="width: 100%; text-align: center; margin-top: 8px; display: none;">
+                🚪 Yönetici Çıkışı
+            </button>
+        </div>
     </div>
 
     <!-- BAŞLIK & BİLGİ -->
     <section class="hero">
-        <div class="hero-badge">⚽ 2026 Futbol Turnuvası</div>
+        <div class="hero-badge">
+            <span>⚽ 2026 Futbol Turnuvası</span>
+            <span class="admin-active-badge" id="admin-active-badge" style="display: none;">🛡️ Yönetici Modu Aktif</span>
+        </div>
         <h1 class="hero-title">Turnuva Ağacı</h1>
         <p class="hero-subtitle">Grup aşaması puan durumu, yarı finaller ve final eşleşmeleri</p>
     </section>
@@ -1149,7 +1697,7 @@
                                     <th>O</th><th>G</th><th>B</th><th>M</th><th>Av</th><th class="pts">P</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="group-a-tbody">
                                 <tr>
                                     <td class="team-name" title="Halkla İlişkiler 2">Halkla İlişkiler 2</td>
                                     <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="pts">0</td>
@@ -1182,7 +1730,7 @@
                                     <th>O</th><th>G</th><th>B</th><th>M</th><th>Av</th><th class="pts">P</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="group-b-tbody">
                                 <tr>
                                     <td class="team-name" title="Halkla İlişkiler 1">Halkla İlişkiler 1</td>
                                     <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="pts">0</td>
@@ -1214,52 +1762,52 @@
                 <div class="col-content">
 
                     <!-- YARI FİNAL 1 -->
-                    <div class="card">
+                    <div class="card" id="bracket-card-semi-1">
                         <div class="match-card">
                             <div class="match-info-bar">
-                                <span>1. Yarı Final Maçı</span>
-                                <span class="match-status-badge">16:30 • Bekleniyor</span>
+                                <span id="semi-1-title">1. Yarı Final Maçı</span>
+                                <span class="match-status-badge" id="semi-1-badge">16:30 • Bekleniyor</span>
                             </div>
                             <div class="match-teams-box">
-                                <div class="match-team-row">
+                                <div class="match-team-row" id="semi-1-row-1">
                                     <div class="team-label">
-                                        <span class="team-dot"></span>
-                                        <span>A Grubu 1.si</span>
+                                        <span class="team-dot" id="semi-1-dot-1"></span>
+                                        <span id="semi-1-team-1">A Grubu 1.si</span>
                                     </div>
-                                    <div class="score-pill">-</div>
+                                    <div class="score-pill" id="semi-1-score-1">-</div>
                                 </div>
-                                <div class="match-team-row">
+                                <div class="match-team-row" id="semi-1-row-2">
                                     <div class="team-label">
-                                        <span class="team-dot"></span>
-                                        <span>B Grubu 2.si</span>
+                                        <span class="team-dot" id="semi-1-dot-2"></span>
+                                        <span id="semi-1-team-2">B Grubu 2.si</span>
                                     </div>
-                                    <div class="score-pill">-</div>
+                                    <div class="score-pill" id="semi-1-score-2">-</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- YARI FİNAL 2 -->
-                    <div class="card">
+                    <div class="card" id="bracket-card-semi-2">
                         <div class="match-card">
                             <div class="match-info-bar">
-                                <span>2. Yarı Final Maçı</span>
-                                <span class="match-status-badge">17:30 • Bekleniyor</span>
+                                <span id="semi-2-title">2. Yarı Final Maçı</span>
+                                <span class="match-status-badge" id="semi-2-badge">17:30 • Bekleniyor</span>
                             </div>
                             <div class="match-teams-box">
-                                <div class="match-team-row">
+                                <div class="match-team-row" id="semi-2-row-1">
                                     <div class="team-label">
-                                        <span class="team-dot"></span>
-                                        <span>B Grubu 1.si</span>
+                                        <span class="team-dot" id="semi-2-dot-1"></span>
+                                        <span id="semi-2-team-1">B Grubu 1.si</span>
                                     </div>
-                                    <div class="score-pill">-</div>
+                                    <div class="score-pill" id="semi-2-score-1">-</div>
                                 </div>
-                                <div class="match-team-row">
+                                <div class="match-team-row" id="semi-2-row-2">
                                     <div class="team-label">
-                                        <span class="team-dot"></span>
-                                        <span>A Grubu 2.si</span>
+                                        <span class="team-dot" id="semi-2-dot-2"></span>
+                                        <span id="semi-2-team-2">A Grubu 2.si</span>
                                     </div>
-                                    <div class="score-pill">-</div>
+                                    <div class="score-pill" id="semi-2-score-2">-</div>
                                 </div>
                             </div>
                         </div>
@@ -1272,15 +1820,15 @@
             <div class="bracket-col" id="col-final">
                 <div class="col-header">
                     <span class="col-title" style="color: var(--gold);">🏆 Büyük Final</span>
-                    <span class="col-badge" style="background: var(--gold-glow); color: var(--gold);">13 Mart 2026</span>
+                    <span class="col-badge" style="background: var(--gold-glow); color: var(--gold);" id="final-col-date">13 Mart 2026</span>
                 </div>
                 <div class="col-content">
 
                     <!-- FİNAL KARTI -->
-                    <div class="card final-card">
+                    <div class="card final-card" id="bracket-card-final">
                         <div class="card-header">
-                            <span class="card-tag">⭐ Şampiyonluk Maçı</span>
-                            <span class="card-date" style="color: var(--gold);">Final</span>
+                            <span class="card-tag" id="final-card-tag">⭐ Şampiyonluk Maçı</span>
+                            <span class="card-date" style="color: var(--gold);" id="final-card-date">Final</span>
                         </div>
                         <div class="match-card">
                             <div class="trophy-container">
@@ -1288,23 +1836,23 @@
                             </div>
 
                             <div class="match-teams-box" style="border-color: rgba(245, 158, 11, 0.25);">
-                                <div class="match-team-row">
+                                <div class="match-team-row" id="final-row-1">
                                     <div class="team-label">
-                                        <span class="team-dot" style="background: var(--gold);"></span>
-                                        <span>Yarı Final 1 Galibi</span>
+                                        <span class="team-dot" id="final-dot-1" style="background: var(--gold);"></span>
+                                        <span id="final-team-1">Yarı Final 1 Galibi</span>
                                     </div>
-                                    <div class="score-pill">-</div>
+                                    <div class="score-pill" id="final-score-1">-</div>
                                 </div>
-                                <div class="match-team-row">
+                                <div class="match-team-row" id="final-row-2">
                                     <div class="team-label">
-                                        <span class="team-dot" style="background: var(--gold);"></span>
-                                        <span>Yarı Final 2 Galibi</span>
+                                        <span class="team-dot" id="final-dot-2" style="background: var(--gold);"></span>
+                                        <span id="final-team-2">Yarı Final 2 Galibi</span>
                                     </div>
-                                    <div class="score-pill">-</div>
+                                    <div class="score-pill" id="final-score-2">-</div>
                                 </div>
                             </div>
 
-                            <div class="winner-pill">
+                            <div class="winner-pill" id="final-winner-pill">
                                 👑 Şampiyon: Henüz Belli Değil
                             </div>
                         </div>
@@ -1464,6 +2012,274 @@
     <!-- EKRANLA BİRLİKTE HAREKET EDEN SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
+    <!-- YÖNETİCİ PIN DOĞRULAMA MODALI -->
+    <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true">
+        <div class="modal-container" style="max-width: 400px;">
+            <div class="modal-header">
+                <div class="modal-title">🔐 Yönetici Doğrulaması</div>
+                <button class="modal-close-btn" id="close-pin-modal" aria-label="Kapat">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 20px;">
+                <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                    Turnuva ağacı eşleşmelerini, maç skorlarını, kazananları ve puan durumunu düzenlemek için lütfen yönetici şifresini giriniz.
+                </p>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Yönetici Şifresi</label>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="password" id="admin-pin-input" class="admin-input-text" placeholder="••••" autocomplete="current-password" style="width: 100%; padding-right: 42px; font-size: 15px; letter-spacing: 2px;">
+                        <button type="button" id="toggle-pin-visibility" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 16px; display: flex; align-items: center; justify-content: center;" title="Şifreyi Göster / Gizle">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-modal-footer" style="justify-content: flex-end;">
+                <button class="btn btn-secondary" id="cancel-pin-btn" type="button">İptal</button>
+                <button class="btn btn-primary" id="submit-pin-btn" type="button">Giriş Yap</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TURNUVA AĞACI VE FİKSTÜR YÖNETİM PANELİ MODALI -->
+    <div class="modal-overlay" id="tournament-admin-modal" role="dialog" aria-modal="true">
+        <div class="admin-modal-card">
+            <div class="admin-modal-header">
+                <div>
+                    <div class="modal-title" style="font-size: 17px;">⚙️ Turnuva Ağacı & Fikstür Yönetimi</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Maç skorları, kazanan takımlar, finaller ve puan tablosunu güncelleyin</div>
+                </div>
+                <button class="modal-close-btn" id="close-admin-modal" aria-label="Kapat">&times;</button>
+            </div>
+
+            <!-- MODAL SEKMELERİ -->
+            <div class="admin-modal-tabs">
+                <button class="admin-tab-nav-btn active" data-target="pane-semis-final">⚡ Yarı Final & Final</button>
+                <button class="admin-tab-nav-btn" data-target="pane-fixtures">📅 Grup Fikstürü & Skorlar</button>
+                <button class="admin-tab-nav-btn" data-target="pane-standings">📋 Puan Tablosu</button>
+            </div>
+
+            <!-- SEKME 1: YARI FİNAL VE BÜYÜK FİNAL -->
+            <div class="admin-tab-pane active" id="pane-semis-final">
+                
+                <!-- 1. YARI FİNAL -->
+                <div class="admin-section-box">
+                    <div class="admin-section-header">
+                        <span class="admin-section-title">⚡ 1. Yarı Final Maçı</span>
+                        <span style="font-size: 12px; color: var(--text-dim);">A Grubu 1.si vs B Grubu 2.si</span>
+                    </div>
+                    <div class="admin-grid-2">
+                        <div class="admin-team-row-edit">
+                            <input type="text" class="admin-team-input" id="admin-semi1-t1-name" placeholder="A Grubu 1. Takım Adı">
+                            <input type="number" min="0" class="admin-score-input" id="admin-semi1-t1-score" placeholder="-">
+                        </div>
+                        <div class="admin-team-row-edit">
+                            <input type="text" class="admin-team-input" id="admin-semi1-t2-name" placeholder="B Grubu 2. Takım Adı">
+                            <input type="number" min="0" class="admin-score-input" id="admin-semi1-t2-score" placeholder="-">
+                        </div>
+                    </div>
+                    <div class="admin-meta-row">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                            <select class="admin-status-select" id="admin-semi1-status">
+                                <option value="bekleniyor">Bekleniyor</option>
+                                <option value="canli">🔴 Canlı</option>
+                                <option value="bitti">✅ Tamamlandı</option>
+                            </select>
+                            <input type="text" class="admin-text-input" id="admin-semi1-time" placeholder="16:30 • Bekleniyor" style="width: 140px;">
+                        </div>
+                        <div class="admin-winner-pills">
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
+                            <button type="button" class="winner-btn" id="btn-semi1-w-t1">👑 Takım 1</button>
+                            <button type="button" class="winner-btn" id="btn-semi1-w-t2">👑 Takım 2</button>
+                            <button type="button" class="winner-btn" id="btn-semi1-w-none">Belli Değil</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. YARI FİNAL -->
+                <div class="admin-section-box">
+                    <div class="admin-section-header">
+                        <span class="admin-section-title">⚡ 2. Yarı Final Maçı</span>
+                        <span style="font-size: 12px; color: var(--text-dim);">B Grubu 1.si vs A Grubu 2.si</span>
+                    </div>
+                    <div class="admin-grid-2">
+                        <div class="admin-team-row-edit">
+                            <input type="text" class="admin-team-input" id="admin-semi2-t1-name" placeholder="B Grubu 1. Takım Adı">
+                            <input type="number" min="0" class="admin-score-input" id="admin-semi2-t1-score" placeholder="-">
+                        </div>
+                        <div class="admin-team-row-edit">
+                            <input type="text" class="admin-team-input" id="admin-semi2-t2-name" placeholder="A Grubu 2. Takım Adı">
+                            <input type="number" min="0" class="admin-score-input" id="admin-semi2-t2-score" placeholder="-">
+                        </div>
+                    </div>
+                    <div class="admin-meta-row">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                            <select class="admin-status-select" id="admin-semi2-status">
+                                <option value="bekleniyor">Bekleniyor</option>
+                                <option value="canli">🔴 Canlı</option>
+                                <option value="bitti">✅ Tamamlandı</option>
+                            </select>
+                            <input type="text" class="admin-text-input" id="admin-semi2-time" placeholder="17:30 • Bekleniyor" style="width: 140px;">
+                        </div>
+                        <div class="admin-winner-pills">
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
+                            <button type="button" class="winner-btn" id="btn-semi2-w-t1">👑 Takım 1</button>
+                            <button type="button" class="winner-btn" id="btn-semi2-w-t2">👑 Takım 2</button>
+                            <button type="button" class="winner-btn" id="btn-semi2-w-none">Belli Değil</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YARI FİNALLERDEN FİNALE AKTARMA BUTONU -->
+                <div style="text-align: center; padding: 4px 0;">
+                    <button type="button" class="btn btn-secondary" id="btn-advance-semis-to-final" style="color: var(--gold); border-color: var(--gold); font-weight: 800;">
+                        ⏩ Yarı Final Galibini Büyük Finale Aktar
+                    </button>
+                </div>
+
+                <!-- BÜYÜK FİNAL -->
+                <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.4);">
+                    <div class="admin-section-header">
+                        <span class="admin-section-title" style="color: var(--gold);">🏆 Büyük Final (Şampiyonluk Maçı)</span>
+                        <span style="font-size: 12px; color: var(--gold); font-weight: 700;">Final</span>
+                    </div>
+                    <div class="admin-grid-2">
+                        <div class="admin-team-row-edit">
+                            <input type="text" class="admin-team-input" id="admin-final-t1-name" placeholder="Finalist 1">
+                            <input type="number" min="0" class="admin-score-input" id="admin-final-t1-score" placeholder="-">
+                        </div>
+                        <div class="admin-team-row-edit">
+                            <input type="text" class="admin-team-input" id="admin-final-t2-name" placeholder="Finalist 2">
+                            <input type="number" min="0" class="admin-score-input" id="admin-final-t2-score" placeholder="-">
+                        </div>
+                    </div>
+                    <div class="admin-meta-row">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                            <select class="admin-status-select" id="admin-final-status">
+                                <option value="bekleniyor">Bekleniyor</option>
+                                <option value="canli">🔴 Canlı</option>
+                                <option value="bitti">✅ Tamamlandı</option>
+                            </select>
+                            <input type="text" class="admin-text-input" id="admin-final-time" placeholder="Final" style="width: 120px;">
+                        </div>
+                        <div class="admin-winner-pills">
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
+                            <button type="button" class="winner-btn" id="btn-final-w-t1">👑 Finalist 1</button>
+                            <button type="button" class="winner-btn" id="btn-final-w-t2">👑 Finalist 2</button>
+                            <button type="button" class="winner-btn" id="btn-final-w-none">Belli Değil</button>
+                        </div>
+                    </div>
+
+                    <!-- ŞAMPİYON KUTUSU -->
+                    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 260px;">
+                            <label style="font-size: 13px; font-weight: 800; color: var(--gold); white-space: nowrap;">👑 Şampiyon:</label>
+                            <input type="text" class="admin-team-input" id="admin-champion-input" placeholder="Örn: Halkla İlişkiler 2 (veya boş bırakın)">
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-secondary" id="btn-champion-from-final" style="font-size: 12px; padding: 6px 12px;">
+                                Final Galibini Şampiyon Yap
+                            </button>
+                            <button type="button" class="btn btn-ghost" id="btn-champion-clear" style="font-size: 12px; padding: 6px 10px;">
+                                Temizle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SEKME 2: GRUP FİKSTÜRÜ VE SKORLAR -->
+            <div class="admin-tab-pane" id="pane-fixtures">
+                
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="btn btn-primary" id="admin-group-tab-A">🅰️ A Grubu Fikstürü</button>
+                        <button type="button" class="btn btn-secondary" id="admin-group-tab-B">🅱️ B Grubu Fikstürü</button>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="btn-auto-calc-standings" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
+                        ⚡ Skorlardan Puan Tablosunu Otomatik Güncelle
+                    </button>
+                </div>
+
+                <div id="admin-fixtures-list" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- JavaScript ile dinamik maç listesi doldurulacak -->
+                </div>
+
+            </div>
+
+            <!-- SEKME 3: PUAN TABLOSU DÜZENLEME -->
+            <div class="admin-tab-pane" id="pane-standings">
+                
+                <!-- A GRUBU TABLOSU -->
+                <div class="admin-section-box">
+                    <div class="admin-section-header">
+                        <span class="admin-section-title">🅰️ A Grubu Puan Durumu</span>
+                        <span style="font-size: 12px; color: var(--text-dim);">Hücreleri doğrudan düzenleyebilirsiniz</span>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-standings-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left; padding-left: 10px;">Takım Adı</th>
+                                    <th>O</th><th>G</th><th>B</th><th>M</th><th>Av</th><th>P</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-tbody-group-a">
+                                <!-- A Grubu Takımları -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- B GRUBU TABLOSU -->
+                <div class="admin-section-box">
+                    <div class="admin-section-header">
+                        <span class="admin-section-title">🅱️ B Grubu Puan Durumu</span>
+                        <span style="font-size: 12px; color: var(--text-dim);">Hücreleri doğrudan düzenleyebilirsiniz</span>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-standings-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left; padding-left: 10px;">Takım Adı</th>
+                                    <th>O</th><th>G</th><th>B</th><th>M</th><th>Av</th><th>P</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-tbody-group-b">
+                                <!-- B Grubu Takımları -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- MODAL ALT EYLEM ÇUBUĞU -->
+            <div class="admin-modal-footer">
+                <button class="btn btn-danger-ghost" id="admin-reset-btn" type="button">
+                    🔄 Varsayılan Verilere Sıfırla
+                </button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn btn-secondary" id="cancel-admin-modal-btn" type="button">Kapat</button>
+                    <button class="btn btn-primary" id="save-tournament-btn" type="button">
+                        💾 Değişiklikleri Kaydet & Yayınla
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST BİLDİRİMİ -->
+    <div class="toast" id="toast-msg">
+        <span id="toast-icon">✅</span>
+        <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
+    </div>
+
     <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
@@ -1471,20 +2287,24 @@
     <!-- DUYURULAR MODÜLÜ -->
     <script src="duyurular.js"></script>
 
-    <!-- ETKİLEŞİM VE FONKSİYONLAR -->
+    <!-- FİKSTÜR VE AĞAÇ VERİ YÖNETİMİ -->
+    <script src="fikstur.js"></script>
+
+    <!-- ETKİLEŞİM VE İŞ MANTIĞI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Tema Değiştirme (Dark / Light Mode)
+            // 1. TEMA DEĞİŞTİRME (DARK / LIGHT)
             const themeToggleBtn = document.getElementById('theme-toggle');
-            
-            themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', nextTheme);
-                localStorage.setItem('turnuva-theme', nextTheme);
-            });
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', nextTheme);
+                    localStorage.setItem('turnuva-theme', nextTheme);
+                });
+            }
 
-            // Hamburger Menü
+            // 2. HAMBURGER VE MOBİL ÇEKMECE
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const mobileDrawer = document.getElementById('mobile-drawer');
             const drawerOverlay = document.getElementById('drawer-overlay');
@@ -1495,10 +2315,29 @@
                 drawerOverlay.classList.toggle('active');
             };
 
-            hamburgerBtn.addEventListener('click', toggleDrawer);
-            drawerOverlay.addEventListener('click', toggleDrawer);
+            if (hamburgerBtn && drawerOverlay) {
+                hamburgerBtn.addEventListener('click', toggleDrawer);
+                drawerOverlay.addEventListener('click', toggleDrawer);
+            }
 
-            // Aşama Sekmeleri ile Kolay Kaydırma (Stage Tabs)
+            // 3. TOAST BİLDİRİM FONKSİYONU
+            const toastEl = document.getElementById('toast-msg');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            let toastTimeout = null;
+
+            function showToast(message, icon = '✅') {
+                if (!toastEl) return;
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastText.innerText = message;
+                toastIcon.innerText = icon;
+                toastEl.classList.add('show');
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 3200);
+            }
+
+            // 4. AŞAMA SEKMELERİ (STAGE TABS)
             const stageBtns = document.querySelectorAll('.stage-btn');
             const viewport = document.getElementById('bracket-viewport');
 
@@ -1520,17 +2359,17 @@
                 });
             });
 
-            // Fikstür Modalı
-            const modal = document.getElementById('fixture-modal');
+            // 5. KULLANICI FİKSTÜR MODALI
+            const fixtureModal = document.getElementById('fixture-modal');
             const modalCloseBtn = document.getElementById('modal-close-btn');
-            const openBtns = document.querySelectorAll('.open-fixture-btn');
+            const openFixtureBtns = document.querySelectorAll('.open-fixture-btn');
             const modalTitle = document.getElementById('modal-title');
             const tabBtnA = document.getElementById('tab-btn-A');
             const tabBtnB = document.getElementById('tab-btn-B');
             const contentA = document.getElementById('content-A');
             const contentB = document.getElementById('content-B');
 
-            const switchTab = (group) => {
+            const switchUserFixtureTab = (group) => {
                 if (group === 'A') {
                     tabBtnA.classList.add('active');
                     tabBtnB.classList.remove('active');
@@ -1546,30 +2385,945 @@
                 }
             };
 
-            tabBtnA.addEventListener('click', () => switchTab('A'));
-            tabBtnB.addEventListener('click', () => switchTab('B'));
+            if (tabBtnA && tabBtnB) {
+                tabBtnA.addEventListener('click', () => switchUserFixtureTab('A'));
+                tabBtnB.addEventListener('click', () => switchUserFixtureTab('B'));
+            }
 
-            openBtns.forEach(btn => {
+            openFixtureBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const group = btn.getAttribute('data-group');
-                    switchTab(group);
-                    modal.classList.add('active');
+                    switchUserFixtureTab(group);
+                    fixtureModal.classList.add('active');
                 });
             });
 
-            const closeModal = () => modal.classList.remove('active');
-            modalCloseBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
+            if (modalCloseBtn) {
+                modalCloseBtn.addEventListener('click', () => fixtureModal.classList.remove('active'));
+            }
+            if (fixtureModal) {
+                fixtureModal.addEventListener('click', (e) => {
+                    if (e.target === fixtureModal) fixtureModal.classList.remove('active');
+                });
+            }
+
+            // ============================================================
+            // 6. DİNAMİK AĞAÇ VE FİKSTÜR RENDER ETME FONKSİYONLARI
+            // ============================================================
+
+            function renderAllTournamentViews(tournamentData) {
+                const data = tournamentData || getTournamentData();
+                renderGroupTables(data);
+                renderBracket(data);
+                renderUserFixtureModal(data);
+            }
+
+            // Grup Puan Durumu Tablolarını Çiz
+            function renderGroupTables(data) {
+                const tbodyA = document.getElementById('group-a-tbody');
+                const tbodyB = document.getElementById('group-b-tbody');
+
+                if (tbodyA && data.groups && data.groups.A) {
+                    tbodyA.innerHTML = data.groups.A.teams.map(team => `
+                        <tr>
+                            <td class="team-name" title="${escapeHtml(team.name)}">${escapeHtml(team.name)}</td>
+                            <td>${team.o ?? 0}</td>
+                            <td>${team.g ?? 0}</td>
+                            <td>${team.b ?? 0}</td>
+                            <td>${team.m ?? 0}</td>
+                            <td>${team.av ?? 0}</td>
+                            <td class="pts">${team.p ?? 0}</td>
+                        </tr>
+                    `).join('');
+                }
+
+                if (tbodyB && data.groups && data.groups.B) {
+                    tbodyB.innerHTML = data.groups.B.teams.map(team => `
+                        <tr>
+                            <td class="team-name" title="${escapeHtml(team.name)}">${escapeHtml(team.name)}</td>
+                            <td>${team.o ?? 0}</td>
+                            <td>${team.g ?? 0}</td>
+                            <td>${team.b ?? 0}</td>
+                            <td>${team.m ?? 0}</td>
+                            <td>${team.av ?? 0}</td>
+                            <td class="pts">${team.p ?? 0}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            // Ağaçtaki Yarı Finalleri ve Finali Çiz
+            function renderBracket(data) {
+                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+
+                // 1. YARI FİNAL
+                if (data.semis && data.semis[0]) {
+                    const s1 = data.semis[0];
+                    const semi1Card = document.getElementById('bracket-card-semi-1');
+                    const semi1Title = document.getElementById('semi-1-title');
+                    const semi1Badge = document.getElementById('semi-1-badge');
+                    const semi1T1 = document.getElementById('semi-1-team-1');
+                    const semi1S1 = document.getElementById('semi-1-score-1');
+                    const semi1T2 = document.getElementById('semi-1-team-2');
+                    const semi1S2 = document.getElementById('semi-1-score-2');
+                    const row1 = document.getElementById('semi-1-row-1');
+                    const row2 = document.getElementById('semi-1-row-2');
+
+                    if (semi1Title) semi1Title.innerText = s1.title || '1. Yarı Final Maçı';
+                    if (semi1Badge) {
+                        semi1Badge.innerText = formatStatusBadge(s1.status, s1.time || '16:30');
+                        semi1Badge.className = 'match-status-badge ' + getStatusClass(s1.status);
+                    }
+                    if (semi1T1) semi1T1.innerText = s1.team1 || 'A Grubu 1.si';
+                    if (semi1S1) semi1S1.innerText = formatScoreDisplay(s1.score1);
+                    if (semi1T2) semi1T2.innerText = s1.team2 || 'B Grubu 2.si';
+                    if (semi1S2) semi1S2.innerText = formatScoreDisplay(s1.score2);
+
+                    if (row1) row1.classList.toggle('is-winner', s1.winner === 'team1');
+                    if (row2) row2.classList.toggle('is-winner', s1.winner === 'team2');
+
+                    applyAdminHoverTag(semi1Card, isAuth, 'Yarı Final 1');
+                }
+
+                // 2. YARI FİNAL
+                if (data.semis && data.semis[1]) {
+                    const s2 = data.semis[1];
+                    const semi2Card = document.getElementById('bracket-card-semi-2');
+                    const semi2Title = document.getElementById('semi-2-title');
+                    const semi2Badge = document.getElementById('semi-2-badge');
+                    const semi2T1 = document.getElementById('semi-2-team-1');
+                    const semi2S1 = document.getElementById('semi-2-score-1');
+                    const semi2T2 = document.getElementById('semi-2-team-2');
+                    const semi2S2 = document.getElementById('semi-2-score-2');
+                    const row1 = document.getElementById('semi-2-row-1');
+                    const row2 = document.getElementById('semi-2-row-2');
+
+                    if (semi2Title) semi2Title.innerText = s2.title || '2. Yarı Final Maçı';
+                    if (semi2Badge) {
+                        semi2Badge.innerText = formatStatusBadge(s2.status, s2.time || '17:30');
+                        semi2Badge.className = 'match-status-badge ' + getStatusClass(s2.status);
+                    }
+                    if (semi2T1) semi2T1.innerText = s2.team1 || 'B Grubu 1.si';
+                    if (semi2S1) semi2S1.innerText = formatScoreDisplay(s2.score1);
+                    if (semi2T2) semi2T2.innerText = s2.team2 || 'A Grubu 2.si';
+                    if (semi2S2) semi2S2.innerText = formatScoreDisplay(s2.score2);
+
+                    if (row1) row1.classList.toggle('is-winner', s2.winner === 'team1');
+                    if (row2) row2.classList.toggle('is-winner', s2.winner === 'team2');
+
+                    applyAdminHoverTag(semi2Card, isAuth, 'Yarı Final 2');
+                }
+
+                // BÜYÜK FİNAL
+                if (data.final) {
+                    const f = data.final;
+                    const finalCard = document.getElementById('bracket-card-final');
+                    const finalDate = document.getElementById('final-card-date');
+                    const finalT1 = document.getElementById('final-team-1');
+                    const finalS1 = document.getElementById('final-score-1');
+                    const finalT2 = document.getElementById('final-team-2');
+                    const finalS2 = document.getElementById('final-score-2');
+                    const row1 = document.getElementById('final-row-1');
+                    const row2 = document.getElementById('final-row-2');
+                    const winnerPill = document.getElementById('final-winner-pill');
+
+                    if (finalDate) finalDate.innerText = f.time || 'Final';
+                    if (finalT1) finalT1.innerText = f.team1 || 'Yarı Final 1 Galibi';
+                    if (finalS1) finalS1.innerText = formatScoreDisplay(f.score1);
+                    if (finalT2) finalT2.innerText = f.team2 || 'Yarı Final 2 Galibi';
+                    if (finalS2) finalS2.innerText = formatScoreDisplay(f.score2);
+
+                    if (row1) row1.classList.toggle('is-winner', f.winner === 'team1');
+                    if (row2) row2.classList.toggle('is-winner', f.winner === 'team2');
+
+                    if (winnerPill) {
+                        if (f.champion && f.champion.trim() !== '') {
+                            winnerPill.innerHTML = `👑 Şampiyon: <strong style="color: #ffffff;">${escapeHtml(f.champion)}</strong> 🏆`;
+                            winnerPill.className = 'winner-pill champion-crowned';
+                        } else {
+                            winnerPill.innerText = '👑 Şampiyon: Henüz Belli Değil';
+                            winnerPill.className = 'winner-pill';
+                        }
+                    }
+
+                    applyAdminHoverTag(finalCard, isAuth, 'Büyük Final');
+                }
+            }
+
+            function applyAdminHoverTag(cardEl, isAuth, label) {
+                if (!cardEl) return;
+                const existingTag = cardEl.querySelector('.quick-edit-tag');
+                if (isAuth) {
+                    cardEl.classList.add('bracket-card-admin-hover');
+                    if (!existingTag) {
+                        const tag = document.createElement('span');
+                        tag.className = 'quick-edit-tag';
+                        tag.innerHTML = '✏️ Düzenle';
+                        cardEl.appendChild(tag);
+                    }
+                    cardEl.onclick = () => openAdminModalWithTab('pane-semis-final');
+                } else {
+                    cardEl.classList.remove('bracket-card-admin-hover');
+                    if (existingTag) existingTag.remove();
+                    cardEl.onclick = null;
+                }
+            }
+
+            function formatScoreDisplay(score) {
+                if (score === null || score === undefined || score === '') return '-';
+                return String(score);
+            }
+
+            function formatStatusBadge(status, defaultTime) {
+                if (status === 'canli') return '🔴 CANLI';
+                if (status === 'bitti') return '✅ Bitti';
+                return defaultTime || 'Bekleniyor';
+            }
+
+            function getStatusClass(status) {
+                if (status === 'canli') return 'status-canli';
+                if (status === 'bitti') return 'status-bitti';
+                return 'status-bekleniyor';
+            }
+
+            // Kullanıcı Fikstür Modalını Verilerle Doldur
+            function renderUserFixtureModal(data) {
+                const renderGroupFixtures = (fixtures, containerEl) => {
+                    if (!containerEl || !fixtures) return;
+
+                    // Günlere göre grupla
+                    const daysMap = {};
+                    fixtures.forEach(match => {
+                        const day = match.day || 'Grup Maçları';
+                        if (!daysMap[day]) daysMap[day] = [];
+                        daysMap[day].push(match);
+                    });
+
+                    containerEl.innerHTML = Object.entries(daysMap).map(([dayTitle, matches]) => `
+                        <div class="fixture-day-group">
+                            <div class="fixture-date-tag">${escapeHtml(dayTitle)}</div>
+                            ${matches.map(m => {
+                                if (m.isBay) {
+                                    return `
+                                        <div class="fixture-card" style="opacity: 0.85;">
+                                            <div class="fixture-time">BAY</div>
+                                            <div class="fixture-matchup">
+                                                <span class="fixture-team home bay">BAY</span>
+                                                <span class="fixture-score">v</span>
+                                                <span class="fixture-team away">${escapeHtml(m.away || '')}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                                const isFinished = m.status === 'bitti';
+                                const isLive = m.status === 'canli';
+                                const sh = (m.scoreHome !== null && m.scoreHome !== '') ? m.scoreHome : '-';
+                                const sa = (m.scoreAway !== null && m.scoreAway !== '') ? m.scoreAway : '-';
+                                const scoreText = `${sh} : ${sa}`;
+
+                                return `
+                                    <div class="fixture-card ${isLive ? 'bracket-card-admin-hover' : ''}">
+                                        <div class="fixture-time">
+                                            ${isLive ? '<span style="color: #ef4444; font-weight:800;">🔴 CANLI</span>' : escapeHtml(m.time || '16:30')}
+                                        </div>
+                                        <div class="fixture-matchup">
+                                            <span class="fixture-team home ${m.winner === 'home' ? 'style="color: var(--gold); font-weight: 800;"' : ''}">${escapeHtml(m.home || '')}</span>
+                                            <span class="fixture-score ${isFinished ? 'style="background: var(--gold-glow); color: var(--gold); border-color: var(--gold);"' : ''}">${scoreText}</span>
+                                            <span class="fixture-team away ${m.winner === 'away' ? 'style="color: var(--gold); font-weight: 800;"' : ''}">${escapeHtml(m.away || '')}</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `).join('');
+                };
+
+                if (data.groups && data.groups.A) renderGroupFixtures(data.groups.A.fixtures, contentA);
+                if (data.groups && data.groups.B) renderGroupFixtures(data.groups.B.fixtures, contentB);
+            }
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            // ============================================================
+            // 7. YÖNETİCİ GİRİŞİ, PIN DOĞRULAMA VE ARAYÜZ YÖNETİMİ
+            // ============================================================
+
+            const openAdminBtn = document.getElementById('open-admin-btn');
+            const adminNavIcon = document.getElementById('admin-nav-icon');
+            const adminNavText = document.getElementById('admin-nav-text');
+            const adminLogoutBtn = document.getElementById('admin-logout-btn');
+            const adminActiveBadge = document.getElementById('admin-active-badge');
+
+            const mobileOpenAdminBtn = document.getElementById('mobile-open-admin-btn');
+            const mobileAdminNavIcon = document.getElementById('mobile-admin-nav-icon');
+            const mobileAdminNavText = document.getElementById('mobile-admin-nav-text');
+            const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
+
+            const pinModal = document.getElementById('pin-modal');
+            const closePinModal = document.getElementById('close-pin-modal');
+            const cancelPinBtn = document.getElementById('cancel-pin-btn');
+            const submitPinBtn = document.getElementById('submit-pin-btn');
+            const adminPinInput = document.getElementById('admin-pin-input');
+            const togglePinVisibility = document.getElementById('toggle-pin-visibility');
+
+            const adminModal = document.getElementById('tournament-admin-modal');
+            const closeAdminModal = document.getElementById('close-admin-modal');
+            const cancelAdminModalBtn = document.getElementById('cancel-admin-modal-btn');
+            const saveTournamentBtn = document.getElementById('save-tournament-btn');
+            const adminResetBtn = document.getElementById('admin-reset-btn');
+
+            // Yönetici Durumunu Kontrol Et ve Navbar'ı Güncelle
+            function updateAdminStatusUI() {
+                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+
+                if (isAuth) {
+                    if (openAdminBtn) {
+                        openAdminBtn.classList.add('is-auth');
+                        adminNavIcon.innerText = '⚙️';
+                        adminNavText.innerText = 'Ağaç & Fikstür Yönetimi';
+                    }
+                    if (adminLogoutBtn) adminLogoutBtn.style.display = 'inline-flex';
+                    if (adminActiveBadge) adminActiveBadge.style.display = 'inline-flex';
+
+                    if (mobileOpenAdminBtn) {
+                        mobileOpenAdminBtn.classList.add('is-auth');
+                        mobileAdminNavIcon.innerText = '⚙️';
+                        mobileAdminNavText.innerText = 'Ağaç & Fikstür Yönetimi';
+                    }
+                    if (mobileAdminLogoutBtn) mobileAdminLogoutBtn.style.display = 'block';
+                } else {
+                    if (openAdminBtn) {
+                        openAdminBtn.classList.remove('is-auth');
+                        adminNavIcon.innerText = '🔒';
+                        adminNavText.innerText = 'Yönetici Girişi';
+                    }
+                    if (adminLogoutBtn) adminLogoutBtn.style.display = 'none';
+                    if (adminActiveBadge) adminActiveBadge.style.display = 'none';
+
+                    if (mobileOpenAdminBtn) {
+                        mobileOpenAdminBtn.classList.remove('is-auth');
+                        mobileAdminNavIcon.innerText = '🔒';
+                        mobileAdminNavText.innerText = 'Yönetici Girişi';
+                    }
+                    if (mobileAdminLogoutBtn) mobileAdminLogoutBtn.style.display = 'none';
+                }
+
+                // Kartların üzerindeki düzenleme etiketlerini yenile
+                renderBracket(getTournamentData());
+            }
+
+            // Butona Tıklandığında: Giriş yapılmışsa Paneli, yapılmamışsa PIN modalını aç
+            function handleAdminButtonClick() {
+                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+                if (isAuth) {
+                    openTournamentAdminModal();
+                } else {
+                    adminPinInput.value = '';
+                    pinModal.classList.add('active');
+                    adminPinInput.focus();
+                }
+            }
+
+            if (openAdminBtn) openAdminBtn.addEventListener('click', handleAdminButtonClick);
+            if (mobileOpenAdminBtn) {
+                mobileOpenAdminBtn.addEventListener('click', () => {
+                    if (mobileDrawer.classList.contains('active')) toggleDrawer();
+                    handleAdminButtonClick();
+                });
+            }
+
+            // Çıkış Yap Butonu
+            function handleAdminLogout() {
+                if (typeof setAdminAuthenticated === 'function') {
+                    setAdminAuthenticated(false);
+                } else {
+                    localStorage.removeItem('turnuva_admin_authenticated');
+                    sessionStorage.removeItem('turnuva_admin_authenticated');
+                }
+                updateAdminStatusUI();
+                showToast('Yönetici oturumu kapatıldı.', '🔒');
+            }
+
+            if (adminLogoutBtn) adminLogoutBtn.addEventListener('click', handleAdminLogout);
+            if (mobileAdminLogoutBtn) {
+                mobileAdminLogoutBtn.addEventListener('click', () => {
+                    if (mobileDrawer.classList.contains('active')) toggleDrawer();
+                    handleAdminLogout();
+                });
+            }
+
+            // PIN Doğrulama
+            function checkPinAndLogin() {
+                const enteredPin = adminPinInput.value.trim();
+                let valid = false;
+
+                if (typeof verifyAdminPin === 'function') {
+                    valid = verifyAdminPin(enteredPin);
+                } else {
+                    valid = (enteredPin === '3519');
+                }
+
+                if (valid) {
+                    if (typeof setAdminAuthenticated === 'function') {
+                        setAdminAuthenticated(true);
+                    } else {
+                        localStorage.setItem('turnuva_admin_authenticated', 'true');
+                    }
+                    pinModal.classList.remove('active');
+                    updateAdminStatusUI();
+                    showToast('Yönetici girişi başarılı!', '🔑');
+                    openTournamentAdminModal();
+                } else {
+                    showToast('Hatalı şifre! Lütfen tekrar deneyiniz.', '❌');
+                    adminPinInput.select();
+                }
+            }
+
+            if (submitPinBtn) submitPinBtn.addEventListener('click', checkPinAndLogin);
+            if (adminPinInput) {
+                adminPinInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') checkPinAndLogin();
+                });
+            }
+
+            if (closePinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
+            if (cancelPinBtn) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+
+            if (togglePinVisibility) {
+                togglePinVisibility.addEventListener('click', () => {
+                    const isPass = adminPinInput.type === 'password';
+                    adminPinInput.type = isPass ? 'text' : 'password';
+                    togglePinVisibility.innerText = isPass ? '🙈' : '👁️';
+                });
+            }
+
+            // ============================================================
+            // 8. TURNUVA YÖNETİM PANELİ (FORM DOLDURMA & KAYDETME)
+            // ============================================================
+
+            let currentEditingData = null;
+            let currentFixtureGroupTab = 'A';
+
+            function openTournamentAdminModal() {
+                currentEditingData = cloneObject(getTournamentData());
+                populateAdminModal(currentEditingData);
+                adminModal.classList.add('active');
+            }
+
+            function openAdminModalWithTab(tabId) {
+                openTournamentAdminModal();
+                switchAdminTab(tabId);
+            }
+
+            if (closeAdminModal) closeAdminModal.addEventListener('click', () => adminModal.classList.remove('active'));
+            if (cancelAdminModalBtn) cancelAdminModalBtn.addEventListener('click', () => adminModal.classList.remove('active'));
+
+            // Admin Sekmeleri Arasında Geçiş
+            const adminTabNavBtns = document.querySelectorAll('.admin-tab-nav-btn');
+            const adminTabPanes = document.querySelectorAll('.admin-tab-pane');
+
+            function switchAdminTab(targetPaneId) {
+                adminTabNavBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.getAttribute('data-target') === targetPaneId);
+                });
+                adminTabPanes.forEach(pane => {
+                    pane.classList.toggle('active', pane.id === targetPaneId);
+                });
+            }
+
+            adminTabNavBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.getAttribute('data-target');
+                    switchAdminTab(target);
+                });
             });
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeModal();
+            // Form Verilerini Doldur
+            function populateAdminModal(data) {
+                if (!data) return;
+
+                // 1. Yarı Final
+                if (data.semis && data.semis[0]) {
+                    const s1 = data.semis[0];
+                    document.getElementById('admin-semi1-t1-name').value = s1.team1 || '';
+                    document.getElementById('admin-semi1-t1-score').value = s1.score1 !== null ? s1.score1 : '';
+                    document.getElementById('admin-semi1-t2-name').value = s1.team2 || '';
+                    document.getElementById('admin-semi1-t2-score').value = s1.score2 !== null ? s1.score2 : '';
+                    document.getElementById('admin-semi1-status').value = s1.status || 'bekleniyor';
+                    document.getElementById('admin-semi1-time').value = s1.time || '16:30 • Bekleniyor';
+                    setWinnerButtonState('semi1', s1.winner);
+                }
+
+                // 2. Yarı Final
+                if (data.semis && data.semis[1]) {
+                    const s2 = data.semis[1];
+                    document.getElementById('admin-semi2-t1-name').value = s2.team1 || '';
+                    document.getElementById('admin-semi2-t1-score').value = s2.score1 !== null ? s2.score1 : '';
+                    document.getElementById('admin-semi2-t2-name').value = s2.team2 || '';
+                    document.getElementById('admin-semi2-t2-score').value = s2.score2 !== null ? s2.score2 : '';
+                    document.getElementById('admin-semi2-status').value = s2.status || 'bekleniyor';
+                    document.getElementById('admin-semi2-time').value = s2.time || '17:30 • Bekleniyor';
+                    setWinnerButtonState('semi2', s2.winner);
+                }
+
+                // Büyük Final
+                if (data.final) {
+                    const f = data.final;
+                    document.getElementById('admin-final-t1-name').value = f.team1 || '';
+                    document.getElementById('admin-final-t1-score').value = f.score1 !== null ? f.score1 : '';
+                    document.getElementById('admin-final-t2-name').value = f.team2 || '';
+                    document.getElementById('admin-final-t2-score').value = f.score2 !== null ? f.score2 : '';
+                    document.getElementById('admin-final-status').value = f.status || 'bekleniyor';
+                    document.getElementById('admin-final-time').value = f.time || 'Final';
+                    document.getElementById('admin-champion-input').value = f.champion || '';
+                    setWinnerButtonState('final', f.winner);
+                }
+
+                // Fikstür Maçları (Sekme 2)
+                renderAdminFixturesList(data, currentFixtureGroupTab);
+
+                // Puan Tabloları (Sekme 3)
+                renderAdminStandingsTables(data);
+            }
+
+            // Kazanan Buton Durumları
+            function setWinnerButtonState(matchKey, winner) {
+                const btnT1 = document.getElementById(`btn-${matchKey}-w-t1`);
+                const btnT2 = document.getElementById(`btn-${matchKey}-w-t2`);
+                const btnNone = document.getElementById(`btn-${matchKey}-w-none`);
+
+                if (btnT1) btnT1.classList.toggle('active-winner', winner === 'team1');
+                if (btnT2) btnT2.classList.toggle('active-winner', winner === 'team2');
+                if (btnNone) btnNone.classList.toggle('active-winner', !winner);
+            }
+
+            // Kazanan Buton Etkileşimleri
+            const bindWinnerButtons = (matchKey, matchIndex) => {
+                const btnT1 = document.getElementById(`btn-${matchKey}-w-t1`);
+                const btnT2 = document.getElementById(`btn-${matchKey}-w-t2`);
+                const btnNone = document.getElementById(`btn-${matchKey}-w-none`);
+
+                btnT1.addEventListener('click', () => {
+                    if (matchKey === 'final') {
+                        currentEditingData.final.winner = 'team1';
+                    } else {
+                        currentEditingData.semis[matchIndex].winner = 'team1';
+                    }
+                    setWinnerButtonState(matchKey, 'team1');
+                });
+
+                btnT2.addEventListener('click', () => {
+                    if (matchKey === 'final') {
+                        currentEditingData.final.winner = 'team2';
+                    } else {
+                        currentEditingData.semis[matchIndex].winner = 'team2';
+                    }
+                    setWinnerButtonState(matchKey, 'team2');
+                });
+
+                btnNone.addEventListener('click', () => {
+                    if (matchKey === 'final') {
+                        currentEditingData.final.winner = null;
+                    } else {
+                        currentEditingData.semis[matchIndex].winner = null;
+                    }
+                    setWinnerButtonState(matchKey, null);
+                });
+            };
+
+            bindWinnerButtons('semi1', 0);
+            bindWinnerButtons('semi2', 1);
+            bindWinnerButtons('final', null);
+
+            // Yarı Finallerden Finale Otomatik Aktarma
+            const btnAdvanceSemis = document.getElementById('btn-advance-semis-to-final');
+            btnAdvanceSemis.addEventListener('click', () => {
+                // Formdaki yarı final isim ve skorlarını güncelle
+                readSemisFormInputs();
+
+                const s1 = currentEditingData.semis[0];
+                const s2 = currentEditingData.semis[1];
+
+                let finalist1 = '';
+                let finalist2 = '';
+
+                if (s1.winner === 'team1') finalist1 = s1.team1;
+                else if (s1.winner === 'team2') finalist1 = s1.team2;
+                else if (s1.score1 !== null && s1.score2 !== null) {
+                    if (s1.score1 > s1.score2) finalist1 = s1.team1;
+                    else if (s1.score2 > s1.score1) finalist1 = s1.team2;
+                }
+
+                if (s2.winner === 'team1') finalist2 = s2.team1;
+                else if (s2.winner === 'team2') finalist2 = s2.team2;
+                else if (s2.score1 !== null && s2.score2 !== null) {
+                    if (s2.score1 > s2.score2) finalist2 = s2.team1;
+                    else if (s2.score2 > s2.score1) finalist2 = s2.team2;
+                }
+
+                if (finalist1) {
+                    document.getElementById('admin-final-t1-name').value = finalist1;
+                    currentEditingData.final.team1 = finalist1;
+                }
+                if (finalist2) {
+                    document.getElementById('admin-final-t2-name').value = finalist2;
+                    currentEditingData.final.team2 = finalist2;
+                }
+
+                if (finalist1 || finalist2) {
+                    showToast('Yarı final galipleri Büyük Finale aktarıldı!', '🏆');
+                } else {
+                    showToast('Lütfen önce yarı finaller için kazanan veya skor belirleyiniz.', 'ℹ️');
                 }
             });
 
-            // Son Duyuruyu Güncelleme Fonksiyonu
+            // Final Galibini Şampiyon Yap Butonu
+            const btnChampionFromFinal = document.getElementById('btn-champion-from-final');
+            const btnChampionClear = document.getElementById('btn-champion-clear');
+            const adminChampionInput = document.getElementById('admin-champion-input');
+
+            btnChampionFromFinal.addEventListener('click', () => {
+                readFinalFormInputs();
+                const f = currentEditingData.final;
+                let champ = '';
+
+                if (f.winner === 'team1') champ = f.team1;
+                else if (f.winner === 'team2') champ = f.team2;
+                else if (f.score1 !== null && f.score2 !== null) {
+                    if (f.score1 > f.score2) champ = f.team1;
+                    else if (f.score2 > f.score1) champ = f.team2;
+                }
+
+                if (champ) {
+                    adminChampionInput.value = champ;
+                    currentEditingData.final.champion = champ;
+                    showToast(`Şampiyon olarak "${champ}" belirlendi!`, '👑');
+                } else {
+                    showToast('Lütfen önce final maçı için kazananı seçin veya skoru girin.', 'ℹ️');
+                }
+            });
+
+            btnChampionClear.addEventListener('click', () => {
+                adminChampionInput.value = '';
+                currentEditingData.final.champion = '';
+            });
+
+            // Fikstür Sekmesindeki A / B Grubu Değiştirme
+            const adminGroupTabA = document.getElementById('admin-group-tab-A');
+            const adminGroupTabB = document.getElementById('admin-group-tab-B');
+
+            adminGroupTabA.addEventListener('click', () => {
+                currentFixtureGroupTab = 'A';
+                adminGroupTabA.className = 'btn btn-primary';
+                adminGroupTabB.className = 'btn btn-secondary';
+                renderAdminFixturesList(currentEditingData, 'A');
+            });
+
+            adminGroupTabB.addEventListener('click', () => {
+                currentFixtureGroupTab = 'B';
+                adminGroupTabB.className = 'btn btn-primary';
+                adminGroupTabA.className = 'btn btn-secondary';
+                renderAdminFixturesList(currentEditingData, 'B');
+            });
+
+            // Fikstür Maçları Düzenleyici Listesini Çiz
+            function renderAdminFixturesList(data, groupKey) {
+                const container = document.getElementById('admin-fixtures-list');
+                if (!container || !data.groups || !data.groups[groupKey]) return;
+
+                const fixtures = data.groups[groupKey].fixtures;
+
+                container.innerHTML = fixtures.map((match, idx) => {
+                    if (match.isBay) {
+                        return `
+                            <div class="admin-match-field-group" style="opacity: 0.75; display: flex; align-items: center; justify-content: space-between;">
+                                <div style="font-size: 12.5px; font-weight: 700; color: var(--gold);">${escapeHtml(match.day)}</div>
+                                <div style="font-size: 13px; color: var(--text-dim); font-style: italic;">
+                                    BAY v ${escapeHtml(match.away)} (BAY Geçti)
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    const sh = match.scoreHome !== null ? match.scoreHome : '';
+                    const sa = match.scoreAway !== null ? match.scoreAway : '';
+                    const status = match.status || 'bekleniyor';
+
+                    return `
+                        <div class="admin-match-field-group">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-size: 12px; font-weight: 800; color: var(--gold);">${escapeHtml(match.day)}</span>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 11px; color: var(--text-dim);">Saat:</span>
+                                    <input type="text" class="admin-text-input match-time-input" data-grp="${groupKey}" data-idx="${idx}" value="${escapeHtml(match.time || '16:30')}" style="width: 80px; padding: 3px 6px;">
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                                <div style="flex: 1; text-align: right; font-weight: 700; font-size: 13.5px;">
+                                    ${escapeHtml(match.home)}
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <input type="number" min="0" class="admin-score-input fixture-score-home" data-grp="${groupKey}" data-idx="${idx}" value="${sh}" placeholder="-">
+                                    <span style="font-weight: 800; color: var(--text-dim);">:</span>
+                                    <input type="number" min="0" class="admin-score-input fixture-score-away" data-grp="${groupKey}" data-idx="${idx}" value="${sa}" placeholder="-">
+                                </div>
+                                <div style="flex: 1; text-align: left; font-weight: 700; font-size: 13.5px;">
+                                    ${escapeHtml(match.away)}
+                                </div>
+                                <div>
+                                    <select class="admin-status-select fixture-status-select" data-grp="${groupKey}" data-idx="${idx}">
+                                        <option value="bekleniyor" ${status === 'bekleniyor' ? 'selected' : ''}>Bekleniyor</option>
+                                        <option value="canli" ${status === 'canli' ? 'selected' : ''}>🔴 Canlı</option>
+                                        <option value="bitti" ${status === 'bitti' ? 'selected' : ''}>✅ Bitti</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Girdi dinleyicileri
+                container.querySelectorAll('.fixture-score-home, .fixture-score-away, .fixture-status-select, .match-time-input').forEach(input => {
+                    input.addEventListener('change', () => {
+                        const grp = input.getAttribute('data-grp');
+                        const idx = parseInt(input.getAttribute('data-idx'), 10);
+                        const m = currentEditingData.groups[grp].fixtures[idx];
+
+                        const shEl = container.querySelector(`.fixture-score-home[data-idx="${idx}"]`);
+                        const saEl = container.querySelector(`.fixture-score-away[data-idx="${idx}"]`);
+                        const stEl = container.querySelector(`.fixture-status-select[data-idx="${idx}"]`);
+                        const tmEl = container.querySelector(`.match-time-input[data-idx="${idx}"]`);
+
+                        m.scoreHome = shEl.value !== '' ? parseInt(shEl.value, 10) : null;
+                        m.scoreAway = saEl.value !== '' ? parseInt(saEl.value, 10) : null;
+                        m.status = stEl.value;
+                        m.time = tmEl.value;
+
+                        if (m.scoreHome !== null && m.scoreAway !== null) {
+                            if (m.scoreHome > m.scoreAway) m.winner = 'home';
+                            else if (m.scoreAway > m.scoreHome) m.winner = 'away';
+                            else m.winner = 'draw';
+                        } else {
+                            m.winner = null;
+                        }
+                    });
+                });
+            }
+
+            // Skorlardan Puan Durumunu Otomatik Hesapla
+            const btnAutoCalc = document.getElementById('btn-auto-calc-standings');
+            btnAutoCalc.addEventListener('click', () => {
+                readFixtureInputsFromDOM();
+                recalculateStandingsFromFixtures(currentEditingData);
+                renderAdminStandingsTables(currentEditingData);
+                showToast('Puan durumu maç skorlarına göre otomatik güncellendi!', '⚡');
+                switchAdminTab('pane-standings');
+            });
+
+            function readFixtureInputsFromDOM() {
+                const container = document.getElementById('admin-fixtures-list');
+                if (!container || !currentEditingData) return;
+
+                const grp = currentFixtureGroupTab;
+                currentEditingData.groups[grp].fixtures.forEach((m, idx) => {
+                    if (m.isBay) return;
+                    const shEl = container.querySelector(`.fixture-score-home[data-idx="${idx}"]`);
+                    const saEl = container.querySelector(`.fixture-score-away[data-idx="${idx}"]`);
+                    const stEl = container.querySelector(`.fixture-status-select[data-idx="${idx}"]`);
+                    const tmEl = container.querySelector(`.match-time-input[data-idx="${idx}"]`);
+
+                    if (shEl) m.scoreHome = shEl.value !== '' ? parseInt(shEl.value, 10) : null;
+                    if (saEl) m.scoreAway = saEl.value !== '' ? parseInt(saEl.value, 10) : null;
+                    if (stEl) m.status = stEl.value;
+                    if (tmEl) m.time = tmEl.value;
+
+                    if (m.scoreHome !== null && m.scoreAway !== null) {
+                        if (m.scoreHome > m.scoreAway) m.winner = 'home';
+                        else if (m.scoreAway > m.scoreHome) m.winner = 'away';
+                        else m.winner = 'draw';
+                    } else {
+                        m.winner = null;
+                    }
+                });
+            }
+
+            // Puan Tabloları Düzenleyicisini Çiz
+            function renderAdminStandingsTables(data) {
+                const tbodyA = document.getElementById('admin-tbody-group-a');
+                const tbodyB = document.getElementById('admin-tbody-group-b');
+
+                const makeRows = (teams, grpKey) => {
+                    return teams.map((t, idx) => `
+                        <tr>
+                            <td style="text-align: left;">
+                                <input type="text" class="admin-text-input team-name-edit" data-grp="${grpKey}" data-idx="${idx}" value="${escapeHtml(t.name)}" style="width: 100%;">
+                            </td>
+                            <td><input type="number" class="admin-num-input stat-o" data-grp="${grpKey}" data-idx="${idx}" value="${t.o ?? 0}"></td>
+                            <td><input type="number" class="admin-num-input stat-g" data-grp="${grpKey}" data-idx="${idx}" value="${t.g ?? 0}"></td>
+                            <td><input type="number" class="admin-num-input stat-b" data-grp="${grpKey}" data-idx="${idx}" value="${t.b ?? 0}"></td>
+                            <td><input type="number" class="admin-num-input stat-m" data-grp="${grpKey}" data-idx="${idx}" value="${t.m ?? 0}"></td>
+                            <td><input type="number" class="admin-num-input stat-av" data-grp="${grpKey}" data-idx="${idx}" value="${t.av ?? 0}"></td>
+                            <td><input type="number" class="admin-num-input stat-p" data-grp="${grpKey}" data-idx="${idx}" value="${t.p ?? 0}" style="font-weight: 800; color: var(--gold);"></td>
+                        </tr>
+                    `).join('');
+                };
+
+                if (tbodyA && data.groups && data.groups.A) tbodyA.innerHTML = makeRows(data.groups.A.teams, 'A');
+                if (tbodyB && data.groups && data.groups.B) tbodyB.innerHTML = makeRows(data.groups.B.teams, 'B');
+
+                // Stat input listeners
+                document.querySelectorAll('.admin-standings-table input').forEach(input => {
+                    input.addEventListener('change', () => {
+                        const grp = input.getAttribute('data-grp');
+                        const idx = parseInt(input.getAttribute('data-idx'), 10);
+                        const t = currentEditingData.groups[grp].teams[idx];
+                        const row = input.closest('tr');
+
+                        t.name = row.querySelector('.team-name-edit').value.trim();
+                        t.o = parseInt(row.querySelector('.stat-o').value, 10) || 0;
+                        t.g = parseInt(row.querySelector('.stat-g').value, 10) || 0;
+                        t.b = parseInt(row.querySelector('.stat-b').value, 10) || 0;
+                        t.m = parseInt(row.querySelector('.stat-m').value, 10) || 0;
+                        t.av = parseInt(row.querySelector('.stat-av').value, 10) || 0;
+                        t.p = parseInt(row.querySelector('.stat-p').value, 10) || 0;
+                    });
+                });
+            }
+
+            function readSemisFormInputs() {
+                if (!currentEditingData) return;
+
+                // Semi 1
+                const s1 = currentEditingData.semis[0];
+                s1.team1 = document.getElementById('admin-semi1-t1-name').value.trim();
+                const s1_score1 = document.getElementById('admin-semi1-t1-score').value;
+                s1.score1 = s1_score1 !== '' ? parseInt(s1_score1, 10) : null;
+
+                s1.team2 = document.getElementById('admin-semi1-t2-name').value.trim();
+                const s1_score2 = document.getElementById('admin-semi1-t2-score').value;
+                s1.score2 = s1_score2 !== '' ? parseInt(s1_score2, 10) : null;
+
+                s1.status = document.getElementById('admin-semi1-status').value;
+                s1.time = document.getElementById('admin-semi1-time').value.trim();
+
+                // Semi 2
+                const s2 = currentEditingData.semis[1];
+                s2.team1 = document.getElementById('admin-semi2-t1-name').value.trim();
+                const s2_score1 = document.getElementById('admin-semi2-t1-score').value;
+                s2.score1 = s2_score1 !== '' ? parseInt(s2_score1, 10) : null;
+
+                s2.team2 = document.getElementById('admin-semi2-t2-name').value.trim();
+                const s2_score2 = document.getElementById('admin-semi2-t2-score').value;
+                s2.score2 = s2_score2 !== '' ? parseInt(s2_score2, 10) : null;
+
+                s2.status = document.getElementById('admin-semi2-status').value;
+                s2.time = document.getElementById('admin-semi2-time').value.trim();
+            }
+
+            function readFinalFormInputs() {
+                if (!currentEditingData) return;
+
+                const f = currentEditingData.final;
+                f.team1 = document.getElementById('admin-final-t1-name').value.trim();
+                const f_score1 = document.getElementById('admin-final-t1-score').value;
+                f.score1 = f_score1 !== '' ? parseInt(f_score1, 10) : null;
+
+                f.team2 = document.getElementById('admin-final-t2-name').value.trim();
+                const f_score2 = document.getElementById('admin-final-t2-score').value;
+                f.score2 = f_score2 !== '' ? parseInt(f_score2, 10) : null;
+
+                f.status = document.getElementById('admin-final-status').value;
+                f.time = document.getElementById('admin-final-time').value.trim();
+                f.champion = document.getElementById('admin-champion-input').value.trim();
+            }
+
+            // TÜM DEĞİŞİKLİKLERİ KAYDET
+            saveTournamentBtn.addEventListener('click', () => {
+                readSemisFormInputs();
+                readFinalFormInputs();
+                readFixtureInputsFromDOM();
+
+                // Tablolardan da son hali al
+                ['A', 'B'].forEach(grp => {
+                    const tbody = document.getElementById(grp === 'A' ? 'admin-tbody-group-a' : 'admin-tbody-group-b');
+                    if (tbody) {
+                        tbody.querySelectorAll('tr').forEach((row, idx) => {
+                            const t = currentEditingData.groups[grp].teams[idx];
+                            if (t) {
+                                t.name = row.querySelector('.team-name-edit').value.trim();
+                                t.o = parseInt(row.querySelector('.stat-o').value, 10) || 0;
+                                t.g = parseInt(row.querySelector('.stat-g').value, 10) || 0;
+                                t.b = parseInt(row.querySelector('.stat-b').value, 10) || 0;
+                                t.m = parseInt(row.querySelector('.stat-m').value, 10) || 0;
+                                t.av = parseInt(row.querySelector('.stat-av').value, 10) || 0;
+                                t.p = parseInt(row.querySelector('.stat-p').value, 10) || 0;
+                            }
+                        });
+                    }
+                });
+
+                // Veriyi kaydet ve yayınla
+                saveTournamentData(currentEditingData, true);
+                renderAllTournamentViews(currentEditingData);
+                adminModal.classList.remove('active');
+                showToast('Turnuva ağacı ve skorlar başarıyla güncellendi!', '💾');
+            });
+
+            // VARSAYILANA SIFIRLA
+            adminResetBtn.addEventListener('click', () => {
+                if (confirm('Tüm fikstür skorları, yarı finaller ve final verileri başlangıç ayarlarına döndürülecektir. Emin misiniz?')) {
+                    const defaultData = resetTournamentData();
+                    currentEditingData = cloneObject(defaultData);
+                    populateAdminModal(currentEditingData);
+                    renderAllTournamentViews(currentEditingData);
+                    showToast('Veriler varsayılan turnuva durumuna sıfırlandı.', '🔄');
+                }
+            });
+
+            // ============================================================
+            // 9. İLK YÜKLEME VE SENKRONİZASYON
+            // ============================================================
+
+            // Sayfa açılışında verileri çiz
+            const initialData = getTournamentData();
+            renderAllTournamentViews(initialData);
+            updateAdminStatusUI();
+
+            // Supabase Çevrim İçi Senkronizasyonu Başlat
+            if (typeof initTournamentDataSync === 'function') {
+                initTournamentDataSync((cloudData) => {
+                    renderAllTournamentViews(cloudData);
+                });
+            }
+
+            // Sayfa içi ve sekmeler arası güncellemeleri dinle
+            window.addEventListener('turnuva_bracket_updated', (e) => {
+                if (e.detail && e.detail.data) {
+                    renderAllTournamentViews(e.detail.data);
+                } else {
+                    renderAllTournamentViews();
+                }
+            });
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'turnuva_bracket_v1') {
+                    renderAllTournamentViews();
+                }
+                if (e.key === 'turnuva_admin_authenticated') {
+                    updateAdminStatusUI();
+                }
+            });
+
+            // ============================================================
+            // 10. SON DUYURU BİLDİRİM ŞERİDİ (ANA SAYFA)
+            // ============================================================
             function updateHomeAnnouncement() {
                 try {
                     const bannerWrapper = document.getElementById('home-announcement-wrapper');
@@ -1589,7 +3343,6 @@
                         if (bannerLink) bannerLink.href = 'duyurular.html#' + latest.id;
                         bannerWrapper.style.display = 'block';
                     } else {
-                        // Eğer tüm duyurular silinmişse veya duyuru kalmamışsa şeridi gizle
                         bannerWrapper.style.display = 'none';
                     }
                 } catch (err) {
@@ -1598,15 +3351,7 @@
             }
 
             updateHomeAnnouncement();
-
-            // Duyuru silindiğinde / eklendiğinde anında güncelle
             window.addEventListener('turnuva_announcements_updated', updateHomeAnnouncement);
-            window.addEventListener('storage', (e) => {
-                if (e.key === 'turnuva_duyurular_v1' || !e.key) {
-                    updateHomeAnnouncement();
-                }
-            });
-            window.addEventListener('pageshow', updateHomeAnnouncement);
         });
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
