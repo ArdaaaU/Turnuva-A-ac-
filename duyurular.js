@@ -66,7 +66,7 @@ function getAnnouncements() {
         if (stored !== null) {
             const parsed = JSON.parse(stored);
             if (Array.isArray(parsed)) {
-                return parsed;
+                return parsed.filter(a => a && (!a.id || !String(a.id).startsWith('system-')) && a.category !== 'system');
             }
         }
     } catch (e) {
@@ -240,7 +240,9 @@ async function syncAnnouncementsFromSupabase() {
         }
 
         if (Array.isArray(data)) {
-            const formatted = data.map(item => ({
+            // Sistem veri kayıtlarını (örn: turnuva fikstürü yedeği) duyuru listesinden hariç tut
+            const publicData = data.filter(item => item && (!item.id || !String(item.id).startsWith('system-')) && item.category !== 'system');
+            const formatted = publicData.map(item => ({
                 id: item.id,
                 title: item.title,
                 category: item.category || 'genel',
@@ -273,7 +275,11 @@ function initSupabaseRealtime() {
     try {
         client.channel('public:duyurular')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, (payload) => {
-                // Herhangi bir ekleme, düzenleme veya silme olduğunda verileri anında yenile
+                // Sistem kayıtları için duyuruları tetikleme (bu kayıtlar fikstür modülü tarafından yönetilir)
+                if (payload && payload.new && (String(payload.new.id).startsWith('system-') || payload.new.category === 'system')) {
+                    return;
+                }
+                // Herhangi bir duyuru ekleme, düzenleme veya silme olduğunda verileri anında yenile
                 syncAnnouncementsFromSupabase();
             })
             .subscribe((status) => {

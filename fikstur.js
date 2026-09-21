@@ -215,39 +215,108 @@ function getTournamentData() {
 }
 
 /**
- * Turnuva verisini kaydet (LocalStorage + Supabase)
+ * Turnuva verisini kaydet (LocalStorage + Supabase Çift Yönlü Yedekleme)
+ * 1. Öncelikle özel 'turnuva_fikstur' tablosuna yazmayı dener.
+ * 2. Eğer o tablo henüz Supabase'de oluşturulmamışsa, anında 'duyurular' tablosuna
+ *    özel sistem kaydı ('system-turnuva-fikstur') olarak kaydeder.
+ * Bu sayede kullanıcı Supabase SQL çalıştırmamış olsa dahi tüm cihazlar anında eşitlenir!
  */
-function saveTournamentData(data, syncToCloud = true) {
+async function saveTournamentData(data, syncToCloud = true) {
+    // 1. Yerel önbelleğe her zaman kaydet
     try {
         localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(data));
         window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data } }));
     } catch (e) {
-        console.error('Turnuva verisi kaydedilemedi:', e);
+        console.error('Turnuva verisi yerel önbelleğe kaydedilemedi:', e);
     }
 
-    if (syncToCloud && typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            client.from('turnuva_fikstur')
-                .upsert({
-                    id: 'main',
-                    data: data,
-                    updated_at: new Date().toISOString()
-                })
-                .then(({ error }) => {
-                    if (error) console.warn('Supabase turnuva kaydetme hatası:', error);
-                })
-                .catch(err => console.warn('Supabase istisna:', err));
+    if (!syncToCloud) {
+        return { success: true, cloudSynced: false, method: 'local_only' };
+    }
+
+    if (typeof getSupabaseClient !== 'function') {
+        return { success: true, cloudSynced: false, method: 'no_client' };
+    }
+
+    const client = getSupabaseClient();
+    if (!client) {
+        return { success: true, cloudSynced: false, method: 'no_client' };
+    }
+
+    let cloudSynced = false;
+    let cloudTarget = null;
+    let lastError = null;
+
+    // 1. Önce özel turnuva_fikstur tablosuna yazmayı dene
+    try {
+        const { error: tError } = await client
+            .from('turnuva_fikstur')
+            .upsert({
+                id: 'main',
+                data: data,
+                updated_at: new Date().toISOString()
+            });
+
+        if (!tError) {
+            cloudSynced = true;
+            cloudTarget = 'turnuva_fikstur';
+            console.log('Turnuva verisi turnuva_fikstur tablosuna başarıyla kaydedildi.');
+        } else {
+            console.warn('turnuva_fikstur tablosuna yazılamadı, yedek bulut tablosuna (duyurular) geçiliyor:', tError.message || tError);
+            lastError = tError;
+        }
+    } catch (e) {
+        console.warn('turnuva_fikstur tablosu istisnası:', e);
+        lastError = e;
+    }
+
+    // 2. Eğer turnuva_fikstur tablosu yoksa (404 / PGRST205 vb.), duyurular tablosuna sistem verisi olarak yedekle
+    if (!cloudSynced) {
+        try {
+            const systemPayload = {
+                id: 'system-turnuva-fikstur',
+                title: 'SYSTEM_TOURNAMENT_DATA_v1',
+                category: 'system',
+                category_label: 'Sistem Verisi',
+                date: new Date().toISOString(),
+                author: 'System',
+                pinned: false,
+                summary: 'Otomatik Turnuva Ağacı ve Fikstür Veritabanı Kaydı',
+                content: JSON.stringify(data)
+            };
+
+            const { error: dError } = await client
+                .from('duyurular')
+                .upsert(systemPayload);
+
+            if (!dError) {
+                cloudSynced = true;
+                cloudTarget = 'duyurular (yedek sistem depolama)';
+                console.log('Turnuva verisi Supabase bulutuna başarıyla aktarıldı (Sistem tablosu üzerinden).');
+            } else {
+                console.error('Yedek bulut tablosuna da yazılamadı:', dError);
+                lastError = dError;
+            }
+        } catch (dErr) {
+            console.error('Yedek bulut kaydetme istisnası:', dErr);
+            lastError = dErr;
         }
     }
+
+    return {
+        success: true,
+        cloudSynced: cloudSynced,
+        cloudTarget: cloudTarget,
+        error: lastError
+    };
 }
 
 /**
  * Turnuva verilerini varsayılana sıfırla
  */
-function resetTournamentData() {
+async function resetTournamentData() {
     const defaultData = cloneObject(DEFAULT_TOURNAMENT_DATA);
-    saveTournamentData(defaultData, true);
+    await saveTournamentData(defaultData, true);
     return defaultData;
 }
 
@@ -349,6 +418,50 @@ function recalculateStandingsFromFixtures(tournamentData) {
 }
 
 /**
+ * Buluttan turnuva verisini çek (Önce turnuva_fikstur, yoksa duyurular'daki sistem kaydı)
+ */
+async function fetchTournamentCloudData() {
+    if (typeof getSupabaseClient !== 'function') return null;
+    const client = getSupabaseClient();
+    if (!client) return null;
+
+    // 1. Önce turnuva_fikstur tablosunu kontrol et
+    try {
+        const { data, error } = await client
+            .from('turnuva_fikstur')
+            .select('data')
+            .eq('id', 'main')
+            .maybeSingle();
+
+        if (!error && data && data.data) {
+            return data.data;
+        }
+    } catch (err) {
+        console.warn('turnuva_fikstur tablosu sorgulanamadı:', err);
+    }
+
+    // 2. Eğer turnuva_fikstur tablosunda yoksa, duyurular tablosundaki sistem kaydına bak
+    try {
+        const { data: sData, error: sError } = await client
+            .from('duyurular')
+            .select('content')
+            .eq('id', 'system-turnuva-fikstur')
+            .maybeSingle();
+
+        if (!sError && sData && sData.content) {
+            const parsed = JSON.parse(sData.content);
+            if (parsed && parsed.groups && parsed.semis && parsed.final) {
+                return parsed;
+            }
+        }
+    } catch (dErr) {
+        console.warn('Yedek bulut verisi sorgulanamadı:', dErr);
+    }
+
+    return null;
+}
+
+/**
  * Supabase'den Turnuva Verilerini Çek ve Canlı Dinlemeyi Başlat
  */
 async function initTournamentDataSync(onDataLoadedCallback) {
@@ -358,27 +471,22 @@ async function initTournamentDataSync(onDataLoadedCallback) {
 
     try {
         // 1. İlk Çekim
-        const { data, error } = await client
-            .from('turnuva_fikstur')
-            .select('data')
-            .eq('id', 'main')
-            .maybeSingle();
-
-        if (error) {
-            console.warn('Supabase fikstür çekilemedi:', error);
-        } else if (data && data.data) {
-            localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(data.data));
+        const cloudData = await fetchTournamentCloudData();
+        if (cloudData) {
+            localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(cloudData));
+            window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data: cloudData } }));
             if (typeof onDataLoadedCallback === 'function') {
-                onDataLoadedCallback(data.data);
+                onDataLoadedCallback(cloudData);
             }
         }
     } catch (err) {
         console.warn('Supabase fikstür yükleme hatası:', err);
     }
 
-    // 2. Canlı Realtime Dinleme
+    // 2. Canlı Realtime Dinleme (Her iki tabloyu da dinler)
     if (!_bracketRealtimeSubscribed) {
         try {
+            // turnuva_fikstur tablosunu dinle
             client
                 .channel('realtime_turnuva_fikstur')
                 .on(
@@ -394,6 +502,31 @@ async function initTournamentDataSync(onDataLoadedCallback) {
                         }
                     }
                 )
+                .subscribe();
+
+            // duyurular tablosundaki sistem kaydını dinle
+            client
+                .channel('realtime_duyurular_fikstur')
+                .on(
+                    'postgres_changes',
+                    { event: '*', schema: 'public', table: 'duyurular', filter: 'id=eq.system-turnuva-fikstur' },
+                    payload => {
+                        if (payload.new && payload.new.content) {
+                            try {
+                                const parsed = JSON.parse(payload.new.content);
+                                if (parsed && parsed.groups && parsed.semis && parsed.final) {
+                                    localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(parsed));
+                                    window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data: parsed } }));
+                                    if (typeof onDataLoadedCallback === 'function') {
+                                        onDataLoadedCallback(parsed);
+                                    }
+                                }
+                            } catch (pe) {
+                                console.warn('Realtime JSON parse hatası:', pe);
+                            }
+                        }
+                    }
+                )
                 .subscribe((status) => {
                     if (status === 'SUBSCRIBED') {
                         _bracketRealtimeSubscribed = true;
@@ -402,5 +535,29 @@ async function initTournamentDataSync(onDataLoadedCallback) {
         } catch (rtErr) {
             console.warn('Supabase fikstür realtime başlatılamadı:', rtErr);
         }
+    }
+}
+
+// Sayfa Açıldığında Fikstür Bulut Senkronizasyonunu Otomatik Başlat (Retry mekanizmasıyla)
+if (typeof window !== 'undefined') {
+    const autoInitSync = (retries = 15) => {
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+            const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+            if (client) {
+                initTournamentDataSync((cloudData) => {
+                    if (typeof renderAllTournamentViews === 'function') {
+                        renderAllTournamentViews(cloudData);
+                    }
+                });
+            } else if (retries > 0) {
+                setTimeout(() => autoInitSync(retries - 1), 150);
+            }
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => autoInitSync());
+    } else {
+        autoInitSync();
     }
 }

@@ -2045,8 +2045,11 @@
         <div class="admin-modal-card">
             <div class="admin-modal-header">
                 <div>
-                    <div class="modal-title" style="font-size: 17px;">⚙️ Turnuva Ağacı & Fikstür Yönetimi</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Maç skorları, kazanan takımlar, finaller ve puan tablosunu güncelleyin</div>
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <div class="modal-title" style="font-size: 17px;">⚙️ Turnuva Ağacı & Fikstür Yönetimi</div>
+                        <span id="admin-cloud-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;">🟢 Bulut Eşitleme Aktif</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Maç skorları, kazanan takımlar, finaller ve puan tablosunu güncelleyin (Tüm cihazlara anında yansır)</div>
                 </div>
                 <button class="modal-close-btn" id="close-admin-modal" aria-label="Kapat">&times;</button>
             </div>
@@ -3245,45 +3248,73 @@
             }
 
             // TÜM DEĞİŞİKLİKLERİ KAYDET
-            saveTournamentBtn.addEventListener('click', () => {
-                readSemisFormInputs();
-                readFinalFormInputs();
-                readFixtureInputsFromDOM();
+            saveTournamentBtn.addEventListener('click', async () => {
+                const originalBtnText = saveTournamentBtn.innerHTML;
+                saveTournamentBtn.disabled = true;
+                saveTournamentBtn.innerHTML = '⏳ Veritabanına Kaydediliyor...';
 
-                // Tablolardan da son hali al
-                ['A', 'B'].forEach(grp => {
-                    const tbody = document.getElementById(grp === 'A' ? 'admin-tbody-group-a' : 'admin-tbody-group-b');
-                    if (tbody) {
-                        tbody.querySelectorAll('tr').forEach((row, idx) => {
-                            const t = currentEditingData.groups[grp].teams[idx];
-                            if (t) {
-                                t.name = row.querySelector('.team-name-edit').value.trim();
-                                t.o = parseInt(row.querySelector('.stat-o').value, 10) || 0;
-                                t.g = parseInt(row.querySelector('.stat-g').value, 10) || 0;
-                                t.b = parseInt(row.querySelector('.stat-b').value, 10) || 0;
-                                t.m = parseInt(row.querySelector('.stat-m').value, 10) || 0;
-                                t.av = parseInt(row.querySelector('.stat-av').value, 10) || 0;
-                                t.p = parseInt(row.querySelector('.stat-p').value, 10) || 0;
-                            }
-                        });
+                try {
+                    readSemisFormInputs();
+                    readFinalFormInputs();
+                    readFixtureInputsFromDOM();
+
+                    // Tablolardan da son hali al
+                    ['A', 'B'].forEach(grp => {
+                        const tbody = document.getElementById(grp === 'A' ? 'admin-tbody-group-a' : 'admin-tbody-group-b');
+                        if (tbody) {
+                            tbody.querySelectorAll('tr').forEach((row, idx) => {
+                                const t = currentEditingData.groups[grp].teams[idx];
+                                if (t) {
+                                    t.name = row.querySelector('.team-name-edit').value.trim();
+                                    t.o = parseInt(row.querySelector('.stat-o').value, 10) || 0;
+                                    t.g = parseInt(row.querySelector('.stat-g').value, 10) || 0;
+                                    t.b = parseInt(row.querySelector('.stat-b').value, 10) || 0;
+                                    t.m = parseInt(row.querySelector('.stat-m').value, 10) || 0;
+                                    t.av = parseInt(row.querySelector('.stat-av').value, 10) || 0;
+                                    t.p = parseInt(row.querySelector('.stat-p').value, 10) || 0;
+                                }
+                            });
+                        }
+                    });
+
+                    // Veriyi yerel ve bulut veritabanına kaydet
+                    const syncResult = await saveTournamentData(currentEditingData, true);
+                    renderAllTournamentViews(currentEditingData);
+                    adminModal.classList.remove('active');
+
+                    if (syncResult && syncResult.cloudSynced) {
+                        showToast('✅ Değişiklikler veri tabanına kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
+                    } else {
+                        showToast('Turnuva verileri güncellendi.', '💾');
                     }
-                });
-
-                // Veriyi kaydet ve yayınla
-                saveTournamentData(currentEditingData, true);
-                renderAllTournamentViews(currentEditingData);
-                adminModal.classList.remove('active');
-                showToast('Turnuva ağacı ve skorlar başarıyla güncellendi!', '💾');
+                } catch (err) {
+                    console.error('Turnuva kaydetme hatası:', err);
+                    showToast('Kaydedilirken bir hata oluştu, lütfen tekrar deneyin.', '❌');
+                } finally {
+                    saveTournamentBtn.disabled = false;
+                    saveTournamentBtn.innerHTML = originalBtnText;
+                }
             });
 
             // VARSAYILANA SIFIRLA
-            adminResetBtn.addEventListener('click', () => {
+            adminResetBtn.addEventListener('click', async () => {
                 if (confirm('Tüm fikstür skorları, yarı finaller ve final verileri başlangıç ayarlarına döndürülecektir. Emin misiniz?')) {
-                    const defaultData = resetTournamentData();
-                    currentEditingData = cloneObject(defaultData);
-                    populateAdminModal(currentEditingData);
-                    renderAllTournamentViews(currentEditingData);
-                    showToast('Veriler varsayılan turnuva durumuna sıfırlandı.', '🔄');
+                    const originalResetText = adminResetBtn.innerHTML;
+                    adminResetBtn.disabled = true;
+                    adminResetBtn.innerHTML = '⏳ Sıfırlanıyor...';
+                    try {
+                        const defaultData = await resetTournamentData();
+                        currentEditingData = cloneObject(defaultData);
+                        populateAdminModal(currentEditingData);
+                        renderAllTournamentViews(currentEditingData);
+                        showToast('Veriler varsayılan turnuva durumuna sıfırlandı ve tüm cihazlara iletildi.', '🔄');
+                    } catch (rErr) {
+                        console.error('Sıfırlama hatası:', rErr);
+                        showToast('Sıfırlanırken bir hata oluştu.', '❌');
+                    } finally {
+                        adminResetBtn.disabled = false;
+                        adminResetBtn.innerHTML = originalResetText;
+                    }
                 }
             });
 
