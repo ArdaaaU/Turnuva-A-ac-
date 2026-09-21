@@ -935,6 +935,119 @@
                 padding: 4px 10px;
             }
         }
+
+        /* --- SON DUYURU BİLDİRİM ŞERİDİ --- */
+        .announcement-banner-wrapper {
+            max-width: 900px;
+            margin: -6px auto 20px auto;
+            padding: 0 20px;
+        }
+
+        .announcement-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-highlight);
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+        }
+
+        .announcement-banner:hover {
+            border-color: var(--gold);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--gold-glow);
+        }
+
+        .ann-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ann-pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: annPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes annPulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .ann-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .ann-date {
+            font-size: 12px;
+            color: var(--text-dim);
+            flex-shrink: 0;
+        }
+
+        .ann-title {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ann-banner-link {
+            text-decoration: none;
+            color: var(--gold);
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .ann-banner-link:hover {
+            background: var(--gold);
+            color: #ffffff;
+            border-color: var(--gold);
+        }
+
+        @media (max-width: 640px) {
+            .ann-date { display: none; }
+            .ann-banner-link span:first-child { display: none; }
+            .ann-banner-link { padding: 4px 8px; }
+        }
     </style>
 </head>
 <body>
@@ -950,6 +1063,7 @@
             <nav class="nav-desktop-links">
                 <a href="index.html" class="nav-link active">🏆 Ağaç & Fikstür</a>
                 <a href="istatistik.html" class="nav-link">📊 İstatistikler</a>
+                <a href="duyurular.html" class="nav-link">📢 Duyurular</a>
             </nav>
 
             <!-- DARK / LIGHT TEMA BUTONU -->
@@ -971,6 +1085,7 @@
     <div class="mobile-drawer" id="mobile-drawer">
         <a href="index.html" class="nav-link active" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
+        <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
     </div>
 
     <!-- BAŞLIK & BİLGİ -->
@@ -979,6 +1094,22 @@
         <h1 class="hero-title">Turnuva Ağacı</h1>
         <p class="hero-subtitle">Grup aşaması puan durumu, yarı finaller ve final eşleşmeleri</p>
     </section>
+
+    <!-- SON DUYURU BİLDİRİM ŞERİDİ -->
+    <div class="announcement-banner-wrapper" id="home-announcement-wrapper" style="display: none;">
+        <div class="announcement-banner">
+            <div class="ann-banner-left">
+                <span class="ann-pulse-dot"></span>
+                <span class="ann-badge" id="banner-cat-badge">📢 Duyuru</span>
+                <span class="ann-date" id="banner-date">11 Mart</span>
+                <span class="ann-title" id="banner-title">Turnuva Başladı!</span>
+            </div>
+            <a href="duyurular.html" class="ann-banner-link" id="banner-link">
+                <span>Duyuruları İncele</span>
+                <span>→</span>
+            </a>
+        </div>
+    </div>
 
     <!-- AŞAMA SEKMELERİ (MOBİLDE KOLAY GEÇİŞ) -->
     <div class="stage-tabs-wrapper">
@@ -1333,6 +1464,9 @@
     <!-- EKRANLA BİRLİKTE HAREKET EDEN SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
+    <!-- DUYURULAR MODÜLÜ -->
+    <script src="duyurular.js"></script>
+
     <!-- ETKİLEŞİM VE FONKSİYONLAR -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1430,6 +1564,45 @@
                     closeModal();
                 }
             });
+
+            // Son Duyuruyu Güncelleme Fonksiyonu
+            function updateHomeAnnouncement() {
+                try {
+                    const bannerWrapper = document.getElementById('home-announcement-wrapper');
+                    if (!bannerWrapper) return;
+                    if (typeof getLatestAnnouncement !== 'function') return;
+
+                    const latest = getLatestAnnouncement();
+                    if (latest) {
+                        const bannerCatBadge = document.getElementById('banner-cat-badge');
+                        const bannerDate = document.getElementById('banner-date');
+                        const bannerTitle = document.getElementById('banner-title');
+                        const bannerLink = document.getElementById('banner-link');
+
+                        if (bannerCatBadge) bannerCatBadge.innerText = latest.categoryLabel || '📢 Duyuru';
+                        if (bannerDate) bannerDate.innerText = latest.date || '';
+                        if (bannerTitle) bannerTitle.innerText = latest.title || '';
+                        if (bannerLink) bannerLink.href = 'duyurular.html#' + latest.id;
+                        bannerWrapper.style.display = 'block';
+                    } else {
+                        // Eğer tüm duyurular silinmişse veya duyuru kalmamışsa şeridi gizle
+                        bannerWrapper.style.display = 'none';
+                    }
+                } catch (err) {
+                    console.warn('Duyuru yüklenirken hata:', err);
+                }
+            }
+
+            updateHomeAnnouncement();
+
+            // Duyuru silindiğinde / eklendiğinde anında güncelle
+            window.addEventListener('turnuva_announcements_updated', updateHomeAnnouncement);
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'turnuva_duyurular_v1' || !e.key) {
+                    updateHomeAnnouncement();
+                }
+            });
+            window.addEventListener('pageshow', updateHomeAnnouncement);
         });
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
