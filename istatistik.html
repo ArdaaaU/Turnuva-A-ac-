@@ -1,189 +1,408 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="dark">
 <head>
     <link rel="icon" href="logo.jpeg" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turnuva İstatistikleri</title>
+    <!-- Tema Flash Engelleme -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('turnuva-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <!-- Modern Yazı Tipi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- GENEL AYARLAR --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
-            padding: 90px 0 50px 0; /* Navbar için boşluk */
-            color: #333;
+        /* --- TEMA DEĞİŞKENLERİ --- */
+        :root, [data-theme="dark"] {
+            --bg-page: #0b0f19;
+            --bg-card: #131b2e;
+            --bg-card-hover: #19243d;
+            --bg-card-inner: #0d1322;
+            --border-subtle: #1e293b;
+            --border-highlight: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.15);
+            --emerald: #10b981;
+            --emerald-soft: rgba(16, 185, 129, 0.08);
+            --emerald-border: rgba(16, 185, 129, 0.25);
+            --emerald-text: #d1fae5;
+            --red: #ef4444;
+            --navbar-bg: rgba(11, 15, 25, 0.88);
+            --header-bg: #172138;
+            --table-header-bg: #0e1424;
+            --table-border: rgba(30, 41, 59, 0.5);
+            --table-hover: rgba(255, 255, 255, 0.02);
+            --signature-bg: rgba(19, 27, 46, 0.88);
+            --signature-text: #94a3b8;
+            --signature-border: rgba(255, 255, 255, 0.1);
+            --drawer-bg: #0f1626;
+            --hero-title-grad: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- NAVBAR & YAN MENÜ --- */
+        [data-theme="light"] {
+            --bg-page: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --bg-card-inner: #f8fafc;
+            --border-subtle: #e2e8f0;
+            --border-highlight: #cbd5e1;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-dim: #64748b;
+            --gold: #d97706;
+            --gold-glow: rgba(217, 119, 6, 0.15);
+            --emerald: #059669;
+            --emerald-soft: #ecfdf5;
+            --emerald-border: #a7f3d0;
+            --emerald-text: #065f46;
+            --red: #dc2626;
+            --navbar-bg: rgba(255, 255, 255, 0.92);
+            --header-bg: #f8fafc;
+            --table-header-bg: #f1f5f9;
+            --table-border: #f1f5f9;
+            --table-hover: #f8fafc;
+            --signature-bg: rgba(255, 255, 255, 0.92);
+            --signature-text: #475569;
+            --signature-border: #cbd5e1;
+            --drawer-bg: #ffffff;
+            --hero-title-grad: linear-gradient(180deg, #0f172a 0%, #334155 100%);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-top: 72px;
+            padding-bottom: 70px;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* --- NAVBAR --- */
         .navbar {
-            background-color: #11141a;
-            color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            box-sizing: border-box;
+            height: 68px;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
             z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: var(--transition);
         }
 
         .nav-brand {
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 1px;
-            color: #fde047;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
+            color: var(--text-main);
+            font-weight: 800;
+            font-size: 17px;
+            letter-spacing: -0.3px;
         }
 
-        .hamburger {
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-highlight);
+        }
+
+        .nav-actions {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-desktop-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-main);
+            background-color: var(--bg-card-inner);
+        }
+
+        .nav-link.active {
+            color: var(--gold);
+        }
+
+        /* Tema Değiştirme Butonu */
+        .theme-toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            font-size: 17px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--border-highlight);
+            background: var(--bg-card-hover);
+            transform: scale(1.05);
+        }
+
+        [data-theme="dark"] .sun-icon { display: block; }
+        [data-theme="dark"] .moon-icon { display: none; }
+        [data-theme="light"] .sun-icon { display: none; }
+        [data-theme="light"] .moon-icon { display: block; }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 38px;
+            height: 38px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 9px;
+            cursor: pointer;
+            border: 1px solid var(--border-subtle);
             z-index: 1002;
         }
 
         .hamburger span {
             display: block;
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            border-radius: 3px;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-main);
+            border-radius: 2px;
+            transition: transform 0.25s ease, opacity 0.25s ease;
         }
 
-        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-        .side-menu {
+        .mobile-drawer {
             position: fixed;
             top: 0;
-            right: -250px;
-            width: 250px;
+            right: -100%;
+            width: 270px;
             height: 100vh;
-            background-color: #1a1f27;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            background-color: var(--drawer-bg);
+            border-left: 1px solid var(--border-subtle);
+            padding: 90px 20px 30px 20px;
             display: flex;
             flex-direction: column;
-            padding-top: 80px;
+            gap: 10px;
             transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1001;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.4);
         }
 
-        .side-menu.active { right: 0; }
+        .mobile-drawer.active { right: 0; }
 
-        .menu-link {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 15px 30px;
-            font-size: 15px;
-            font-weight: 600;
-            border-bottom: 1px solid #2d3542;
-            transition: background 0.2s, color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .mobile-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
         }
 
-        .menu-link:hover { background-color: #222933; color: #fde047; }
-        .menu-link.active-page { color: #fde047; border-left: 4px solid #fde047; padding-left: 26px; }
-
-        /* --- İSTATİSTİK SAYFASI TASARIMI --- */
-        .stats-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .mobile-drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .page-header {
+        /* --- HERO BANNER --- */
+        .hero {
+            max-width: 1100px;
+            margin: 20px auto 28px auto;
+            padding: 0 20px;
             text-align: center;
-            margin-bottom: 40px;
         }
 
-        .page-header h1 {
-            font-size: 28px;
-            color: #11141a;
-            margin: 0;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gold-glow);
+            color: var(--gold);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: clamp(24px, 4vw, 32px);
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: -0.6px;
+            margin-bottom: 6px;
+            background: var(--hero-title-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .page-header p {
-            color: #6b7280;
+        .hero-subtitle {
             font-size: 14px;
-            margin-top: 5px;
+            color: var(--text-muted);
             font-weight: 500;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+        /* --- BİLGİ KUTUSU (STATUS ALERT) --- */
+        .status-alert {
+            max-width: 1060px;
+            margin: 0 auto 30px auto;
+            padding: 14px 20px;
+            background: var(--emerald-soft);
+            border: 1px solid var(--emerald-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--emerald-text);
         }
 
-        /* İstatistik Kartları */
+        .status-alert-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* --- İSTATİSTİK GRID --- */
+        .stats-container {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
         .stat-card {
-            background: #ffffff;
-            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e5e7eb;
-            transition: transform 0.2s ease;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--border-highlight);
+            transform: translateY(-2px);
         }
 
         .stat-header {
-            background: #11141a;
-            color: #ffffff;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: 700;
+            background: var(--header-bg);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-bottom: 3px solid #fde047;
+            justify-content: space-between;
+        }
+
+        .stat-header-title {
+            font-size: 15px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+        }
+
+        .stat-header-badge {
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--bg-card-inner);
+            color: var(--text-dim);
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
         }
 
         .stat-table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
+            font-size: 13px;
         }
 
         .stat-table th {
-            background-color: #f9fafb;
-            color: #9ca3af;
+            background: var(--table-header-bg);
+            color: var(--text-dim);
             font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            padding: 12px 20px;
-            font-weight: 600;
-            border-bottom: 1px solid #e5e7eb;
+            letter-spacing: 0.5px;
+            padding: 10px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
         }
 
+        .stat-table th.center { text-align: center; }
+
         .stat-table td {
-            padding: 12px 20px;
-            border-bottom: 1px solid #f3f4f6;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--table-border);
             vertical-align: middle;
         }
 
         .stat-table tr:last-child td { border-bottom: none; }
-        .stat-table tr:hover td { background-color: #f9fafb; }
+        .stat-table tr:hover td { background-color: var(--table-hover); }
 
         .rank {
             font-weight: 800;
-            color: #9ca3af;
-            width: 30px;
+            color: var(--text-dim);
+            width: 24px;
         }
 
         .player-info {
@@ -194,331 +413,361 @@
 
         .player-name {
             font-weight: 700;
-            color: #1f2937;
+            color: var(--text-main);
             font-size: 14px;
         }
 
         .player-team {
             font-size: 11px;
-            color: #6b7280;
+            color: var(--text-dim);
             font-weight: 500;
         }
 
         .stat-value {
             font-weight: 800;
-            font-size: 16px;
+            font-size: 15px;
             text-align: center;
             width: 50px;
         }
 
-        /* Renkler & İkonlar */
-        .value-goal { color: #16a34a; }
-        .value-assist { color: #2563eb; }
-        .card-yellow {
-            display: inline-block; width: 12px; height: 16px; background-color: #facc15;
-            border-radius: 2px; margin-right: 5px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        .card-red {
-            display: inline-block; width: 12px; height: 16px; background-color: #ef4444;
-            border-radius: 2px; margin-right: 5px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        .stat-value.goal { color: var(--emerald); }
+        .stat-value.card-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
-        /* 1. Sıra Vurgusu */
-        .stat-table tr:nth-child(1) .rank { color: #f59e0b; font-size: 16px; }
-        .stat-table tr:nth-child(2) .rank { color: #94a3b8; }
-        .stat-table tr:nth-child(3) .rank { color: #b45309; }
+        .card-tag-yellow {
+            display: inline-block;
+            width: 11px;
+            height: 15px;
+            background: #facc15;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
 
-        /* --- İMZA ALANI --- */
-        .signature { position: fixed; bottom: 20px; right: 30px; color: #9ca3af; font-style: italic; font-weight: 600; font-size: 14px; z-index: 100; pointer-events: none; background: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 5px;}
+        .card-tag-red {
+            display: inline-block;
+            width: 11px;
+            height: 15px;
+            background: var(--red);
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* --- SABİT İMZA / FLOATING SIGNATURE --- */
+        .signature {
+            position: fixed;
+            bottom: 16px;
+            right: 20px;
+            color: var(--signature-text);
+            font-style: italic;
+            font-weight: 600;
+            font-size: 13px;
+            z-index: 999;
+            pointer-events: none;
+            background: var(--signature-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--signature-border);
+            padding: 6px 14px;
+            border-radius: 999px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.2px;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 992px) {
+            .nav-desktop-links { display: none; }
+            .hamburger { display: flex; }
+        }
+
+        @media (max-width: 480px) {
+            .signature {
+                bottom: 10px;
+                right: 12px;
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="index.html" class="nav-brand">🏆 Turnuva Ağacı</a>
-        <div class="hamburger" id="hamburger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="logo.jpeg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+            <span>Turnuva Ağacı</span>
+        </a>
 
-    <div class="side-menu" id="side-menu">
-        <a href="index.html" class="menu-link">🏠 Ana Sayfa</a>
-        <a href="istatistik.html" class="menu-link active-page">📊 İstatistik</a>
+        <div class="nav-actions">
+            <nav class="nav-desktop-links">
+                <a href="index.html" class="nav-link">🏆 Ağaç & Fikstür</a>
+                <a href="istatistik.html" class="nav-link active">📊 İstatistikler</a>
+            </nav>
+
+            <!-- DARK / LIGHT TEMA BUTONU -->
+            <button class="theme-toggle-btn" id="theme-toggle" aria-label="Tema Değiştir" title="Açık / Koyu Tema">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+
+            <button class="hamburger" id="hamburger-btn" aria-label="Menü">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBİL MENÜ -->
+    <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
+    <div class="mobile-drawer" id="mobile-drawer">
+        <a href="index.html" class="nav-link" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
+        <a href="istatistik.html" class="nav-link active" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
     </div>
 
-    <div class="stats-wrapper">
-        <div class="page-header">
-            <h1>Turnuva İstatistikleri</h1>
-        </div>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">⚽ 2026 Sezonu</div>
+        <h1 class="hero-title">Turnuva İstatistikleri</h1>
+        <p class="hero-subtitle">Gol krallığı, sarı & kırmızı kart raporları</p>
+    </section>
 
-        <div class="stats-grid">
-            
-            <div class="stat-card">
-                <div class="stat-header">⚽ Gol Krallığı</div>
-                <table class="stat-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Oyuncu</th>
-                            <th style="text-align: center;">Gol</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="rank">1</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Enes Çakır</span>
-                                    <span class="player-team">Halkla İlişkiler 1</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">16</td>
-                        </tr>
-                        <tr>
-                            <td class="rank">2</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Emirhan Sarıçam</span>
-                                    <span class="player-team">İşletme 1/2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">7</td>
-                            </tr>
-                            <tr>
-                            <td class="rank">3</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Mahmut</span>
-                                    <span class="player-team">Halkla İlişkiler 1</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">4</td>
-                        </tr>
-                        <tr>
-                             <tr>
-                            <td class="rank">4</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Göktuğ Candan</span>
-                                    <span class="player-team">Web Tasarım ve Kodlama</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">3</td>
-                        </tr>
-                            <td class="rank">5</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Yiğit</span>
-                                    <span class="player-team">İşletme 1/2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">3</td>
-                        </tr>
-                         <tr>
-                            <td class="rank">6</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Arda E.</span>
-                                    <span class="player-team">Halkla İlişkiler 2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">2</td>
-                        </tr>
-                        <tr>
-                            <td class="rank">7</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Emre Bostancıoğlu</span>
-                                    <span class="player-team">Halkla İlişkiler 2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">2</td>
-                        </tr>
-                        <tr>
-                            <td class="rank">8</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Aykut Çetinbaş</span>
-                                    <span class="player-team">Maliye</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">2</td>
-                        </tr>
-                         <tr>
-                            <td class="rank">9</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Mehmet Karaman</span>
-                                    <span class="player-team">Web Tasarım ve Kodlama</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">2</td>
-                        </tr>
-                        <tr>
-                            <td class="rank">10</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Halil Akıncı</span>
-                                    <span class="player-team">Halkla İlişkiler 2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">1</td>
-                        </tr>
-                         <tr>
-                            <td class="rank">11</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Gazi</span>
-                                    <span class="player-team">Halkla İlişkiler 1</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">1</td>
-                        </tr>
-                         <tr>
-                            <td class="rank">12</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Ömer Faruk</span>
-                                    <span class="player-team">İşletme 1/2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">1</td>
-                        </tr>
-                         <tr>
-                            <td class="rank">13</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Arda Tınaztepe</span>
-                                    <span class="player-team">İşletme 1/2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">1</td>
-                        </tr>
-                         <tr>
-                            <td class="rank">14</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Sinan</span>
-                                    <span class="player-team">İşletme 1/2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value value-goal">1</td>
-                        </tr>
-                        
-                        
-
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                       
-                    </tbody>
-                </table>
+    <!-- SIFIRLAMA BİLGİLENDİRMESİ -->
+    <div style="padding: 0 20px;">
+        <div class="status-alert">
+            <div class="status-alert-icon">ℹ️</div>
+            <div>
+                <strong>Skorlar sıfırlandı:</strong> Maçlar oynandıkça gol krallığı ve kart raporu güncellenecektir. Aşağıda kayıtlı turnuva oyuncu listesi hazır beklemektedir.
             </div>
-            <div class="stat-card">
-                <div class="stat-header">🟥 Kart Raporu</div>
-                <table class="stat-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Oyuncu</th>
-                            <th style="text-align: center;">Kart</th>
-                            <tr>
-                            <td class="rank">1</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Sinan</span>
-                                    <span class="player-team">İşletme 1/2</span>
-                                </div>
-                            </td>
-                            <td class="stat-value">
-                                <span class="card-red"></span> 1
-                            </td>
-                        </tr>
-                            <tr>
-                            <td class="rank">2</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Alperen Gözüm</span>
-                                    <span class="player-team">Web Tasarım ve Kodlama</span>
-                                </div>
-                            </td>
-                            <td class="stat-value">
-                                <span class="card-yellow"></span> 1
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="rank">3</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Göktuğ Candan</span>
-                                    <span class="player-team">Web Tasarım ve Kodlama</span>
-                                </div>
-                            </td>
-                            <td class="stat-value">
-                                <span class="card-yellow"></span> 1
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="rank">4</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Enes Çakır</span>
-                                    <span class="player-team">Halkla İlişkiler 1</span>
-                                </div>
-                            </td>
-                            <td class="stat-value">
-                                <span class="card-yellow"></span> 1
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="rank">5</td>
-                            <td>
-                                <div class="player-info">
-                                    <span class="player-name">Serhat Yazıcı</span>
-                                    <span class="player-team">Web Tasarım ve Kodlama</span>
-                                </div>
-                            </td>
-                            <td class="stat-value">
-                                <span class="card-yellow"></span> 1
-                            </td>
-                        </tr>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                       
-                       
-                    
-                    </tbody>
-                </table>
-            </div>
-
         </div>
     </div>
 
+    <!-- İSTATİSTİKLER -->
+    <main class="stats-container">
+        
+        <!-- GOL KRALLIĞI KARTI -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-header-title">⚽ Gol Krallığı</span>
+                <span class="stat-header-badge">Sıfırlandı (0 Gol)</span>
+            </div>
+            <table class="stat-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Oyuncu</th>
+                        <th class="center">Gol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank">1</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Enes Çakır</span>
+                                <span class="player-team">Halkla İlişkiler 1</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">2</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Emirhan Sarıçam</span>
+                                <span class="player-team">İşletme 1/2</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">3</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Mahmut</span>
+                                <span class="player-team">Halkla İlişkiler 1</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">4</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Göktuğ Candan</span>
+                                <span class="player-team">Web Tasarım ve Kodlama</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">5</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Yiğit</span>
+                                <span class="player-team">İşletme 1/2</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">6</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Arda E.</span>
+                                <span class="player-team">Halkla İlişkiler 2</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">7</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Emre Bostancıoğlu</span>
+                                <span class="player-team">Halkla İlişkiler 2</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">8</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Aykut Çetinbaş</span>
+                                <span class="player-team">Maliye 1</span>
+                            </div>
+                        </td>
+                        <td class="stat-value goal">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- KART RAPORU KARTI -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-header-title">🟥 Kart Raporu</span>
+                <span class="stat-header-badge">Sıfırlandı (0 Kart)</span>
+            </div>
+            <table class="stat-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Oyuncu</th>
+                        <th class="center">Kart</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank">1</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Sinan</span>
+                                <span class="player-team">İşletme 1/2</span>
+                            </div>
+                        </td>
+                        <td class="stat-value">
+                            <div class="card-box">
+                                <span class="card-tag-red" title="Kırmızı Kart"></span> 0
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">2</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Alperen Gözüm</span>
+                                <span class="player-team">Web Tasarım ve Kodlama</span>
+                            </div>
+                        </td>
+                        <td class="stat-value">
+                            <div class="card-box">
+                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">3</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Göktuğ Candan</span>
+                                <span class="player-team">Web Tasarım ve Kodlama</span>
+                            </div>
+                        </td>
+                        <td class="stat-value">
+                            <div class="card-box">
+                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">4</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Enes Çakır</span>
+                                <span class="player-team">Halkla İlişkiler 1</span>
+                            </div>
+                        </td>
+                        <td class="stat-value">
+                            <div class="card-box">
+                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rank">5</td>
+                        <td>
+                            <div class="player-info">
+                                <span class="player-name">Serhat Yazıcı</span>
+                                <span class="player-team">Web Tasarım ve Kodlama</span>
+                            </div>
+                        </td>
+                        <td class="stat-value">
+                            <div class="card-box">
+                                <span class="card-tag-yellow" title="Sarı Kart"></span> 0
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- EKRANLA BİRLİKTE HAREKET EDEN SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
+    <!-- ETKİLEŞİM -->
     <script>
-        // Navbar ve Hamburger Menü İşlevleri
         document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.getElementById('hamburger-menu');
-            const sideMenu = document.getElementById('side-menu');
-
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                sideMenu.classList.toggle('active');
+            // Tema Değiştirme (Dark / Light Mode)
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', nextTheme);
+                localStorage.setItem('turnuva-theme', nextTheme);
             });
 
-            // Menü dışına tıklandığında menüyü kapat
-            document.addEventListener('click', (e) => {
-                if (!hamburger.contains(e.target) && !sideMenu.contains(e.target) && sideMenu.classList.contains('active')) {
-                    hamburger.classList.remove('active');
-                    sideMenu.classList.remove('active');
-                }
-            });
+            // Hamburger Menü
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            const drawerOverlay = document.getElementById('drawer-overlay');
+
+            const toggleDrawer = () => {
+                hamburgerBtn.classList.toggle('active');
+                mobileDrawer.classList.toggle('active');
+                drawerOverlay.classList.toggle('active');
+            };
+
+            hamburgerBtn.addEventListener('click', toggleDrawer);
+            drawerOverlay.addEventListener('click', toggleDrawer);
         });
     </script>
 </body>
