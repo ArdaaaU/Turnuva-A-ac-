@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="dark">
+<html lang="tr" data-theme="light">
 <head>
     <link rel="icon" href="logo.jpeg" />
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     <!-- Tema Flash Engelleme ve Mobil Cihaz Tespiti -->
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('turnuva-theme') || 'dark';
+            const savedTheme = localStorage.getItem('turnuva-theme-preference') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 document.documentElement.classList.add('is-mobile-device');
@@ -21,43 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* --- TEMA DEĞİŞKENLERİ --- */
-        :root, [data-theme="dark"] {
-            --bg-page: #0b0f19;
-            --bg-card: #131b2e;
-            --bg-card-hover: #19243d;
-            --bg-card-inner: #0d1322;
-            --border-subtle: #1e293b;
-            --border-highlight: #334155;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-dim: #64748b;
-            --gold: #f59e0b;
-            --gold-glow: rgba(245, 158, 11, 0.15);
-            --emerald: #10b981;
-            --emerald-soft: rgba(16, 185, 129, 0.08);
-            --emerald-border: rgba(16, 185, 129, 0.25);
-            --emerald-text: #d1fae5;
-            --red: #ef4444;
-            --navbar-bg: rgba(11, 15, 25, 0.88);
-            --header-bg: #172138;
-            --table-header-bg: #0e1424;
-            --table-border: rgba(30, 41, 59, 0.5);
-            --table-hover: rgba(255, 255, 255, 0.02);
-            --signature-bg: rgba(19, 27, 46, 0.88);
-            --signature-text: #94a3b8;
-            --signature-border: rgba(255, 255, 255, 0.1);
-            --drawer-bg: #0f1626;
-            --modal-bg: #131b2e;
-            --modal-overlay: rgba(0, 0, 0, 0.75);
-            --hero-title-grad: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        [data-theme="light"] {
+        :root, [data-theme="light"] {
             --bg-page: #f1f5f9;
             --bg-card: #ffffff;
             --bg-card-hover: #f8fafc;
@@ -87,6 +51,42 @@
             --modal-overlay: rgba(0, 0, 0, 0.5);
             --hero-title-grad: linear-gradient(180deg, #0f172a 0%, #334155 100%);
             --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0b0f19;
+            --bg-card: #131b2e;
+            --bg-card-hover: #19243d;
+            --bg-card-inner: #0d1322;
+            --border-subtle: #1e293b;
+            --border-highlight: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.15);
+            --emerald: #10b981;
+            --emerald-soft: rgba(16, 185, 129, 0.08);
+            --emerald-border: rgba(16, 185, 129, 0.25);
+            --emerald-text: #d1fae5;
+            --red: #ef4444;
+            --navbar-bg: rgba(11, 15, 25, 0.88);
+            --header-bg: #172138;
+            --table-header-bg: #0e1424;
+            --table-border: rgba(30, 41, 59, 0.5);
+            --table-hover: rgba(255, 255, 255, 0.02);
+            --signature-bg: rgba(19, 27, 46, 0.88);
+            --signature-text: #94a3b8;
+            --signature-border: rgba(255, 255, 255, 0.1);
+            --drawer-bg: #0f1626;
+            --modal-bg: #131b2e;
+            --modal-overlay: rgba(0, 0, 0, 0.75);
+            --hero-title-grad: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
         * {
@@ -1194,10 +1194,10 @@
             const themeToggleBtn = document.getElementById('theme-toggle');
             if (themeToggleBtn) {
                 themeToggleBtn.addEventListener('click', () => {
-                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
                     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
                     document.documentElement.setAttribute('data-theme', nextTheme);
-                    localStorage.setItem('turnuva-theme', nextTheme);
+                    localStorage.setItem('turnuva-theme-preference', nextTheme);
                 });
             }
 
