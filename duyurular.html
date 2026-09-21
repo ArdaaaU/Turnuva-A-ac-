@@ -954,10 +954,6 @@
                 <span>⚡ En Son Güncelleme:</span>
                 <strong id="last-update-badge">-</strong>
             </div>
-            <div class="stat-pill" id="cloud-status-pill" style="display: none;">
-                <span>☁️ Bulut:</span>
-                <strong style="color: var(--emerald);">Supabase Aktif</strong>
-            </div>
         </div>
     </section>
 
@@ -1602,16 +1598,6 @@
             // Başlangıç Yüklemesi
             updateAdminUI();
             renderAnnouncements();
-
-            // Supabase Bulut Durumunu Göster
-            function updateCloudPill() {
-                if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-                    const cloudPill = document.getElementById('cloud-status-pill');
-                    if (cloudPill) cloudPill.style.display = 'inline-flex';
-                }
-            }
-            updateCloudPill();
-            window.addEventListener('turnuva_announcements_updated', updateCloudPill);
         });
     </script>
 </body>
