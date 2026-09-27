@@ -139,7 +139,7 @@ graph LR
 > Yönetici paneli butonları telefon ekranlarında güvenlik ve kullanım kolaylığı amacıyla **gizlenmiştir**. Yönetim işlemleri için siteye **bilgisayar (masaüstü / dizüstü)** üzerinden giriş yapınız.
 
 1. **Giriş:** Üst barda yer alan `🔒 Yönetici Girişi` butonuna tıklayın.
-2. **Doğrulama:** Açılan pencerede yönetici şifresini girin (Varsayılan PIN: `3519`).
+2. **Doğrulama:** Açılan pencerede yönetici şifresini girin.
 3. **Turnuva Ağacı Yönetimi (`index.html`):**
    - Ön eleme, yarı final ve final maçlarının skorlarını girin.
    - Durumunu `Bekleniyor`, `🔴 Canlı` veya `✅ Tamamlandı` olarak belirleyin.
