@@ -536,6 +536,151 @@ async function initStandingsDataSync(onDataLoadedCallback) {
 }
 
 /**
+ * Takım ismini standartlaştırıp 5 resmi takımdan biriyle eşleştirir
+ */
+function findCanonicalTournamentTeam(inputName) {
+    if (!inputName || typeof inputName !== 'string') return null;
+    const clean = inputName
+        .toLowerCase()
+        .replace(/[-_\s]/g, '')
+        .replace(/i̇/g, 'i')
+        .replace(/ı/g, 'i')
+        .replace(/ö/g, 'o')
+        .replace(/ü/g, 'u')
+        .replace(/ş/g, 's')
+        .replace(/ç/g, 'c')
+        .replace(/ğ/g, 'g')
+        .trim();
+
+    if (clean === 'hit2') return 'hit-2';
+    if (clean === 'wtk2') return 'wtk-2';
+    if (clean === 'hit1') return 'hit-1';
+    if (clean.includes('maliye') || clean === 'maliyeisletme2') return 'maliye isletme -2';
+    if (clean.includes('mekan') || clean === 'icmekantasarim2') return 'ic mekan tasarim-2';
+
+    return null;
+}
+
+/**
+ * Turnuva maç skorlarından Puan Durumunu (O, G, B, M, Av, Puan) otomatik hesaplar.
+ * @param {Object} tournamentData - fikstur.js formatındaki turnuva ağacı verisi
+ * @returns {Object} { standings: Array, matchesProcessed: number, details: Array }
+ */
+function calculateStandingsFromTournamentMatches(tournamentData) {
+    if (!tournamentData) return { standings: cloneObject(DEFAULT_STANDINGS), matchesProcessed: 0, details: [] };
+
+    // 5 Resmi Takım için başlangıç tablosu
+    const tableMap = {
+        "hit-2": { id: "t-hit2", name: "hit-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 },
+        "wtk-2": { id: "t-wtk2", name: "wtk-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 },
+        "hit-1": { id: "t-hit1", name: "hit-1", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 },
+        "maliye isletme -2": { id: "t-maliye2", name: "maliye isletme -2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 },
+        "ic mekan tasarim-2": { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 }
+    };
+
+    // Tüm maçları topla
+    const allMatches = [];
+    if (Array.isArray(tournamentData.quarters)) {
+        allMatches.push(...tournamentData.quarters);
+    } else if (tournamentData.quarter) {
+        allMatches.push(tournamentData.quarter);
+    }
+
+    if (Array.isArray(tournamentData.semis)) {
+        allMatches.push(...tournamentData.semis);
+    }
+
+    if (tournamentData.final) {
+        allMatches.push(tournamentData.final);
+    }
+
+    let matchesProcessed = 0;
+    const details = [];
+
+    allMatches.forEach(m => {
+        if (!m) return;
+        const team1 = findCanonicalTournamentTeam(m.team1);
+        const team2 = findCanonicalTournamentTeam(m.team2);
+
+        // Her iki takım da 5 resmi takımdan biri olmalı (Örn: "Ön Eleme 1 Galibi" gibi yer tutucular hariç tutulur)
+        if (!team1 || !team2 || team1 === team2) return;
+
+        const s1Raw = m.score1;
+        const s2Raw = m.score2;
+
+        if (s1Raw === null || s1Raw === undefined || s1Raw === '' ||
+            s2Raw === null || s2Raw === undefined || s2Raw === '') {
+            return;
+        }
+
+        const s1 = parseInt(s1Raw, 10);
+        const s2 = parseInt(s2Raw, 10);
+
+        if (isNaN(s1) || isNaN(s2) || s1 < 0 || s2 < 0) {
+            return;
+        }
+
+        // Maç geçerli ve skor girilmiş
+        const t1 = tableMap[team1];
+        const t2 = tableMap[team2];
+
+        t1.o += 1;
+        t2.o += 1;
+        t1.ag += s1;
+        t1.yg += s2;
+        t2.ag += s2;
+        t2.yg += s1;
+        t1.av = t1.ag - t1.yg;
+        t2.av = t2.ag - t2.yg;
+
+        if (s1 > s2) {
+            t1.g += 1;
+            t1.p += 3;
+            t2.m += 1;
+            details.push(`${team1} ${s1}-${s2} ${team2} (${team1} galip)`);
+        } else if (s2 > s1) {
+            t2.g += 1;
+            t2.p += 3;
+            t1.m += 1;
+            details.push(`${team1} ${s1}-${s2} ${team2} (${team2} galip)`);
+        } else {
+            t1.b += 1;
+            t1.p += 1;
+            t2.b += 1;
+            t2.p += 1;
+            details.push(`${team1} ${s1}-${s2} ${team2} (Beraberlik)`);
+        }
+
+        matchesProcessed += 1;
+    });
+
+    const standings = Object.values(tableMap).map(team => ({
+        id: team.id,
+        name: team.name,
+        o: team.o,
+        g: team.g,
+        b: team.b,
+        m: team.m,
+        av: team.av,
+        p: team.p
+    }));
+
+    return { standings, matchesProcessed, details };
+}
+
+/**
+ * Verilen maç skorlarından puan tablosunu doğrudan kaydeder ve bulut ile eşitler
+ */
+async function syncStandingsFromTournamentMatches(tournamentData, syncToCloud = true) {
+    const calc = calculateStandingsFromTournamentMatches(tournamentData);
+    const saveRes = await saveStandingsData(calc.standings, syncToCloud);
+    return {
+        ...calc,
+        ...saveRes
+    };
+}
+
+/**
  * Puan Durumunu Sırala:
  * 1. Puan (p) - Azalan
  * 2. Averaj (av) - Azalan

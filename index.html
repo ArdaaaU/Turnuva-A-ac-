@@ -1729,6 +1729,25 @@
                     </div>
                 </div>
 
+                <!-- 5. SKORLARI PUAN DURUMUNA OTOMATİK AKTAR KARTI -->
+                <div class="admin-section-box" style="border-color: rgba(59, 130, 246, 0.45); background: rgba(59, 130, 246, 0.05); margin-top: 14px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <div style="font-weight: 800; font-size: 13.5px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                                <span>📊 Skorları Puan Durumuna Otomatik Aktar</span>
+                                <span style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.35);">⚡ Akıllı Eşitleme</span>
+                            </div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                                Girdiğiniz maç skorlarına göre galibiyet, beraberlik, mağlubiyet, averaj ve puanları otomatik hesaplayıp <strong>İstatistikler</strong> sayfasındaki puan tablosuna işler.
+                            </div>
+                            <div id="standings-sync-status-msg" style="font-size: 12px; font-weight: 700; color: var(--emerald); margin-top: 6px; display: none;"></div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btn-sync-scores-to-standings" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-color: #3b82f6; font-weight: 800; font-size: 13px; padding: 10px 18px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;">
+                            <span>⚡ Skorları Puan Tablosuna Aktar</span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
             <div class="admin-modal-footer">
@@ -1761,6 +1780,9 @@
 
     <!-- FİKSTÜR VE AĞAÇ VERİ YÖNETİMİ -->
     <script src="fikstur.js"></script>
+
+    <!-- İSTATİSTİK VE PUAN DURUMU YÖNETİMİ -->
+    <script src="istatistik.js"></script>
 
     <!-- ETKİLEŞİM VE İŞ MANTIĞI -->
     <script>
@@ -2570,6 +2592,50 @@
                 }
             }
 
+            // 8. SKORLARI PUAN DURUMUNA OTOMATİK AKTAR
+            const btnSyncScoresToStandings = document.getElementById('btn-sync-scores-to-standings');
+            const standingsSyncStatusMsg = document.getElementById('standings-sync-status-msg');
+
+            if (btnSyncScoresToStandings) {
+                btnSyncScoresToStandings.addEventListener('click', async () => {
+                    readAdminInputsIntoMemory();
+                    const originalBtnText = btnSyncScoresToStandings.innerHTML;
+                    btnSyncScoresToStandings.disabled = true;
+                    btnSyncScoresToStandings.innerHTML = '⏳ Hesaplanıyor & Aktarılıyor...';
+
+                    try {
+                        if (typeof syncStandingsFromTournamentMatches !== 'function') {
+                            showToast('İstatistik modülü yüklenemedi.', '❌');
+                            return;
+                        }
+
+                        const result = await syncStandingsFromTournamentMatches(currentEditingTournament, true);
+                        if (result.matchesProcessed > 0) {
+                            const detailsStr = result.details.join(', ');
+                            showToast(`📊 ${result.matchesProcessed} maç puan tablosuna aktarıldı!`, '✅');
+                            if (standingsSyncStatusMsg) {
+                                standingsSyncStatusMsg.style.display = 'block';
+                                standingsSyncStatusMsg.style.color = 'var(--emerald)';
+                                standingsSyncStatusMsg.innerHTML = `✅ ${result.matchesProcessed} maç puan tablosuna işlendi: <em>${escapeHtml(detailsStr)}</em>. Puan durumu güncellendi ve eşitlendi!`;
+                            }
+                        } else {
+                            showToast('Skor girilmiş resmi bir maç bulunamadı. Lütfen maç skorlarını yazınız.', '⚠️');
+                            if (standingsSyncStatusMsg) {
+                                standingsSyncStatusMsg.style.display = 'block';
+                                standingsSyncStatusMsg.style.color = 'var(--gold)';
+                                standingsSyncStatusMsg.innerHTML = `⚠️ Henüz skor girilmiş maç bulunmuyor. Maçların skor kutucuklarına sayı yazıp tekrar tıklayınız.`;
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Puan durumu aktarma hatası:', err);
+                        showToast('Puan tablosu aktarılırken hata oluştu.', '❌');
+                    } finally {
+                        btnSyncScoresToStandings.disabled = false;
+                        btnSyncScoresToStandings.innerHTML = originalBtnText;
+                    }
+                });
+            }
+
             // DEĞİŞİKLİKLERİ KAYDET & BULUTA YAYINLA
             if (saveTournamentBtn) {
                 saveTournamentBtn.addEventListener('click', async () => {
@@ -2582,6 +2648,11 @@
                         const result = await saveTournamentData(currentEditingTournament, true);
                         renderAllTournamentViews(currentEditingTournament);
                         adminModal.classList.remove('active');
+
+                        // Skorlar girilmişse puan durumunu da otomatik güncel tut
+                        if (typeof syncStandingsFromTournamentMatches === 'function') {
+                            syncStandingsFromTournamentMatches(currentEditingTournament, true).catch(() => {});
+                        }
 
                         if (result && result.cloudSynced) {
                             showToast('Turnuva ağacı kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
