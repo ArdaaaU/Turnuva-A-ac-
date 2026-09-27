@@ -1,30 +1,88 @@
 /**
- * Turnuva Oyuncu ve İstatistik Yönetim Modülü (istatistik.js)
- * Gol krallığı, sarı ve kırmızı kart istatistiklerini yönetir.
+ * Turnuva Oyuncu, Takım ve İstatistik Yönetim Modülü (istatistik.js)
+ * Tekli Genel Puan Durumu, Gol Krallığı ve Takım Kadrolarını yönetir.
  * Yerel önbellek (LocalStorage) ve çift yönlü bulut (Supabase) senkronizasyonunu destekler.
  */
 
-// Varsayılan Oyuncu Listesi (Turnuvaya kayıtlı başlangıç verileri)
-const DEFAULT_PLAYERS = [
-    { id: "p-1", name: "Enes Çakır", team: "Halkla İlişkiler 1", goals: 0, yellowCards: 1, redCards: 0 },
-    { id: "p-2", name: "Emirhan Sarıçam", team: "İşletme 1/2", goals: 0, yellowCards: 0, redCards: 0 },
-    { id: "p-3", name: "Mahmut", team: "Halkla İlişkiler 1", goals: 0, yellowCards: 0, redCards: 0 },
-    { id: "p-4", name: "Göktuğ Candan", team: "Web Tasarım ve Kodlama", goals: 0, yellowCards: 1, redCards: 0 },
-    { id: "p-5", name: "Yiğit", team: "İşletme 1/2", goals: 0, yellowCards: 0, redCards: 0 },
-    { id: "p-6", name: "Arda E.", team: "Halkla İlişkiler 2", goals: 0, yellowCards: 0, redCards: 0 },
-    { id: "p-7", name: "Emre Bostancıoğlu", team: "Halkla İlişkiler 2", goals: 0, yellowCards: 0, redCards: 0 },
-    { id: "p-8", name: "Aykut Çetinbaş", team: "Maliye 1", goals: 0, yellowCards: 0, redCards: 0 },
-    { id: "p-9", name: "Sinan", team: "İşletme 1/2", goals: 0, yellowCards: 0, redCards: 1 },
-    { id: "p-10", name: "Alperen Gözüm", team: "Web Tasarım ve Kodlama", goals: 0, yellowCards: 1, redCards: 0 },
-    { id: "p-11", name: "Serhat Yazıcı", team: "Web Tasarım ve Kodlama", goals: 0, yellowCards: 1, redCards: 0 }
+// Varsayılan Takım Kadroları (Kullanıcı tarafından belirlenen kesin liste)
+const DEFAULT_TEAMS_ROSTER = {
+    "hit-2": [
+        "aykut",
+        "gazi",
+        "mahmut",
+        "cakir",
+        "ibo",
+        "mertcan"
+    ],
+    "wtk-2": [
+        "alpi",
+        "serhat",
+        "mehmet acar",
+        "oguzhan",
+        "sihir",
+        "kurtmehmet",
+        "ali",
+        "goktug"
+    ],
+    "hit-1": [
+        "can",
+        "semih",
+        "tunc",
+        "baris",
+        "enes",
+        "davut",
+        "bilal",
+        "arda"
+    ],
+    "maliye isletme -2": [
+        "burak",
+        "emirhan",
+        "umut",
+        "toprak",
+        "emir",
+        "burak kus",
+        "yigit",
+        "mert"
+    ],
+    "ic mekan tasarim-2": [
+        "enes",
+        "ahmethan",
+        "sadik",
+        "samet"
+    ]
+};
+
+// Takım Kadrolarından Başlangıç Oyuncu Listesini Oluştur
+const DEFAULT_PLAYERS = [];
+let _pCounter = 1;
+for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
+    playerNames.forEach(pName => {
+        DEFAULT_PLAYERS.push({
+            id: `p-${_pCounter++}`,
+            name: pName,
+            team: teamName,
+            goals: 0
+        });
+    });
+}
+
+// Varsayılan Tekli Genel Puan Durumu (Grup ayrımı yok, tüm takımlar tek tabloda)
+const DEFAULT_STANDINGS = [
+    { id: "t-hit2", name: "hit-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 },
+    { id: "t-wtk2", name: "wtk-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 },
+    { id: "t-hit1", name: "hit-1", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 },
+    { id: "t-maliye2", name: "maliye isletme -2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 },
+    { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v1';
+const STATS_STORAGE_KEY = 'turnuva_stats_v2';
+const STANDINGS_STORAGE_KEY = 'turnuva_standings_v2';
 const STATS_ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 const STATS_DEFAULT_PIN = '3519';
 
 let _statsRealtimeSubscribed = false;
+let _standingsRealtimeSubscribed = false;
 
 /**
  * Derin kopya alma yardımcısı
@@ -32,6 +90,10 @@ let _statsRealtimeSubscribed = false;
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
+
+// ============================================================
+// 1. OYUNCU VE GOL VERİLERİ (LOCALSTORAGE & SUPABASE)
+// ============================================================
 
 /**
  * Oyuncu listesini getir (Önbellekten veya varsayılandan)
@@ -58,7 +120,7 @@ function getPlayersData() {
  * Oyuncu verilerini kaydet (LocalStorage + Supabase Çift Katmanlı Bulut Yedekleme)
  */
 async function savePlayersData(playersList, syncToCloud = true) {
-    // 1. Yerel önbelleğe her zaman kaydet
+    // 1. Yerel önbelleğe kaydet
     try {
         localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(playersList));
         window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: playersList } }));
@@ -96,13 +158,10 @@ async function savePlayersData(playersList, syncToCloud = true) {
         if (!sError) {
             cloudSynced = true;
             cloudTarget = 'turnuva_istatistik';
-            console.log('İstatistik verisi turnuva_istatistik tablosuna kaydedildi.');
         } else {
-            console.warn('turnuva_istatistik tablosu bulunamadı, yedek sistem tablosuna yönlendiriliyor:', sError.message || sError);
             lastError = sError;
         }
     } catch (e) {
-        console.warn('turnuva_istatistik istisnası:', e);
         lastError = e;
     }
 
@@ -111,7 +170,7 @@ async function savePlayersData(playersList, syncToCloud = true) {
         try {
             const systemPayload = {
                 id: 'system-turnuva-istatistik',
-                title: 'SYSTEM_TOURNAMENT_STATS_v1',
+                title: 'SYSTEM_TOURNAMENT_STATS_v2',
                 category: 'system',
                 category_label: 'Sistem İstatistik Verisi',
                 date: new Date().toISOString(),
@@ -128,23 +187,15 @@ async function savePlayersData(playersList, syncToCloud = true) {
             if (!dError) {
                 cloudSynced = true;
                 cloudTarget = 'duyurular (yedek sistem depolama)';
-                console.log('İstatistik verisi Supabase bulutuna sistem kaydı olarak aktarıldı.');
             } else {
-                console.error('Yedek sistem tablosuna da yazılamadı:', dError);
                 lastError = dError;
             }
         } catch (dErr) {
-            console.error('Yedek bulut kaydetme istisnası:', dErr);
             lastError = dErr;
         }
     }
 
-    return {
-        success: true,
-        cloudSynced: cloudSynced,
-        cloudTarget: cloudTarget,
-        error: lastError
-    };
+    return { success: true, cloudSynced, cloudTarget, error: lastError };
 }
 
 /**
@@ -155,10 +206,8 @@ async function addPlayer(playerObj, syncToCloud = true) {
     const newPlayer = {
         id: 'p-' + Date.now(),
         name: playerObj.name ? playerObj.name.trim() : 'İsimsiz Oyuncu',
-        team: playerObj.team ? playerObj.team.trim() : 'Takımsız',
-        goals: Math.max(0, parseInt(playerObj.goals, 10) || 0),
-        yellowCards: Math.max(0, parseInt(playerObj.yellowCards, 10) || 0),
-        redCards: Math.max(0, parseInt(playerObj.redCards, 10) || 0)
+        team: playerObj.team ? playerObj.team.trim() : 'hit-2',
+        goals: Math.max(0, parseInt(playerObj.goals, 10) || 0)
     };
 
     list.push(newPlayer);
@@ -205,7 +254,7 @@ async function fetchPlayersCloudData() {
             return data.data;
         }
     } catch (err) {
-        console.warn('turnuva_istatistik tablosu sorgulanamadı:', err);
+        console.warn('turnuva_istatistik sorgulanamadı:', err);
     }
 
     // 2. Yoksa duyurular tablosundaki sistem kaydını kontrol et
@@ -250,10 +299,8 @@ async function initPlayersDataSync(onDataLoadedCallback) {
         console.warn('İstatistik bulut verisi çekilemedi:', err);
     }
 
-    // Realtime Dinleme (İki kanalı da dinle)
     if (!_statsRealtimeSubscribed) {
         try {
-            // 1. turnuva_istatistik tablosu
             client
                 .channel('realtime_turnuva_istatistik')
                 .on(
@@ -271,7 +318,6 @@ async function initPlayersDataSync(onDataLoadedCallback) {
                 )
                 .subscribe();
 
-            // 2. duyurular tablosundaki sistem kaydı
             client
                 .channel('realtime_duyurular_istatistik')
                 .on(
@@ -294,7 +340,7 @@ async function initPlayersDataSync(onDataLoadedCallback) {
                         }
                     }
                 )
-                .subscribe((status) => {
+                .subscribe(status => {
                     if (status === 'SUBSCRIBED') {
                         _statsRealtimeSubscribed = true;
                     }
@@ -305,8 +351,196 @@ async function initPlayersDataSync(onDataLoadedCallback) {
     }
 }
 
+// ============================================================
+// 2. PUAN DURUMU YÖNETİMİ (TEK TABLO, GRUP AYRIMI YOK)
+// ============================================================
+
 /**
- * Gol Krallığı Sıralaması (Gol sayısına göre azalan, isim alfabetik)
+ * Puan durumu verilerini getir (LocalStorage veya varsayılan)
+ */
+function getStandingsData() {
+    try {
+        const stored = localStorage.getItem(STANDINGS_STORAGE_KEY);
+        if (stored !== null) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                return parsed;
+            }
+        }
+    } catch (e) {
+        console.warn('Puan durumu okunamadı:', e);
+    }
+
+    const defaultData = cloneObject(DEFAULT_STANDINGS);
+    saveStandingsData(defaultData, false);
+    return defaultData;
+}
+
+/**
+ * Puan durumu verilerini kaydet (LocalStorage + Supabase)
+ */
+async function saveStandingsData(standingsList, syncToCloud = true) {
+    try {
+        localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(standingsList));
+        window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: standingsList } }));
+    } catch (e) {
+        console.error('Puan durumu yerel kaydedilemedi:', e);
+    }
+
+    if (!syncToCloud) {
+        return { success: true, cloudSynced: false };
+    }
+
+    if (typeof getSupabaseClient !== 'function') return { success: true, cloudSynced: false };
+    const client = getSupabaseClient();
+    if (!client) return { success: true, cloudSynced: false };
+
+    let cloudSynced = false;
+    try {
+        const systemPayload = {
+            id: 'system-turnuva-standings',
+            title: 'SYSTEM_TOURNAMENT_STANDINGS_v2',
+            category: 'system',
+            category_label: 'Sistem Puan Durumu',
+            date: new Date().toISOString(),
+            author: 'System',
+            pinned: false,
+            summary: 'Tek Tablolu Puan Durumu Veritabanı Kaydı',
+            content: JSON.stringify(standingsList)
+        };
+
+        const { error } = await client.from('duyurular').upsert(systemPayload);
+        if (!error) cloudSynced = true;
+    } catch (err) {
+        console.warn('Puan durumu bulut kayıt istisnası:', err);
+    }
+
+    return { success: true, cloudSynced };
+}
+
+/**
+ * Puan durumunu varsayılana sıfırla
+ */
+async function resetStandingsData() {
+    const defaultData = cloneObject(DEFAULT_STANDINGS);
+    await saveStandingsData(defaultData, true);
+    return defaultData;
+}
+
+/**
+ * Buluttan puan durumunu çek
+ */
+async function fetchStandingsCloudData() {
+    if (typeof getSupabaseClient !== 'function') return null;
+    const client = getSupabaseClient();
+    if (!client) return null;
+
+    try {
+        const { data, error } = await client
+            .from('duyurular')
+            .select('content')
+            .eq('id', 'system-turnuva-standings')
+            .maybeSingle();
+
+        if (!error && data && data.content) {
+            const parsed = JSON.parse(data.content);
+            if (Array.isArray(parsed)) return parsed;
+        }
+    } catch (e) {
+        console.warn('Puan durumu buluttan alınamadı:', e);
+    }
+    return null;
+}
+
+/**
+ * Puan Durumu Realtime Dinleme
+ */
+async function initStandingsDataSync(onDataLoadedCallback) {
+    if (typeof getSupabaseClient !== 'function') return;
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    try {
+        const cloudData = await fetchStandingsCloudData();
+        if (cloudData && Array.isArray(cloudData)) {
+            localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(cloudData));
+            window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: cloudData } }));
+            if (typeof onDataLoadedCallback === 'function') {
+                onDataLoadedCallback(cloudData);
+            }
+        }
+    } catch (err) {
+        console.warn('Puan durumu ilk yükleme hatası:', err);
+    }
+
+    if (!_standingsRealtimeSubscribed) {
+        try {
+            client
+                .channel('realtime_duyurular_standings')
+                .on(
+                    'postgres_changes',
+                    { event: '*', schema: 'public', table: 'duyurular', filter: 'id=eq.system-turnuva-standings' },
+                    payload => {
+                        if (payload.new && payload.new.content) {
+                            try {
+                                const parsed = JSON.parse(payload.new.content);
+                                if (Array.isArray(parsed)) {
+                                    localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(parsed));
+                                    window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: parsed } }));
+                                    if (typeof onDataLoadedCallback === 'function') {
+                                        onDataLoadedCallback(parsed);
+                                    }
+                                }
+                            } catch (e) {
+                                console.warn('Realtime standings parse hatası:', e);
+                            }
+                        }
+                    }
+                )
+                .subscribe(status => {
+                    if (status === 'SUBSCRIBED') {
+                        _standingsRealtimeSubscribed = true;
+                    }
+                });
+        } catch (rtErr) {
+            console.warn('Realtime standings başlatılamadı:', rtErr);
+        }
+    }
+}
+
+/**
+ * Puan Durumunu Sırala:
+ * 1. Puan (p) - Azalan
+ * 2. Averaj (av) - Azalan
+ * 3. Galibiyet (g) - Azalan
+ * 4. Takım Adı - Alfabetik
+ */
+function getSortedStandings(standingsList) {
+    const list = standingsList || getStandingsData();
+    const sorted = [...list].sort((a, b) => {
+        const pa = parseInt(a.p, 10) || 0;
+        const pb = parseInt(b.p, 10) || 0;
+        if (pb !== pa) return pb - pa;
+
+        const ava = parseInt(a.av, 10) || 0;
+        const avb = parseInt(b.av, 10) || 0;
+        if (avb !== ava) return avb - ava;
+
+        const ga = parseInt(a.g, 10) || 0;
+        const gb = parseInt(b.g, 10) || 0;
+        if (gb !== ga) return gb - ga;
+
+        return a.name.localeCompare(b.name, 'tr');
+    });
+    return sorted;
+}
+
+// ============================================================
+// 3. GOL KRALLIĞI VE TAKIM KADROLARI YARDIMCILARI
+// ============================================================
+
+/**
+ * Gol Krallığı Sıralaması
  */
 function getTopScorers(playersList) {
     const list = playersList || getPlayersData();
@@ -320,26 +554,32 @@ function getTopScorers(playersList) {
 }
 
 /**
- * Kart Raporu Sıralaması (Kırmızı kart * 2 + Sarı kart sayısına göre azalan)
+ * Takım isimlerini dizi olarak getir
  */
-function getCardReports(playersList) {
-    const list = playersList || getPlayersData();
-    // En az 1 sarı veya kırmızı kartı olanları filtrele
-    const cardHolders = list.filter(p => (parseInt(p.yellowCards, 10) > 0) || (parseInt(p.redCards, 10) > 0));
-    
-    cardHolders.sort((a, b) => {
-        const scoreA = (parseInt(a.redCards, 10) || 0) * 2 + (parseInt(a.yellowCards, 10) || 0);
-        const scoreB = (parseInt(b.redCards, 10) || 0) * 2 + (parseInt(b.yellowCards, 10) || 0);
-        if (scoreB !== scoreA) return scoreB - scoreA;
-        return a.name.localeCompare(b.name, 'tr');
-    });
-
-    return cardHolders;
+function getTournamentTeams() {
+    return Object.keys(DEFAULT_TEAMS_ROSTER);
 }
 
 /**
- * Yönetici PIN Doğrulama Yardımcıları (Ortak anahtar turnuva_admin_pin kullanır)
+ * Belirli bir takımın oyuncularını güncel gol sayılarıyla getir
  */
+function getTeamSquad(teamName, playersList) {
+    const list = playersList || getPlayersData();
+    const roster = list.filter(p => p.team && p.team.toLowerCase().trim() === teamName.toLowerCase().trim());
+    return roster;
+}
+
+/**
+ * Geriye dönük uyumluluk için (kart kaldırıldığı için boş dizi döner)
+ */
+function getCardReports() {
+    return [];
+}
+
+// ============================================================
+// 4. YÖNETİCİ PIN DOĞRULAMA YARDIMCILARI
+// ============================================================
+
 function getAdminPIN() {
     const savedPin = localStorage.getItem(STATS_ADMIN_PIN_KEY);
     if (!savedPin || savedPin === '1234') {
@@ -366,9 +606,11 @@ function logoutAdmin() {
     sessionStorage.removeItem(STATS_ADMIN_AUTH_KEY);
 }
 
-// Sayfa Açıldığında İstatistik Senkronizasyonunu Otomatik Başlat (Retry mekanizmasıyla)
+// ============================================================
+// 5. SAYFA BAŞLATICISI
+// ============================================================
 if (typeof window !== 'undefined') {
-    const autoInitStats = (retries = 15) => {
+    const autoInitAll = (retries = 15) => {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
             const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
             if (client) {
@@ -377,15 +619,20 @@ if (typeof window !== 'undefined') {
                         renderAllStatsViews(cloudData);
                     }
                 });
+                initStandingsDataSync((cloudStandings) => {
+                    if (typeof renderStandingsTable === 'function') {
+                        renderStandingsTable(cloudStandings);
+                    }
+                });
             } else if (retries > 0) {
-                setTimeout(() => autoInitStats(retries - 1), 150);
+                setTimeout(() => autoInitAll(retries - 1), 150);
             }
         }
     };
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => autoInitStats());
+        document.addEventListener('DOMContentLoaded', () => autoInitAll());
     } else {
-        autoInitStats();
+        autoInitAll();
     }
 }
