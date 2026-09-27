@@ -527,62 +527,200 @@
             }
         }
 
-        /* --- TAKIMLAR SEÇİCİ VE KADRO TABLOSU --- */
-        .teams-selector-bar {
-            padding: 14px 18px;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--border-subtle);
+        /* --- TAKIMLAR GENİŞLEYEBİLEN TABLO (ACCORDION TABLE) --- */
+        .teams-expandable-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        .team-expand-row {
+            cursor: pointer;
+            transition: background-color 0.18s ease;
+            user-select: none;
+        }
+
+        .team-expand-row:hover {
+            background-color: var(--table-hover);
+        }
+
+        .team-expand-row.expanded {
+            background-color: var(--gold-soft);
+        }
+
+        .team-title-cell {
             display: flex;
             align-items: center;
-            gap: 8px;
-            overflow-x: auto;
-            scrollbar-width: none;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--text-main);
         }
-        .teams-selector-bar::-webkit-scrollbar { display: none; }
 
-        .team-chip-btn {
+        .team-num-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: var(--bg-card-inner);
+            font-weight: 800;
+            font-size: 12px;
+            color: var(--text-dim);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .roster-count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-dim);
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        .team-expand-row.expanded .roster-count-badge {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-glow);
+        }
+
+        .expand-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
             color: var(--text-muted);
             font-family: inherit;
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 700;
-            padding: 8px 14px;
-            border-radius: 20px;
+            padding: 5px 12px;
+            border-radius: 6px;
             cursor: pointer;
             transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            flex-shrink: 0;
         }
 
-        .team-chip-btn:hover {
-            color: var(--text-main);
-            border-color: var(--border-highlight);
-            transform: translateY(-1px);
+        .team-expand-row:hover .expand-action-btn {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        .team-chip-btn.active {
+        .team-expand-row.expanded .expand-action-btn {
             background: var(--gold-glow);
             border-color: var(--gold);
             color: var(--gold);
-            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.15);
         }
 
-        .team-chip-count {
-            background: var(--bg-card-inner);
-            padding: 1px 6px;
-            border-radius: 10px;
-            font-size: 11px;
+        .chevron-icon {
+            font-size: 10px;
+            transition: transform 0.25s ease;
+            display: inline-block;
+        }
+
+        .chevron-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .expand-all-btn {
+            background: var(--bg-card);
             border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .expand-all-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        .team-chip-btn.active .team-chip-count {
-            background: var(--gold);
-            color: #ffffff;
-            border-color: var(--gold);
+        /* Collapsible subpanel row */
+        .team-subpanel-row {
+            display: none;
+        }
+
+        .team-subpanel-row.active {
+            display: table-row;
+        }
+
+        .subpanel-cell {
+            padding: 0 !important;
+            background: var(--bg-card-inner);
+            border-bottom: 2px solid var(--border-subtle) !important;
+        }
+
+        .subpanel-wrapper {
+            padding: 14px 18px 18px 18px;
+            animation: slideDownFade 0.22s ease-out;
+        }
+
+        @keyframes slideDownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subpanel-header-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            padding-left: 2px;
+        }
+
+        .nested-squad-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .nested-squad-table th {
+            background: var(--header-bg);
+            color: var(--text-dim);
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nested-squad-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--table-border);
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .nested-squad-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .nested-squad-table tr:hover td {
+            background: var(--table-hover);
         }
 
         .squad-search-bar {
@@ -593,6 +731,7 @@
             gap: 12px;
             border-bottom: 1px solid var(--table-border);
             background: var(--bg-card-inner);
+            flex-wrap: wrap;
         }
 
         .squad-search-input {
@@ -609,15 +748,6 @@
         }
         .squad-search-input:focus {
             border-color: var(--blue);
-        }
-
-        .squad-active-header {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .squad-player-badge {
@@ -993,40 +1123,41 @@
                 </div>
             </div>
 
-            <!-- TAKIMLAR VE TIKLANAN TAKIMIN OYUNCU KADROSU -->
+            <!-- TAKIMLAR VE TIKLANDIĞINDA AŞAĞI DOĞRU GENİŞLEYEN OYUNCU KADROSU TABLOSU -->
             <div class="stat-card" id="teams-squad-card">
-                <div class="stat-header">
-                    <span class="stat-header-title">🛡️ Takımlar & Kadrolar</span>
-                    <span class="stat-header-badge" id="teams-badge-info">5 Takım • 32 Oyuncu</span>
-                </div>
-
-                <!-- TAKIM SEÇİCİ BUTONLAR -->
-                <div class="teams-selector-bar" id="teams-selector-container">
-                    <!-- Dinamik Takım Butonları (hit-2, wtk-2, hit-1, maliye isletme -2, ic mekan tasarim-2) -->
-                </div>
-
-                <!-- KADRO ARAMA VE SEÇİLİ TAKIM BİLGİSİ -->
-                <div class="squad-search-bar">
-                    <div class="squad-active-header">
-                        <span id="active-team-name-label">hit-2</span>
-                        <span class="squad-player-badge" id="active-team-count-label">6 Oyuncu</span>
+                <div class="stat-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="stat-header-title">🛡️ Takımlar & Oyuncu Kadroları</span>
+                        <span class="stat-header-badge" id="teams-badge-info">5 Takım • 34 Oyuncu</span>
                     </div>
-                    <input type="text" id="squad-search-input" class="squad-search-input" placeholder="🔍 Oyuncu ara...">
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <button type="button" class="expand-all-btn" id="btn-expand-all" title="Tüm Kadroları Aç">📂 Tümünü Aç</button>
+                        <button type="button" class="expand-all-btn" id="btn-collapse-all" title="Tüm Kadroları Kapat">📁 Tümünü Kapat</button>
+                    </div>
                 </div>
 
-                <!-- OYUNCU KADROSU TABLOSU -->
+                <!-- KADRO ARAMA VE BİLGİ ŞERİDİ -->
+                <div class="squad-search-bar">
+                    <div style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">
+                        <span>💡</span>
+                        <span>Oyuncuları görmek için takım satırına tıklayabilirsiniz.</span>
+                    </div>
+                    <input type="text" id="squad-search-input" class="squad-search-input" placeholder="🔍 Oyuncu veya takım ara...">
+                </div>
+
+                <!-- GENİŞLEYEBİLEN TAKIMLAR TABLOSU -->
                 <div class="stat-table-responsive">
-                    <table class="stat-table">
+                    <table class="teams-expandable-table">
                         <thead>
                             <tr>
                                 <th style="width: 45px;" class="center">#</th>
-                                <th>Oyuncu Adı</th>
-                                <th>Takım</th>
-                                <th class="center" style="width: 65px;">Gol</th>
+                                <th>Takım Adı</th>
+                                <th class="center" style="width: 100px;">Kadro</th>
+                                <th class="center" style="width: 110px;">Detay</th>
                             </tr>
                         </thead>
-                        <tbody id="squad-players-tbody">
-                            <!-- JS ile seçili takımın oyuncuları listelenecek -->
+                        <tbody id="teams-accordion-tbody">
+                            <!-- JS ile takımlar ve tıklandığında genişleyen kadro alt tabloları doldurulacak -->
                         </tbody>
                     </table>
                 </div>
@@ -1355,87 +1486,172 @@
             }
 
             // ============================================================
-            // 6. TAKIMLAR VE TIKLANAN TAKIMIN OYUNCU KADROSU
+            // 6. TAKIMLAR VE TIKLANDIĞINDA AŞAĞI DOĞRU GENİŞLEYEN KADRO TABLOSU
             // ============================================================
-            const teamsSelectorContainer = document.getElementById('teams-selector-container');
-            const squadPlayersTbody = document.getElementById('squad-players-tbody');
-            const activeTeamNameLabel = document.getElementById('active-team-name-label');
-            const activeTeamCountLabel = document.getElementById('active-team-count-label');
+            const teamsAccordionTbody = document.getElementById('teams-accordion-tbody');
+            const teamsBadgeInfo = document.getElementById('teams-badge-info');
             const squadSearchInput = document.getElementById('squad-search-input');
-            let selectedTeamName = 'hit-2';
+            const btnExpandAll = document.getElementById('btn-expand-all');
+            const btnCollapseAll = document.getElementById('btn-collapse-all');
 
-            function initTeamsSelector() {
-                if (!teamsSelectorContainer) return;
+            // Hangi takımların açık olduğunu tutan Set (ilk takım varsayılan açık)
+            let expandedTeams = new Set(['hit-2']);
+
+            function renderTeamsAccordionTable() {
+                if (!teamsAccordionTbody) return;
                 const teams = getTournamentTeams();
+                const allPlayers = getPlayersData();
+                const query = (squadSearchInput ? squadSearchInput.value : '').toLowerCase().trim();
 
-                teamsSelectorContainer.innerHTML = teams.map(tName => {
-                    const squad = getTeamSquad(tName);
-                    const isActive = tName === selectedTeamName;
-                    return `
-                        <button type="button" class="team-chip-btn ${isActive ? 'active' : ''}" data-team="${escapeHtml(tName)}">
-                            <span>🛡️ ${escapeHtml(tName)}</span>
-                            <span class="team-chip-count">${squad.length}</span>
-                        </button>
+                if (teamsBadgeInfo) {
+                    teamsBadgeInfo.innerText = `${teams.length} Takım • ${allPlayers.length} Oyuncu`;
+                }
+
+                let visibleCount = 0;
+                let html = '';
+
+                teams.forEach((teamName, idx) => {
+                    const squad = getTeamSquad(teamName, allPlayers);
+                    const teamSafeId = teamName.replace(/[^a-zA-Z0-9_-]/g, '-');
+                    const totalGoals = squad.reduce((sum, p) => sum + (parseInt(p.goals, 10) || 0), 0);
+
+                    // Arama eşleşmesi kontrolü
+                    const teamMatches = teamName.toLowerCase().includes(query);
+                    const matchingPlayers = query 
+                        ? squad.filter(p => p.name && p.name.toLowerCase().includes(query))
+                        : squad;
+
+                    // Arama varsa ve eşleşme yoksa bu takımı atla
+                    if (query && !teamMatches && matchingPlayers.length === 0) {
+                        return;
+                    }
+
+                    visibleCount++;
+
+                    // Arama durumunda uyuşan takımlar otomatik açılır; normalde expandedTeams Set'ine bakılır
+                    const isExpanded = query ? true : expandedTeams.has(teamName);
+                    const displayedSquad = query && !teamMatches ? matchingPlayers : squad;
+
+                    html += `
+                        <tr class="team-expand-row ${isExpanded ? 'expanded' : ''}" data-team="${escapeHtml(teamName)}" role="button" tabindex="0" title="Oyuncuları görmek için tıklayın">
+                            <td class="center">
+                                <span class="team-num-badge">${idx + 1}</span>
+                            </td>
+                            <td>
+                                <div class="team-title-cell">
+                                    <span style="font-size: 16px;">🛡️</span>
+                                    <div>
+                                        <div style="font-weight: 800; color: var(--text-main); font-size: 14.5px;">${escapeHtml(teamName)}</div>
+                                        ${totalGoals > 0 ? `<div style="font-size: 11px; color: var(--emerald); font-weight: 700; margin-top: 1px;">⚽ ${totalGoals} Takım Golü</div>` : ''}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <span class="roster-count-badge">👥 ${squad.length} Oyuncu</span>
+                            </td>
+                            <td class="center">
+                                <button type="button" class="expand-action-btn" aria-label="${isExpanded ? 'Kadroyu Kapat' : 'Kadroyu Göster'}">
+                                    <span>${isExpanded ? 'Kapat' : 'Kadro'}</span>
+                                    <span class="chevron-icon ${isExpanded ? 'rotated' : ''}">▼</span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="team-subpanel-row ${isExpanded ? 'active' : ''}" id="subpanel-${teamSafeId}">
+                            <td colspan="4" class="subpanel-cell">
+                                <div class="subpanel-wrapper">
+                                    <div class="subpanel-header-strip">
+                                        <span>🛡️ <strong>${escapeHtml(teamName)}</strong> Oyuncu Kadrosu</span>
+                                        <span class="squad-player-badge">${displayedSquad.length} Oyuncu</span>
+                                    </div>
+                                    <table class="nested-squad-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 40px;" class="center">#</th>
+                                                <th>Oyuncu Adı</th>
+                                                <th class="center" style="width: 80px;">Gol</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${displayedSquad.length > 0 ? displayedSquad.map((player, pIdx) => {
+                                                const goals = parseInt(player.goals, 10) || 0;
+                                                return `
+                                                    <tr>
+                                                        <td class="center" style="color: var(--text-dim); font-weight: 700; font-size: 12px;">${pIdx + 1}</td>
+                                                        <td>
+                                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                                <span style="color: var(--gold); font-size: 12px;">👤</span>
+                                                                <span style="font-weight: 700; color: var(--text-main); font-size: 13.5px;">${escapeHtml(player.name)}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="center" style="font-weight: 800; font-size: 13.5px; color: ${goals > 0 ? 'var(--emerald)' : 'var(--text-dim)'};">
+                                                            ${goals > 0 ? `⚽ ${goals}` : '0'}
+                                                        </td>
+                                                    </tr>
+                                                `;
+                                            }).join('') : `
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center; color: var(--text-muted); padding: 14px;">Eşleşen oyuncu bulunamadı.</td>
+                                                </tr>
+                                            `}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
                     `;
-                }).join('');
+                });
 
-                teamsSelectorContainer.querySelectorAll('.team-chip-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const targetTeam = btn.getAttribute('data-team');
-                        selectedTeamName = targetTeam;
+                if (visibleCount === 0) {
+                    teamsAccordionTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px;">Aranan kriterle eşleşen takım veya oyuncu bulunamadı.</td></tr>';
+                    return;
+                }
 
-                        // Buton aktiflik sınıflarını güncelle
-                        teamsSelectorContainer.querySelectorAll('.team-chip-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
+                teamsAccordionTbody.innerHTML = html;
 
-                        renderTeamSquadView();
+                // Takım satırına tıklandığında aç / kapat
+                teamsAccordionTbody.querySelectorAll('.team-expand-row').forEach(row => {
+                    row.addEventListener('click', () => {
+                        const tName = row.getAttribute('data-team');
+                        toggleTeamAccordion(tName);
+                    });
+
+                    row.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            const tName = row.getAttribute('data-team');
+                            toggleTeamAccordion(tName);
+                        }
                     });
                 });
             }
 
-            function renderTeamSquadView() {
-                if (!squadPlayersTbody) return;
-                const allPlayers = getPlayersData();
-                const squad = getTeamSquad(selectedTeamName, allPlayers);
-                const query = (squadSearchInput ? squadSearchInput.value : '').toLowerCase().trim();
-
-                if (activeTeamNameLabel) activeTeamNameLabel.innerText = selectedTeamName;
-                if (activeTeamCountLabel) activeTeamCountLabel.innerText = `${squad.length} Oyuncu`;
-
-                const filtered = squad.filter(p => {
-                    if (!query) return true;
-                    return p.name && p.name.toLowerCase().includes(query);
-                });
-
-                if (filtered.length === 0) {
-                    squadPlayersTbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px;">"${escapeHtml(selectedTeamName)}" takımında aranan oyuncu bulunamadı.</td></tr>`;
-                    return;
+            function toggleTeamAccordion(teamName) {
+                if (expandedTeams.has(teamName)) {
+                    expandedTeams.delete(teamName);
+                } else {
+                    expandedTeams.add(teamName);
                 }
+                renderTeamsAccordionTable();
+            }
 
-                squadPlayersTbody.innerHTML = filtered.map((player, idx) => {
-                    const goals = parseInt(player.goals, 10) || 0;
-                    return `
-                        <tr>
-                            <td class="center" style="color: var(--text-dim); font-weight: 700;">${idx + 1}</td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <span style="font-weight: 700; color: var(--text-main); font-size: 14px;">${escapeHtml(player.name)}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="squad-player-badge">${escapeHtml(player.team)}</span>
-                            </td>
-                            <td class="center" style="font-weight: 800; font-size: 14px; color: ${goals > 0 ? 'var(--emerald)' : 'var(--text-dim)'};">
-                                ${goals}
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
+            if (btnExpandAll) {
+                btnExpandAll.addEventListener('click', () => {
+                    const teams = getTournamentTeams();
+                    teams.forEach(t => expandedTeams.add(t));
+                    renderTeamsAccordionTable();
+                });
+            }
+
+            if (btnCollapseAll) {
+                btnCollapseAll.addEventListener('click', () => {
+                    expandedTeams.clear();
+                    renderTeamsAccordionTable();
+                });
             }
 
             if (squadSearchInput) {
                 squadSearchInput.addEventListener('input', () => {
-                    renderTeamSquadView();
+                    renderTeamsAccordionTable();
                 });
             }
 
@@ -1444,8 +1660,7 @@
                 const players = getPlayersData();
                 renderStandingsTable(standings);
                 renderTopScorers(players);
-                initTeamsSelector();
-                renderTeamSquadView();
+                renderTeamsAccordionTable();
             }
 
             // ============================================================
@@ -1836,7 +2051,7 @@
             window.addEventListener('turnuva_stats_updated', () => renderAllStatsViews());
 
             window.addEventListener('storage', (e) => {
-                if (e.key === 'turnuva_standings_v2' || e.key === 'turnuva_stats_v2') {
+                if (e.key === 'turnuva_standings_v3' || e.key === 'turnuva_stats_v3' || e.key === 'turnuva_standings_v2' || e.key === 'turnuva_stats_v2') {
                     renderAllStatsViews();
                 }
                 if (e.key === 'turnuva_admin_authenticated') {

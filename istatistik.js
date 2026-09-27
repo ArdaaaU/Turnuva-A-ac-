@@ -75,8 +75,8 @@ const DEFAULT_STANDINGS = [
     { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v2';
-const STANDINGS_STORAGE_KEY = 'turnuva_standings_v2';
+const STATS_STORAGE_KEY = 'turnuva_stats_v3';
+const STANDINGS_STORAGE_KEY = 'turnuva_standings_v3';
 const STATS_ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 const STATS_DEFAULT_PIN = '3519';
@@ -630,9 +630,11 @@ if (typeof window !== 'undefined') {
         }
     };
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => autoInitAll());
-    } else {
-        autoInitAll();
+    if (typeof document !== 'undefined') {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => autoInitAll());
+        } else {
+            autoInitAll();
+        }
     }
 }
