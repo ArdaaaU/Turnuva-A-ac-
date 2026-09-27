@@ -4,42 +4,57 @@
  * Yerel önbellek (LocalStorage) ve çevrim içi bulut (Supabase) senkronizasyonunu destekler.
  */
 
-// Varsayılan Turnuva Ağacı Verileri (5 Takımlı Knockout Formatı)
+// Varsayılan Turnuva Ağacı Verileri (5 Takımlı Knockout Formatı - 28 Eylül Ön Eleme)
 const DEFAULT_TOURNAMENT_DATA = {
-    quarter: {
-        id: "qf-1",
-        title: "⚡ Ön Eleme / Çeyrek Final",
-        date: "11 Mart 2026",
-        time: "15:00",
-        status: "bekleniyor", // "bekleniyor" | "canli" | "bitti"
-        team1: "maliye isletme -2",
-        score1: null,
-        team2: "ic mekan tasarim-2",
-        score2: null,
-        winner: null // "team1" | "team2"
-    },
+    quarters: [
+        {
+            id: "qf-1",
+            title: "1. Ön Eleme Maçı",
+            date: "28 Eylül 2026",
+            time: "18:00",
+            status: "bekleniyor", // "bekleniyor" | "canli" | "bitti"
+            team1: "maliye isletme -2",
+            score1: null,
+            team2: "wtk-2",
+            score2: null,
+            winner: null // "team1" | "team2"
+        },
+        {
+            id: "qf-2",
+            title: "2. Ön Eleme Maçı",
+            date: "28 Eylül 2026",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "hit-1",
+            score1: null,
+            team2: "hit-2",
+            score2: null,
+            winner: null
+        }
+    ],
+    byeTeam: "ic mekan tasarim-2",
     semis: [
         {
             id: "semi-1",
-            title: "🔥 1. Yarı Final Maçı",
-            date: "12 Mart 2026",
-            time: "16:30",
+            title: "1. Yarı Final Maçı",
+            date: "29 Eylül 2026",
+            time: "18:00",
             status: "bekleniyor",
-            team1: "hit-2",
+            team1: "Ön Eleme 1 Galibi",
             score1: null,
-            team2: "wtk-2",
+            team2: "ic mekan tasarim-2",
             score2: null,
             winner: null
         },
         {
             id: "semi-2",
-            title: "🔥 2. Yarı Final Maçı",
-            date: "12 Mart 2026",
-            time: "17:30",
+            title: "2. Yarı Final Maçı",
+            date: "29 Eylül 2026",
+            time: "19:00",
             status: "bekleniyor",
-            team1: "hit-1",
+            team1: "Ön Eleme 2 Galibi",
             score1: null,
-            team2: "Ön Eleme Galibi",
+            team2: "Final Yolu",
             score2: null,
             winner: null
         }
@@ -47,19 +62,19 @@ const DEFAULT_TOURNAMENT_DATA = {
     final: {
         id: "final-match",
         title: "⭐ Büyük Final (Şampiyonluk Maçı)",
-        date: "13 Mart 2026",
-        time: "18:00",
+        date: "30 Eylül 2026",
+        time: "18:30",
         status: "bekleniyor",
-        team1: "Yarı Final 1 Galibi",
+        team1: "1. Yarı Final Galibi",
         score1: null,
-        team2: "Yarı Final 2 Galibi",
+        team2: "2. Yarı Final Galibi",
         score2: null,
         winner: null,
         champion: "" // e.g. "hit-2"
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v2';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v5';
 let _bracketRealtimeSubscribed = false;
 
 /**
@@ -70,6 +85,15 @@ function cloneObject(obj) {
 }
 
 /**
+ * Turnuva ağacı verisinin güncel 2 maçlı ön eleme formatına uygunluğunu denetler
+ */
+function isValidTournamentTree(data) {
+    if (!data || !data.final || !data.semis) return false;
+    if (Array.isArray(data.quarters) && data.quarters.length >= 2) return true;
+    return false;
+}
+
+/**
  * Turnuva verisini getir (Önbellekten veya varsayılandan)
  */
 function getTournamentData() {
@@ -77,11 +101,7 @@ function getTournamentData() {
         const stored = localStorage.getItem(BRACKET_STORAGE_KEY);
         if (stored !== null) {
             const parsed = JSON.parse(stored);
-            if (parsed && (parsed.quarter || parsed.semis) && parsed.final) {
-                // Ön eleme eksikse varsayılandan birleştir
-                if (!parsed.quarter) {
-                    parsed.quarter = cloneObject(DEFAULT_TOURNAMENT_DATA.quarter);
-                }
+            if (isValidTournamentTree(parsed)) {
                 return parsed;
             }
         }
@@ -207,7 +227,7 @@ async function fetchTournamentCloudData() {
             .maybeSingle();
 
         if (!error && data && data.data) {
-            if (data.data.quarter || data.data.semis) {
+            if (isValidTournamentTree(data.data)) {
                 return data.data;
             }
         }
@@ -225,7 +245,7 @@ async function fetchTournamentCloudData() {
 
         if (!sError && sData && sData.content) {
             const parsed = JSON.parse(sData.content);
-            if (parsed && (parsed.quarter || parsed.semis) && parsed.final) {
+            if (isValidTournamentTree(parsed)) {
                 return parsed;
             }
         }
@@ -246,12 +266,15 @@ async function initTournamentDataSync(onDataLoadedCallback) {
 
     try {
         const cloudData = await fetchTournamentCloudData();
-        if (cloudData) {
+        if (cloudData && isValidTournamentTree(cloudData)) {
             localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(cloudData));
             window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data: cloudData } }));
             if (typeof onDataLoadedCallback === 'function') {
                 onDataLoadedCallback(cloudData);
             }
+        } else {
+            // Bulutta geçerli 2 maçlı ön eleme verisi yoksa güncel varsayılanı buluta kaydet
+            saveTournamentData(getTournamentData(), true);
         }
     } catch (err) {
         console.warn('Supabase fikstür yükleme hatası:', err);

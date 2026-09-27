@@ -1580,7 +1580,7 @@
             // Reaktif Senkronizasyon (Diğer sekmeler veya sayfalardan gelen değişiklikler)
             window.addEventListener('turnuva_announcements_updated', renderAnnouncements);
             window.addEventListener('storage', (e) => {
-                if (e.key === 'turnuva_duyurular_v1' || !e.key) {
+                if (e.key === 'turnuva_duyurular_v3' || e.key === 'turnuva_duyurular_v1' || !e.key) {
                     renderAnnouncements();
                 }
             });

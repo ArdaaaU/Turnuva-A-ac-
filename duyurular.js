@@ -8,25 +8,25 @@
 const DEFAULT_ANNOUNCEMENTS = [
     {
         id: "d-1",
-        title: "🏆 Turnuva 2026 Resmen Başladı! Grup Maçları Takvimi Açıklandı",
+        title: "🏆 Turnuva 28 Eylül'de Başlıyor! Ön Eleme Maçları Açıklandı",
         category: "onemli",
         categoryLabel: "🚨 Önemli Duyuru",
-        date: "11 Mart 2026",
+        date: "28 Eylül 2026",
         author: "Turnuva Komitesi",
         pinned: true,
-        summary: "2026 Futbol Turnuvamız tüm heyecanıyla start aldı! A ve B gruplarındaki tüm takımlara başarılar dileriz.",
-        content: "2026 Futbol Turnuvamız tüm coşkusuyla başladı! A ve B grubunda mücadele eden tüm takımlarımıza ve sporcularımıza başarılar diliyoruz. \n\nMaç fikstürü, saatleri ve canlı puan durumu sitemizin 'Ağaç & Fikstür' sekmesinde güncel olarak paylaşılmaktadır. Tüm takımlarımızın fair-play çerçevesinde centilmence mücadele etmesini temenni ederiz."
+        summary: "28 Eylül Ön Eleme Maçları: 18:00 maliye isletme -2 vs wtk-2, 19:00 hit-1 vs hit-2. ic mekan tasarim-2 kura ile doğrudan yarı finale yükseldi.",
+        content: "2026 Futbol Turnuvamız tüm coşkusuyla başlıyor! Ön Eleme maçları 28 Eylül 2026 tarihinde oynanacaktır:\n\n⚡ 18:00 | maliye isletme -2 vs wtk-2\n⚡ 19:00 | hit-1 vs hit-2\n\n⭐ ic mekan tasarim-2 kura sonucunda 1. Turu bay geçerek doğrudan 29 Eylül'deki Yarı Final'e yükselmiştir.\n\nTüm takımlarımıza ve sporcularımıza centilmence mücadeleler ve başarılar dileriz!"
     },
     {
         id: "d-2",
-        title: "⚽ Grup Aşaması Maç Saatleri ve Saha Kuralları",
+        title: "⚽ Grup & Eleme Aşaması Maç Saatleri ve Saha Kuralları",
         category: "mac",
         categoryLabel: "⚽ Maç Bilgisi",
-        date: "11 Mart 2026",
+        date: "28 Eylül 2026",
         author: "Turnuva Komitesi",
         pinned: false,
-        summary: "Grup maçları saat 17:00'da başlayacaktır. Takımların en az 20 dakika önce sahada hazır bulunması gerekmektedir.",
-        content: "Grup aşaması maçları belirlenen günlerde saat 17:00'da başlayacaktır. Maçların aksamaması adına takımların maç saatinden en az 20 dakika önce esame listeleriyle birlikte saha kenarında hazır bulunmaları zorunludur.\n\nMaç süreleri 2 x 25 dakika olarak oynanacak olup, devre arası 5 dakikadır."
+        summary: "Ön eleme maçları saat 18:00 ve 19:00'da oynanacaktır. Takımların en az 20 dakika önce sahada hazır bulunması gerekmektedir.",
+        content: "Turnuvamızın Ön Eleme maçları 28 Eylül'de saat 18:00 ve 19:00'da oynanacaktır. Maçların aksamaması adına takımların maç saatinden en az 20 dakika önce esame listeleriyle birlikte saha kenarında hazır bulunmaları zorunludur.\n\nMaç süreleri 2 x 25 dakika olarak oynanacak olup, devre arası 5 dakikadır."
     },
     {
         id: "d-3",
@@ -41,18 +41,18 @@ const DEFAULT_ANNOUNCEMENTS = [
     },
     {
         id: "d-4",
-        title: "📊 Canlı İstatistikler ve Gol Krallığı Yayında",
+        title: "📊 Canlı İstatistikler ve Takım Kadroları Yayında",
         category: "genel",
         categoryLabel: "📢 Genel Bilgilendirme",
-        date: "9 Mart 2026",
+        date: "28 Eylül 2026",
         author: "Yönetim",
         pinned: false,
-        summary: "Gol krallığı, sarı ve kırmızı kart istatistiklerini artık 'İstatistikler' sayfamızdan takip edebilirsiniz.",
-        content: "Turnuva boyunca oyuncuların bireysel performanslarını, en çok gol atan isimleri ve kart raporlarını sitemizin üst menüsünde bulunan 'İstatistikler' sayfasından anlık olarak inceleyebilirsiniz. Her maç sonunda istatistikler güncellenmektedir."
+        summary: "Tüm takımların oyuncu kadrolarını ve detaylı istatistiklerini 'İstatistikler' sayfamızdan inceleyebilirsiniz.",
+        content: "Turnuvada yer alan tüm 5 takımın oyuncu kadrolarını (hit-2, wtk-2, hit-1, maliye isletme -2, ic mekan tasarim-2), puan durumunu ve gol krallığı tablosunu sitemizin 'İstatistikler' sayfasından anlık olarak takip edebilirsiniz."
     }
 ];
 
-const STORAGE_KEY = 'turnuva_duyurular_v1';
+const STORAGE_KEY = 'turnuva_duyurular_v3';
 const ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 const DEFAULT_PIN = '3519';
