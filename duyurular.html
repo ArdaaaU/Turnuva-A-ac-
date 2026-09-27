@@ -10,7 +10,9 @@
         (function() {
             const savedTheme = localStorage.getItem('turnuva-theme-preference') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isSmallScreen = window.innerWidth <= 900;
+            if (isMobileUA || (isSmallScreen && ('ontouchstart' in window || navigator.maxTouchPoints > 0))) {
                 document.documentElement.classList.add('is-mobile-device');
             }
         })();
@@ -879,17 +881,33 @@
         }
 
         /* Responsive */
-        @media (max-width: 992px) {
+        @media (max-width: 900px) {
             .nav-desktop-links { display: none; }
             .hamburger { display: flex; }
-            /* Telefondayken Yönetici Girişi Butonlarını Gizle */
-            .admin-action-btns {
+            /* Telefonda Yönetici Girişi ve Düzenleme Butonlarını Kesin Olarak Gizle (Sadece Bilgisayarda Görünür) */
+            .admin-action-btns,
+            .edit-ann-btn,
+            .delete-ann-btn,
+            #admin-login-btn,
+            #new-announcement-btn,
+            #admin-logout-btn,
+            #pin-modal,
+            #announcement-modal,
+            #delete-confirm-modal {
                 display: none !important;
             }
         }
 
-        /* Mobil cihaz tespiti ile yönetici butonlarını gizleme */
-        .is-mobile-device .admin-action-btns {
+        /* Mobil cihaz tespiti ile yönetici butonlarını ve modallarını gizleme */
+        .is-mobile-device .admin-action-btns,
+        .is-mobile-device .edit-ann-btn,
+        .is-mobile-device .delete-ann-btn,
+        .is-mobile-device #admin-login-btn,
+        .is-mobile-device #new-announcement-btn,
+        .is-mobile-device #admin-logout-btn,
+        .is-mobile-device #pin-modal,
+        .is-mobile-device #announcement-modal,
+        .is-mobile-device #delete-confirm-modal {
             display: none !important;
         }
 
@@ -897,13 +915,6 @@
             .search-and-admin-row {
                 flex-direction: column;
                 align-items: stretch;
-            }
-            .admin-action-btns {
-                justify-content: stretch;
-            }
-            .admin-action-btns .btn {
-                flex: 1;
-                justify-content: center;
             }
             .card-title { font-size: 16px; }
             .card-body { font-size: 13.5px; }
@@ -1244,9 +1255,22 @@
             let activeCategory = 'all';
             let searchQuery = '';
 
+            function isMobileClient() {
+                return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
+            }
+
             // Yönetici Arayüz Durumunu Güncelle
             function updateAdminUI() {
                 const isAuth = isAdminAuthenticated();
+                const isMobile = isMobileClient();
+
+                if (isMobile) {
+                    adminLoginBtn.style.display = 'none';
+                    newAnnouncementBtn.style.display = 'none';
+                    adminLogoutBtn.style.display = 'none';
+                    return;
+                }
+
                 if (isAuth) {
                     adminLoginBtn.style.display = 'none';
                     newAnnouncementBtn.style.display = 'inline-flex';
@@ -1262,6 +1286,7 @@
             function renderAnnouncements() {
                 const list = getAnnouncements();
                 const isAuth = isAdminAuthenticated();
+                const isMobile = isMobileClient();
 
                 // İstatistikleri ve Sayaçları Güncelle
                 totalCountBadge.innerText = list.length;
@@ -1325,7 +1350,7 @@
                                     <button class="action-icon-btn copy-link-btn" data-id="${item.id}" title="Duyuruyu Kopyala">
                                         🔗 Paylaş
                                     </button>
-                                    ${isAuth ? `
+                                    ${(isAuth && !isMobile) ? `
                                         <button class="action-icon-btn edit-ann-btn" data-id="${item.id}" title="Düzenle">
                                             ✏️ Düzenle
                                         </button>
@@ -1442,12 +1467,18 @@
 
             // Yönetici Girişi Modalı Açma
             adminLoginBtn.addEventListener('click', () => {
+                if (isMobileClient()) return; // Telefonda açılmaz
                 adminPinInput.value = '';
                 adminPinInput.type = 'password';
                 const togglePinBtn = document.getElementById('toggle-pin-visibility');
                 if (togglePinBtn) togglePinBtn.innerText = '👁️';
                 pinModal.classList.add('active');
                 adminPinInput.focus();
+            });
+
+            window.addEventListener('resize', () => {
+                updateAdminUI();
+                renderAnnouncements();
             });
 
             const togglePinVisibilityBtn = document.getElementById('toggle-pin-visibility');

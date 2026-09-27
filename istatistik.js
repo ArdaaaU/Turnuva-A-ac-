@@ -712,17 +712,28 @@ function getSortedStandings(standingsList) {
 // ============================================================
 
 /**
- * Gol Krallığı Sıralaması
+ * Gol Krallığı ve Oyuncu Sıralaması
+ * Varsayılan: Takımlara göre alfabetik, aynı takımda oyuncu ismine göre alfabetik sıralar.
  */
-function getTopScorers(playersList) {
+function getTopScorers(playersList, sortBy = 'team') {
     const list = playersList || getPlayersData();
-    const sorted = [...list].sort((a, b) => {
-        const ga = parseInt(a.goals, 10) || 0;
-        const gb = parseInt(b.goals, 10) || 0;
-        if (gb !== ga) return gb - ga;
-        return a.name.localeCompare(b.name, 'tr');
+    if (sortBy === 'goals') {
+        return [...list].sort((a, b) => {
+            const ga = parseInt(a.goals, 10) || 0;
+            const gb = parseInt(b.goals, 10) || 0;
+            if (gb !== ga) return gb - ga;
+            const tc = (a.team || '').localeCompare(b.team || '', 'tr', { sensitivity: 'base' });
+            if (tc !== 0) return tc;
+            return (a.name || '').localeCompare(b.name || '', 'tr', { sensitivity: 'base' });
+        });
+    }
+
+    // Varsayılan: Takımlara göre alfabetik, aynı takımda oyuncu ismine göre alfabetik
+    return [...list].sort((a, b) => {
+        const tc = (a.team || '').localeCompare(b.team || '', 'tr', { sensitivity: 'base' });
+        if (tc !== 0) return tc;
+        return (a.name || '').localeCompare(b.name || '', 'tr', { sensitivity: 'base' });
     });
-    return sorted;
 }
 
 /**
