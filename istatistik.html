@@ -604,6 +604,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: var(--transition);
+            pointer-events: none;
         }
 
         .team-expand-row:hover .expand-action-btn {
@@ -650,7 +651,7 @@
         }
 
         .team-subpanel-row.active {
-            display: table-row;
+            display: table-row !important;
         }
 
         .subpanel-cell {
@@ -1494,13 +1495,13 @@
             const btnExpandAll = document.getElementById('btn-expand-all');
             const btnCollapseAll = document.getElementById('btn-collapse-all');
 
-            // Hangi takımların açık olduğunu tutan Set (ilk takım varsayılan açık)
-            let expandedTeams = new Set(['hit-2']);
+            // Hangi takımların açık olduğunu tutan Set (Tüm takımların oyuncuları varsayılan olarak açık gelir)
+            let expandedTeams = new Set(['hit-2', 'wtk-2', 'hit-1', 'maliye isletme -2', 'ic mekan tasarim-2']);
 
-            function renderTeamsAccordionTable() {
+            function renderTeamsAccordionTable(playersData) {
                 if (!teamsAccordionTbody) return;
                 const teams = getTournamentTeams();
-                const allPlayers = getPlayersData();
+                const allPlayers = playersData || getPlayersData();
                 const query = (squadSearchInput ? squadSearchInput.value : '').toLowerCase().trim();
 
                 if (teamsBadgeInfo) {
@@ -1533,7 +1534,7 @@
                     const displayedSquad = query && !teamMatches ? matchingPlayers : squad;
 
                     html += `
-                        <tr class="team-expand-row ${isExpanded ? 'expanded' : ''}" data-team="${escapeHtml(teamName)}" role="button" tabindex="0" title="Oyuncuları görmek için tıklayın">
+                        <tr class="team-expand-row ${isExpanded ? 'expanded' : ''}" data-team="${escapeHtml(teamName)}" role="button" tabindex="0" title="Kadro detayını açıp kapatmak için tıklayın">
                             <td class="center">
                                 <span class="team-num-badge">${idx + 1}</span>
                             </td>
@@ -1655,12 +1656,12 @@
                 });
             }
 
-            function renderAllStatsViews() {
-                const standings = getStandingsData();
-                const players = getPlayersData();
+            function renderAllStatsViews(playersData, standingsData) {
+                const standings = standingsData || getStandingsData();
+                const players = playersData || getPlayersData();
                 renderStandingsTable(standings);
                 renderTopScorers(players);
-                renderTeamsAccordionTable();
+                renderTeamsAccordionTable(players);
             }
 
             // ============================================================
@@ -2051,7 +2052,7 @@
             window.addEventListener('turnuva_stats_updated', () => renderAllStatsViews());
 
             window.addEventListener('storage', (e) => {
-                if (e.key === 'turnuva_standings_v3' || e.key === 'turnuva_stats_v3' || e.key === 'turnuva_standings_v2' || e.key === 'turnuva_stats_v2') {
+                if (e.key === 'turnuva_standings_v4' || e.key === 'turnuva_stats_v4' || e.key === 'turnuva_standings_v3' || e.key === 'turnuva_stats_v3') {
                     renderAllStatsViews();
                 }
                 if (e.key === 'turnuva_admin_authenticated') {

@@ -75,8 +75,8 @@ const DEFAULT_STANDINGS = [
     { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v3';
-const STANDINGS_STORAGE_KEY = 'turnuva_standings_v3';
+const STATS_STORAGE_KEY = 'turnuva_stats_v4';
+const STANDINGS_STORAGE_KEY = 'turnuva_standings_v4';
 const STATS_ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 const STATS_DEFAULT_PIN = '3519';
@@ -96,6 +96,17 @@ function cloneObject(obj) {
 // ============================================================
 
 /**
+ * Verilen oyuncu listesinin geçerli 5 takımı içerip içermediğini denetler
+ */
+function isValidTournamentRoster(playersList) {
+    if (!Array.isArray(playersList) || playersList.length < 20) return false;
+    const currentTeams = Object.keys(DEFAULT_TEAMS_ROSTER);
+    return currentTeams.every(teamName => 
+        playersList.some(p => p.team && p.team.toLowerCase().trim() === teamName.toLowerCase().trim())
+    );
+}
+
+/**
  * Oyuncu listesini getir (Önbellekten veya varsayılandan)
  */
 function getPlayersData() {
@@ -103,7 +114,7 @@ function getPlayersData() {
         const stored = localStorage.getItem(STATS_STORAGE_KEY);
         if (stored !== null) {
             const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
+            if (isValidTournamentRoster(parsed)) {
                 return parsed;
             }
         }
@@ -250,7 +261,7 @@ async function fetchPlayersCloudData() {
             .eq('id', 'main')
             .maybeSingle();
 
-        if (!error && data && Array.isArray(data.data)) {
+        if (!error && data && isValidTournamentRoster(data.data)) {
             return data.data;
         }
     } catch (err) {
@@ -267,7 +278,7 @@ async function fetchPlayersCloudData() {
 
         if (!sError && sData && sData.content) {
             const parsed = JSON.parse(sData.content);
-            if (Array.isArray(parsed)) {
+            if (isValidTournamentRoster(parsed)) {
                 return parsed;
             }
         }
@@ -288,12 +299,15 @@ async function initPlayersDataSync(onDataLoadedCallback) {
 
     try {
         const cloudData = await fetchPlayersCloudData();
-        if (cloudData && Array.isArray(cloudData)) {
+        if (cloudData && isValidTournamentRoster(cloudData)) {
             localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(cloudData));
             window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: cloudData } }));
             if (typeof onDataLoadedCallback === 'function') {
                 onDataLoadedCallback(cloudData);
             }
+        } else {
+            // Eğer bulutta veri yoksa veya eski/geçersiz ise güncel varsayılan 34 oyuncuyu buluta kaydet
+            savePlayersData(getPlayersData(), true);
         }
     } catch (err) {
         console.warn('İstatistik bulut verisi çekilemedi:', err);
@@ -356,6 +370,17 @@ async function initPlayersDataSync(onDataLoadedCallback) {
 // ============================================================
 
 /**
+ * Verilen puan tablosunun geçerli 5 takımı içerip içermediğini denetler
+ */
+function isValidTournamentStandings(standingsList) {
+    if (!Array.isArray(standingsList) || standingsList.length === 0) return false;
+    const currentTeams = Object.keys(DEFAULT_TEAMS_ROSTER);
+    return currentTeams.every(teamName =>
+        standingsList.some(t => t.name && t.name.toLowerCase().trim() === teamName.toLowerCase().trim())
+    );
+}
+
+/**
  * Puan durumu verilerini getir (LocalStorage veya varsayılan)
  */
 function getStandingsData() {
@@ -363,7 +388,7 @@ function getStandingsData() {
         const stored = localStorage.getItem(STANDINGS_STORAGE_KEY);
         if (stored !== null) {
             const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
+            if (isValidTournamentStandings(parsed)) {
                 return parsed;
             }
         }
@@ -399,13 +424,13 @@ async function saveStandingsData(standingsList, syncToCloud = true) {
     try {
         const systemPayload = {
             id: 'system-turnuva-standings',
-            title: 'SYSTEM_TOURNAMENT_STANDINGS_v2',
+            title: 'SYSTEM_TOURNAMENT_STANDINGS_v3',
             category: 'system',
             category_label: 'Sistem Puan Durumu',
             date: new Date().toISOString(),
             author: 'System',
             pinned: false,
-            summary: 'Tek Tablolu Puan Durumu Veritabanı Kaydı',
+            summary: 'Tek Tablolu Puan Durumu Veritabanı Kaydı v3',
             content: JSON.stringify(standingsList)
         };
 
@@ -444,7 +469,7 @@ async function fetchStandingsCloudData() {
 
         if (!error && data && data.content) {
             const parsed = JSON.parse(data.content);
-            if (Array.isArray(parsed)) return parsed;
+            if (isValidTournamentStandings(parsed)) return parsed;
         }
     } catch (e) {
         console.warn('Puan durumu buluttan alınamadı:', e);
@@ -462,12 +487,14 @@ async function initStandingsDataSync(onDataLoadedCallback) {
 
     try {
         const cloudData = await fetchStandingsCloudData();
-        if (cloudData && Array.isArray(cloudData)) {
+        if (cloudData && isValidTournamentStandings(cloudData)) {
             localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(cloudData));
             window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: cloudData } }));
             if (typeof onDataLoadedCallback === 'function') {
                 onDataLoadedCallback(cloudData);
             }
+        } else {
+            saveStandingsData(getStandingsData(), true);
         }
     } catch (err) {
         console.warn('Puan durumu ilk yükleme hatası:', err);
