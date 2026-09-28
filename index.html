@@ -1221,6 +1221,55 @@
             color: var(--text-main);
         }
 
+        .admin-tab-nav {
+            display: flex;
+            gap: 6px;
+            padding: 8px 20px 0 20px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-subtle);
+            overflow-x: auto;
+        }
+
+        .admin-tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            padding: 10px 16px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .admin-tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .admin-tab-btn.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+            background: rgba(245, 158, 11, 0.06);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .admin-tab-pane {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .admin-tab-pane.active {
+            display: flex;
+        }
+
         .admin-modal-body {
             padding: 20px;
             overflow-y: auto;
@@ -1602,7 +1651,7 @@
                 Aktif</span>
         </div>
         <h1 class="hero-title">Turnuva Ağacı</h1>
-        <p class="hero-subtitle">5 Takımlı Ön Eleme, Yarı Finaller, Büyük Final ve Şampiyonluk Eşleşmeleri</p>
+        <p class="hero-subtitle">4 Takımlı Lig Sistemi • Pazartesi, Çarşamba ve Perşembe Günleri</p>
         <div>
             <button class="ann-pop-trigger-btn" id="open-announcement-popup-btn" type="button">
                 📢 Son Duyuruyu Görüntüle
@@ -1706,16 +1755,16 @@
                                 </div>
                             </div>
 
-                            <!-- 30 Eylül 2026 - Çarşamba -->
+                            <!-- 30 Eylül 2026 - Çarşamba (Çapraz Eşleşme) -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">30 Eylül 2026 - Çarşamba</div>
                                 <div class="fixture-rows">
                                     <div class="fixture-row" id="fix-row-semi1" data-match="semi1">
                                         <div class="fixture-cell-time" id="fix-time-semi1">18:00</div>
                                         <div class="fixture-cell-matchup">
-                                            <span class="fixture-team-name home" id="fix-team1-semi1">Takım 1</span>
+                                            <span class="fixture-team-name home" id="fix-team1-semi1">maliye isletme -2</span>
                                             <span class="fixture-score-label" id="fix-score-semi1">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-semi1">Takım 2</span>
+                                            <span class="fixture-team-name away" id="fix-team2-semi1">hit-1</span>
                                         </div>
                                         <button class="fixture-star-btn" data-star-id="fix-star-semi1"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
@@ -1724,9 +1773,9 @@
                                     <div class="fixture-row" id="fix-row-semi2" data-match="semi2">
                                         <div class="fixture-cell-time" id="fix-time-semi2">19:00</div>
                                         <div class="fixture-cell-matchup">
-                                            <span class="fixture-team-name home" id="fix-team1-semi2">Takım 3</span>
+                                            <span class="fixture-team-name home" id="fix-team1-semi2">wtk-2</span>
                                             <span class="fixture-score-label" id="fix-score-semi2">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-semi2">Takım 4</span>
+                                            <span class="fixture-team-name away" id="fix-team2-semi2">hit-2</span>
                                         </div>
                                         <button class="fixture-star-btn" data-star-id="fix-star-semi2"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
@@ -1734,16 +1783,16 @@
                                 </div>
                             </div>
 
-                            <!-- 1 Ekim 2026 - Perşembe -->
+                            <!-- 1 Ekim 2026 - Perşembe (Çapraz Eşleşme) -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">1 Ekim 2026 - Perşembe</div>
                                 <div class="fixture-rows">
                                     <div class="fixture-row" id="fix-row-third" data-match="third">
                                         <div class="fixture-cell-time" id="fix-time-third">18:00</div>
                                         <div class="fixture-cell-matchup">
-                                            <span class="fixture-team-name home" id="fix-team1-third">Takım A</span>
+                                            <span class="fixture-team-name home" id="fix-team1-third">maliye isletme -2</span>
                                             <span class="fixture-score-label" id="fix-score-third">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-third">Takım B</span>
+                                            <span class="fixture-team-name away" id="fix-team2-third">hit-2</span>
                                         </div>
                                         <button class="fixture-star-btn" data-star-id="fix-star-third"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
@@ -1752,23 +1801,11 @@
                                     <div class="fixture-row" id="fix-row-final" data-match="final">
                                         <div class="fixture-cell-time" id="fix-time-final">18:45</div>
                                         <div class="fixture-cell-matchup">
-                                            <span class="fixture-team-name home" id="fix-team1-final">Takım C</span>
+                                            <span class="fixture-team-name home" id="fix-team1-final">wtk-2</span>
                                             <span class="fixture-score-label" id="fix-score-final">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-final">Takım D</span>
+                                            <span class="fixture-team-name away" id="fix-team2-final">hit-1</span>
                                         </div>
                                         <button class="fixture-star-btn" data-star-id="fix-star-final"
-                                            title="Favorilere Ekle" aria-label="Favori">☆</button>
-                                    </div>
-
-                                    <div class="fixture-row fixture-ceremony-row" id="fix-row-ceremony"
-                                        data-match="ceremony">
-                                        <div class="fixture-cell-time">19:45</div>
-                                        <div class="fixture-cell-matchup ceremony-matchup">
-                                            <span class="ceremony-badge">🏆</span>
-                                            <span class="ceremony-text">Kupa &amp; Madalya Töreni</span>
-                                            <span class="ceremony-sub">(Kutlama)</span>
-                                        </div>
-                                        <button class="fixture-star-btn" data-star-id="fix-star-ceremony"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
                                     </div>
                                 </div>
@@ -1778,6 +1815,7 @@
 
                 </div>
             </div>
+
 
             <!-- 2. SÜTUN: YARI FİNALLER (Round 2 - 30 Eylül) -->
             <div class="bracket-col" id="col-semis">
@@ -1950,326 +1988,443 @@
             <div class="admin-modal-header">
                 <div>
                     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <div class="modal-title">⚙️ Turnuva Ağacı Yönetimi</div>
+                        <div class="modal-title">⚙️ Turnuva Yönetim Paneli</div>
                         <span id="bracket-cloud-badge"
                             style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;">🟢
                             Bulut Eşitleme Aktif</span>
                     </div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Maç programını, skorları ve
-                        şampiyonu güncelleyin</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Fikstür maçlarını, yarı final ve final aşamalarını kolayca yönetin</div>
                 </div>
                 <button class="modal-close-btn" id="close-admin-modal" aria-label="Kapat">&times;</button>
             </div>
 
+            <!-- MODAL SEKMELERİ -->
+            <div class="admin-tab-nav" role="tablist">
+                <button type="button" class="admin-tab-btn active" data-tab="pane-fixture" id="tab-btn-fixture">
+                    📅 Fikstür Maçları (Haftalık Program)
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="pane-semis-final" id="tab-btn-semis-final">
+                    🏆 Eleme Ağacı (Yarı Finaller & Büyük Final)
+                </button>
+            </div>
+
             <div class="admin-modal-body">
 
-                <!-- MAÇ 1 (28 Eylül • 18:00) -->
-                <div class="admin-section-box">
-                    <div class="admin-section-header">
-                        <span class="admin-section-title">⚽ Maç 1 — 28 Eylül • 18:00</span>
-                        <span style="font-size: 12px; color: var(--text-dim);">Pazartesi</span>
+                <!-- ========================================== -->
+                <!-- SEKME 1: FİKSTÜR MAÇLARI (HAFTALIK PROGRAM) -->
+                <!-- ========================================== -->
+                <div class="admin-tab-pane active" id="pane-fixture">
+                    <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
+                        📌 Fikstür tablosunda gösterilen haftalık maç programını ve sonuçlarını bu sekmeden güncelleyebilirsiniz.
                     </div>
-                    <div class="admin-grid-2">
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-qf1-t1-name" placeholder="Takım 1">
-                            <input type="number" min="0" class="admin-score-input" id="admin-qf1-t1-score"
-                                placeholder="-">
-                        </div>
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-qf1-t2-name" placeholder="Takım 2">
-                            <input type="number" min="0" class="admin-score-input" id="admin-qf1-t2-score"
-                                placeholder="-">
-                        </div>
-                    </div>
-                    <div class="admin-meta-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
-                            <select class="admin-status-select" id="admin-qf1-status">
-                                <option value="bekleniyor">Bekleniyor</option>
-                                <option value="canli">🔴 Canlı</option>
-                                <option value="bitti">✅ Tamamlandı</option>
-                            </select>
-                            <input type="text" class="admin-text-input" id="admin-qf1-time" placeholder="18:00"
-                                style="width: 100px;">
-                        </div>
-                        <div class="admin-winner-pills">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
-                            <button type="button" class="winner-btn" id="btn-qf1-w-t1">👑 Takım 1</button>
-                            <button type="button" class="winner-btn" id="btn-qf1-w-t2">👑 Takım 2</button>
-                            <button type="button" class="winner-btn" id="btn-qf1-w-none">Belli Değil</button>
-                        </div>
-                    </div>
-                    <div style="display: none;">
-                    </div>
-                </div>
 
-                <!-- MAÇ 2 (28 Eylül • 19:00) -->
-                <div class="admin-section-box">
-                    <div class="admin-section-header">
-                        <span class="admin-section-title">⚽ Maç 2 — 28 Eylül • 19:00</span>
-                        <span style="font-size: 12px; color: var(--text-dim);">Pazartesi</span>
-                    </div>
-                    <div class="admin-grid-2">
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-qf2-t1-name" placeholder="Takım 1">
-                            <input type="number" min="0" class="admin-score-input" id="admin-qf2-t1-score"
-                                placeholder="-">
+                    <!-- MAÇ 1 (28 Eylül • 18:00) -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 1 — 28 Eylül • 18:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Pazartesi</span>
                         </div>
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-qf2-t2-name" placeholder="Takım 2">
-                            <input type="number" min="0" class="admin-score-input" id="admin-qf2-t2-score"
-                                placeholder="-">
-                        </div>
-                    </div>
-                    <div class="admin-meta-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
-                            <select class="admin-status-select" id="admin-qf2-status">
-                                <option value="bekleniyor">Bekleniyor</option>
-                                <option value="canli">🔴 Canlı</option>
-                                <option value="bitti">✅ Tamamlandı</option>
-                            </select>
-                            <input type="text" class="admin-text-input" id="admin-qf2-time" placeholder="19:00"
-                                style="width: 100px;">
-                        </div>
-                        <div class="admin-winner-pills">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
-                            <button type="button" class="winner-btn" id="btn-qf2-w-t1">👑 Takım 1</button>
-                            <button type="button" class="winner-btn" id="btn-qf2-w-t2">👑 Takım 2</button>
-                            <button type="button" class="winner-btn" id="btn-qf2-w-none">Belli Değil</button>
-                        </div>
-                    </div>
-                    <div style="display:none;"><button type="button" id="btn-advance-qf2-to-semi"></button></div>
-                </div>
-
-                <!-- Gizli alanlar (uyumluluk için) -->
-                <div style="display:none;">
-                    <input type="text" id="admin-bye-team-name">
-                    <button id="btn-sync-bye-to-semi1"></button>
-                </div>
-
-                <!-- 29 EYLÜL SALI BİLGİ KUTUSU (BAY GÜNÜ) -->
-                <div class="admin-section-box"
-                    style="border-color: rgba(250, 204, 21, 0.35); background: rgba(250, 204, 21, 0.04);">
-                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <div>
-                            <div
-                                style="font-weight: 800; font-size: 13px; color: #facc15; display: flex; align-items: center; gap: 6px;">
-                                <span>🛡️ 29 Eylül Salı — BAY Günü</span>
-                                <span
-                                    style="font-size: 11px; padding: 1px 7px; border-radius: 10px; background: rgba(250, 204, 21, 0.2); color: #facc15; font-weight: 700;">Maç
-                                    Yok</span>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-qf1-t1-name" placeholder="Takım 1 (maliye isletme -2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-qf1-t1-score" placeholder="-">
                             </div>
-                            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 3px;">
-                                Salı günü hiçbir maç oynanmaz. Çarşamba ve Perşembe günleri maçlar devam eder.
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-qf1-t2-name" placeholder="Takım 2 (wtk-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-qf1-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-qf1-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-qf1-time" placeholder="18:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-qf1-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-qf1-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-qf1-w-none">Belli Değil</button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- MAÇ 3 (30 Eylül • 18:00) -->
-                <div class="admin-section-box">
-                    <div class="admin-section-header">
-                        <span class="admin-section-title">⚽ Maç 3 — 30 Eylül • 18:00</span>
-                        <span style="font-size: 12px; color: var(--text-dim);">Çarşamba</span>
-                    </div>
-                    <div class="admin-grid-2">
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-semi1-t1-name" placeholder="Takım 1">
-                            <input type="number" min="0" class="admin-score-input" id="admin-semi1-t1-score"
-                                placeholder="-">
+                    <!-- MAÇ 2 (28 Eylül • 19:00) -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 2 — 28 Eylül • 19:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Pazartesi</span>
                         </div>
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-semi1-t2-name" placeholder="Takım 2">
-                            <input type="number" min="0" class="admin-score-input" id="admin-semi1-t2-score"
-                                placeholder="-">
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-qf2-t1-name" placeholder="Takım 1 (hit-1)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-qf2-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-qf2-t2-name" placeholder="Takım 2 (hit-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-qf2-t2-score" placeholder="-">
+                            </div>
                         </div>
-                    </div>
-                    <div class="admin-meta-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
-                            <select class="admin-status-select" id="admin-semi1-status">
-                                <option value="bekleniyor">Bekleniyor</option>
-                                <option value="canli">🔴 Canlı</option>
-                                <option value="bitti">✅ Tamamlandı</option>
-                            </select>
-                            <input type="text" class="admin-text-input" id="admin-semi1-time" placeholder="18:00"
-                                style="width: 100px;">
-                        </div>
-                        <div class="admin-winner-pills">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
-                            <button type="button" class="winner-btn" id="btn-semi1-w-t1">👑 Takım 1</button>
-                            <button type="button" class="winner-btn" id="btn-semi1-w-t2">👑 Takım 2</button>
-                            <button type="button" class="winner-btn" id="btn-semi1-w-none">Belli Değil</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MAÇ 4 (30 Eylül • 19:00) -->
-                <div class="admin-section-box">
-                    <div class="admin-section-header">
-                        <span class="admin-section-title">⚽ Maç 4 — 30 Eylül • 19:00</span>
-                        <span style="font-size: 12px; color: var(--text-dim);">Çarşamba</span>
-                    </div>
-                    <div class="admin-grid-2">
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-semi2-t1-name" placeholder="Takım 1">
-                            <input type="number" min="0" class="admin-score-input" id="admin-semi2-t1-score"
-                                placeholder="-">
-                        </div>
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-semi2-t2-name" placeholder="Takım 2">
-                            <input type="number" min="0" class="admin-score-input" id="admin-semi2-t2-score"
-                                placeholder="-">
-                        </div>
-                    </div>
-                    <div class="admin-meta-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
-                            <select class="admin-status-select" id="admin-semi2-status">
-                                <option value="bekleniyor">Bekleniyor</option>
-                                <option value="canli">🔴 Canlı</option>
-                                <option value="bitti">✅ Tamamlandı</option>
-                            </select>
-                            <input type="text" class="admin-text-input" id="admin-semi2-time" placeholder="19:00"
-                                style="width: 100px;">
-                        </div>
-                        <div class="admin-winner-pills">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
-                            <button type="button" class="winner-btn" id="btn-semi2-w-t1">👑 Takım 1</button>
-                            <button type="button" class="winner-btn" id="btn-semi2-w-t2">👑 Takım 2</button>
-                            <button type="button" class="winner-btn" id="btn-semi2-w-none">Belli Değil</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gizli uyumluluk butonu -->
-                <div style="display:none;"><button id="btn-advance-semis-to-final"></button></div>
-
-                <!-- MAÇ 5 (1 Ekim • 18:00) -->
-                <div class="admin-section-box">
-                    <div class="admin-section-header">
-                        <span class="admin-section-title">⚽ Maç 5 — 1 Ekim • 18:00</span>
-                        <span style="font-size: 12px; color: var(--text-dim);">Perşembe</span>
-                    </div>
-                    <div class="admin-grid-2">
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-third-t1-name" placeholder="Takım 1">
-                            <input type="number" min="0" class="admin-score-input" id="admin-third-t1-score"
-                                placeholder="-">
-                        </div>
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-third-t2-name" placeholder="Takım 2">
-                            <input type="number" min="0" class="admin-score-input" id="admin-third-t2-score"
-                                placeholder="-">
-                        </div>
-                    </div>
-                    <div class="admin-meta-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
-                            <select class="admin-status-select" id="admin-third-status">
-                                <option value="bekleniyor">Bekleniyor</option>
-                                <option value="canli">🔴 Canlı</option>
-                                <option value="bitti">✅ Tamamlandı</option>
-                            </select>
-                            <input type="text" class="admin-text-input" id="admin-third-time" placeholder="18:00"
-                                style="width: 100px;">
-                        </div>
-                        <div class="admin-winner-pills">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
-                            <button type="button" class="winner-btn" id="btn-third-w-t1">🥉 Takım 1</button>
-                            <button type="button" class="winner-btn" id="btn-third-w-t2">🥉 Takım 2</button>
-                            <button type="button" class="winner-btn" id="btn-third-w-none">Belli Değil</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MAÇ 6 — SON MAÇ (1 Ekim • 18:45) -->
-                <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.4);">
-                    <div class="admin-section-header">
-                        <span class="admin-section-title" style="color: var(--gold);">🏆 Maç 6 — 1 Ekim • 18:45</span>
-                        <span style="font-size: 12px; color: var(--text-dim);">Perşembe</span>
-                    </div>
-                    <div class="admin-grid-2">
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-final-t1-name" placeholder="Takım 1">
-                            <input type="number" min="0" class="admin-score-input" id="admin-final-t1-score"
-                                placeholder="-">
-                        </div>
-                        <div class="admin-team-row-edit">
-                            <input type="text" class="admin-team-input" id="admin-final-t2-name" placeholder="Takım 2">
-                            <input type="number" min="0" class="admin-score-input" id="admin-final-t2-score"
-                                placeholder="-">
-                        </div>
-                    </div>
-                    <div class="admin-meta-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
-                            <select class="admin-status-select" id="admin-final-status">
-                                <option value="bekleniyor">Bekleniyor</option>
-                                <option value="canli">🔴 Canlı</option>
-                                <option value="bitti">✅ Tamamlandı</option>
-                            </select>
-                            <input type="text" class="admin-text-input" id="admin-final-time" placeholder="18:45"
-                                style="width: 100px;">
-                        </div>
-                        <div class="admin-winner-pills">
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kazanan:</span>
-                            <button type="button" class="winner-btn" id="btn-final-w-t1">👑 Finalist 1</button>
-                            <button type="button" class="winner-btn" id="btn-final-w-t2">👑 Finalist 2</button>
-                            <button type="button" class="winner-btn" id="btn-final-w-none">Belli Değil</button>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-qf2-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-qf2-time" placeholder="19:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-qf2-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-qf2-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-qf2-w-none">Belli Değil</button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- ŞAMPİYON KUTUSU -->
-                    <div
-                        style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
-                        <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 240px;">
-                            <label
-                                style="font-size: 13px; font-weight: 800; color: var(--gold); white-space: nowrap;">👑
-                                Şampiyon:</label>
-                            <input type="text" class="admin-team-input" id="admin-champion-input"
-                                placeholder="Örn: hit-2 (veya boş bırakın)">
+                    <!-- 29 EYLÜL SALI BİLGİ KUTUSU (BAY GÜNÜ) -->
+                    <div class="admin-section-box" style="border-color: rgba(250, 204, 21, 0.35); background: rgba(250, 204, 21, 0.04);">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <div>
+                                <div style="font-weight: 800; font-size: 13px; color: #facc15; display: flex; align-items: center; gap: 6px;">
+                                    <span>🛡️ 29 Eylül Salı — BAY Günü</span>
+                                    <span style="font-size: 11px; padding: 1px 7px; border-radius: 10px; background: rgba(250, 204, 21, 0.2); color: #facc15; font-weight: 700;">Maç Yok</span>
+                                </div>
+                                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 3px;">
+                                    Salı günü etkinlik sebebiyle maç oynanmamaktadır.
+                                </div>
+                            </div>
                         </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button type="button" class="btn btn-secondary" id="btn-champion-from-final"
-                                style="font-size: 12px; padding: 6px 12px;">
-                                Final Galibini Şampiyon Yap
-                            </button>
-                            <button type="button" class="btn btn-secondary" id="btn-champion-clear"
-                                style="font-size: 12px; padding: 6px 10px;">
-                                Temizle
+                    </div>
+
+                    <!-- MAÇ 3 (30 Eylül • 18:00) -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 3 — 30 Eylül • 18:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Çarşamba Çapraz Eşleşme</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-fix-m3-t1-name" placeholder="Takım 1 (maliye isletme -2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-fix-m3-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-fix-m3-t2-name" placeholder="Takım 2 (hit-1)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-fix-m3-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-fix-m3-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-fix-m3-time" placeholder="18:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-fix-m3-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-fix-m3-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-fix-m3-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAÇ 4 (30 Eylül • 19:00) -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 4 — 30 Eylül • 19:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Çarşamba Çapraz Eşleşme</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-fix-m4-t1-name" placeholder="Takım 1 (wtk-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-fix-m4-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-fix-m4-t2-name" placeholder="Takım 2 (hit-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-fix-m4-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-fix-m4-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-fix-m4-time" placeholder="19:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-fix-m4-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-fix-m4-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-fix-m4-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAÇ 5 (1 Ekim • 18:00) -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 5 — 1 Ekim • 18:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Perşembe Çapraz Eşleşme</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-mac5-t1-name" placeholder="Takım 1 (maliye isletme -2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-mac5-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-mac5-t2-name" placeholder="Takım 2 (hit-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-mac5-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-mac5-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-mac5-time" placeholder="18:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-mac5-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-mac5-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-mac5-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAÇ 6 (1 Ekim • 18:45) -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 6 — 1 Ekim • 18:45</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Perşembe Çapraz Eşleşme</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-mac6-t1-name" placeholder="Takım 1 (wtk-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-mac6-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-mac6-t2-name" placeholder="Takım 2 (hit-1)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-mac6-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-mac6-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-mac6-time" placeholder="18:45" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-mac6-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-mac6-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-mac6-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SKORLARI PUAN DURUMUNA OTOMATİK AKTAR KARTI -->
+                    <div class="admin-section-box" style="border-color: rgba(59, 130, 246, 0.45); background: rgba(59, 130, 246, 0.05); margin-top: 4px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="font-weight: 800; font-size: 13.5px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                                    <span>📊 Skorları Puan Durumuna Otomatik Aktar</span>
+                                    <span style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.35);">⚡ Akıllı Eşitleme</span>
+                                </div>
+                                <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                                    Girdiğiniz maç skorlarına göre galibiyet, beraberlik, mağlubiyet, averaj ve puanları otomatik hesaplayıp <strong>İstatistikler</strong> sayfasındaki puan tablosuna işler.
+                                </div>
+                                <div id="standings-sync-status-msg" style="font-size: 12px; font-weight: 700; color: var(--emerald); margin-top: 6px; display: none;"></div>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="btn-sync-scores-to-standings"
+                                style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-color: #3b82f6; font-weight: 800; font-size: 13px; padding: 10px 18px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;">
+                                <span>⚡ Skorları Puan Tablosuna Aktar</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 5. SKORLARI PUAN DURUMUNA OTOMATİK AKTAR KARTI -->
-                <div class="admin-section-box"
-                    style="border-color: rgba(59, 130, 246, 0.45); background: rgba(59, 130, 246, 0.05); margin-top: 14px;">
-                    <div
-                        style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <div
-                                style="font-weight: 800; font-size: 13.5px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-                                <span>📊 Skorları Puan Durumuna Otomatik Aktar</span>
-                                <span
-                                    style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.35);">⚡
-                                    Akıllı Eşitleme</span>
+                <!-- ========================================== -->
+                <!-- SEKME 2: ELEME AĞACI (YARI FİNALLER & BÜYÜK FİNAL) -->
+                <!-- ========================================== -->
+                <div class="admin-tab-pane" id="pane-semis-final">
+                    <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
+                        🏆 Eleme ağacında yer alan 1. Yarı Final, 2. Yarı Final, Büyük Final ve Şampiyonluk kürsüsünü buradan yönetin.
+                    </div>
+
+                    <!-- 1. YARI FİNAL MAÇI -->
+                    <div class="admin-section-box" style="border-left: 3px solid var(--accent);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">🔥 1. Yarı Final Maçı (30 Eylül • 18:00)</span>
+                            <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; font-weight: 700;">Ağaç Eşleşmesi</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi1-t1-name" placeholder="Takım 1 (Örn: Ön Eleme 1 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi1-t1-score" placeholder="-">
                             </div>
-                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-                                Girdiğiniz maç skorlarına göre galibiyet, beraberlik, mağlubiyet, averaj ve puanları
-                                otomatik hesaplayıp <strong>İstatistikler</strong> sayfasındaki puan tablosuna işler.
-                            </div>
-                            <div id="standings-sync-status-msg"
-                                style="font-size: 12px; font-weight: 700; color: var(--emerald); margin-top: 6px; display: none;">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi1-t2-name" placeholder="Takım 2 (ic mekan tasarim-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi1-t2-score" placeholder="-">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" id="btn-sync-scores-to-standings"
-                            style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-color: #3b82f6; font-weight: 800; font-size: 13px; padding: 10px 18px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;">
-                            <span>⚡ Skorları Puan Tablosuna Aktar</span>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-semi1-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-semi1-time" placeholder="18:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-semi1-w-t1">👑 Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-semi1-w-t2">👑 Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-semi1-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; padding-top: 8px; border-top: 1px dashed var(--border-subtle);">
+                            <button type="button" class="btn btn-secondary" id="btn-advance-qf1-to-semi" style="font-size: 11.5px; padding: 6px 12px;">
+                                ⏩ 1. Ön Eleme (Maç 1) Galibini Takım 1'e Aktar
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-sync-bye-to-semi1" style="font-size: 11.5px; padding: 6px 12px;">
+                                🛡️ Bay Takımını (ic mekan tasarim-2) Takım 2'ye Ata
+                            </button>
+                            <input type="hidden" id="admin-bye-team-name" value="ic mekan tasarim-2">
+                        </div>
+                    </div>
+
+                    <!-- 2. YARI FİNAL MAÇI -->
+                    <div class="admin-section-box" style="border-left: 3px solid var(--accent);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">🔥 2. Yarı Final Maçı (30 Eylül • 19:00)</span>
+                            <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; font-weight: 700;">Ağaç Eşleşmesi</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi2-t1-name" placeholder="Takım 1 (Örn: Ön Eleme 2 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi2-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi2-t2-name" placeholder="Takım 2 (Örn: Final Yolu / Rakip)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi2-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-semi2-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-semi2-time" placeholder="19:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-semi2-w-t1">👑 Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-semi2-w-t2">👑 Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-semi2-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; padding-top: 8px; border-top: 1px dashed var(--border-subtle);">
+                            <button type="button" class="btn btn-secondary" id="btn-advance-qf2-to-semi" style="font-size: 11.5px; padding: 6px 12px;">
+                                ⏩ 2. Ön Eleme (Maç 2) Galibini Takım 1'e Aktar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- YARI FİNALLERDEN FİNALE AKTARMA BUTONU -->
+                    <div style="padding: 10px; background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                        <div style="font-size: 12px; color: var(--text-main); font-weight: 600;">
+                            ✨ Yarı final maçlarının galiplerini tek tıkla Büyük Final eşleşmesine taşımak için:
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btn-advance-semis-to-final"
+                            style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); font-size: 12.5px; padding: 8px 16px;">
+                            🏆 Yarı Final Galiplerini Finale Aktar
                         </button>
                     </div>
+
+                    <!-- BÜYÜK FİNAL MAÇI -->
+                    <div class="admin-section-box" style="border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.03);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title" style="color: var(--gold);">🏆 Büyük Final (1 Ekim • 18:45)</span>
+                            <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--gold-glow); color: var(--gold); font-weight: 800;">⭐ Şampiyonluk Maçı</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-final-t1-name" placeholder="Finalist 1 (Yarı Final 1 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-final-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-final-t2-name" placeholder="Finalist 2 (Yarı Final 2 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-final-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-final-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-final-time" placeholder="18:45" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Şampiyon:</span>
+                                <button type="button" class="winner-btn" id="btn-final-w-t1">👑 Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-final-w-t2">👑 Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-final-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ŞAMPİYONLUK KÜRSÜSÜ KARTI -->
+                    <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.45); background: rgba(245, 158, 11, 0.05);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title" style="color: var(--gold); display: flex; align-items: center; gap: 6px;">
+                                <span>👑 2026 Turnuva Şampiyonu</span>
+                            </span>
+                            <span style="font-size: 11.5px; color: var(--gold); font-weight: 700;">Kürsü Taçlandırma</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <input type="text" class="admin-text-input" id="admin-champion-input"
+                                placeholder="Şampiyon Takım İsmi (Örn: wtk-2)"
+                                style="flex: 1; min-width: 200px; font-weight: 800; border-color: rgba(245, 158, 11, 0.5); color: var(--gold);">
+                            <button type="button" class="btn btn-primary" id="btn-champion-from-final"
+                                style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-weight: 800; font-size: 12.5px; padding: 8px 14px;">
+                                👑 Final Galibini Ata
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-champion-clear"
+                                style="font-size: 12.5px; padding: 8px 14px;">
+                                🧹 Temizle
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -2504,25 +2659,25 @@
                     fixTeamBye.innerText = data.byeTeam || 'ic mekan tasarim-2';
                 }
 
-                // Maç 3 (30 Eylül • 18:00)
-                if (data.semis && data.semis[0]) {
-                    const s1 = data.semis[0];
+                // Maç 3 (30 Eylül • 18:00) — maliye isletme -2 vs hit-1
+                const m3 = data.mac3 || (data.matches && data.matches[2]);
+                if (m3) {
                     const fixTimeS1 = document.getElementById('fix-time-semi1');
                     const fixT1S1 = document.getElementById('fix-team1-semi1');
                     const fixT2S1 = document.getElementById('fix-team2-semi1');
                     const fixScoreS1 = document.getElementById('fix-score-semi1');
-                    if (fixTimeS1) fixTimeS1.innerText = s1.time || '18:00';
+                    if (fixTimeS1) fixTimeS1.innerText = m3.time || '18:00';
                     if (fixT1S1) {
-                        fixT1S1.innerText = s1.team1 || 'Takım 1';
-                        fixT1S1.classList.toggle('is-winner', s1.winner === 'team1');
+                        fixT1S1.innerText = m3.team1 || 'maliye isletme -2';
+                        fixT1S1.classList.toggle('is-winner', m3.winner === 'team1');
                     }
                     if (fixT2S1) {
-                        fixT2S1.innerText = s1.team2 || 'Takım 2';
-                        fixT2S1.classList.toggle('is-winner', s1.winner === 'team2');
+                        fixT2S1.innerText = m3.team2 || 'hit-1';
+                        fixT2S1.classList.toggle('is-winner', m3.winner === 'team2');
                     }
                     if (fixScoreS1) {
-                        if (s1.score1 !== null && s1.score1 !== '' && s1.score2 !== null && s1.score2 !== '') {
-                            fixScoreS1.innerText = `${s1.score1}-${s1.score2}`;
+                        if (m3.score1 !== null && m3.score1 !== '' && m3.score2 !== null && m3.score2 !== '') {
+                            fixScoreS1.innerText = `${m3.score1}-${m3.score2}`;
                             fixScoreS1.classList.add('has-score');
                         } else {
                             fixScoreS1.innerText = 'v';
@@ -2531,25 +2686,25 @@
                     }
                 }
 
-                // Maç 4 (30 Eylül • 19:00)
-                if (data.semis && data.semis[1]) {
-                    const s2 = data.semis[1];
+                // Maç 4 (30 Eylül • 19:00) — wtk-2 vs hit-2
+                const m4 = data.mac4 || (data.matches && data.matches[3]);
+                if (m4) {
                     const fixTimeS2 = document.getElementById('fix-time-semi2');
                     const fixT1S2 = document.getElementById('fix-team1-semi2');
                     const fixT2S2 = document.getElementById('fix-team2-semi2');
                     const fixScoreS2 = document.getElementById('fix-score-semi2');
-                    if (fixTimeS2) fixTimeS2.innerText = s2.time || '19:00';
+                    if (fixTimeS2) fixTimeS2.innerText = m4.time || '19:00';
                     if (fixT1S2) {
-                        fixT1S2.innerText = s2.team1 || 'Takım 3';
-                        fixT1S2.classList.toggle('is-winner', s2.winner === 'team1');
+                        fixT1S2.innerText = m4.team1 || 'wtk-2';
+                        fixT1S2.classList.toggle('is-winner', m4.winner === 'team1');
                     }
                     if (fixT2S2) {
-                        fixT2S2.innerText = s2.team2 || 'Takım 4';
-                        fixT2S2.classList.toggle('is-winner', s2.winner === 'team2');
+                        fixT2S2.innerText = m4.team2 || 'hit-2';
+                        fixT2S2.classList.toggle('is-winner', m4.winner === 'team2');
                     }
                     if (fixScoreS2) {
-                        if (s2.score1 !== null && s2.score1 !== '' && s2.score2 !== null && s2.score2 !== '') {
-                            fixScoreS2.innerText = `${s2.score1}-${s2.score2}`;
+                        if (m4.score1 !== null && m4.score1 !== '' && m4.score2 !== null && m4.score2 !== '') {
+                            fixScoreS2.innerText = `${m4.score1}-${m4.score2}`;
                             fixScoreS2.classList.add('has-score');
                         } else {
                             fixScoreS2.innerText = 'v';
@@ -2558,50 +2713,52 @@
                     }
                 }
 
-                // 3.lük Maçı (1 Ekim • 18:00)
-                const third = data.thirdPlace;
-                const fixTimeThird = document.getElementById('fix-time-third');
-                const fixT1Third = document.getElementById('fix-team1-third');
-                const fixT2Third = document.getElementById('fix-team2-third');
-                const fixScoreThird = document.getElementById('fix-score-third');
-                if (fixTimeThird) fixTimeThird.innerText = (third && third.time) ? third.time : '18:00';
-                if (fixT1Third) {
-                    fixT1Third.innerText = (third && third.team1) ? third.team1 : 'Takım A';
-                    fixT1Third.classList.toggle('is-winner', third && third.winner === 'team1');
-                }
-                if (fixT2Third) {
-                    fixT2Third.innerText = (third && third.team2) ? third.team2 : 'Takım B';
-                    fixT2Third.classList.toggle('is-winner', third && third.winner === 'team2');
-                }
-                if (fixScoreThird) {
-                    if (third && third.score1 !== null && third.score1 !== '' && third.score2 !== null && third.score2 !== '') {
-                        fixScoreThird.innerText = `${third.score1}-${third.score2}`;
-                        fixScoreThird.classList.add('has-score');
-                    } else {
-                        fixScoreThird.innerText = 'v';
-                        fixScoreThird.classList.remove('has-score');
+                // Maç 5 (1 Ekim • 18:00) — maliye isletme -2 vs hit-2
+                const m5 = data.mac5 || data.thirdPlace || (data.matches && data.matches[4]);
+                if (m5) {
+                    const fixTimeThird = document.getElementById('fix-time-third');
+                    const fixT1Third = document.getElementById('fix-team1-third');
+                    const fixT2Third = document.getElementById('fix-team2-third');
+                    const fixScoreThird = document.getElementById('fix-score-third');
+                    if (fixTimeThird) fixTimeThird.innerText = m5.time || '18:00';
+                    if (fixT1Third) {
+                        fixT1Third.innerText = m5.team1 || 'maliye isletme -2';
+                        fixT1Third.classList.toggle('is-winner', m5.winner === 'team1');
+                    }
+                    if (fixT2Third) {
+                        fixT2Third.innerText = m5.team2 || 'hit-2';
+                        fixT2Third.classList.toggle('is-winner', m5.winner === 'team2');
+                    }
+                    if (fixScoreThird) {
+                        if (m5.score1 !== null && m5.score1 !== '' && m5.score2 !== null && m5.score2 !== '') {
+                            fixScoreThird.innerText = `${m5.score1}-${m5.score2}`;
+                            fixScoreThird.classList.add('has-score');
+                        } else {
+                            fixScoreThird.innerText = 'v';
+                            fixScoreThird.classList.remove('has-score');
+                        }
                     }
                 }
 
-                // Büyük Final (1 Ekim • 18:45)
-                if (data.final) {
-                    const f = data.final;
+                // Maç 6 (1 Ekim • 18:45) — wtk-2 vs hit-1
+                const m6 = data.mac6 || (data.matches && data.matches[5]);
+                if (m6) {
                     const fixTimeF = document.getElementById('fix-time-final');
                     const fixT1F = document.getElementById('fix-team1-final');
                     const fixT2F = document.getElementById('fix-team2-final');
                     const fixScoreF = document.getElementById('fix-score-final');
-                    if (fixTimeF) fixTimeF.innerText = f.time || '18:45';
+                    if (fixTimeF) fixTimeF.innerText = m6.time || '18:45';
                     if (fixT1F) {
-                        fixT1F.innerText = f.team1 || 'Takım C';
-                        fixT1F.classList.toggle('is-winner', f.winner === 'team1');
+                        fixT1F.innerText = m6.team1 || 'wtk-2';
+                        fixT1F.classList.toggle('is-winner', m6.winner === 'team1');
                     }
                     if (fixT2F) {
-                        fixT2F.innerText = f.team2 || 'Takım D';
-                        fixT2F.classList.toggle('is-winner', f.winner === 'team2');
+                        fixT2F.innerText = m6.team2 || 'hit-1';
+                        fixT2F.classList.toggle('is-winner', m6.winner === 'team2');
                     }
                     if (fixScoreF) {
-                        if (f.score1 !== null && f.score1 !== '' && f.score2 !== null && f.score2 !== '') {
-                            fixScoreF.innerText = `${f.score1}-${f.score2}`;
+                        if (m6.score1 !== null && m6.score1 !== '' && m6.score2 !== null && m6.score2 !== '') {
+                            fixScoreF.innerText = `${m6.score1}-${m6.score2}`;
                             fixScoreF.classList.add('has-score');
                         } else {
                             fixScoreF.innerText = 'v';
@@ -2611,7 +2768,7 @@
                 }
 
                 const fixtureCard = document.getElementById('bracket-fixture-card');
-                applyAdminHoverTag(fixtureCard, isAuth, 'Fikstür');
+                applyAdminHoverTag(fixtureCard, isAuth, 'Fikstür', 'pane-fixture');
                 initFavoriteStars();
 
                 // Yarı Finaller Tarih Rozeti
@@ -2646,7 +2803,7 @@
                     if (row1) row1.classList.toggle('is-winner', s1.winner === 'team1');
                     if (row2) row2.classList.toggle('is-winner', s1.winner === 'team2');
 
-                    applyAdminHoverTag(semi1Card, isAuth, '1. Yarı Final');
+                    applyAdminHoverTag(semi1Card, isAuth, '1. Yarı Final', 'pane-semis-final');
                 }
 
                 // 3. 2. YARI FİNAL (29 Eylül • 19:00)
@@ -2675,7 +2832,7 @@
                     if (row1) row1.classList.toggle('is-winner', s2.winner === 'team1');
                     if (row2) row2.classList.toggle('is-winner', s2.winner === 'team2');
 
-                    applyAdminHoverTag(semi2Card, isAuth, '2. Yarı Final');
+                    applyAdminHoverTag(semi2Card, isAuth, '2. Yarı Final', 'pane-semis-final');
                 }
 
                 // 4. BÜYÜK FİNAL
@@ -2725,7 +2882,10 @@
                         }
                     }
 
-                    applyAdminHoverTag(finalCard, isAuth, 'Büyük Final');
+                    applyAdminHoverTag(finalCard, isAuth, 'Büyük Final', 'pane-semis-final');
+
+                    const trophyCard = document.getElementById('bracket-card-trophy');
+                    applyAdminHoverTag(trophyCard, isAuth, 'Kürsü', 'pane-semis-final');
                 }
             }
 
@@ -2733,7 +2893,7 @@
                 return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
             }
 
-            function applyAdminHoverTag(cardEl, isAuth, label) {
+            function applyAdminHoverTag(cardEl, isAuth, label, targetTab = 'pane-fixture') {
                 if (!cardEl) return;
                 const existingTag = cardEl.querySelector('.quick-edit-tag');
                 if (isAuth && !isMobileClient()) {
@@ -2744,7 +2904,7 @@
                         tag.innerHTML = '✏️ Düzenle';
                         cardEl.appendChild(tag);
                     }
-                    cardEl.onclick = () => openAdminModal();
+                    cardEl.onclick = () => openAdminModalWithTab(targetTab);
                 } else {
                     cardEl.classList.remove('bracket-card-admin-hover');
                     if (existingTag) existingTag.remove();
@@ -2811,25 +2971,42 @@
                     row.addEventListener('click', () => {
                         if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated() && !isMobileClient()) {
                             const matchType = row.getAttribute('data-match');
-                            if (matchType === 'qf1' || matchType === 'qf2' || matchType === 'bye') {
-                                openAdminModalWithTab('pane-quarters');
-                            } else if (matchType === 'semi1' || matchType === 'semi2' || matchType === 'final' || matchType === 'third') {
-                                openAdminModalWithTab('pane-semis-final');
+                            if (matchType === 'qf1' || matchType === 'qf2' || matchType === 'bye' || matchType === 'third' || matchType === 'final') {
+                                openAdminModalWithTab('pane-fixture');
                             } else {
-                                openAdminModal();
+                                openAdminModalWithTab('pane-fixture');
                             }
                         }
                     });
                 });
             }
 
-            function openAdminModalWithTab(tabId) {
+            function openAdminModalWithTab(tabId = 'pane-fixture') {
                 openAdminModal();
-                if (tabId) {
-                    const tabBtn = document.querySelector(`.admin-tab-btn[data-tab="${tabId}"]`);
-                    if (tabBtn) tabBtn.click();
-                }
+                let target = tabId;
+                if (target === 'pane-quarters' || target === 'fixture') target = 'pane-fixture';
+                if (target === 'semis' || target === 'final' || target === 'pane-semis-final') target = 'pane-semis-final';
+
+                const tabBtns = document.querySelectorAll('.admin-tab-btn');
+                const tabPanes = document.querySelectorAll('.admin-tab-pane');
+
+                tabBtns.forEach(btn => {
+                    const btnTab = btn.getAttribute('data-tab');
+                    btn.classList.toggle('active', btnTab === target);
+                });
+
+                tabPanes.forEach(pane => {
+                    pane.classList.toggle('active', pane.id === target);
+                });
             }
+
+            // Sekme butonlarını dinle
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.getAttribute('data-tab');
+                    openAdminModalWithTab(target);
+                });
+            });
 
             // ============================================================
             // 6. YÖNETİCİ GİRİŞİ, PIN DOĞRULAMA VE DÜZENLEME MODALI
@@ -2973,92 +3150,144 @@
             if (closeAdminModal) closeAdminModal.addEventListener('click', () => adminModal.classList.remove('active'));
             if (cancelAdminModalBtn) cancelAdminModalBtn.addEventListener('click', () => adminModal.classList.remove('active'));
 
-            function populateAdminModalValues(data) {
-                const quarters = Array.isArray(data.quarters) ? data.quarters : (data.quarter ? [data.quarter] : []);
+            function setInputValue(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            }
 
+            function getInputValue(id, fallback = '') {
+                const el = document.getElementById(id);
+                return el ? el.value.trim() : fallback;
+            }
+
+            function getInputScore(id) {
+                const el = document.getElementById(id);
+                if (!el) return null;
+                const v = el.value.trim();
+                return v === '' ? null : parseInt(v, 10);
+            }
+
+            function populateAdminModalValues(data) {
+                if (!data) return;
+
+                const quarters = Array.isArray(data.quarters) ? data.quarters : (data.quarter ? [data.quarter] : []);
+                const matches = Array.isArray(data.matches) ? data.matches : [];
+
+                // ------------------------------------------
+                // 1. FİKSTÜR MAÇLARI (1, 2, 3, 4, 5, 6)
+                // ------------------------------------------
                 // Maç 1 (28 Eylül • 18:00)
-                if (quarters[0]) {
-                    const q1 = quarters[0];
-                    document.getElementById('admin-qf1-t1-name').value = q1.team1 || '';
-                    document.getElementById('admin-qf1-t1-score').value = q1.score1 !== null ? q1.score1 : '';
-                    document.getElementById('admin-qf1-t2-name').value = q1.team2 || '';
-                    document.getElementById('admin-qf1-t2-score').value = q1.score2 !== null ? q1.score2 : '';
-                    document.getElementById('admin-qf1-status').value = q1.status || 'bekleniyor';
-                    document.getElementById('admin-qf1-time').value = q1.time || '18:00';
-                    updateWinnerButtonGroup('qf1', q1.winner);
-                }
+                const q1 = quarters[0] || matches[0] || {};
+                setInputValue('admin-qf1-t1-name', q1.team1 || 'maliye isletme -2');
+                setInputValue('admin-qf1-t1-score', q1.score1 !== null && q1.score1 !== undefined ? q1.score1 : '');
+                setInputValue('admin-qf1-t2-name', q1.team2 || 'wtk-2');
+                setInputValue('admin-qf1-t2-score', q1.score2 !== null && q1.score2 !== undefined ? q1.score2 : '');
+                setInputValue('admin-qf1-status', q1.status || 'bekleniyor');
+                setInputValue('admin-qf1-time', q1.time || '18:00');
+                updateWinnerButtonGroup('qf1', q1.winner);
 
                 // Maç 2 (28 Eylül • 19:00)
-                if (quarters[1]) {
-                    const q2 = quarters[1];
-                    document.getElementById('admin-qf2-t1-name').value = q2.team1 || '';
-                    document.getElementById('admin-qf2-t1-score').value = q2.score1 !== null ? q2.score1 : '';
-                    document.getElementById('admin-qf2-t2-name').value = q2.team2 || '';
-                    document.getElementById('admin-qf2-t2-score').value = q2.score2 !== null ? q2.score2 : '';
-                    document.getElementById('admin-qf2-status').value = q2.status || 'bekleniyor';
-                    document.getElementById('admin-qf2-time').value = q2.time || '19:00';
-                    updateWinnerButtonGroup('qf2', q2.winner);
-                }
+                const q2 = quarters[1] || matches[1] || {};
+                setInputValue('admin-qf2-t1-name', q2.team1 || 'hit-1');
+                setInputValue('admin-qf2-t1-score', q2.score1 !== null && q2.score1 !== undefined ? q2.score1 : '');
+                setInputValue('admin-qf2-t2-name', q2.team2 || 'hit-2');
+                setInputValue('admin-qf2-t2-score', q2.score2 !== null && q2.score2 !== undefined ? q2.score2 : '');
+                setInputValue('admin-qf2-status', q2.status || 'bekleniyor');
+                setInputValue('admin-qf2-time', q2.time || '19:00');
+                updateWinnerButtonGroup('qf2', q2.winner);
 
-                // Bay takımı (gizli alan)
-                const byeInput = document.getElementById('admin-bye-team-name');
-                if (byeInput) {
-                    byeInput.value = data.byeTeam || 'ic mekan tasarim-2';
-                }
+                // Maç 3 (30 Eylül • 18:00) — maliye isletme -2 vs hit-1
+                const m3 = data.mac3 || matches[2] || {};
+                setInputValue('admin-fix-m3-t1-name', m3.team1 || 'maliye isletme -2');
+                setInputValue('admin-fix-m3-t1-score', m3.score1 !== null && m3.score1 !== undefined ? m3.score1 : '');
+                setInputValue('admin-fix-m3-t2-name', m3.team2 || 'hit-1');
+                setInputValue('admin-fix-m3-t2-score', m3.score2 !== null && m3.score2 !== undefined ? m3.score2 : '');
+                setInputValue('admin-fix-m3-status', m3.status || 'bekleniyor');
+                setInputValue('admin-fix-m3-time', m3.time || '18:00');
+                updateWinnerButtonGroup('fix-m3', m3.winner);
 
-                // Maç 3 (30 Eylül • 18:00)
-                if (data.semis && data.semis[0]) {
-                    const s1 = data.semis[0];
-                    document.getElementById('admin-semi1-t1-name').value = s1.team1 || '';
-                    document.getElementById('admin-semi1-t1-score').value = s1.score1 !== null ? s1.score1 : '';
-                    document.getElementById('admin-semi1-t2-name').value = s1.team2 || '';
-                    document.getElementById('admin-semi1-t2-score').value = s1.score2 !== null ? s1.score2 : '';
-                    document.getElementById('admin-semi1-status').value = s1.status || 'bekleniyor';
-                    document.getElementById('admin-semi1-time').value = s1.time || '18:00';
-                    updateWinnerButtonGroup('semi1', s1.winner);
-                }
+                // Maç 4 (30 Eylül • 19:00) — wtk-2 vs hit-2
+                const m4 = data.mac4 || matches[3] || {};
+                setInputValue('admin-fix-m4-t1-name', m4.team1 || 'wtk-2');
+                setInputValue('admin-fix-m4-t1-score', m4.score1 !== null && m4.score1 !== undefined ? m4.score1 : '');
+                setInputValue('admin-fix-m4-t2-name', m4.team2 || 'hit-2');
+                setInputValue('admin-fix-m4-t2-score', m4.score2 !== null && m4.score2 !== undefined ? m4.score2 : '');
+                setInputValue('admin-fix-m4-status', m4.status || 'bekleniyor');
+                setInputValue('admin-fix-m4-time', m4.time || '19:00');
+                updateWinnerButtonGroup('fix-m4', m4.winner);
 
-                if (data.semis && data.semis[1]) {
-                    const s2 = data.semis[1];
-                    document.getElementById('admin-semi2-t1-name').value = s2.team1 || '';
-                    document.getElementById('admin-semi2-t1-score').value = s2.score1 !== null ? s2.score1 : '';
-                    document.getElementById('admin-semi2-t2-name').value = s2.team2 || '';
-                    document.getElementById('admin-semi2-t2-score').value = s2.score2 !== null ? s2.score2 : '';
-                    document.getElementById('admin-semi2-status').value = s2.status || 'bekleniyor';
-                    document.getElementById('admin-semi2-time').value = s2.time || '19:00';
-                    updateWinnerButtonGroup('semi2', s2.winner);
-                }
+                // Maç 5 (1 Ekim • 18:00) — maliye isletme -2 vs hit-2
+                const m5 = data.mac5 || data.thirdPlace || matches[4] || {};
+                setInputValue('admin-mac5-t1-name', m5.team1 || 'maliye isletme -2');
+                setInputValue('admin-mac5-t1-score', m5.score1 !== null && m5.score1 !== undefined ? m5.score1 : '');
+                setInputValue('admin-mac5-t2-name', m5.team2 || 'hit-2');
+                setInputValue('admin-mac5-t2-score', m5.score2 !== null && m5.score2 !== undefined ? m5.score2 : '');
+                setInputValue('admin-mac5-status', m5.status || 'bekleniyor');
+                setInputValue('admin-mac5-time', m5.time || '18:00');
+                updateWinnerButtonGroup('mac5', m5.winner);
 
-                // Maç 5 (1 Ekim • 18:00)
-                if (data.thirdPlace) {
-                    const th = data.thirdPlace;
-                    const thT1Name = document.getElementById('admin-third-t1-name');
-                    const thT1Score = document.getElementById('admin-third-t1-score');
-                    const thT2Name = document.getElementById('admin-third-t2-name');
-                    const thT2Score = document.getElementById('admin-third-t2-score');
-                    const thStatus = document.getElementById('admin-third-status');
-                    const thTime = document.getElementById('admin-third-time');
-                    if (thT1Name) thT1Name.value = th.team1 || '';
-                    if (thT1Score) thT1Score.value = th.score1 !== null && th.score1 !== undefined ? th.score1 : '';
-                    if (thT2Name) thT2Name.value = th.team2 || '';
-                    if (thT2Score) thT2Score.value = th.score2 !== null && th.score2 !== undefined ? th.score2 : '';
-                    if (thStatus) thStatus.value = th.status || 'bekleniyor';
-                    if (thTime) thTime.value = th.time || '18:00';
-                    updateWinnerButtonGroup('third', th.winner);
-                }
+                // Maç 6 (1 Ekim • 18:45) — wtk-2 vs hit-1
+                const m6 = data.mac6 || matches[5] || {};
+                setInputValue('admin-mac6-t1-name', m6.team1 || 'wtk-2');
+                setInputValue('admin-mac6-t1-score', m6.score1 !== null && m6.score1 !== undefined ? m6.score1 : '');
+                setInputValue('admin-mac6-t2-name', m6.team2 || 'hit-1');
+                setInputValue('admin-mac6-t2-score', m6.score2 !== null && m6.score2 !== undefined ? m6.score2 : '');
+                setInputValue('admin-mac6-status', m6.status || 'bekleniyor');
+                setInputValue('admin-mac6-time', m6.time || '18:45');
+                updateWinnerButtonGroup('mac6', m6.winner);
 
-                // Maç 6 / Son maç (1 Ekim • 18:45)
-                if (data.final) {
-                    const f = data.final;
-                    document.getElementById('admin-final-t1-name').value = f.team1 || '';
-                    document.getElementById('admin-final-t1-score').value = f.score1 !== null ? f.score1 : '';
-                    document.getElementById('admin-final-t2-name').value = f.team2 || '';
-                    document.getElementById('admin-final-t2-score').value = f.score2 !== null ? f.score2 : '';
-                    document.getElementById('admin-final-status').value = f.status || 'bekleniyor';
-                    document.getElementById('admin-final-time').value = f.time || '18:45';
-                    document.getElementById('admin-champion-input').value = f.champion || '';
-                    updateWinnerButtonGroup('final', f.winner);
+                // ------------------------------------------
+                // 2. ELEME AĞACI: YARI FİNALLER & BÜYÜK FİNAL
+                // ------------------------------------------
+                // 1. Yarı Final
+                const s1 = (data.semis && data.semis[0]) || {};
+                setInputValue('admin-semi1-t1-name', s1.team1 || 'Ön Eleme 1 Galibi');
+                setInputValue('admin-semi1-t1-score', s1.score1 !== null && s1.score1 !== undefined ? s1.score1 : '');
+                setInputValue('admin-semi1-t2-name', s1.team2 || (data.byeTeam || 'ic mekan tasarim-2'));
+                setInputValue('admin-semi1-t2-score', s1.score2 !== null && s1.score2 !== undefined ? s1.score2 : '');
+                setInputValue('admin-semi1-status', s1.status || 'bekleniyor');
+                setInputValue('admin-semi1-time', s1.time || '18:00');
+                updateWinnerButtonGroup('semi1', s1.winner);
+
+                // 2. Yarı Final
+                const s2 = (data.semis && data.semis[1]) || {};
+                setInputValue('admin-semi2-t1-name', s2.team1 || 'Ön Eleme 2 Galibi');
+                setInputValue('admin-semi2-t1-score', s2.score1 !== null && s2.score1 !== undefined ? s2.score1 : '');
+                setInputValue('admin-semi2-t2-name', s2.team2 || 'Final Yolu');
+                setInputValue('admin-semi2-t2-score', s2.score2 !== null && s2.score2 !== undefined ? s2.score2 : '');
+                setInputValue('admin-semi2-status', s2.status || 'bekleniyor');
+                setInputValue('admin-semi2-time', s2.time || '19:00');
+                updateWinnerButtonGroup('semi2', s2.winner);
+
+                // Bay Takımı
+                setInputValue('admin-bye-team-name', data.byeTeam || 'ic mekan tasarim-2');
+
+                // Büyük Final
+                const f = data.final || {};
+                setInputValue('admin-final-t1-name', f.team1 || 'Yarı Final 1 Galibi');
+                setInputValue('admin-final-t1-score', f.score1 !== null && f.score1 !== undefined ? f.score1 : '');
+                setInputValue('admin-final-t2-name', f.team2 || 'Yarı Final 2 Galibi');
+                setInputValue('admin-final-t2-score', f.score2 !== null && f.score2 !== undefined ? f.score2 : '');
+                setInputValue('admin-final-status', f.status || 'bekleniyor');
+                setInputValue('admin-final-time', f.time || '18:45');
+                updateWinnerButtonGroup('final', f.winner);
+
+                // Şampiyon
+                setInputValue('admin-champion-input', f.champion || '');
+            }
+
+            function getSelectedWinner(prefix, score1, score2) {
+                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
+                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
+                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
+                if (btnT1 && btnT1.classList.contains('active')) return 'team1';
+                if (btnT2 && btnT2.classList.contains('active')) return 'team2';
+                if (btnNone && btnNone.classList.contains('active')) return null;
+                if (score1 !== null && score2 !== null && !isNaN(score1) && !isNaN(score2)) {
+                    if (score1 > score2) return 'team1';
+                    if (score2 > score1) return 'team2';
                 }
+                return null;
             }
 
             function updateWinnerButtonGroup(prefix, winnerValue) {
@@ -3078,40 +3307,65 @@
 
                 if (btnT1) {
                     btnT1.addEventListener('click', () => {
+                        updateWinnerButtonGroup(prefix, 'team1');
                         const target = targetObjectGetter();
-                        if (target) {
-                            target.winner = 'team1';
-                            updateWinnerButtonGroup(prefix, 'team1');
-                        }
+                        if (target) target.winner = 'team1';
                     });
                 }
                 if (btnT2) {
                     btnT2.addEventListener('click', () => {
+                        updateWinnerButtonGroup(prefix, 'team2');
                         const target = targetObjectGetter();
-                        if (target) {
-                            target.winner = 'team2';
-                            updateWinnerButtonGroup(prefix, 'team2');
-                        }
+                        if (target) target.winner = 'team2';
                     });
                 }
                 if (btnNone) {
                     btnNone.addEventListener('click', () => {
+                        updateWinnerButtonGroup(prefix, null);
                         const target = targetObjectGetter();
-                        if (target) {
-                            target.winner = null;
-                            updateWinnerButtonGroup(prefix, null);
-                        }
+                        if (target) target.winner = null;
                     });
                 }
             }
 
-            // Kazanan butonları bağla
-            setupWinnerButtons('qf1', () => currentEditingTournament.quarters && currentEditingTournament.quarters[0]);
-            setupWinnerButtons('qf2', () => currentEditingTournament.quarters && currentEditingTournament.quarters[1]);
-            setupWinnerButtons('semi1', () => currentEditingTournament.semis && currentEditingTournament.semis[0]);
-            setupWinnerButtons('semi2', () => currentEditingTournament.semis && currentEditingTournament.semis[1]);
-            setupWinnerButtons('third', () => currentEditingTournament.thirdPlace);
-            setupWinnerButtons('final', () => currentEditingTournament.final);
+            function attachScoreWinnerAutoSync(prefix) {
+                const s1Input = document.getElementById(`admin-${prefix}-t1-score`);
+                const s2Input = document.getElementById(`admin-${prefix}-t2-score`);
+                if (!s1Input || !s2Input) return;
+
+                const syncWinner = () => {
+                    const v1 = s1Input.value.trim();
+                    const v2 = s2Input.value.trim();
+                    if (v1 === '' && v2 === '') {
+                        updateWinnerButtonGroup(prefix, null);
+                        return;
+                    }
+                    const s1 = parseInt(v1, 10);
+                    const s2 = parseInt(v2, 10);
+                    if (!isNaN(s1) && !isNaN(s2)) {
+                        if (s1 > s2) updateWinnerButtonGroup(prefix, 'team1');
+                        else if (s2 > s1) updateWinnerButtonGroup(prefix, 'team2');
+                        else updateWinnerButtonGroup(prefix, null);
+                    }
+                };
+
+                s1Input.addEventListener('input', syncWinner);
+                s2Input.addEventListener('input', syncWinner);
+            }
+
+            // Kazanan butonları bağlama
+            setupWinnerButtons('qf1', () => currentEditingTournament && currentEditingTournament.quarters && currentEditingTournament.quarters[0]);
+            setupWinnerButtons('qf2', () => currentEditingTournament && currentEditingTournament.quarters && currentEditingTournament.quarters[1]);
+            setupWinnerButtons('fix-m3', () => currentEditingTournament && currentEditingTournament.mac3);
+            setupWinnerButtons('fix-m4', () => currentEditingTournament && currentEditingTournament.mac4);
+            setupWinnerButtons('mac5', () => currentEditingTournament && currentEditingTournament.mac5);
+            setupWinnerButtons('mac6', () => currentEditingTournament && currentEditingTournament.mac6);
+
+            setupWinnerButtons('semi1', () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[0]);
+            setupWinnerButtons('semi2', () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[1]);
+            setupWinnerButtons('final', () => currentEditingTournament && currentEditingTournament.final);
+
+            ['qf1', 'qf2', 'fix-m3', 'fix-m4', 'mac5', 'mac6', 'semi1', 'semi2', 'final'].forEach(attachScoreWinnerAutoSync);
 
             // 1. Ön Eleme Galibini 1. Yarı Finale Aktarma
             const btnAdvanceQf1ToSemi = document.getElementById('btn-advance-qf1-to-semi');
@@ -3133,10 +3387,10 @@
 
                     if (winnerName) {
                         currentEditingTournament.semis[0].team1 = winnerName;
-                        document.getElementById('admin-semi1-t1-name').value = winnerName;
+                        setInputValue('admin-semi1-t1-name', winnerName);
                         showToast(`"${winnerName}" 1. Yarı Finale aktarıldı!`, '⏩');
                     } else {
-                        showToast('Lütfen 1. Ön Eleme maçı için kazanan belirleyiniz.', '⚠️');
+                        showToast('Lütfen 1. Ön Eleme (Maç 1) için galip seçiniz veya skor giriniz.', '⚠️');
                     }
                 });
             }
@@ -3161,10 +3415,10 @@
 
                     if (winnerName) {
                         currentEditingTournament.semis[1].team1 = winnerName;
-                        document.getElementById('admin-semi2-t1-name').value = winnerName;
+                        setInputValue('admin-semi2-t1-name', winnerName);
                         showToast(`"${winnerName}" 2. Yarı Finale aktarıldı!`, '⏩');
                     } else {
-                        showToast('Lütfen 2. Ön Eleme maçı için kazanan belirleyiniz.', '⚠️');
+                        showToast('Lütfen 2. Ön Eleme (Maç 2) için galip seçiniz veya skor giriniz.', '⚠️');
                     }
                 });
             }
@@ -3173,15 +3427,15 @@
             const btnSyncByeToSemi1 = document.getElementById('btn-sync-bye-to-semi1');
             if (btnSyncByeToSemi1) {
                 btnSyncByeToSemi1.addEventListener('click', () => {
-                    const byeName = (document.getElementById('admin-bye-team-name').value || 'ic mekan tasarim-2').trim();
+                    const byeName = (getInputValue('admin-bye-team-name', 'ic mekan tasarim-2')).trim();
                     currentEditingTournament.byeTeam = byeName;
                     currentEditingTournament.semis[0].team2 = byeName;
-                    document.getElementById('admin-semi1-t2-name').value = byeName;
+                    setInputValue('admin-semi1-t2-name', byeName);
                     showToast(`"${byeName}" 1. Yarı Finale yerleştirildi!`, '🛡️');
                 });
             }
 
-            // Yarı Finallerden Finale ve 3.lüğe Aktarma
+            // Yarı Finallerden Finale Aktarma
             const btnAdvanceSemisToFinal = document.getElementById('btn-advance-semis-to-final');
             if (btnAdvanceSemisToFinal) {
                 btnAdvanceSemisToFinal.addEventListener('click', () => {
@@ -3191,48 +3445,33 @@
 
                     let w1 = s1.winner === 'team1' ? s1.team1 : (s1.winner === 'team2' ? s1.team2 : '');
                     let w2 = s2.winner === 'team1' ? s2.team1 : (s2.winner === 'team2' ? s2.team2 : '');
-                    let l1 = s1.winner === 'team1' ? s1.team2 : (s1.winner === 'team2' ? s1.team1 : '');
-                    let l2 = s2.winner === 'team1' ? s2.team2 : (s2.winner === 'team2' ? s2.team1 : '');
 
                     if (!w1) {
                         const sc1 = parseInt(s1.score1, 10), sc2 = parseInt(s1.score2, 10);
                         if (!isNaN(sc1) && !isNaN(sc2)) {
                             w1 = sc1 > sc2 ? s1.team1 : (sc2 > sc1 ? s1.team2 : '');
-                            l1 = sc1 > sc2 ? s1.team2 : (sc2 > sc1 ? s1.team1 : '');
                         }
                     }
                     if (!w2) {
                         const sc1 = parseInt(s2.score1, 10), sc2 = parseInt(s2.score2, 10);
                         if (!isNaN(sc1) && !isNaN(sc2)) {
                             w2 = sc1 > sc2 ? s2.team1 : (sc2 > sc1 ? s2.team2 : '');
-                            l2 = sc1 > sc2 ? s2.team2 : (sc2 > sc1 ? s2.team1 : '');
                         }
                     }
 
                     if (w1) {
                         currentEditingTournament.final.team1 = w1;
-                        document.getElementById('admin-final-t1-name').value = w1;
+                        setInputValue('admin-final-t1-name', w1);
                     }
                     if (w2) {
                         currentEditingTournament.final.team2 = w2;
-                        document.getElementById('admin-final-t2-name').value = w2;
-                    }
-
-                    if (l1 && currentEditingTournament.thirdPlace) {
-                        currentEditingTournament.thirdPlace.team1 = l1;
-                        const el = document.getElementById('admin-third-t1-name');
-                        if (el) el.value = l1;
-                    }
-                    if (l2 && currentEditingTournament.thirdPlace) {
-                        currentEditingTournament.thirdPlace.team2 = l2;
-                        const el = document.getElementById('admin-third-t2-name');
-                        if (el) el.value = l2;
+                        setInputValue('admin-final-t2-name', w2);
                     }
 
                     if (w1 || w2) {
-                        showToast('Final ve 3.lük eşleşmeleri güncellendi!', '🏆');
+                        showToast(`🏆 Final eşleşmesi güncellendi: ${w1 || '?'} 🆚 ${w2 || '?'}`, '🏆');
                     } else {
-                        showToast('Lütfen yarı finaller için kazanan belirleyiniz.', '⚠️');
+                        showToast('Lütfen yarı final maçları için galip seçiniz veya skor giriniz.', '⚠️');
                     }
                 });
             }
@@ -3252,18 +3491,18 @@
                     }
 
                     if (winner) {
-                        document.getElementById('admin-champion-input').value = winner;
+                        setInputValue('admin-champion-input', winner);
                         currentEditingTournament.final.champion = winner;
                         showToast(`👑 "${winner}" şampiyon ilan edildi!`, '🏆');
                     } else {
-                        showToast('Lütfen final maçının kazananını seçiniz.', '⚠️');
+                        showToast('Lütfen final maçı için kazananı seçiniz veya skoru giriniz.', '⚠️');
                     }
                 });
             }
 
             if (btnChampionClear) {
                 btnChampionClear.addEventListener('click', () => {
-                    document.getElementById('admin-champion-input').value = '';
+                    setInputValue('admin-champion-input', '');
                     if (currentEditingTournament && currentEditingTournament.final) {
                         currentEditingTournament.final.champion = '';
                     }
@@ -3272,119 +3511,143 @@
             }
 
             function readAdminInputsIntoMemory() {
-                if (!currentEditingTournament) return;
+                if (!currentEditingTournament) currentEditingTournament = cloneObject(getTournamentData());
+
+                // 1. Quarters (Maç 1 ve Maç 2)
                 if (!Array.isArray(currentEditingTournament.quarters)) {
                     currentEditingTournament.quarters = [{}, {}];
                 }
-
-                // Maç 1 (28 Eylül • 18:00)
                 const q1 = currentEditingTournament.quarters[0] || {};
                 q1.id = q1.id || 'qf-1';
-                q1.date = q1.date || '28 Eylül 2026';
-                q1.team1 = (document.getElementById('admin-qf1-t1-name').value || '').trim();
-                const s1 = document.getElementById('admin-qf1-t1-score').value.trim();
-                q1.score1 = s1 === '' ? null : parseInt(s1, 10);
-                q1.team2 = (document.getElementById('admin-qf1-t2-name').value || '').trim();
-                const s2 = document.getElementById('admin-qf1-t2-score').value.trim();
-                q1.score2 = s2 === '' ? null : parseInt(s2, 10);
-                q1.status = document.getElementById('admin-qf1-status').value;
-                q1.time = (document.getElementById('admin-qf1-time').value || '18:00').trim();
+                q1.date = '28 Eylül 2026';
+                q1.team1 = getInputValue('admin-qf1-t1-name', 'maliye isletme -2');
+                q1.score1 = getInputScore('admin-qf1-t1-score');
+                q1.team2 = getInputValue('admin-qf1-t2-name', 'wtk-2');
+                q1.score2 = getInputScore('admin-qf1-t2-score');
+                q1.status = getInputValue('admin-qf1-status', 'bekleniyor');
+                q1.time = getInputValue('admin-qf1-time', '18:00');
+                q1.winner = getSelectedWinner('qf1', q1.score1, q1.score2);
                 currentEditingTournament.quarters[0] = q1;
 
-                // Maç 2 (28 Eylül • 19:00)
                 const q2 = currentEditingTournament.quarters[1] || {};
                 q2.id = q2.id || 'qf-2';
-                q2.date = q2.date || '28 Eylül 2026';
-                q2.team1 = (document.getElementById('admin-qf2-t1-name').value || '').trim();
-                const s21 = document.getElementById('admin-qf2-t1-score').value.trim();
-                q2.score1 = s21 === '' ? null : parseInt(s21, 10);
-                q2.team2 = (document.getElementById('admin-qf2-t2-name').value || '').trim();
-                const s22 = document.getElementById('admin-qf2-t2-score').value.trim();
-                q2.score2 = s22 === '' ? null : parseInt(s22, 10);
-                q2.status = document.getElementById('admin-qf2-status').value;
-                q2.time = (document.getElementById('admin-qf2-time').value || '19:00').trim();
+                q2.date = '28 Eylül 2026';
+                q2.team1 = getInputValue('admin-qf2-t1-name', 'hit-1');
+                q2.score1 = getInputScore('admin-qf2-t1-score');
+                q2.team2 = getInputValue('admin-qf2-t2-name', 'hit-2');
+                q2.score2 = getInputScore('admin-qf2-t2-score');
+                q2.status = getInputValue('admin-qf2-status', 'bekleniyor');
+                q2.time = getInputValue('admin-qf2-time', '19:00');
+                q2.winner = getSelectedWinner('qf2', q2.score1, q2.score2);
                 currentEditingTournament.quarters[1] = q2;
 
-                // Bay Takımı
-                const byeInput = document.getElementById('admin-bye-team-name');
-                if (byeInput) {
-                    currentEditingTournament.byeTeam = (byeInput.value || 'ic mekan tasarim-2').trim();
-                }
+                // 2. Fikstür Maç 3
+                const m3 = currentEditingTournament.mac3 || {};
+                m3.id = m3.id || 'mac-3';
+                m3.date = '30 Eylül 2026';
+                m3.team1 = getInputValue('admin-fix-m3-t1-name', 'maliye isletme -2');
+                m3.score1 = getInputScore('admin-fix-m3-t1-score');
+                m3.team2 = getInputValue('admin-fix-m3-t2-name', 'hit-1');
+                m3.score2 = getInputScore('admin-fix-m3-t2-score');
+                m3.status = getInputValue('admin-fix-m3-status', 'bekleniyor');
+                m3.time = getInputValue('admin-fix-m3-time', '18:00');
+                m3.winner = getSelectedWinner('fix-m3', m3.score1, m3.score2);
+                currentEditingTournament.mac3 = m3;
 
-                // Maç 3 (30 Eylül • 18:00)
-                if (currentEditingTournament.semis && currentEditingTournament.semis[0]) {
-                    const s1Obj = currentEditingTournament.semis[0];
-                    s1Obj.team1 = (document.getElementById('admin-semi1-t1-name').value || '').trim();
-                    const sc1 = document.getElementById('admin-semi1-t1-score').value.trim();
-                    s1Obj.score1 = sc1 === '' ? null : parseInt(sc1, 10);
-                    s1Obj.team2 = (document.getElementById('admin-semi1-t2-name').value || '').trim();
-                    const sc2 = document.getElementById('admin-semi1-t2-score').value.trim();
-                    s1Obj.score2 = sc2 === '' ? null : parseInt(sc2, 10);
-                    s1Obj.status = document.getElementById('admin-semi1-status').value;
-                    s1Obj.time = (document.getElementById('admin-semi1-time').value || '18:00').trim();
-                }
+                // 3. Fikstür Maç 4
+                const m4 = currentEditingTournament.mac4 || {};
+                m4.id = m4.id || 'mac-4';
+                m4.date = '30 Eylül 2026';
+                m4.team1 = getInputValue('admin-fix-m4-t1-name', 'wtk-2');
+                m4.score1 = getInputScore('admin-fix-m4-t1-score');
+                m4.team2 = getInputValue('admin-fix-m4-t2-name', 'hit-2');
+                m4.score2 = getInputScore('admin-fix-m4-t2-score');
+                m4.status = getInputValue('admin-fix-m4-status', 'bekleniyor');
+                m4.time = getInputValue('admin-fix-m4-time', '19:00');
+                m4.winner = getSelectedWinner('fix-m4', m4.score1, m4.score2);
+                currentEditingTournament.mac4 = m4;
 
-                // Maç 4 (30 Eylül • 19:00)
-                if (currentEditingTournament.semis && currentEditingTournament.semis[1]) {
-                    const s2Obj = currentEditingTournament.semis[1];
-                    s2Obj.team1 = (document.getElementById('admin-semi2-t1-name').value || '').trim();
-                    const sc1 = document.getElementById('admin-semi2-t1-score').value.trim();
-                    s2Obj.score1 = sc1 === '' ? null : parseInt(sc1, 10);
-                    s2Obj.team2 = (document.getElementById('admin-semi2-t2-name').value || '').trim();
-                    const sc2 = document.getElementById('admin-semi2-t2-score').value.trim();
-                    s2Obj.score2 = sc2 === '' ? null : parseInt(sc2, 10);
-                    s2Obj.status = document.getElementById('admin-semi2-status').value;
-                    s2Obj.time = (document.getElementById('admin-semi2-time').value || '19:00').trim();
-                }
+                // 4. Fikstür Maç 5
+                const m5 = currentEditingTournament.mac5 || {};
+                m5.id = m5.id || 'mac-5';
+                m5.date = '1 Ekim 2026';
+                m5.team1 = getInputValue('admin-mac5-t1-name', 'maliye isletme -2');
+                m5.score1 = getInputScore('admin-mac5-t1-score');
+                m5.team2 = getInputValue('admin-mac5-t2-name', 'hit-2');
+                m5.score2 = getInputScore('admin-mac5-t2-score');
+                m5.status = getInputValue('admin-mac5-status', 'bekleniyor');
+                m5.time = getInputValue('admin-mac5-time', '18:00');
+                m5.winner = getSelectedWinner('mac5', m5.score1, m5.score2);
+                currentEditingTournament.mac5 = m5;
+                currentEditingTournament.thirdPlace = cloneObject(m5); // geriye dönük uyumluluk
 
-                // Maç 5 (thirdPlace) başlatma
-                if (!currentEditingTournament.thirdPlace) {
-                    currentEditingTournament.thirdPlace = {
-                        id: "third-place-match",
-                        date: "1 Ekim 2026",
-                        time: "18:00",
-                        status: "bekleniyor",
-                        team1: "",
-                        score1: null,
-                        team2: "",
-                        score2: null,
-                        winner: null
-                    };
-                }
-                const th = currentEditingTournament.thirdPlace;
-                const thT1 = document.getElementById('admin-third-t1-name');
-                const thS1 = document.getElementById('admin-third-t1-score');
-                const thT2 = document.getElementById('admin-third-t2-name');
-                const thS2 = document.getElementById('admin-third-t2-score');
-                const thSt = document.getElementById('admin-third-status');
-                const thTm = document.getElementById('admin-third-time');
+                // 5. Fikstür Maç 6
+                const m6 = currentEditingTournament.mac6 || {};
+                m6.id = m6.id || 'mac-6';
+                m6.date = '1 Ekim 2026';
+                m6.team1 = getInputValue('admin-mac6-t1-name', 'wtk-2');
+                m6.score1 = getInputScore('admin-mac6-t1-score');
+                m6.team2 = getInputValue('admin-mac6-t2-name', 'hit-1');
+                m6.score2 = getInputScore('admin-mac6-t2-score');
+                m6.status = getInputValue('admin-mac6-status', 'bekleniyor');
+                m6.time = getInputValue('admin-mac6-time', '18:45');
+                m6.winner = getSelectedWinner('mac6', m6.score1, m6.score2);
+                currentEditingTournament.mac6 = m6;
 
-                if (thT1) th.team1 = (thT1.value || '').trim();
-                if (thS1) {
-                    const sc = thS1.value.trim();
-                    th.score1 = sc === '' ? null : parseInt(sc, 10);
-                }
-                if (thT2) th.team2 = (thT2.value || '').trim();
-                if (thS2) {
-                    const sc = thS2.value.trim();
-                    th.score2 = sc === '' ? null : parseInt(sc, 10);
-                }
-                if (thSt) th.status = thSt.value;
-                if (thTm) th.time = (thTm.value || '18:00').trim();
+                // 6. Bay Takımı
+                currentEditingTournament.byeTeam = getInputValue('admin-bye-team-name', 'ic mekan tasarim-2');
 
-                // Maç 6 / Son maç
-                if (currentEditingTournament.final) {
-                    const f = currentEditingTournament.final;
-                    f.team1 = (document.getElementById('admin-final-t1-name').value || '').trim();
-                    const sc1 = document.getElementById('admin-final-t1-score').value.trim();
-                    f.score1 = sc1 === '' ? null : parseInt(sc1, 10);
-                    f.team2 = (document.getElementById('admin-final-t2-name').value || '').trim();
-                    const sc2 = document.getElementById('admin-final-t2-score').value.trim();
-                    f.score2 = sc2 === '' ? null : parseInt(sc2, 10);
-                    f.status = document.getElementById('admin-final-status').value;
-                    f.time = (document.getElementById('admin-final-time').value || '18:45').trim();
-                    f.champion = (document.getElementById('admin-champion-input').value || '').trim();
+                // 7. Yarı Finaller
+                if (!Array.isArray(currentEditingTournament.semis) || currentEditingTournament.semis.length < 2) {
+                    currentEditingTournament.semis = [{}, {}];
                 }
+                const s1 = currentEditingTournament.semis[0] || {};
+                s1.id = s1.id || 'semi-1';
+                s1.date = '30 Eylül 2026';
+                s1.team1 = getInputValue('admin-semi1-t1-name', 'Ön Eleme 1 Galibi');
+                s1.score1 = getInputScore('admin-semi1-t1-score');
+                s1.team2 = getInputValue('admin-semi1-t2-name', currentEditingTournament.byeTeam);
+                s1.score2 = getInputScore('admin-semi1-t2-score');
+                s1.status = getInputValue('admin-semi1-status', 'bekleniyor');
+                s1.time = getInputValue('admin-semi1-time', '18:00');
+                s1.winner = getSelectedWinner('semi1', s1.score1, s1.score2);
+                currentEditingTournament.semis[0] = s1;
+
+                const s2 = currentEditingTournament.semis[1] || {};
+                s2.id = s2.id || 'semi-2';
+                s2.date = '30 Eylül 2026';
+                s2.team1 = getInputValue('admin-semi2-t1-name', 'Ön Eleme 2 Galibi');
+                s2.score1 = getInputScore('admin-semi2-t1-score');
+                s2.team2 = getInputValue('admin-semi2-t2-name', 'Final Yolu');
+                s2.score2 = getInputScore('admin-semi2-t2-score');
+                s2.status = getInputValue('admin-semi2-status', 'bekleniyor');
+                s2.time = getInputValue('admin-semi2-time', '19:00');
+                s2.winner = getSelectedWinner('semi2', s2.score1, s2.score2);
+                currentEditingTournament.semis[1] = s2;
+
+                // 8. Büyük Final ve Şampiyon
+                if (!currentEditingTournament.final) currentEditingTournament.final = {};
+                const f = currentEditingTournament.final;
+                f.id = f.id || 'final-match';
+                f.date = '1 Ekim 2026';
+                f.team1 = getInputValue('admin-final-t1-name', 'Yarı Final 1 Galibi');
+                f.score1 = getInputScore('admin-final-t1-score');
+                f.team2 = getInputValue('admin-final-t2-name', 'Yarı Final 2 Galibi');
+                f.score2 = getInputScore('admin-final-t2-score');
+                f.status = getInputValue('admin-final-status', 'bekleniyor');
+                f.time = getInputValue('admin-final-time', '18:45');
+                f.winner = getSelectedWinner('final', f.score1, f.score2);
+                f.champion = getInputValue('admin-champion-input', '');
+
+                // 9. Tüm maçların matches dizisi olarak güncellenmesi
+                currentEditingTournament.matches = [
+                    cloneObject(q1),
+                    cloneObject(q2),
+                    cloneObject(m3),
+                    cloneObject(m4),
+                    cloneObject(m5),
+                    cloneObject(m6)
+                ];
             }
 
             // 8. SKORLARI PUAN DURUMUNA OTOMATİK AKTAR

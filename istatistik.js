@@ -578,25 +578,48 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
         "ic mekan tasarim-2": { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 }
     };
 
-    // Tüm maçları topla
+    // Tüm maçları topla ve tekilleştir
     const allMatches = [];
+    const seenMatchKeys = new Set();
+
+    function addCandidateMatch(m) {
+        if (!m || !m.team1 || !m.team2) return;
+        const c1 = findCanonicalTournamentTeam(m.team1);
+        const c2 = findCanonicalTournamentTeam(m.team2);
+        if (!c1 || !c2 || c1 === c2) return;
+        const key = m.id || [c1, c2].sort().join('_vs_');
+        if (!seenMatchKeys.has(key)) {
+            seenMatchKeys.add(key);
+            allMatches.push(m);
+        }
+    }
+
+    // 1. Haftalık fikstür maçları (matches dizisi)
+    if (Array.isArray(tournamentData.matches)) {
+        tournamentData.matches.forEach(addCandidateMatch);
+    }
+
+    // 2. Ayrı maç nesneleri
+    if (tournamentData.mac3) addCandidateMatch(tournamentData.mac3);
+    if (tournamentData.mac4) addCandidateMatch(tournamentData.mac4);
+    if (tournamentData.mac5) addCandidateMatch(tournamentData.mac5);
+    if (tournamentData.mac6) addCandidateMatch(tournamentData.mac6);
+
+    // 3. Ön eleme maçları
     if (Array.isArray(tournamentData.quarters)) {
-        allMatches.push(...tournamentData.quarters);
+        tournamentData.quarters.forEach(addCandidateMatch);
     } else if (tournamentData.quarter) {
-        allMatches.push(tournamentData.quarter);
+        addCandidateMatch(tournamentData.quarter);
     }
 
+    // 4. Yarı finaller
     if (Array.isArray(tournamentData.semis)) {
-        allMatches.push(...tournamentData.semis);
+        tournamentData.semis.forEach(addCandidateMatch);
     }
 
-    if (tournamentData.thirdPlace) {
-        allMatches.push(tournamentData.thirdPlace);
-    }
-
-    if (tournamentData.final) {
-        allMatches.push(tournamentData.final);
-    }
+    // 5. 3.lük ve Final
+    if (tournamentData.thirdPlace) addCandidateMatch(tournamentData.thirdPlace);
+    if (tournamentData.final) addCandidateMatch(tournamentData.final);
 
     let matchesProcessed = 0;
     const details = [];

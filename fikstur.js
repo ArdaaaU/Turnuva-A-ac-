@@ -5,7 +5,7 @@
  */
 
 // Varsayılan Turnuva Verileri
-// Pazartesi: 2 maç, Salı: BAY (maç yok), Çarşamba: 2 maç, Perşembe: 2 maç
+// Pazartesi: 2 maç, Salı: BAY (maç yok), Çarşamba: 2 çapraz maç, Perşembe: 2 çapraz maç
 const DEFAULT_TOURNAMENT_DATA = {
     matches: [
         // --- 28 Eylül 2026 - PAZARTESİ ---
@@ -33,15 +33,15 @@ const DEFAULT_TOURNAMENT_DATA = {
         },
         // --- 29 Eylül 2026 - SALI (BAY) ---
         // Salı günü maç yoktur.
-        // --- 30 Eylül 2026 - ÇARŞAMBA ---
+        // --- 30 Eylül 2026 - ÇARŞAMBA (Çapraz Eşleşme) ---
         {
             id: "mac-3",
             date: "30 Eylül 2026",
             time: "18:00",
             status: "bekleniyor",
-            team1: "ic mekan tasarim-2",
+            team1: "maliye isletme -2",
             score1: null,
-            team2: "Takım 3",
+            team2: "hit-1",
             score2: null,
             winner: null
         },
@@ -50,21 +50,21 @@ const DEFAULT_TOURNAMENT_DATA = {
             date: "30 Eylül 2026",
             time: "19:00",
             status: "bekleniyor",
-            team1: "Takım 4",
+            team1: "wtk-2",
             score1: null,
-            team2: "Takım 5",
+            team2: "hit-2",
             score2: null,
             winner: null
         },
-        // --- 1 Ekim 2026 - PERŞEMBE ---
+        // --- 1 Ekim 2026 - PERŞEMBE (Çapraz Eşleşme) ---
         {
             id: "mac-5",
             date: "1 Ekim 2026",
             time: "18:00",
             status: "bekleniyor",
-            team1: "Takım A",
+            team1: "maliye isletme -2",
             score1: null,
-            team2: "Takım B",
+            team2: "hit-2",
             score2: null,
             winner: null
         },
@@ -73,12 +73,11 @@ const DEFAULT_TOURNAMENT_DATA = {
             date: "1 Ekim 2026",
             time: "18:45",
             status: "bekleniyor",
-            team1: "Takım C",
+            team1: "wtk-2",
             score1: null,
-            team2: "Takım D",
+            team2: "hit-1",
             score2: null,
-            winner: null,
-            champion: "" // Şampiyon alanı (son maç için)
+            winner: null
         }
     ],
     // Geriye dönük uyumluluk için korunan alanlar
@@ -106,60 +105,109 @@ const DEFAULT_TOURNAMENT_DATA = {
             winner: null
         }
     ],
-    byeTeam: "ic mekan tasarim-2",
-    semis: [
-        {
-            id: "semi-1",
-            date: "30 Eylül 2026",
-            time: "18:00",
-            status: "bekleniyor",
-            team1: "ic mekan tasarim-2",
-            score1: null,
-            team2: "Takım 3",
-            score2: null,
-            winner: null
-        },
-        {
-            id: "semi-2",
-            date: "30 Eylül 2026",
-            time: "19:00",
-            status: "bekleniyor",
-            team1: "Takım 4",
-            score1: null,
-            team2: "Takım 5",
-            score2: null,
-            winner: null
-        }
-    ],
     tuesdayBay: {
         date: "29 Eylül 2026",
         title: "BAY Günü",
         status: "Maç Yok"
     },
+    semis: [
+        {
+            id: "semi-1",
+            title: "1. Yarı Final Maçı",
+            date: "30 Eylül 2026",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "Ön Eleme 1 Galibi",
+            score1: null,
+            team2: "ic mekan tasarim-2",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "semi-2",
+            title: "2. Yarı Final Maçı",
+            date: "30 Eylül 2026",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "Ön Eleme 2 Galibi",
+            score1: null,
+            team2: "Final Yolu",
+            score2: null,
+            winner: null
+        }
+    ],
+    byeTeam: "ic mekan tasarim-2",
     thirdPlace: {
         id: "third-place-match",
         date: "1 Ekim 2026",
         time: "18:00",
         status: "bekleniyor",
-        team1: "Takım A",
+        team1: "maliye isletme -2",
         score1: null,
-        team2: "Takım B",
+        team2: "hit-2",
         score2: null,
         winner: null
     },
     final: {
         id: "final-match",
+        title: "Büyük Final",
         date: "1 Ekim 2026",
         time: "18:45",
         status: "bekleniyor",
-        team1: "Takım C",
+        team1: "Yarı Final 1 Galibi",
         score1: null,
-        team2: "Takım D",
+        team2: "Yarı Final 2 Galibi",
         score2: null,
         winner: null,
         champion: ""
+    },
+    // Haftalık fikstür maçları (eleme ağacından bağımsız program)
+    mac3: {
+        id: "mac-3",
+        date: "30 Eylül 2026",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "maliye isletme -2",
+        score1: null,
+        team2: "hit-1",
+        score2: null,
+        winner: null
+    },
+    mac4: {
+        id: "mac-4",
+        date: "30 Eylül 2026",
+        time: "19:00",
+        status: "bekleniyor",
+        team1: "wtk-2",
+        score1: null,
+        team2: "hit-2",
+        score2: null,
+        winner: null
+    },
+    mac5: {
+        id: "mac-5",
+        date: "1 Ekim 2026",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "maliye isletme -2",
+        score1: null,
+        team2: "hit-2",
+        score2: null,
+        winner: null
+    },
+    mac6: {
+        id: "mac-6",
+        date: "1 Ekim 2026",
+        time: "18:45",
+        status: "bekleniyor",
+        team1: "wtk-2",
+        score1: null,
+        team2: "hit-1",
+        score2: null,
+        winner: null
     }
 };
+
 
 const BRACKET_STORAGE_KEY = 'turnuva_bracket_v5';
 let _bracketRealtimeSubscribed = false;
