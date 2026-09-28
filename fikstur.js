@@ -1,15 +1,16 @@
 /**
- * Turnuva Ağacı Yönetim Modülü (fikstur.js)
- * 5 Takımlı Turnuva Ağacı (Ön Eleme, Yarı Finaller, Final ve Şampiyonluk) verilerini yönetir.
+ * Turnuva Fikstür Yönetim Modülü (fikstur.js)
+ * Turnuva maç programını ve sonuçlarını yönetir.
  * Yerel önbellek (LocalStorage) ve çevrim içi bulut (Supabase) senkronizasyonunu destekler.
  */
 
-// Varsayılan Turnuva Ağacı Verileri (5 Takımlı Knockout Formatı - 28 Eylül Ön Eleme)
+// Varsayılan Turnuva Verileri
+// Pazartesi: 2 maç, Salı: BAY (maç yok), Çarşamba: 2 maç, Perşembe: 2 maç
 const DEFAULT_TOURNAMENT_DATA = {
-    quarters: [
+    matches: [
+        // --- 28 Eylül 2026 - PAZARTESİ ---
         {
-            id: "qf-1",
-            title: "1. Ön Eleme Maçı",
+            id: "mac-1",
             date: "28 Eylül 2026",
             time: "18:00",
             status: "bekleniyor", // "bekleniyor" | "canli" | "bitti"
@@ -20,8 +21,81 @@ const DEFAULT_TOURNAMENT_DATA = {
             winner: null // "team1" | "team2"
         },
         {
+            id: "mac-2",
+            date: "28 Eylül 2026",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "hit-1",
+            score1: null,
+            team2: "hit-2",
+            score2: null,
+            winner: null
+        },
+        // --- 29 Eylül 2026 - SALI (BAY) ---
+        // Salı günü maç yoktur.
+        // --- 30 Eylül 2026 - ÇARŞAMBA ---
+        {
+            id: "mac-3",
+            date: "30 Eylül 2026",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "Takım 3",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-4",
+            date: "30 Eylül 2026",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "Takım 4",
+            score1: null,
+            team2: "Takım 5",
+            score2: null,
+            winner: null
+        },
+        // --- 1 Ekim 2026 - PERŞEMBE ---
+        {
+            id: "mac-5",
+            date: "1 Ekim 2026",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "Takım A",
+            score1: null,
+            team2: "Takım B",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-6",
+            date: "1 Ekim 2026",
+            time: "18:45",
+            status: "bekleniyor",
+            team1: "Takım C",
+            score1: null,
+            team2: "Takım D",
+            score2: null,
+            winner: null,
+            champion: "" // Şampiyon alanı (son maç için)
+        }
+    ],
+    // Geriye dönük uyumluluk için korunan alanlar
+    quarters: [
+        {
+            id: "qf-1",
+            date: "28 Eylül 2026",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "maliye isletme -2",
+            score1: null,
+            team2: "wtk-2",
+            score2: null,
+            winner: null
+        },
+        {
             id: "qf-2",
-            title: "2. Ön Eleme Maçı",
             date: "28 Eylül 2026",
             time: "19:00",
             status: "bekleniyor",
@@ -36,41 +110,54 @@ const DEFAULT_TOURNAMENT_DATA = {
     semis: [
         {
             id: "semi-1",
-            title: "1. Yarı Final Maçı",
-            date: "29 Eylül 2026",
+            date: "30 Eylül 2026",
             time: "18:00",
             status: "bekleniyor",
-            team1: "Ön Eleme 1 Galibi",
+            team1: "ic mekan tasarim-2",
             score1: null,
-            team2: "ic mekan tasarim-2",
+            team2: "Takım 3",
             score2: null,
             winner: null
         },
         {
             id: "semi-2",
-            title: "2. Yarı Final Maçı",
-            date: "29 Eylül 2026",
+            date: "30 Eylül 2026",
             time: "19:00",
             status: "bekleniyor",
-            team1: "Ön Eleme 2 Galibi",
+            team1: "Takım 4",
             score1: null,
-            team2: "Final Yolu",
+            team2: "Takım 5",
             score2: null,
             winner: null
         }
     ],
+    tuesdayBay: {
+        date: "29 Eylül 2026",
+        title: "BAY Günü",
+        status: "Maç Yok"
+    },
+    thirdPlace: {
+        id: "third-place-match",
+        date: "1 Ekim 2026",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "Takım A",
+        score1: null,
+        team2: "Takım B",
+        score2: null,
+        winner: null
+    },
     final: {
         id: "final-match",
-        title: "⭐ Büyük Final (Şampiyonluk Maçı)",
-        date: "30 Eylül 2026",
-        time: "18:30",
+        date: "1 Ekim 2026",
+        time: "18:45",
         status: "bekleniyor",
-        team1: "1. Yarı Final Galibi",
+        team1: "Takım C",
         score1: null,
-        team2: "2. Yarı Final Galibi",
+        team2: "Takım D",
         score2: null,
         winner: null,
-        champion: "" // e.g. "hit-2"
+        champion: ""
     }
 };
 
@@ -85,11 +172,15 @@ function cloneObject(obj) {
 }
 
 /**
- * Turnuva ağacı verisinin güncel 2 maçlı ön eleme formatına uygunluğunu denetler
+ * Turnuva verisinin geçerli formatta olduğunu denetler
+ * Yeni format (matches dizisi) ve eski format (quarters/semis/final) desteklenir.
  */
 function isValidTournamentTree(data) {
-    if (!data || !data.final || !data.semis) return false;
-    if (Array.isArray(data.quarters) && data.quarters.length >= 2) return true;
+    if (!data) return false;
+    // Yeni format: matches dizisi
+    if (Array.isArray(data.matches) && data.matches.length >= 1) return true;
+    // Eski format: quarters + semis + final
+    if (data.final && data.semis && Array.isArray(data.quarters) && data.quarters.length >= 2) return true;
     return false;
 }
 
@@ -354,4 +445,15 @@ if (typeof window !== 'undefined') {
     } else {
         autoInitSync();
     }
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        DEFAULT_TOURNAMENT_DATA,
+        cloneObject,
+        isValidTournamentTree,
+        getTournamentData,
+        saveTournamentData,
+        resetTournamentData
+    };
 }

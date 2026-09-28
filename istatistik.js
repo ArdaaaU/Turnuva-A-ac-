@@ -590,6 +590,10 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
         allMatches.push(...tournamentData.semis);
     }
 
+    if (tournamentData.thirdPlace) {
+        allMatches.push(tournamentData.thirdPlace);
+    }
+
     if (tournamentData.final) {
         allMatches.push(tournamentData.final);
     }
