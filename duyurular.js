@@ -59,31 +59,176 @@ const DEFAULT_PIN = '3519';
 
 let _realtimeSubscribed = false;
 
-// Duyuruları Getir (Hızlı render için önbelleği döndürür)
+// Fikstürdeki güncel maç verilerini oku
+function getActiveFixtureMatches() {
+    let tData = null;
+    try {
+        if (typeof getTournamentData === 'function') {
+            tData = getTournamentData();
+        } else {
+            const raw = localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
+            if (raw) tData = JSON.parse(raw);
+        }
+    } catch (e) {}
+
+    const matches = (tData && Array.isArray(tData.matches)) ? tData.matches : [];
+    const findMatch = (id) => matches.find(m => m && m.id === id);
+
+    const m7 = (tData && tData.mac7) || findMatch('mac-7') || {
+        time: '18:00', team1: 'ic mekan tasarim-2', team2: 'maliye isletme -2'
+    };
+    const m8 = (tData && tData.mac8) || findMatch('mac-8') || {
+        time: '18:00', team1: 'maliye isletme -2', team2: 'hit-1'
+    };
+    const m9 = (tData && tData.mac9) || findMatch('mac-9') || {
+        time: '19:00', team1: 'wtk-2', team2: 'hit-2'
+    };
+    const m10 = (tData && tData.mac10) || findMatch('mac-10') || {
+        time: '18:00', team1: 'ic mekan tasarim-2', team2: 'hit-1'
+    };
+
+    return { m7, m8, m9, m10 };
+}
+
+// 6-8 Ekim tarih kontrolü (şuanlık 6 Ekim, 7 Ekimde 7 Ekim, 8 Ekimde 8 Ekim maçları)
+function getActiveTournamentDay() {
+    try {
+        if (typeof window !== 'undefined' && window.location && window.location.search) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dParam = parseInt(urlParams.get('day') || urlParams.get('gun'), 10);
+            if (dParam === 6 || dParam === 7 || dParam === 8) return dParam;
+        }
+        const sessionDay = sessionStorage.getItem('turnuva_active_fixture_day');
+        if (sessionDay) {
+            const sd = parseInt(sessionDay, 10);
+            if (sd === 6 || sd === 7 || sd === 8) return sd;
+        }
+    } catch (e) {}
+
+    const now = new Date();
+    const date = now.getDate();
+    const month = now.getMonth(); // 9 = Ekim (0-indexed)
+
+    if (month === 9) { // Ekim ayı
+        if (date === 7) return 7;
+        if (date >= 8) return 8;
+        return 6; // 6 Ekim veya öncesi
+    }
+
+    if (date === 7) return 7;
+    if (date === 8) return 8;
+    return 6; // Varsayılan şuanlık 6 Ekim
+}
+
+// Günün maç duyurusunu fikstürden dinamik olarak oluştur
+function getDailyTournamentAnnouncement() {
+    const day = getActiveTournamentDay();
+    const { m7, m8, m9, m10 } = getActiveFixtureMatches();
+
+    if (day === 7) {
+        const t1_8 = m8.team1 || 'maliye isletme -2';
+        const t2_8 = m8.team2 || 'hit-1';
+        const time8 = m8.time || '18:00';
+
+        const t1_9 = m9.team1 || 'wtk-2';
+        const t2_9 = m9.team2 || 'hit-2';
+        const time9 = m9.time || '19:00';
+
+        return {
+            id: 'gunun-maci-otomatik-7',
+            title: `⚽ Günün Maçları (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8} & ${t1_9} vs ${t2_9}`,
+            category: 'mac',
+            categoryLabel: '⚽ Günün Maçları',
+            date: '7 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `Bugün 2 maç: ${time8} ${t1_8} 🆚 ${t2_8} ve ${time9} ${t1_9} 🆚 ${t2_9}`,
+            content: `🏆 Fikstürde bugün (7 Ekim 2026 Çarşamba) oynanacak karşılaşmalar:\n\n⚡ ${time8} | ${t1_8} 🆚 ${t2_8}\n⚡ ${time9} | ${t1_9} 🆚 ${t2_9}\n\nFikstürde yer alan karşılaşmalarda tüm takımlarımıza ve sporcularımıza centilmence mücadeleler dileriz!`
+        };
+    } else if (day === 8) {
+        const t1_10 = m10.team1 || 'ic mekan tasarim-2';
+        const t2_10 = m10.team2 || 'hit-1';
+        const time10 = m10.time || '18:00';
+
+        return {
+            id: 'gunun-maci-otomatik-8',
+            title: `⚽ Günün Maçı (8 Ekim Perşembe) — ${t1_10} vs ${t2_10}`,
+            category: 'mac',
+            categoryLabel: '⚽ Günün Maçı',
+            date: '8 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `Bugün (8 Ekim Perşembe) saat ${time10}'de ${t1_10} ile ${t2_10} karşı karşıya geliyor.`,
+            content: `🏆 Turnuvada 8 Ekim Perşembe günü programı:\n\n⚡ ${time10} | ${t1_10} 🆚 ${t2_10}\n\nTüm futbolseverleri maçı izlemeye davet ediyor, takımlarımıza başarılar diliyoruz!`
+        };
+    } else {
+        // Şuanlık 6 Ekim Maçı
+        const t1_7 = m7.team1 || 'ic mekan tasarim-2';
+        const t2_7 = m7.team2 || 'maliye isletme -2';
+        const time7 = m7.time || '18:00';
+
+        return {
+            id: 'gunun-maci-otomatik-6',
+            title: `⚽ Günün Maçı (6 Ekim Salı) — ${t1_7} vs ${t2_7}`,
+            category: 'mac',
+            categoryLabel: '⚽ Günün Maçı',
+            date: '6 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `Bugün (6 Ekim Salı) saat ${time7}'de ${t1_7} ile ${t2_7} karşı karşıya geliyor!`,
+            content: `🏆 Turnuvada yeni hafta heyecanı başlıyor!\n\nBugün (6 Ekim 2026 Salı) oynanacak karşılaşma:\n\n⚡ ${time7} | ${t1_7} 🆚 ${t2_7}\n\nHer iki takımımıza ve tüm oyuncularımıza centilmence mücadeleler ve başarılar dileriz!`
+        };
+    }
+}
+
+// Fikstür güncellendiğinde duyuru listesini reaktif yenile
+if (typeof window !== 'undefined') {
+    window.addEventListener('turnuva_bracket_updated', () => {
+        try {
+            window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
+        } catch (e) {}
+    });
+}
+
+// Duyuruları Getir (Hızlı render için önbelleği döndürür + otomatik günün maçı duyurusu)
 function getAnnouncements() {
+    let list = [];
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored !== null) {
             const parsed = JSON.parse(stored);
             if (Array.isArray(parsed)) {
-                return parsed.filter(a => a && (!a.id || !String(a.id).startsWith('system-')) && a.category !== 'system');
+                list = parsed.filter(a => a && (!a.id || (!String(a.id).startsWith('system-') && !String(a.id).startsWith('gunun-maci-otomatik-'))) && a.category !== 'system');
             }
         }
     } catch (e) {
         console.warn('LocalStorage okunamadı, varsayılan veriler kullanılıyor:', e);
     }
-    // Sadece localStorage'da hiç kayıt yoksa varsayılanları kaydet
-    saveAnnouncements(DEFAULT_ANNOUNCEMENTS);
-    return DEFAULT_ANNOUNCEMENTS;
+    
+    if (!list || list.length === 0) {
+        list = [...DEFAULT_ANNOUNCEMENTS];
+    }
+
+    // Günün maç duyurusunu otomatik oluştur ve en başa sabitle
+    const dailyAnn = getDailyTournamentAnnouncement();
+    if (dailyAnn) {
+        list = [dailyAnn, ...list];
+    }
+
+    return list;
 }
 
-// Duyuruları Kaydet (Önbelleğe yazar ve olay tetikler)
+// Duyuruları Kaydet (Önbelleğe yazar ve olay tetikler - dinamik olanları hariç tutar)
 function saveAnnouncements(list) {
     try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanList));
         // Sayfa içi ve sekmeler arası anlık senkronizasyon tetikle
         try {
-            window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list } }));
+            window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
         } catch (evErr) {}
     } catch (e) {
         console.error('LocalStorage kaydetme hatası:', e);
@@ -101,7 +246,7 @@ function getLatestAnnouncement() {
 
 // Yeni Duyuru Ekle (Yerel + Supabase)
 function addAnnouncement(item) {
-    const list = getAnnouncements();
+    const list = getAnnouncements().filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
     const newItem = {
         id: 'd-' + Date.now(),
         title: item.title,

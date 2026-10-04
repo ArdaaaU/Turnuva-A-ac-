@@ -78,6 +78,59 @@ const DEFAULT_TOURNAMENT_DATA = {
             team2: "hit-1",
             score2: null,
             winner: null
+        },
+        // --- HAFTALIK KALAN MAÇ FİKSTÜRÜ (BU HAFTA OYNANACAK YENİ MAÇLAR) ---
+        // Salı: 18:00 | iç mekan tasarım-2 – maliye işletme-2
+        {
+            id: "mac-7",
+            date: "6 Ekim 2026",
+            day: "Salı",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "maliye isletme -2",
+            score2: null,
+            winner: null
+        },
+        // Çarşamba: 18:00 | maliye işletme-2 – hit-1
+        {
+            id: "mac-8",
+            date: "7 Ekim 2026",
+            day: "Çarşamba",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "maliye isletme -2",
+            score1: null,
+            team2: "hit-1",
+            score2: null,
+            winner: null
+        },
+        // Çarşamba: 19:00 | wtk-2 – hit-2
+        {
+            id: "mac-9",
+            date: "7 Ekim 2026",
+            day: "Çarşamba",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "wtk-2",
+            score1: null,
+            team2: "hit-2",
+            score2: null,
+            winner: null
+        },
+        // Perşembe: 18:00 | iç mekan tasarım-2 – hit-1
+        {
+            id: "mac-10",
+            date: "8 Ekim 2026",
+            day: "Perşembe",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "hit-1",
+            score2: null,
+            winner: null
         }
     ],
     // Geriye dönük uyumluluk için korunan alanlar
@@ -161,7 +214,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         winner: null,
         champion: ""
     },
-    // Haftalık fikstür maçları (eleme ağacından bağımsız program)
+    // Haftalık fikstür maçları
     mac3: {
         id: "mac-3",
         date: "30 Eylül 2026",
@@ -205,6 +258,55 @@ const DEFAULT_TOURNAMENT_DATA = {
         team2: "hit-1",
         score2: null,
         winner: null
+    },
+    // Yeni maç nesneleri
+    mac7: {
+        id: "mac-7",
+        date: "6 Ekim 2026",
+        day: "Salı",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "ic mekan tasarim-2",
+        score1: null,
+        team2: "maliye isletme -2",
+        score2: null,
+        winner: null
+    },
+    mac8: {
+        id: "mac-8",
+        date: "7 Ekim 2026",
+        day: "Çarşamba",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "maliye isletme -2",
+        score1: null,
+        team2: "hit-1",
+        score2: null,
+        winner: null
+    },
+    mac9: {
+        id: "mac-9",
+        date: "7 Ekim 2026",
+        day: "Çarşamba",
+        time: "19:00",
+        status: "bekleniyor",
+        team1: "wtk-2",
+        score1: null,
+        team2: "hit-2",
+        score2: null,
+        winner: null
+    },
+    mac10: {
+        id: "mac-10",
+        date: "8 Ekim 2026",
+        day: "Perşembe",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "ic mekan tasarim-2",
+        score1: null,
+        team2: "hit-1",
+        score2: null,
+        winner: null
     }
 };
 
@@ -233,7 +335,50 @@ function isValidTournamentTree(data) {
 }
 
 /**
- * Turnuva verisini getir (Önbellekten veya varsayılandan)
+ * Eski maçları ve girilen skorları koruyarak yeni haftalık fikstür maçlarını entegre eder
+ */
+function ensureMatchesIncludeNewFixture(data) {
+    if (!data) return data;
+    if (!Array.isArray(data.matches)) {
+        data.matches = [];
+    }
+
+    const existingMap = new Map();
+    data.matches.forEach(m => {
+        if (m && m.id) existingMap.set(m.id, m);
+    });
+
+    // Varsayılandaki tüm maçları kontrol et; eksik olanları ekle, var olanları (skorları) ASLA bozma
+    DEFAULT_TOURNAMENT_DATA.matches.forEach(defMatch => {
+        if (!existingMap.has(defMatch.id)) {
+            const newMatchObj = cloneObject(defMatch);
+            data.matches.push(newMatchObj);
+            existingMap.set(defMatch.id, newMatchObj);
+        } else {
+            // Var olan maçın day veya note alanı eksikse güncelle ama score1, score2, winner dokunma!
+            const existing = existingMap.get(defMatch.id);
+            if (!existing.day && defMatch.day) existing.day = defMatch.day;
+            if (!existing.note && defMatch.note) existing.note = defMatch.note;
+        }
+    });
+
+    // Doğrudan erişim kısayollarını tanımla/güncelle
+    existingMap.forEach((m, id) => {
+        if (id === 'mac-3' && !data.mac3) data.mac3 = m;
+        if (id === 'mac-4' && !data.mac4) data.mac4 = m;
+        if (id === 'mac-5' && !data.mac5) data.mac5 = m;
+        if (id === 'mac-6' && !data.mac6) data.mac6 = m;
+        if (id === 'mac-7') data.mac7 = m;
+        if (id === 'mac-8') data.mac8 = m;
+        if (id === 'mac-9') data.mac9 = m;
+        if (id === 'mac-10') data.mac10 = m;
+    });
+
+    return data;
+}
+
+/**
+ * Turnuva verisini getir (Önbellekten veya varsayılandan, eski maçları bozmadan yeni maçları ekler)
  */
 function getTournamentData() {
     try {
@@ -241,7 +386,12 @@ function getTournamentData() {
         if (stored !== null) {
             const parsed = JSON.parse(stored);
             if (isValidTournamentTree(parsed)) {
-                return parsed;
+                const migrated = ensureMatchesIncludeNewFixture(parsed);
+                // Önbelleğe de güncel halini yaz (eski skorlar korundu)
+                try {
+                    localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(migrated));
+                } catch (saveErr) { }
+                return migrated;
             }
         }
     } catch (e) {
