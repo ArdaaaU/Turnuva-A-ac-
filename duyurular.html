@@ -895,24 +895,12 @@
             #admin-login-btn,
             #new-announcement-btn,
             #admin-logout-btn,
-            #pin-modal,
-            #announcement-modal,
-            #delete-confirm-modal {
-                display: none !important;
+            /* Yönetici Paneli ve PIN Modalı Responsive Uyumluluk */
+            #announcement-modal .modal-content,
+            #pin-modal .modal-content {
+                width: 95%;
+                max-width: 540px;
             }
-        }
-
-        /* Mobil cihaz tespiti ile yönetici butonlarını ve modallarını gizleme */
-        .is-mobile-device .admin-action-btns,
-        .is-mobile-device .edit-ann-btn,
-        .is-mobile-device .delete-ann-btn,
-        .is-mobile-device #admin-login-btn,
-        .is-mobile-device #new-announcement-btn,
-        .is-mobile-device #admin-logout-btn,
-        .is-mobile-device #pin-modal,
-        .is-mobile-device #announcement-modal,
-        .is-mobile-device #delete-confirm-modal {
-            display: none !important;
         }
 
         @media (max-width: 768px) {
@@ -1478,7 +1466,6 @@
 
             // Yönetici Girişi Modalı Açma
             adminLoginBtn.addEventListener('click', () => {
-                if (isMobileClient()) return; // Telefonda açılmaz
                 adminPinInput.value = '';
                 adminPinInput.type = 'password';
                 const togglePinBtn = document.getElementById('toggle-pin-visibility');

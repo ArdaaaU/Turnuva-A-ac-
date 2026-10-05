@@ -1632,37 +1632,12 @@
                 padding: 10px 12px;
             }
 
-            /* Telefonda Yönetici Paneli ve Butonlarını Kesin Olarak Gizle (Sadece Bilgisayarda Görünür) */
-            .admin-nav-btn,
-            .admin-logout-nav-btn,
-            .mobile-admin-section,
-            .admin-active-badge,
-            .quick-edit-tag,
-            #open-admin-btn,
-            #mobile-open-admin-btn,
-            #mobile-admin-logout-btn,
-            #admin-logout-btn,
-            #admin-active-badge,
-            #tournament-admin-modal,
-            #pin-modal {
-                display: none !important;
+            /* Yönetici Paneli ve PIN Modalı için Responsive Uyum */
+            #tournament-admin-modal .modal-content,
+            #pin-modal .modal-content {
+                width: 95%;
+                max-width: 540px;
             }
-        }
-
-        /* Mobil cihaz tespiti ile yönetici paneli öğelerini gizle */
-        .is-mobile-device .admin-nav-btn,
-        .is-mobile-device .admin-logout-nav-btn,
-        .is-mobile-device .mobile-admin-section,
-        .is-mobile-device .admin-active-badge,
-        .is-mobile-device .quick-edit-tag,
-        .is-mobile-device #open-admin-btn,
-        .is-mobile-device #mobile-open-admin-btn,
-        .is-mobile-device #mobile-admin-logout-btn,
-        .is-mobile-device #admin-logout-btn,
-        .is-mobile-device #admin-active-badge,
-        .is-mobile-device #tournament-admin-modal,
-        .is-mobile-device #pin-modal {
-            display: none !important;
         }
     </style>
 </head>
@@ -2999,15 +2974,14 @@
                     }
                 }
 
-                if (adminLogoutBtn) adminLogoutBtn.style.display = (isAuth && !isMobile) ? 'inline-flex' : 'none';
-                if (mobileAdminLogoutBtn) mobileAdminLogoutBtn.style.display = 'none';
-                if (adminActiveBadge) adminActiveBadge.style.display = (isAuth && !isMobile) ? 'inline-flex' : 'none';
+                if (adminLogoutBtn) adminLogoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
+                if (mobileAdminLogoutBtn) mobileAdminLogoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
+                if (adminActiveBadge) adminActiveBadge.style.display = isAuth ? 'inline-flex' : 'none';
 
                 renderAllTournamentViews();
             }
 
             function handleAdminButtonClick() {
-                if (isMobileClient()) return; // Telefonda / mobilde yönetici paneli açılmaz
                 if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
                     openAdminModal();
                 } else {
