@@ -1364,6 +1364,9 @@
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
 
+    <!-- GÜVENLİK VE ŞİFRELEME MODÜLÜ (SHA-256 HASH & BRUTE-FORCE KORUMASI) -->
+    <script src="security.js"></script>
+
     <!-- SUPABASE VE İSTATİSTİK MODÜLLERİ -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
@@ -2119,27 +2122,37 @@
                 });
             }
 
-            // VARSAYILANLARA SIFIRLA
+            // GÜVENLİ SIFIRLAMA (ÇİFT ONAY & ŞİFRE KORUMASI)
             if (adminResetStatsBtn) {
                 adminResetStatsBtn.addEventListener('click', async () => {
-                    if (confirm('Puan durumu tablosu ve takım kadroları başlangıç verilerine sıfırlanacaktır. Emin misiniz?')) {
-                        adminResetStatsBtn.disabled = true;
-                        try {
-                            const defStandings = await resetStandingsData();
-                            const defPlayers = await resetPlayersData();
+                    const confirmWord = prompt('⚠️ DİKKAT: Puan durumu ve tüm oyuncuların attığı goller sıfırlanacaktır!\n\nBu işlemi onaylamak için lütfen "SIFIRLA" yazınız:');
+                    if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') {
+                        showToast('Sıfırlama işlemi iptal edildi.', 'ℹ️');
+                        return;
+                    }
 
-                            currentEditingStandings = cloneObject(defStandings);
-                            currentEditingPlayers = cloneObject(defPlayers);
+                    const confirmPin = prompt('Güvenlik Doğrulaması: Lütfen yönetici şifrenizi giriniz:');
+                    if (typeof authenticateAdmin !== 'function' || !authenticateAdmin(confirmPin)) {
+                        showToast('Yetkisiz işlem! Hatalı şifre girildi.', '❌');
+                        return;
+                    }
 
-                            populateAdminStandings(currentEditingStandings);
-                            populateAdminPlayers(currentEditingPlayers);
-                            renderAllStatsViews();
-                            showToast('Veriler başarıyla sıfırlandı.', '🔄');
-                        } catch (err) {
-                            showToast('Sıfırlama hatası.', '❌');
-                        } finally {
-                            adminResetStatsBtn.disabled = false;
-                        }
+                    adminResetStatsBtn.disabled = true;
+                    try {
+                        const defStandings = await resetStandingsData();
+                        const defPlayers = await resetPlayersData();
+
+                        currentEditingStandings = cloneObject(defStandings);
+                        currentEditingPlayers = cloneObject(defPlayers);
+
+                        populateAdminStandings(currentEditingStandings);
+                        populateAdminPlayers(currentEditingPlayers);
+                        renderAllStatsViews();
+                        showToast('Veriler başarıyla sıfırlandı.', '🔄');
+                    } catch (err) {
+                        showToast('Sıfırlama hatası.', '❌');
+                    } finally {
+                        adminResetStatsBtn.disabled = false;
                     }
                 });
             }

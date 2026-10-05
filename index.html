@@ -2474,6 +2474,9 @@
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
 
+    <!-- GÜVENLİK VE ŞİFRELEME MODÜLÜ (SHA-256 HASH & BRUTE-FORCE KORUMASI) -->
+    <script src="security.js"></script>
+
     <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
@@ -3821,22 +3824,32 @@
                 });
             }
 
-            // VARSAYILANA SIFIRLA
+            // GÜVENLİ SIFIRLAMA (ÇİFT ONAY & ŞİFRE KORUMASI)
             if (adminResetBtn) {
                 adminResetBtn.addEventListener('click', async () => {
-                    if (confirm('Tüm turnuva ağacı başlangıç verilerine sıfırlanacaktır. Emin misiniz?')) {
-                        adminResetBtn.disabled = true;
-                        try {
-                            const defaultData = await resetTournamentData();
-                            currentEditingTournament = cloneObject(defaultData);
-                            populateAdminModalValues(currentEditingTournament);
-                            renderAllTournamentViews(currentEditingTournament);
-                            showToast('Turnuva ağacı varsayılan durumuna getirildi.', '🔄');
-                        } catch (err) {
-                            showToast('Sıfırlama sırasında hata oluştu.', '❌');
-                        } finally {
-                            adminResetBtn.disabled = false;
-                        }
+                    const confirmWord = prompt('⚠️ DİKKAT: Tüm turnuva ağacı ve maç verileri sıfırlanacaktır!\n\nBu işlemi onaylamak için lütfen "SIFIRLA" yazınız:');
+                    if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') {
+                        showToast('Sıfırlama işlemi iptal edildi.', 'ℹ️');
+                        return;
+                    }
+
+                    const confirmPin = prompt('Güvenlik Doğrulaması: Lütfen yönetici şifrenizi giriniz:');
+                    if (typeof authenticateAdmin !== 'function' || !authenticateAdmin(confirmPin)) {
+                        showToast('Yetkisiz işlem! Hatalı şifre girildi.', '❌');
+                        return;
+                    }
+
+                    adminResetBtn.disabled = true;
+                    try {
+                        const defaultData = await resetTournamentData();
+                        currentEditingTournament = cloneObject(defaultData);
+                        populateAdminModalValues(currentEditingTournament);
+                        renderAllTournamentViews(currentEditingTournament);
+                        showToast('Turnuva ağacı varsayılan durumuna getirildi.', '🔄');
+                    } catch (err) {
+                        showToast('Sıfırlama sırasında hata oluştu.', '❌');
+                    } finally {
+                        adminResetBtn.disabled = false;
                     }
                 });
             }

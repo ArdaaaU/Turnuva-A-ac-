@@ -77,9 +77,7 @@ const DEFAULT_STANDINGS = [
 
 const STATS_STORAGE_KEY = 'turnuva_stats_v4';
 const STANDINGS_STORAGE_KEY = 'turnuva_standings_v4';
-const STATS_ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
-const STATS_DEFAULT_PIN = '3519';
 
 let _statsRealtimeSubscribed = false;
 let _standingsRealtimeSubscribed = false;
@@ -791,32 +789,27 @@ function getCardReports() {
 }
 
 // ============================================================
-// 4. YÖNETİCİ PIN DOĞRULAMA YARDIMCILARI
+// 4. YÖNETİCİ PIN DOĞRULAMA YARDIMCILARI (security.js'e delege)
 // ============================================================
 
-function getAdminPIN() {
-    const savedPin = localStorage.getItem(STATS_ADMIN_PIN_KEY);
-    if (!savedPin || savedPin === '1234') {
-        localStorage.setItem(STATS_ADMIN_PIN_KEY, STATS_DEFAULT_PIN);
-        return STATS_DEFAULT_PIN;
-    }
-    return savedPin;
-}
-
 function isAdminAuthenticated() {
+    if (typeof window !== 'undefined' && typeof window.isAdminAuthenticated === 'function') {
+        return window.isAdminAuthenticated();
+    }
     return sessionStorage.getItem(STATS_ADMIN_AUTH_KEY) === 'true';
 }
 
 function authenticateAdmin(pin) {
-    const currentPin = getAdminPIN();
-    if (pin && pin.trim() === currentPin) {
-        sessionStorage.setItem(STATS_ADMIN_AUTH_KEY, 'true');
-        return true;
+    if (typeof window !== 'undefined' && typeof window.authenticateAdmin === 'function') {
+        return window.authenticateAdmin(pin);
     }
     return false;
 }
 
 function logoutAdmin() {
+    if (typeof window !== 'undefined' && typeof window.logoutAdmin === 'function') {
+        window.logoutAdmin();
+    }
     sessionStorage.removeItem(STATS_ADMIN_AUTH_KEY);
 }
 

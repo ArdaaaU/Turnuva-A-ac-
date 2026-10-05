@@ -53,9 +53,7 @@ const DEFAULT_ANNOUNCEMENTS = [
 ];
 
 const STORAGE_KEY = 'turnuva_duyurular_v3';
-const ADMIN_PIN_KEY = 'turnuva_admin_pin';
 const ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
-const DEFAULT_PIN = '3519';
 
 let _realtimeSubscribed = false;
 
@@ -488,38 +486,25 @@ function formatDate(d) {
     }
 }
 
-// Yönetici Doğrulama Fonksiyonları
-function getAdminPIN() {
-    const savedPin = localStorage.getItem(ADMIN_PIN_KEY);
-    if (!savedPin || savedPin === '1234') {
-        localStorage.setItem(ADMIN_PIN_KEY, DEFAULT_PIN);
-        return DEFAULT_PIN;
-    }
-    return savedPin;
-}
-
-function setAdminPIN(newPin) {
-    if (newPin && newPin.trim().length >= 4) {
-        localStorage.setItem(ADMIN_PIN_KEY, newPin.trim());
-        return true;
-    }
-    return false;
-}
-
+// Yönetici Doğrulama Fonksiyonları (security.js modülüne entegre)
 function isAdminAuthenticated() {
+    if (typeof window !== 'undefined' && typeof window.isAdminAuthenticated === 'function') {
+        return window.isAdminAuthenticated();
+    }
     return sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
 }
 
 function authenticateAdmin(pin) {
-    const currentPin = getAdminPIN();
-    if (pin === currentPin) {
-        sessionStorage.setItem(ADMIN_AUTH_KEY, 'true');
-        return true;
+    if (typeof window !== 'undefined' && typeof window.authenticateAdmin === 'function') {
+        return window.authenticateAdmin(pin);
     }
     return false;
 }
 
 function logoutAdmin() {
+    if (typeof window !== 'undefined' && typeof window.logoutAdmin === 'function') {
+        window.logoutAdmin();
+    }
     sessionStorage.removeItem(ADMIN_AUTH_KEY);
 }
 
