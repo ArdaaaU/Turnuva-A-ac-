@@ -1,10 +1,5 @@
-/**
- * Turnuva Oyuncu, Takım ve İstatistik Yönetim Modülü (istatistik.js)
- * Tekli Genel Puan Durumu, Gol Krallığı ve Takım Kadrolarını yönetir.
- * Yerel önbellek (LocalStorage) ve çift yönlü bulut (Supabase) senkronizasyonunu destekler.
- */
 
-// Varsayılan Takım Kadroları (Kullanıcı tarafından belirlenen kesin liste)
+
 const DEFAULT_TEAMS_ROSTER = {
     "hit-2": [
         "aykut",
@@ -52,7 +47,6 @@ const DEFAULT_TEAMS_ROSTER = {
     ]
 };
 
-// Takım Kadrolarından Başlangıç Oyuncu Listesini Oluştur
 const DEFAULT_PLAYERS = [];
 let _pCounter = 1;
 for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
@@ -66,7 +60,6 @@ for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
     });
 }
 
-// Varsayılan Tekli Genel Puan Durumu (Grup ayrımı yok, tüm takımlar tek tabloda)
 const DEFAULT_STANDINGS = [
     { id: "t-hit2", name: "hit-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 },
     { id: "t-wtk2", name: "wtk-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0 },
@@ -82,20 +75,10 @@ const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 let _statsRealtimeSubscribed = false;
 let _standingsRealtimeSubscribed = false;
 
-/**
- * Derin kopya alma yardımcısı
- */
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-// ============================================================
-// 1. OYUNCU VE GOL VERİLERİ (LOCALSTORAGE & SUPABASE)
-// ============================================================
-
-/**
- * Verilen oyuncu listesinin geçerli 5 takımı içerip içermediğini denetler
- */
 function isValidTournamentRoster(playersList) {
     if (!Array.isArray(playersList) || playersList.length < 20) return false;
     const currentTeams = Object.keys(DEFAULT_TEAMS_ROSTER);
@@ -104,9 +87,6 @@ function isValidTournamentRoster(playersList) {
     );
 }
 
-/**
- * Oyuncu listesini getir (Önbellekten veya varsayılandan)
- */
 function getPlayersData() {
     try {
         const stored = localStorage.getItem(STATS_STORAGE_KEY);
@@ -125,11 +105,8 @@ function getPlayersData() {
     return defaultData;
 }
 
-/**
- * Oyuncu verilerini kaydet (LocalStorage + Supabase Çift Katmanlı Bulut Yedekleme)
- */
 async function savePlayersData(playersList, syncToCloud = true) {
-    // 1. Yerel önbelleğe kaydet
+    
     try {
         localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(playersList));
         window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: playersList } }));
@@ -154,7 +131,6 @@ async function savePlayersData(playersList, syncToCloud = true) {
     let cloudTarget = null;
     let lastError = null;
 
-    // 1. Öncelikle turnuva_istatistik tablosuna yazmayı dene
     try {
         const { error: sError } = await client
             .from('turnuva_istatistik')
@@ -174,7 +150,6 @@ async function savePlayersData(playersList, syncToCloud = true) {
         lastError = e;
     }
 
-    // 2. Tablo yoksa, duyurular tablosuna 'system-turnuva-istatistik' özel sistem kaydı olarak yedekle
     if (!cloudSynced) {
         try {
             const systemPayload = {
@@ -207,9 +182,6 @@ async function savePlayersData(playersList, syncToCloud = true) {
     return { success: true, cloudSynced, cloudTarget, error: lastError };
 }
 
-/**
- * Oyuncu ekle
- */
 async function addPlayer(playerObj, syncToCloud = true) {
     const list = getPlayersData();
     const newPlayer = {
@@ -224,9 +196,6 @@ async function addPlayer(playerObj, syncToCloud = true) {
     return { player: newPlayer, ...res };
 }
 
-/**
- * Oyuncu sil (çıkar)
- */
 async function deletePlayer(playerId, syncToCloud = true) {
     let list = getPlayersData();
     list = list.filter(p => String(p.id) !== String(playerId));
@@ -234,24 +203,17 @@ async function deletePlayer(playerId, syncToCloud = true) {
     return res;
 }
 
-/**
- * Varsayılan oyuncu listesine sıfırla
- */
 async function resetPlayersData() {
     const defaultData = cloneObject(DEFAULT_PLAYERS);
     await savePlayersData(defaultData, true);
     return defaultData;
 }
 
-/**
- * Buluttan istatistik verilerini çek
- */
 async function fetchPlayersCloudData() {
     if (typeof getSupabaseClient !== 'function') return null;
     const client = getSupabaseClient();
     if (!client) return null;
 
-    // 1. Önce turnuva_istatistik tablosunu kontrol et
     try {
         const { data, error } = await client
             .from('turnuva_istatistik')
@@ -266,7 +228,6 @@ async function fetchPlayersCloudData() {
         console.warn('turnuva_istatistik sorgulanamadı:', err);
     }
 
-    // 2. Yoksa duyurular tablosundaki sistem kaydını kontrol et
     try {
         const { data: sData, error: sError } = await client
             .from('duyurular')
@@ -287,9 +248,6 @@ async function fetchPlayersCloudData() {
     return null;
 }
 
-/**
- * Supabase Senkronizasyonu ve Realtime Canlı Dinleme
- */
 async function initPlayersDataSync(onDataLoadedCallback) {
     if (typeof getSupabaseClient !== 'function') return;
     const client = getSupabaseClient();
@@ -304,7 +262,7 @@ async function initPlayersDataSync(onDataLoadedCallback) {
                 onDataLoadedCallback(cloudData);
             }
         } else {
-            // Eğer bulutta veri yoksa veya eski/geçersiz ise güncel varsayılan 34 oyuncuyu buluta kaydet
+            
             savePlayersData(getPlayersData(), true);
         }
     } catch (err) {
@@ -363,13 +321,6 @@ async function initPlayersDataSync(onDataLoadedCallback) {
     }
 }
 
-// ============================================================
-// 2. PUAN DURUMU YÖNETİMİ (TEK TABLO, GRUP AYRIMI YOK)
-// ============================================================
-
-/**
- * Verilen puan tablosunun geçerli 5 takımı içerip içermediğini denetler
- */
 function isValidTournamentStandings(standingsList) {
     if (!Array.isArray(standingsList) || standingsList.length === 0) return false;
     const currentTeams = Object.keys(DEFAULT_TEAMS_ROSTER);
@@ -378,9 +329,6 @@ function isValidTournamentStandings(standingsList) {
     );
 }
 
-/**
- * Puan durumu verilerini getir (LocalStorage veya varsayılan)
- */
 function getStandingsData() {
     try {
         const stored = localStorage.getItem(STANDINGS_STORAGE_KEY);
@@ -399,9 +347,6 @@ function getStandingsData() {
     return defaultData;
 }
 
-/**
- * Puan durumu verilerini kaydet (LocalStorage + Supabase)
- */
 async function saveStandingsData(standingsList, syncToCloud = true) {
     try {
         localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(standingsList));
@@ -441,18 +386,12 @@ async function saveStandingsData(standingsList, syncToCloud = true) {
     return { success: true, cloudSynced };
 }
 
-/**
- * Puan durumunu varsayılana sıfırla
- */
 async function resetStandingsData() {
     const defaultData = cloneObject(DEFAULT_STANDINGS);
     await saveStandingsData(defaultData, true);
     return defaultData;
 }
 
-/**
- * Buluttan puan durumunu çek
- */
 async function fetchStandingsCloudData() {
     if (typeof getSupabaseClient !== 'function') return null;
     const client = getSupabaseClient();
@@ -475,9 +414,6 @@ async function fetchStandingsCloudData() {
     return null;
 }
 
-/**
- * Puan Durumu Realtime Dinleme
- */
 async function initStandingsDataSync(onDataLoadedCallback) {
     if (typeof getSupabaseClient !== 'function') return;
     const client = getSupabaseClient();
@@ -533,9 +469,6 @@ async function initStandingsDataSync(onDataLoadedCallback) {
     }
 }
 
-/**
- * Takım ismini standartlaştırıp 5 resmi takımdan biriyle eşleştirir
- */
 function findCanonicalTournamentTeam(inputName) {
     if (!inputName || typeof inputName !== 'string') return null;
     const clean = inputName
@@ -559,15 +492,9 @@ function findCanonicalTournamentTeam(inputName) {
     return null;
 }
 
-/**
- * Turnuva maç skorlarından Puan Durumunu (O, G, B, M, Av, Puan) otomatik hesaplar.
- * @param {Object} tournamentData - fikstur.js formatındaki turnuva ağacı verisi
- * @returns {Object} { standings: Array, matchesProcessed: number, details: Array }
- */
 function calculateStandingsFromTournamentMatches(tournamentData) {
     if (!tournamentData) return { standings: cloneObject(DEFAULT_STANDINGS), matchesProcessed: 0, details: [] };
 
-    // 5 Resmi Takım için başlangıç tablosu
     const tableMap = {
         "hit-2": { id: "t-hit2", name: "hit-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 },
         "wtk-2": { id: "t-wtk2", name: "wtk-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 },
@@ -576,7 +503,6 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
         "ic mekan tasarim-2": { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 0, g: 0, b: 0, m: 0, av: 0, p: 0, ag: 0, yg: 0 }
     };
 
-    // Tüm maçları topla ve tekilleştir
     const allMatches = [];
     const seenMatchKeys = new Set();
 
@@ -592,12 +518,10 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
         }
     }
 
-    // 1. Haftalık fikstür maçları (matches dizisi)
     if (Array.isArray(tournamentData.matches)) {
         tournamentData.matches.forEach(addCandidateMatch);
     }
 
-    // 2. Ayrı maç nesneleri
     if (tournamentData.mac3) addCandidateMatch(tournamentData.mac3);
     if (tournamentData.mac4) addCandidateMatch(tournamentData.mac4);
     if (tournamentData.mac5) addCandidateMatch(tournamentData.mac5);
@@ -607,19 +531,16 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
     if (tournamentData.mac9) addCandidateMatch(tournamentData.mac9);
     if (tournamentData.mac10) addCandidateMatch(tournamentData.mac10);
 
-    // 3. Ön eleme maçları
     if (Array.isArray(tournamentData.quarters)) {
         tournamentData.quarters.forEach(addCandidateMatch);
     } else if (tournamentData.quarter) {
         addCandidateMatch(tournamentData.quarter);
     }
 
-    // 4. Yarı finaller
     if (Array.isArray(tournamentData.semis)) {
         tournamentData.semis.forEach(addCandidateMatch);
     }
 
-    // 5. 3.lük ve Final
     if (tournamentData.thirdPlace) addCandidateMatch(tournamentData.thirdPlace);
     if (tournamentData.final) addCandidateMatch(tournamentData.final);
 
@@ -631,7 +552,6 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
         const team1 = findCanonicalTournamentTeam(m.team1);
         const team2 = findCanonicalTournamentTeam(m.team2);
 
-        // Her iki takım da 5 resmi takımdan biri olmalı (Örn: "Ön Eleme 1 Galibi" gibi yer tutucular hariç tutulur)
         if (!team1 || !team2 || team1 === team2) return;
 
         const s1Raw = m.score1;
@@ -649,7 +569,6 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
             return;
         }
 
-        // Maç geçerli ve skor girilmiş
         const t1 = tableMap[team1];
         const t2 = tableMap[team2];
 
@@ -697,9 +616,6 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
     return { standings, matchesProcessed, details };
 }
 
-/**
- * Verilen maç skorlarından puan tablosunu doğrudan kaydeder ve bulut ile eşitler
- */
 async function syncStandingsFromTournamentMatches(tournamentData, syncToCloud = true) {
     const calc = calculateStandingsFromTournamentMatches(tournamentData);
     const saveRes = await saveStandingsData(calc.standings, syncToCloud);
@@ -709,13 +625,6 @@ async function syncStandingsFromTournamentMatches(tournamentData, syncToCloud = 
     };
 }
 
-/**
- * Puan Durumunu Sırala:
- * 1. Puan (p) - Azalan
- * 2. Averaj (av) - Azalan
- * 3. Galibiyet (g) - Azalan
- * 4. Takım Adı - Alfabetik
- */
 function getSortedStandings(standingsList) {
     const list = standingsList || getStandingsData();
     const sorted = [...list].sort((a, b) => {
@@ -736,14 +645,6 @@ function getSortedStandings(standingsList) {
     return sorted;
 }
 
-// ============================================================
-// 3. GOL KRALLIĞI VE TAKIM KADROLARI YARDIMCILARI
-// ============================================================
-
-/**
- * Gol Krallığı ve Oyuncu Sıralaması
- * Varsayılan: Takımlara göre alfabetik, aynı takımda oyuncu ismine göre alfabetik sıralar.
- */
 function getTopScorers(playersList, sortBy = 'team') {
     const list = playersList || getPlayersData();
     if (sortBy === 'goals') {
@@ -757,7 +658,6 @@ function getTopScorers(playersList, sortBy = 'team') {
         });
     }
 
-    // Varsayılan: Takımlara göre alfabetik, aynı takımda oyuncu ismine göre alfabetik
     return [...list].sort((a, b) => {
         const tc = (a.team || '').localeCompare(b.team || '', 'tr', { sensitivity: 'base' });
         if (tc !== 0) return tc;
@@ -765,32 +665,19 @@ function getTopScorers(playersList, sortBy = 'team') {
     });
 }
 
-/**
- * Takım isimlerini dizi olarak getir
- */
 function getTournamentTeams() {
     return Object.keys(DEFAULT_TEAMS_ROSTER);
 }
 
-/**
- * Belirli bir takımın oyuncularını güncel gol sayılarıyla getir
- */
 function getTeamSquad(teamName, playersList) {
     const list = playersList || getPlayersData();
     const roster = list.filter(p => p.team && p.team.toLowerCase().trim() === teamName.toLowerCase().trim());
     return roster;
 }
 
-/**
- * Geriye dönük uyumluluk için (kart kaldırıldığı için boş dizi döner)
- */
 function getCardReports() {
     return [];
 }
-
-// ============================================================
-// 4. YÖNETİCİ PIN DOĞRULAMA YARDIMCILARI (security.js'e delege)
-// ============================================================
 
 function isAdminAuthenticated() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
@@ -831,9 +718,6 @@ function logoutAdmin() {
     } catch (e) { }
 }
 
-// ============================================================
-// 5. SAYFA BAŞLATICISI
-// ============================================================
 if (typeof window !== 'undefined') {
     const autoInitAll = (retries = 15) => {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {

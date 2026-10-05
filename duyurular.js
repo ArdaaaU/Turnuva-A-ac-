@@ -1,10 +1,5 @@
-/**
- * Turnuva Duyuruları Modülü (duyurular.js)
- * Hem duyurular.html hem de index.html tarafından ortak kullanılan veri ve yönetim katmanı.
- * Supabase (PostgreSQL) entegrasyonu ve yerel önbellek senkronizasyonunu destekler.
- */
 
-// Varsayılan Turnuva Duyuruları
+
 const DEFAULT_ANNOUNCEMENTS = [
     {
         id: "d-1",
@@ -57,7 +52,6 @@ const ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 
 let _realtimeSubscribed = false;
 
-// Fikstürdeki güncel maç verilerini oku
 function getActiveFixtureMatches() {
     let tData = null;
     try {
@@ -88,7 +82,6 @@ function getActiveFixtureMatches() {
     return { m7, m8, m9, m10 };
 }
 
-// 6-8 Ekim tarih kontrolü (şuanlık 6 Ekim, 7 Ekimde 7 Ekim, 8 Ekimde 8 Ekim maçları)
 function getActiveTournamentDay() {
     try {
         if (typeof window !== 'undefined' && window.location && window.location.search) {
@@ -105,20 +98,19 @@ function getActiveTournamentDay() {
 
     const now = new Date();
     const date = now.getDate();
-    const month = now.getMonth(); // 9 = Ekim (0-indexed)
+    const month = now.getMonth(); 
 
-    if (month === 9) { // Ekim ayı
+    if (month === 9) { 
         if (date === 7) return 7;
         if (date >= 8) return 8;
-        return 6; // 6 Ekim veya öncesi
+        return 6; 
     }
 
     if (date === 7) return 7;
     if (date === 8) return 8;
-    return 6; // Varsayılan şuanlık 6 Ekim
+    return 6; 
 }
 
-// Günün maç duyurusunu fikstürden dinamik olarak oluştur
 function getDailyTournamentAnnouncement() {
     const day = getActiveTournamentDay();
     const { m7, m8, m9, m10 } = getActiveFixtureMatches();
@@ -162,7 +154,7 @@ function getDailyTournamentAnnouncement() {
             content: `🏆 Turnuvada 8 Ekim Perşembe günü programı:\n\n⚡ ${time10} | ${t1_10} 🆚 ${t2_10}\n\nTüm futbolseverleri maçı izlemeye davet ediyor, takımlarımıza başarılar diliyoruz!`
         };
     } else {
-        // Şuanlık 6 Ekim Maçı
+        
         const t1_7 = m7.team1 || 'ic mekan tasarim-2';
         const t2_7 = m7.team2 || 'maliye isletme -2';
         const time7 = m7.time || '18:00';
@@ -182,7 +174,6 @@ function getDailyTournamentAnnouncement() {
     }
 }
 
-// Fikstür güncellendiğinde duyuru listesini reaktif yenile
 if (typeof window !== 'undefined') {
     window.addEventListener('turnuva_bracket_updated', () => {
         try {
@@ -191,7 +182,6 @@ if (typeof window !== 'undefined') {
     });
 }
 
-// Duyuruları Getir (Hızlı render için önbelleği döndürür + otomatik günün maçı duyurusu)
 function getAnnouncements() {
     let list = [];
     try {
@@ -210,7 +200,6 @@ function getAnnouncements() {
         list = [...DEFAULT_ANNOUNCEMENTS];
     }
 
-    // Günün maç duyurusunu otomatik oluştur ve en başa sabitle
     const dailyAnn = getDailyTournamentAnnouncement();
     if (dailyAnn) {
         list = [dailyAnn, ...list];
@@ -219,12 +208,11 @@ function getAnnouncements() {
     return list;
 }
 
-// Duyuruları Kaydet (Önbelleğe yazar ve olay tetikler - dinamik olanları hariç tutar)
 function saveAnnouncements(list) {
     try {
         const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanList));
-        // Sayfa içi ve sekmeler arası anlık senkronizasyon tetikle
+        
         try {
             window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
         } catch (evErr) {}
@@ -233,7 +221,6 @@ function saveAnnouncements(list) {
     }
 }
 
-// En Son Duyuruyu Getir (Önce sabitlenmiş, sonra en güncel)
 function getLatestAnnouncement() {
     const list = getAnnouncements();
     if (!list || list.length === 0) return null;
@@ -242,7 +229,6 @@ function getLatestAnnouncement() {
     return pinned || list[0];
 }
 
-// Yeni Duyuru Ekle (Yerel + Supabase)
 function addAnnouncement(item) {
     const list = getAnnouncements().filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
     const newItem = {
@@ -270,7 +256,6 @@ function addAnnouncement(item) {
 
     saveAnnouncements(list);
 
-    // Supabase Çevrim İçi Kayıt
     if (typeof getSupabaseClient === 'function') {
         const client = getSupabaseClient();
         if (client) {
@@ -293,7 +278,6 @@ function addAnnouncement(item) {
     return newItem;
 }
 
-// Duyuru Güncelle (Yerel + Supabase)
 function updateAnnouncement(id, updatedFields) {
     const list = getAnnouncements();
     const index = list.findIndex(a => String(a.id) === String(id));
@@ -312,7 +296,6 @@ function updateAnnouncement(id, updatedFields) {
     list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
     saveAnnouncements(list);
 
-    // Supabase Çevrim İçi Güncelleme
     if (typeof getSupabaseClient === 'function') {
         const client = getSupabaseClient();
         if (client) {
@@ -335,13 +318,11 @@ function updateAnnouncement(id, updatedFields) {
     return list[index];
 }
 
-// Duyuru Sil (Yerel + Supabase)
 function deleteAnnouncement(id) {
     let list = getAnnouncements();
     list = list.filter(a => String(a.id) !== String(id));
     saveAnnouncements(list);
 
-    // Supabase Çevrim İçi Silme
     if (typeof getSupabaseClient === 'function') {
         const client = getSupabaseClient();
         if (client) {
@@ -354,17 +335,11 @@ function deleteAnnouncement(id) {
     return list;
 }
 
-// Varsayılanlara Sıfırla
 function resetToDefaultAnnouncements() {
     saveAnnouncements(DEFAULT_ANNOUNCEMENTS);
     return DEFAULT_ANNOUNCEMENTS;
 }
 
-// ============================================================
-// SUPABASE ÇEVRİM İÇİ SENKRONİZASYON VE CANLI (REALTIME) DİNLEME
-// ============================================================
-
-// Supabase'den Duyuruları Çek
 async function syncAnnouncementsFromSupabase() {
     if (typeof getSupabaseClient !== 'function') return null;
     const client = getSupabaseClient();
@@ -383,7 +358,7 @@ async function syncAnnouncementsFromSupabase() {
         }
 
         if (Array.isArray(data)) {
-            // Sistem veri kayıtlarını (örn: turnuva fikstürü yedeği) duyuru listesinden hariç tut
+            
             const publicData = data.filter(item => item && (!item.id || !String(item.id).startsWith('system-')) && item.category !== 'system');
             const formatted = publicData.map(item => ({
                 id: item.id,
@@ -397,7 +372,6 @@ async function syncAnnouncementsFromSupabase() {
                 content: item.content || ''
             }));
 
-            // Sabitlenmişleri en üste sırala
             formatted.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
             saveAnnouncements(formatted);
             return formatted;
@@ -408,7 +382,6 @@ async function syncAnnouncementsFromSupabase() {
     return null;
 }
 
-// Canlı (Realtime) Değişiklikleri Dinle
 function initSupabaseRealtime() {
     if (_realtimeSubscribed) return;
     if (typeof getSupabaseClient !== 'function') return;
@@ -418,11 +391,11 @@ function initSupabaseRealtime() {
     try {
         client.channel('public:duyurular')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, (payload) => {
-                // Sistem kayıtları için duyuruları tetikleme (bu kayıtlar fikstür modülü tarafından yönetilir)
+                
                 if (payload && payload.new && (String(payload.new.id).startsWith('system-') || payload.new.category === 'system')) {
                     return;
                 }
-                // Herhangi bir duyuru ekleme, düzenleme veya silme olduğunda verileri anında yenile
+                
                 syncAnnouncementsFromSupabase();
             })
             .subscribe((status) => {
@@ -435,7 +408,6 @@ function initSupabaseRealtime() {
     }
 }
 
-// Sayfa Açıldığında Supabase'i Başlat
 if (typeof window !== 'undefined') {
     const autoInit = (retries = 15) => {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
@@ -456,11 +428,6 @@ if (typeof window !== 'undefined') {
     }
 }
 
-// ============================================================
-// YARDIMCI VE YÖNETİCİ DOĞRULAMA FONKSİYONLARI
-// ============================================================
-
-// Kategori Etiketi
 function getCategoryLabel(cat) {
     switch (cat) {
         case 'onemli': return '🚨 Önemli Duyuru';
@@ -471,7 +438,6 @@ function getCategoryLabel(cat) {
     }
 }
 
-// Tarih Formatlayıcı
 function formatDate(d) {
     try {
         const months = [
@@ -486,7 +452,6 @@ function formatDate(d) {
     }
 }
 
-// Yönetici Doğrulama Fonksiyonları (security.js modülüne entegre)
 function isAdminAuthenticated() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
         return window.TurnuvaAuth.isAuthenticated();
@@ -526,7 +491,6 @@ function logoutAdmin() {
     } catch (e) { }
 }
 
-// Veriyi Dışa Aktar (JSON string olarak)
 function exportAnnouncementsJSON() {
     const list = getAnnouncements();
     return JSON.stringify(list, null, 4);

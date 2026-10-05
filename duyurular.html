@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turnuva Duyuruları | Futbol Turnuva Ağacı</title>
-    <!-- Tema Flash Engelleme ve Mobil Cihaz Tespiti -->
+    
     <script>
         (function() {
             let savedTheme = localStorage.getItem('turnuva-theme-preference');
@@ -21,12 +21,12 @@
             }
         })();
     </script>
-    <!-- Modern Yazı Tipi -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- TEMA DEĞİŞKENLERİ --- */
+        
         :root, [data-theme="light"] {
             --bg-page: #f1f5f9;
             --bg-card: #ffffff;
@@ -119,7 +119,6 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* --- NAVBAR --- */
         .navbar {
             position: fixed;
             top: 0;
@@ -191,7 +190,6 @@
             color: var(--gold);
         }
 
-        /* Tema Değiştirme Butonu */
         .theme-toggle-btn {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
@@ -218,7 +216,6 @@
         [data-theme="light"] .sun-icon { display: none; }
         [data-theme="light"] .moon-icon { display: block; }
 
-        /* Hamburger */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -282,7 +279,6 @@
             visibility: visible;
         }
 
-        /* --- HERO --- */
         .hero {
             text-align: center;
             padding: 36px 20px 24px;
@@ -323,14 +319,12 @@
             margin: 0 auto 20px;
         }
 
-        /* --- CONTAINER --- */
         .main-container {
             max-width: 880px;
             margin: 0 auto;
             padding: 0 20px 40px;
         }
 
-        /* --- STATS BAR --- */
         .stats-pills {
             display: flex;
             align-items: center;
@@ -358,7 +352,6 @@
             font-weight: 700;
         }
 
-        /* --- CONTROLS & FILTER BAR --- */
         .controls-card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
@@ -469,7 +462,6 @@
             background: var(--bg-card-inner);
         }
 
-        /* --- KATEGORİ FİLTRE BUTONLARI --- */
         .filter-chips {
             display: flex;
             align-items: center;
@@ -505,7 +497,6 @@
             box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
         }
 
-        /* --- DUYURU LİSTESİ --- */
         .announcements-list {
             display: flex;
             flex-direction: column;
@@ -529,7 +520,6 @@
             border-color: var(--border-highlight);
         }
 
-        /* Sabitlenmiş Duyuru Stili */
         .announcement-card.pinned {
             border-color: var(--gold-border);
             background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
@@ -669,7 +659,6 @@
             background: var(--red-soft);
         }
 
-        /* --- BOŞ DURUM (EMPTY STATE) --- */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -696,7 +685,6 @@
             color: var(--text-muted);
         }
 
-        /* --- MODALLAR --- */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -838,7 +826,6 @@
             gap: 10px;
         }
 
-        /* --- TOAST BİLDİRİM --- */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -864,7 +851,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Sabit İmza */
         .signature {
             position: fixed;
             bottom: 16px;
@@ -884,11 +870,10 @@
             letter-spacing: 0.5px;
         }
 
-        /* Responsive */
         @media (max-width: 900px) {
             .nav-desktop-links { display: none; }
             .hamburger { display: flex; }
-            /* Yönetici Paneli ve PIN Modalı Responsive Uyumluluk */
+            
             #announcement-modal .modal-content,
             #pin-modal .modal-content {
                 width: 95%;
@@ -909,7 +894,6 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
         <a href="index.html" class="nav-brand">
             <img src="logo.jpeg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
@@ -923,7 +907,6 @@
                 <a href="duyurular.html" class="nav-link active">📢 Duyurular</a>
             </nav>
 
-            <!-- DARK / LIGHT TEMA BUTONU -->
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Tema Değiştir" title="Açık / Koyu Tema">
                 <span class="sun-icon">☀️</span>
                 <span class="moon-icon">🌙</span>
@@ -937,7 +920,6 @@
         </div>
     </header>
 
-    <!-- MOBİL MENÜ ÇEKMECESİ -->
     <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
     <div class="mobile-drawer" id="mobile-drawer">
         <a href="index.html" class="nav-link" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
@@ -945,13 +927,11 @@
         <a href="duyurular.html" class="nav-link active" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
     </div>
 
-    <!-- HERO BÖLÜMÜ -->
     <section class="hero">
         <div class="hero-badge">⚽ 2026 Turnuva Haber Merkezi</div>
         <h1 class="hero-title">Turnuva Duyuruları</h1>
         <p class="hero-subtitle">Turnuvayla ilgili en güncel maç saatleri, kural değişiklikleri, saha duyuruları ve resmi açıklamalar.</p>
 
-        <!-- İSTATİSTİK ROZETLERİ -->
         <div class="stats-pills">
             <div class="stat-pill">
                 <span>📢 Toplam Duyuru:</span>
@@ -968,10 +948,8 @@
         </div>
     </section>
 
-    <!-- ANA İÇERİK ALANI -->
     <main class="main-container">
 
-        <!-- KONTROLLER VE FİLTRELEME -->
         <div class="controls-card">
             <div class="search-and-admin-row">
                 <div class="search-box">
@@ -980,11 +958,11 @@
                 </div>
 
                 <div class="admin-action-btns">
-                    <!-- Yönetici Girişi Yapılmadıysa -->
+                    
                     <button class="btn btn-secondary" id="admin-login-btn">
                         <span>🔐 Yönetici Girişi</span>
                     </button>
-                    <!-- Yönetici Girişi Yapıldıysa (JS ile açılır) -->
+                    
                     <button class="btn btn-primary" id="new-announcement-btn" style="display: none;">
                         <span>➕ Yeni Duyuru Paylaş</span>
                     </button>
@@ -994,7 +972,6 @@
                 </div>
             </div>
 
-            <!-- KATEGORİ SEKMELERİ -->
             <div class="filter-chips" id="filter-chips">
                 <button class="filter-chip active" data-category="all">Tümü (<span id="count-all">0</span>)</button>
                 <button class="filter-chip" data-category="onemli">🚨 Önemli (<span id="count-onemli">0</span>)</button>
@@ -1004,12 +981,10 @@
             </div>
         </div>
 
-        <!-- DUYURU KARTLARI LİSTESİ -->
         <div class="announcements-list" id="announcements-list">
-            <!-- JavaScript dinamik olarak kartları buraya basacak -->
+            
         </div>
 
-        <!-- BULUNAMADI BOŞ DURUM -->
         <div class="empty-state" id="empty-state">
             <div class="empty-state-icon">📭</div>
             <div class="empty-state-title">Aramanıza Uygun Duyuru Bulunamadı</div>
@@ -1018,10 +993,8 @@
 
     </main>
 
-    <!-- SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
-    <!-- YÖNETİCİ PIN GİRİŞ MODALI -->
     <div class="modal-overlay" id="pin-modal">
         <div class="modal-card" style="max-width: 400px;">
             <div class="modal-header">
@@ -1049,7 +1022,6 @@
         </div>
     </div>
 
-    <!-- YENİ / DÜZENLE DUYURU MODALI -->
     <div class="modal-overlay" id="announcement-modal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1107,7 +1079,6 @@
         </div>
     </div>
 
-    <!-- SİLME ONAY MODALI -->
     <div class="modal-overlay" id="delete-confirm-modal">
         <div class="modal-card" style="max-width: 420px;">
             <div class="modal-header">
@@ -1129,20 +1100,17 @@
         </div>
     </div>
 
-    <!-- TOAST BİLDİRİM -->
     <div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
 
-    <!-- GÜVENLİK VE ŞİFRELEME MODÜLÜ (SHA-256 HASH & BRUTE-FORCE KORUMASI) -->
     <script src="security.js"></script>
 
     <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
 
-    <!-- FİKSTÜR VERİ YÖNETİMİ -->
     <script src="fikstur.js"></script>
 
     <!-- DUYURULAR VERİ VE YÖNETİM SCRIPTİ -->
@@ -1151,7 +1119,7 @@
     <!-- SAYFA ETKİLEŞİM VE İŞ MANTIĞI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. TEMA DEĞİŞTİRME
+            
             const themeToggleBtn = document.getElementById('theme-toggle');
             themeToggleBtn.addEventListener('click', () => {
                 const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -1161,7 +1129,6 @@
                 localStorage.setItem('turnuva_theme_user_set', 'true');
             });
 
-            // 2. HAMBURGER MENÜ
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const mobileDrawer = document.getElementById('mobile-drawer');
             const drawerOverlay = document.getElementById('drawer-overlay');
@@ -1175,7 +1142,6 @@
             hamburgerBtn.addEventListener('click', toggleDrawer);
             drawerOverlay.addEventListener('click', toggleDrawer);
 
-            // 3. TOAST BİLDİRİMİ
             const toastEl = document.getElementById('toast-msg');
             const toastText = document.getElementById('toast-text');
             const toastIcon = document.getElementById('toast-icon');
@@ -1191,7 +1157,6 @@
                 }, 3000);
             }
 
-            // 4. ELEMENT REFERANSLARI
             const announcementsListEl = document.getElementById('announcements-list');
             const emptyStateEl = document.getElementById('empty-state');
             const searchInput = document.getElementById('search-input');
@@ -1201,12 +1166,10 @@
             const lastUpdateBadge = document.getElementById('last-update-badge');
             const countAllEl = document.getElementById('count-all');
 
-            // Yönetici Butonları
             const adminLoginBtn = document.getElementById('admin-login-btn');
             const newAnnouncementBtn = document.getElementById('new-announcement-btn');
             const adminLogoutBtn = document.getElementById('admin-logout-btn');
 
-            // Modallar
             const pinModal = document.getElementById('pin-modal');
             const closePinModal = document.getElementById('close-pin-modal');
             const cancelPinBtn = document.getElementById('cancel-pin-btn');
@@ -1219,7 +1182,6 @@
             const saveAnnouncementBtn = document.getElementById('save-announcement-btn');
             const modalTitleEl = document.getElementById('announcement-modal-title');
 
-            // Form Elemanları
             const editIdInput = document.getElementById('edit-announcement-id');
             const titleInput = document.getElementById('announcement-title-input');
             const categorySelect = document.getElementById('announcement-category-select');
@@ -1229,7 +1191,6 @@
             const contentInput = document.getElementById('announcement-content-input');
             const deleteFromEditBtn = document.getElementById('delete-from-edit-btn');
 
-            // Silme Onay Modalı
             const deleteConfirmModal = document.getElementById('delete-confirm-modal');
             const closeDeleteModal = document.getElementById('close-delete-modal');
             const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
@@ -1237,13 +1198,11 @@
             const deleteTargetTitle = document.getElementById('delete-target-title');
             let pendingDeleteId = null;
 
-            // Kategori Sayaç Elemanları
             const countOnemli = document.getElementById('count-onemli');
             const countMac = document.getElementById('count-mac');
             const countKural = document.getElementById('count-kural');
             const countGenel = document.getElementById('count-genel');
 
-            // Mevcut Filtre Durumları
             let activeCategory = 'all';
             let searchQuery = '';
 
@@ -1251,7 +1210,6 @@
                 return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
             }
 
-            // Yönetici Arayüz Durumunu Güncelle
             function updateAdminUI() {
                 const isAuth = isAdminAuthenticated();
 
@@ -1266,13 +1224,11 @@
                 }
             }
 
-            // Duyuruları Listele ve Filtrele
             function renderAnnouncements() {
                 const list = getAnnouncements();
                 const isAuth = isAdminAuthenticated();
                 const isMobile = isMobileClient();
 
-                // İstatistikleri ve Sayaçları Güncelle
                 totalCountBadge.innerText = list.length;
                 countAllEl.innerText = list.length;
                 pinnedCountBadge.innerText = list.filter(a => a.pinned).length;
@@ -1287,7 +1243,6 @@
                 if (countKural) countKural.innerText = list.filter(a => a.category === 'kural').length;
                 if (countGenel) countGenel.innerText = list.filter(a => a.category === 'genel').length;
 
-                // Filtreleme
                 const filtered = list.filter(item => {
                     const matchCategory = (activeCategory === 'all') || (item.category === activeCategory);
                     const q = searchQuery.toLowerCase().trim();
@@ -1351,7 +1306,6 @@
                 attachCardListeners();
             }
 
-            // Silme Onay Modalı Açma
             function openDeleteConfirmation(id) {
                 const list = getAnnouncements();
                 const item = list.find(a => String(a.id) === String(id));
@@ -1364,9 +1318,8 @@
                 deleteConfirmModal.classList.add('active');
             }
 
-            // Kart Üzerindeki Buton Olayları
             function attachCardListeners() {
-                // Paylaş / Link Kopyala
+                
                 document.querySelectorAll('.copy-link-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -1384,7 +1337,6 @@
                     });
                 });
 
-                // Düzenle Butonu
                 document.querySelectorAll('.edit-ann-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -1393,7 +1345,6 @@
                     });
                 });
 
-                // Sil Butonu
                 document.querySelectorAll('.delete-ann-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -1403,7 +1354,6 @@
                 });
             }
 
-            // Silme Onay Aksiyonu
             confirmDeleteBtn.addEventListener('click', () => {
                 if (pendingDeleteId) {
                     deleteAnnouncement(pendingDeleteId);
@@ -1425,7 +1375,6 @@
                 pendingDeleteId = null;
             });
 
-            // Düzenleme Modalından Silme
             deleteFromEditBtn.addEventListener('click', () => {
                 const id = editIdInput.value;
                 if (id) {
@@ -1433,13 +1382,11 @@
                 }
             });
 
-            // Arama Kutusu Dinleyicisi
             searchInput.addEventListener('input', (e) => {
                 searchQuery = e.target.value;
                 renderAnnouncements();
             });
 
-            // Kategori Çipleri Dinleyicisi
             filterChips.forEach(chip => {
                 chip.addEventListener('click', () => {
                     filterChips.forEach(c => c.classList.remove('active'));
@@ -1449,7 +1396,6 @@
                 });
             });
 
-            // Yönetici Girişi Modalı Açma
             adminLoginBtn.addEventListener('click', () => {
                 adminPinInput.value = '';
                 adminPinInput.type = 'password';
@@ -1497,7 +1443,6 @@
                 if (e.key === 'Enter') submitPinBtn.click();
             });
 
-            // Yönetici Çıkışı
             adminLogoutBtn.addEventListener('click', () => {
                 logoutAdmin();
                 updateAdminUI();
@@ -1505,7 +1450,6 @@
                 showToast('Yönetici oturumu kapatıldı.', '🔒');
             });
 
-            // Yeni Duyuru Modalı Açma
             newAnnouncementBtn.addEventListener('click', () => {
                 editIdInput.value = '';
                 modalTitleEl.innerText = '➕ Yeni Duyuru Paylaş';
@@ -1521,7 +1465,6 @@
                 titleInput.focus();
             });
 
-            // Düzenleme Modalı Açma
             function openEditModal(id) {
                 const list = getAnnouncements();
                 const item = list.find(a => String(a.id) === String(id));
@@ -1543,7 +1486,6 @@
             closeAnnouncementModal.addEventListener('click', () => announcementModal.classList.remove('active'));
             cancelAnnouncementBtn.addEventListener('click', () => announcementModal.classList.remove('active'));
 
-            // Duyuruyu Kaydet (Ekle veya Güncelle)
             saveAnnouncementBtn.addEventListener('click', () => {
                 const title = titleInput.value.trim();
                 const content = contentInput.value.trim();
@@ -1575,14 +1517,12 @@
                 renderAnnouncements();
             });
 
-            // Modal dışına tıklayınca kapatma
             [pinModal, announcementModal, deleteConfirmModal].forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) modal.classList.remove('active');
                 });
             });
 
-            // ESC tuşu ile modal kapatma
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     pinModal.classList.remove('active');
@@ -1591,7 +1531,6 @@
                 }
             });
 
-            // Reaktif Senkronizasyon (Diğer sekmeler veya sayfalardan gelen değişiklikler)
             window.addEventListener('turnuva_auth_changed', () => {
                 updateAdminUI();
                 renderAnnouncements();
@@ -1608,7 +1547,6 @@
             });
             window.addEventListener('pageshow', renderAnnouncements);
 
-            // URL'deki #id ile ilgili duyuruya kaydırma
             if (window.location.hash) {
                 setTimeout(() => {
                     const targetEl = document.querySelector(window.location.hash);
@@ -1621,7 +1559,6 @@
                 }, 300);
             }
 
-            // HTML Kaçış Yardımcısı
             function escapeHTML(str) {
                 if (!str) return '';
                 return str
@@ -1632,7 +1569,6 @@
                     .replace(/'/g, '&#039;');
             }
 
-            // Başlangıç Yüklemesi
             updateAdminUI();
             renderAnnouncements();
         });

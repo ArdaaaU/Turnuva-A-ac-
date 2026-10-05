@@ -1,24 +1,18 @@
-/**
- * Turnuva Fikstür Yönetim Modülü (fikstur.js)
- * Turnuva maç programını ve sonuçlarını yönetir.
- * Yerel önbellek (LocalStorage) ve çevrim içi bulut (Supabase) senkronizasyonunu destekler.
- */
 
-// Varsayılan Turnuva Verileri
-// Pazartesi: 2 maç, Salı: BAY (maç yok), Çarşamba: 2 çapraz maç, Perşembe: 2 çapraz maç
+
 const DEFAULT_TOURNAMENT_DATA = {
     matches: [
-        // --- 28 Eylül 2026 - PAZARTESİ ---
+        
         {
             id: "mac-1",
             date: "28 Eylül 2026",
             time: "18:00",
-            status: "bekleniyor", // "bekleniyor" | "canli" | "bitti"
+            status: "bekleniyor", 
             team1: "maliye isletme -2",
             score1: null,
             team2: "wtk-2",
             score2: null,
-            winner: null // "team1" | "team2"
+            winner: null 
         },
         {
             id: "mac-2",
@@ -31,9 +25,8 @@ const DEFAULT_TOURNAMENT_DATA = {
             score2: null,
             winner: null
         },
-        // --- 29 Eylül 2026 - SALI (BAY) ---
-        // Salı günü maç yoktur.
-        // --- 30 Eylül 2026 - ÇARŞAMBA (Çapraz Eşleşme) ---
+
+        
         {
             id: "mac-3",
             date: "30 Eylül 2026",
@@ -56,7 +49,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             score2: null,
             winner: null
         },
-        // --- 1 Ekim 2026 - PERŞEMBE (Çapraz Eşleşme) ---
+        
         {
             id: "mac-5",
             date: "1 Ekim 2026",
@@ -79,8 +72,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             score2: null,
             winner: null
         },
-        // --- HAFTALIK KALAN MAÇ FİKSTÜRÜ (BU HAFTA OYNANACAK YENİ MAÇLAR) ---
-        // Salı: 18:00 | iç mekan tasarım-2 – maliye işletme-2
+
         {
             id: "mac-7",
             date: "6 Ekim 2026",
@@ -93,7 +85,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             score2: null,
             winner: null
         },
-        // Çarşamba: 18:00 | maliye işletme-2 – hit-1
+        
         {
             id: "mac-8",
             date: "7 Ekim 2026",
@@ -106,7 +98,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             score2: null,
             winner: null
         },
-        // Çarşamba: 19:00 | wtk-2 – hit-2
+        
         {
             id: "mac-9",
             date: "7 Ekim 2026",
@@ -119,7 +111,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             score2: null,
             winner: null
         },
-        // Perşembe: 18:00 | iç mekan tasarım-2 – hit-1
+        
         {
             id: "mac-10",
             date: "8 Ekim 2026",
@@ -133,7 +125,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             winner: null
         }
     ],
-    // Geriye dönük uyumluluk için korunan alanlar
+    
     quarters: [
         {
             id: "qf-1",
@@ -214,7 +206,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         winner: null,
         champion: ""
     },
-    // Haftalık fikstür maçları
+    
     mac3: {
         id: "mac-3",
         date: "30 Eylül 2026",
@@ -259,7 +251,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         score2: null,
         winner: null
     },
-    // Yeni maç nesneleri
+    
     mac7: {
         id: "mac-7",
         date: "6 Ekim 2026",
@@ -310,33 +302,22 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-
 const BRACKET_STORAGE_KEY = 'turnuva_bracket_v5';
 let _bracketRealtimeSubscribed = false;
 
-/**
- * Derin kopya alma fonksiyonu
- */
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-/**
- * Turnuva verisinin geçerli formatta olduğunu denetler
- * Yeni format (matches dizisi) ve eski format (quarters/semis/final) desteklenir.
- */
 function isValidTournamentTree(data) {
     if (!data) return false;
-    // Yeni format: matches dizisi
+    
     if (Array.isArray(data.matches) && data.matches.length >= 1) return true;
-    // Eski format: quarters + semis + final
+    
     if (data.final && data.semis && Array.isArray(data.quarters) && data.quarters.length >= 2) return true;
     return false;
 }
 
-/**
- * Eski maçları ve girilen skorları koruyarak yeni haftalık fikstür maçlarını entegre eder
- */
 function ensureMatchesIncludeNewFixture(data) {
     if (!data) return data;
     if (!Array.isArray(data.matches)) {
@@ -348,21 +329,19 @@ function ensureMatchesIncludeNewFixture(data) {
         if (m && m.id) existingMap.set(m.id, m);
     });
 
-    // Varsayılandaki tüm maçları kontrol et; eksik olanları ekle, var olanları (skorları) ASLA bozma
     DEFAULT_TOURNAMENT_DATA.matches.forEach(defMatch => {
         if (!existingMap.has(defMatch.id)) {
             const newMatchObj = cloneObject(defMatch);
             data.matches.push(newMatchObj);
             existingMap.set(defMatch.id, newMatchObj);
         } else {
-            // Var olan maçın day veya note alanı eksikse güncelle ama score1, score2, winner dokunma!
+            
             const existing = existingMap.get(defMatch.id);
             if (!existing.day && defMatch.day) existing.day = defMatch.day;
             if (!existing.note && defMatch.note) existing.note = defMatch.note;
         }
     });
 
-    // Doğrudan erişim kısayollarını tanımla/güncelle
     existingMap.forEach((m, id) => {
         if (id === 'mac-3' && !data.mac3) data.mac3 = m;
         if (id === 'mac-4' && !data.mac4) data.mac4 = m;
@@ -377,9 +356,6 @@ function ensureMatchesIncludeNewFixture(data) {
     return data;
 }
 
-/**
- * Turnuva verisini getir (Önbellekten veya varsayılandan, eski maçları bozmadan yeni maçları ekler)
- */
 function getTournamentData() {
     try {
         const stored = localStorage.getItem(BRACKET_STORAGE_KEY);
@@ -387,7 +363,7 @@ function getTournamentData() {
             const parsed = JSON.parse(stored);
             if (isValidTournamentTree(parsed)) {
                 const migrated = ensureMatchesIncludeNewFixture(parsed);
-                // Önbelleğe de güncel halini yaz (eski skorlar korundu)
+                
                 try {
                     localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(migrated));
                 } catch (saveErr) { }
@@ -403,11 +379,8 @@ function getTournamentData() {
     return defaultData;
 }
 
-/**
- * Turnuva verisini kaydet (LocalStorage + Supabase Çift Yönlü Yedekleme)
- */
 async function saveTournamentData(data, syncToCloud = true) {
-    // 1. Yerel önbelleğe her zaman kaydet
+    
     try {
         localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(data));
         window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data } }));
@@ -432,7 +405,6 @@ async function saveTournamentData(data, syncToCloud = true) {
     let cloudTarget = null;
     let lastError = null;
 
-    // 1. Önce özel turnuva_fikstur tablosuna yazmayı dene
     try {
         const { error: tError } = await client
             .from('turnuva_fikstur')
@@ -452,7 +424,6 @@ async function saveTournamentData(data, syncToCloud = true) {
         lastError = e;
     }
 
-    // 2. Tablo yoksa, duyurular tablosuna 'system-turnuva-tree' özel sistem kaydı olarak yedekle
     if (!cloudSynced) {
         try {
             const systemPayload = {
@@ -490,24 +461,17 @@ async function saveTournamentData(data, syncToCloud = true) {
     };
 }
 
-/**
- * Turnuva verilerini varsayılana sıfırla
- */
 async function resetTournamentData() {
     const defaultData = cloneObject(DEFAULT_TOURNAMENT_DATA);
     await saveTournamentData(defaultData, true);
     return defaultData;
 }
 
-/**
- * Buluttan turnuva ağacı verisini çek
- */
 async function fetchTournamentCloudData() {
     if (typeof getSupabaseClient !== 'function') return null;
     const client = getSupabaseClient();
     if (!client) return null;
 
-    // 1. Önce turnuva_fikstur tablosunu kontrol et
     try {
         const { data, error } = await client
             .from('turnuva_fikstur')
@@ -524,7 +488,6 @@ async function fetchTournamentCloudData() {
         console.warn('turnuva_fikstur tablosu sorgulanamadı:', err);
     }
 
-    // 2. Yoksa duyurular tablosundaki sistem kaydına bak
     try {
         const { data: sData, error: sError } = await client
             .from('duyurular')
@@ -545,9 +508,6 @@ async function fetchTournamentCloudData() {
     return null;
 }
 
-/**
- * Supabase'den Turnuva Ağacı Verilerini Çek ve Canlı Dinlemeyi Başlat
- */
 async function initTournamentDataSync(onDataLoadedCallback) {
     if (typeof getSupabaseClient !== 'function') return;
     const client = getSupabaseClient();
@@ -562,7 +522,7 @@ async function initTournamentDataSync(onDataLoadedCallback) {
                 onDataLoadedCallback(cloudData);
             }
         } else {
-            // Bulutta geçerli 2 maçlı ön eleme verisi yoksa güncel varsayılanı buluta kaydet
+            
             saveTournamentData(getTournamentData(), true);
         }
     } catch (err) {
@@ -621,7 +581,6 @@ async function initTournamentDataSync(onDataLoadedCallback) {
     }
 }
 
-// Otomatik Başlatma
 if (typeof window !== 'undefined') {
     const autoInitSync = (retries = 15) => {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {

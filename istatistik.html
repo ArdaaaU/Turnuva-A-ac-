@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turnuva İstatistikleri & Takım Kadroları</title>
-    <!-- Tema Flash Engelleme ve Mobil Cihaz Tespiti -->
+    
     <script>
         (function() {
             let savedTheme = localStorage.getItem('turnuva-theme-preference');
@@ -21,12 +21,12 @@
             }
         })();
     </script>
-    <!-- Modern Yazı Tipi -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- TEMA DEĞİŞKENLERİ --- */
+        
         :root, [data-theme="light"] {
             --bg-page: #f1f5f9;
             --bg-card: #ffffff;
@@ -118,7 +118,6 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* --- NAVBAR --- */
         .navbar {
             position: fixed;
             top: 0;
@@ -273,7 +272,6 @@
             font-weight: 800;
         }
 
-        /* Hamburger */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -336,7 +334,6 @@
             visibility: visible;
         }
 
-        /* --- HERO BANNER --- */
         .hero {
             max-width: 1100px;
             margin: 20px auto 28px auto;
@@ -375,7 +372,6 @@
             font-weight: 500;
         }
 
-        /* --- STATS CONTAINER --- */
         .stats-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -520,7 +516,6 @@
             box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
-        /* --- TWO COLUMNS (GOL KRALLIĞI & TAKIMLAR) --- */
         .bottom-stats-grid {
             display: grid;
             grid-template-columns: 1fr 1.35fr;
@@ -533,7 +528,6 @@
             }
         }
 
-        /* --- TAKIMLAR GENİŞLEYEBİLEN TABLO (ACCORDION TABLE) --- */
         .teams-expandable-table {
             width: 100%;
             border-collapse: collapse;
@@ -651,7 +645,6 @@
             color: var(--gold);
         }
 
-        /* Collapsible subpanel row */
         .team-subpanel-row {
             display: none;
         }
@@ -770,7 +763,6 @@
             font-weight: 700;
         }
 
-        /* --- İMZA --- */
         .signature {
             position: fixed;
             bottom: 16px;
@@ -787,7 +779,6 @@
             z-index: 999;
         }
 
-        /* --- TOAST --- */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -813,7 +804,6 @@
             opacity: 1;
         }
 
-        /* --- MODALLAR --- */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1007,7 +997,6 @@
             .hamburger { display: flex; }
             .stats-container { padding: 0 12px; }
 
-            /* Yönetici Paneli ve PIN Modalı Responsive Uyumluluk */
             #stats-admin-modal .modal-container,
             #stats-admin-modal .modal-content,
             #pin-modal .modal-container,
@@ -1020,7 +1009,6 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
         <a href="index.html" class="nav-brand">
             <img src="logo.jpeg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
@@ -1036,13 +1024,11 @@
                 <a href="duyurular.html" class="nav-link">📢 Duyurular</a>
             </nav>
 
-            <!-- DARK / LIGHT TEMA BUTONU -->
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Tema Değiştir" title="Açık / Koyu Tema">
                 <span class="sun-icon">☀️</span>
                 <span class="moon-icon">🌙</span>
             </button>
 
-            <!-- YÖNETİCİ BUTONLARI -->
             <button class="admin-nav-btn" id="open-admin-btn" title="Oyuncu & İstatistik Yönetimi">
                 <span id="admin-nav-icon">🔒</span>
                 <span id="admin-nav-text">Yönetici Girişi</span>
@@ -1059,7 +1045,6 @@
         </div>
     </header>
 
-    <!-- MOBİL MENÜ -->
     <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
     <div class="mobile-drawer" id="mobile-drawer">
         <a href="index.html" class="nav-link" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
@@ -1076,17 +1061,14 @@
         </div>
     </div>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-badge">⚽ 2026 Futbol Turnuvası</div>
         <h1 class="hero-title">Turnuva İstatistikleri</h1>
         <p class="hero-subtitle">Tek genel puan durumu, gol krallığı ve takım oyuncu kadroları</p>
     </section>
 
-    <!-- ANA İÇERİK -->
     <main class="stats-container">
-        
-        <!-- 1. EN BAŞTA: TEK GENEL PUAN DURUMU (GRUP AYRIMI VE FİKSTÜR TIKLAMASI YOK) -->
+
         <div class="stat-card" id="standings-main-card">
             <div class="stat-header">
                 <span class="stat-header-title">🏆 Turnuva Puan Durumu</span>
@@ -1107,16 +1089,14 @@
                         </tr>
                     </thead>
                     <tbody id="single-standings-tbody">
-                        <!-- JS ile tek tabloda 5 takım dinamik olarak doldurulacaktır -->
+                        
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 2. ALT GRID: GOL KRALLIĞI VE TAKIMLAR KADROSU -->
         <div class="bottom-stats-grid">
-            
-            <!-- GOL KRALLIĞI -->
+
             <div class="stat-card" id="top-scorers-card">
                 <div class="stat-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -1138,13 +1118,12 @@
                             </tr>
                         </thead>
                         <tbody id="top-scorers-tbody">
-                            <!-- Dinamik JS ile tüm 34 oyuncu doldurulacak -->
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- TAKIMLAR VE TIKLANDIĞINDA AŞAĞI DOĞRU GENİŞLEYEN OYUNCU KADROSU TABLOSU -->
             <div class="stat-card" id="teams-squad-card">
                 <div class="stat-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -1157,7 +1136,6 @@
                     </div>
                 </div>
 
-                <!-- KADRO ARAMA VE BİLGİ ŞERİDİ -->
                 <div class="squad-search-bar">
                     <div style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">
                         <span>💡</span>
@@ -1166,7 +1144,6 @@
                     <input type="text" id="squad-search-input" class="squad-search-input" placeholder="🔍 Oyuncu veya takım ara...">
                 </div>
 
-                <!-- GENİŞLEYEBİLEN TAKIMLAR TABLOSU -->
                 <div class="stat-table-responsive">
                     <table class="teams-expandable-table">
                         <thead>
@@ -1178,7 +1155,7 @@
                             </tr>
                         </thead>
                         <tbody id="teams-accordion-tbody">
-                            <!-- JS ile takımlar ve tıklandığında genişleyen kadro alt tabloları doldurulacak -->
+                            
                         </tbody>
                     </table>
                 </div>
@@ -1188,10 +1165,8 @@
 
     </main>
 
-    <!-- EKRANLA BİRLİKTE HAREKET EDEN SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
-    <!-- YÖNETİCİ PIN DOĞRULAMA MODALI -->
     <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true">
         <div class="modal-container" style="max-width: 400px;">
             <div class="modal-header">
@@ -1219,7 +1194,6 @@
         </div>
     </div>
 
-    <!-- OYUNCU & PUAN DURUMU YÖNETİM MODALI -->
     <div class="modal-overlay" id="stats-admin-modal" role="dialog" aria-modal="true">
         <div class="admin-modal-card">
             <div class="admin-modal-header">
@@ -1234,13 +1208,12 @@
             </div>
 
             <div class="admin-modal-body">
-                <!-- SEKME SEÇİCİ -->
+                
                 <div class="admin-tabs-nav">
                     <button type="button" class="admin-tab-btn active" id="tab-btn-admin-standings">🏆 Puan Durumu Düzenle</button>
                     <button type="button" class="admin-tab-btn" id="tab-btn-admin-players">⚽ Oyuncular & Goller</button>
                 </div>
 
-                <!-- SEKME 1: PUAN DURUMU DÜZENLE -->
                 <div id="admin-pane-standings">
                     <div class="admin-section-box">
                         <div class="admin-section-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
@@ -1266,16 +1239,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="admin-standings-tbody">
-                                    <!-- JS ile 5 takım inputları doldurulacak -->
+                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- SEKME 2: OYUNCU & GOL YÖNETİMİ -->
                 <div id="admin-pane-players" style="display: none; flex-direction: column; gap: 16px;">
-                    <!-- YENİ OYUNCU EKLEME -->
+                    
                     <div class="admin-section-box">
                         <span class="admin-section-title">➕ Yeni Oyuncu Ekle</span>
                         <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr auto; gap: 10px; align-items: end;">
@@ -1305,7 +1277,6 @@
                         </div>
                     </div>
 
-                    <!-- OYUNCULAR LİSTESİ -->
                     <div class="admin-section-box">
                         <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
                             <span class="admin-section-title">📋 Kayıtlı Oyuncular (<span id="admin-total-players-count">0</span>)</span>
@@ -1323,7 +1294,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="admin-players-tbody">
-                                    <!-- JS ile oyuncular doldurulacak -->
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -1346,13 +1317,11 @@
         </div>
     </div>
 
-    <!-- TOAST BİLDİRİMİ -->
     <div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
 
-    <!-- GÜVENLİK VE ŞİFRELEME MODÜLÜ (SHA-256 HASH & BRUTE-FORCE KORUMASI) -->
     <script src="security.js"></script>
 
     <!-- SUPABASE VE İSTATİSTİK MODÜLLERİ -->
@@ -1361,10 +1330,9 @@
     <script src="fikstur.js"></script>
     <script src="istatistik.js"></script>
 
-    <!-- ETKİLEŞİM VE İŞ MANTIĞI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. TEMA DEĞİŞTİRME (DARK / LIGHT MODE)
+            
             const themeToggleBtn = document.getElementById('theme-toggle');
             if (themeToggleBtn) {
                 themeToggleBtn.addEventListener('click', () => {
@@ -1376,7 +1344,6 @@
                 });
             }
 
-            // 2. HAMBURGER VE MOBİL ÇEKMECE
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const mobileDrawer = document.getElementById('mobile-drawer');
             const drawerOverlay = document.getElementById('drawer-overlay');
@@ -1392,7 +1359,6 @@
                 drawerOverlay.addEventListener('click', toggleDrawer);
             }
 
-            // 3. TOAST BİLDİRİMİ
             const toastEl = document.getElementById('toast-msg');
             const toastText = document.getElementById('toast-text');
             const toastIcon = document.getElementById('toast-icon');
@@ -1418,9 +1384,8 @@
                     .replace(/"/g, '&quot;');
             }
 
-            // ============================================================
-            // 4. TEK GENEL PUAN DURUMU RENDER FONKSİYONU
-            // ============================================================
+            
+            
             const singleStandingsTbody = document.getElementById('single-standings-tbody');
             const standingsCountBadge = document.getElementById('standings-count-badge');
 
@@ -1466,15 +1431,14 @@
                 }).join('');
             }
 
-            // ============================================================
-            // 5. GOL KRALLIĞI RENDER FONKSİYONU
-            // ============================================================
+            
+            
             const topScorersTbody = document.getElementById('top-scorers-tbody');
             const topScorerBadge = document.getElementById('top-scorer-badge');
             const btnSortTeam = document.getElementById('btn-sort-team');
             const btnSortGoals = document.getElementById('btn-sort-goals');
 
-            let currentScorerSort = 'team'; // Varsayılan: Takımlara göre alfabetik
+            let currentScorerSort = 'team'; 
 
             function renderTopScorers(players) {
                 if (!topScorersTbody) return;
@@ -1547,16 +1511,14 @@
                 });
             }
 
-            // ============================================================
-            // 6. TAKIMLAR VE TIKLANDIĞINDA AŞAĞI DOĞRU GENİŞLEYEN KADRO TABLOSU
-            // ============================================================
+            
+            
             const teamsAccordionTbody = document.getElementById('teams-accordion-tbody');
             const teamsBadgeInfo = document.getElementById('teams-badge-info');
             const squadSearchInput = document.getElementById('squad-search-input');
             const btnExpandAll = document.getElementById('btn-expand-all');
             const btnCollapseAll = document.getElementById('btn-collapse-all');
 
-            // Hangi takımların açık olduğunu tutan Set (Varsayılan olarak tüm takımlar kapalı gelir, tıklandığında açılır)
             let expandedTeams = new Set();
 
             function renderTeamsAccordionTable(playersData) {
@@ -1577,20 +1539,17 @@
                     const teamSafeId = teamName.replace(/[^a-zA-Z0-9_-]/g, '-');
                     const totalGoals = squad.reduce((sum, p) => sum + (parseInt(p.goals, 10) || 0), 0);
 
-                    // Arama eşleşmesi kontrolü
                     const teamMatches = teamName.toLowerCase().includes(query);
                     const matchingPlayers = query 
                         ? squad.filter(p => p.name && p.name.toLowerCase().includes(query))
                         : squad;
 
-                    // Arama varsa ve eşleşme yoksa bu takımı atla
                     if (query && !teamMatches && matchingPlayers.length === 0) {
                         return;
                     }
 
                     visibleCount++;
 
-                    // Arama durumunda uyuşan takımlar otomatik açılır; normalde expandedTeams Set'ine bakılır
                     const isExpanded = query ? true : expandedTeams.has(teamName);
                     const displayedSquad = query && !teamMatches ? matchingPlayers : squad;
 
@@ -1670,7 +1629,6 @@
 
                 teamsAccordionTbody.innerHTML = html;
 
-                // Takım satırına tıklandığında aç / kapat
                 teamsAccordionTbody.querySelectorAll('.team-expand-row').forEach(row => {
                     row.addEventListener('click', () => {
                         const tName = row.getAttribute('data-team');
@@ -1725,9 +1683,8 @@
                 renderTeamsAccordionTable(players);
             }
 
-            // ============================================================
-            // 7. YÖNETİCİ GİRİŞİ VE GÜVENLİK
-            // ============================================================
+            
+            
             const openAdminBtn = document.getElementById('open-admin-btn');
             const adminLogoutBtn = document.getElementById('admin-logout-btn');
             const adminActiveBadge = document.getElementById('admin-active-badge');
@@ -1875,9 +1832,8 @@
                 });
             }
 
-            // ============================================================
-            // 8. ADMİN MODAL YÖNETİMİ (PUAN DURUMU & OYUNCULAR)
-            // ============================================================
+            
+            
             let currentEditingStandings = [];
             let currentEditingPlayers = [];
             const adminStandingsTbody = document.getElementById('admin-standings-tbody');
@@ -1885,7 +1841,6 @@
             const adminTotalPlayersCount = document.getElementById('admin-total-players-count');
             const adminPlayerSearch = document.getElementById('admin-player-search');
 
-            // Sekme geçişleri
             if (tabBtnAdminStandings && tabBtnAdminPlayers) {
                 tabBtnAdminStandings.addEventListener('click', () => {
                     tabBtnAdminStandings.classList.add('active');
@@ -2031,7 +1986,6 @@
                     </tr>
                 `).join('');
 
-                // Silme dinleyicileri
                 adminPlayersTbody.querySelectorAll('.player-delete-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const pId = btn.getAttribute('data-id');
@@ -2068,7 +2022,6 @@
                 });
             }
 
-            // Yeni Oyuncu Ekleme
             const btnAddPlayer = document.getElementById('btn-add-player');
             const newPlayerName = document.getElementById('new-player-name');
             const newPlayerTeam = document.getElementById('new-player-team');
@@ -2103,7 +2056,6 @@
                 });
             }
 
-            // TÜM DEĞİŞİKLİKLERİ KAYDET & BULUTA YAYINLA
             if (saveStatsBtn) {
                 saveStatsBtn.addEventListener('click', async () => {
                     const originalBtnText = saveStatsBtn.innerHTML;
@@ -2130,7 +2082,6 @@
                 });
             }
 
-            // GÜVENLİ SIFIRLAMA (ÇİFT ONAY & ŞİFRE KORUMASI)
             if (adminResetStatsBtn) {
                 adminResetStatsBtn.addEventListener('click', async () => {
                     const confirmWord = prompt('⚠️ DİKKAT: Puan durumu ve tüm oyuncuların attığı goller sıfırlanacaktır!\n\nBu işlemi onaylamak için lütfen "SIFIRLA" yazınız:');
@@ -2165,7 +2116,6 @@
                 });
             }
 
-            // 9. İLK YÜKLEME VE DİNLEYİCİLER
             renderAllStatsViews();
             updateAdminUI();
 

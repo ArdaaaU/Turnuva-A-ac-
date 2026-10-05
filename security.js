@@ -1,11 +1,4 @@
-/**
- * Turnuva Güvenlik & Yetkilendirme Modülü (security.js)
- * ----------------------------------------------------
- * - Güvenli ve merkezi yönetici kimlik doğrulama sistemi
- * - Sonsuz döngü ve çakışma risklerini sıfırlayan TurnuvaAuth nesnesi
- * - Standart şifre (1931) ve alternatif yönetici parolaları (1234) desteği
- * - Tüm sekmeler ve sayfalar arasında anlık oturum senkronizasyonu
- */
+
 
 (function (window) {
     'use strict';
@@ -15,14 +8,10 @@
     const ATTEMPTS_KEY = 'turnuva_auth_attempts';
     const LOCKOUT_KEY = 'turnuva_auth_lockout_until';
     const MAX_FAILED_ATTEMPTS = 10;
-    const LOCKOUT_DURATION_MS = 2 * 60 * 1000; // 2 dakika
+    const LOCKOUT_DURATION_MS = 2 * 60 * 1000; 
 
-    // Varsayılan geçerli yönetici PIN'leri
     const VALID_PINS = ['1931', '1234'];
 
-    /**
-     * Kaba Kuvvet (Brute-Force) Kilit Kontrolü
-     */
     function isLockedOut() {
         try {
             const lockoutUntil = parseInt(localStorage.getItem(LOCKOUT_KEY), 10);
@@ -38,9 +27,6 @@
         return { locked: false, remainingSeconds: 0 };
     }
 
-    /**
-     * Başarısız Deneme Kaydı
-     */
     function recordFailedAttempt() {
         try {
             let attempts = parseInt(localStorage.getItem(ATTEMPTS_KEY), 10) || 0;
@@ -58,9 +44,6 @@
         }
     }
 
-    /**
-     * Başarılı Girişte Kilit Sayaçlarını Sıfırla
-     */
     function clearAuthLockouts() {
         try {
             localStorage.removeItem(ATTEMPTS_KEY);
@@ -68,9 +51,6 @@
         } catch (e) { }
     }
 
-    /**
-     * Yönetici Aktif Oturumu Var mı?
-     */
     function isAdminAuthenticated() {
         try {
             const sAuth = sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
@@ -81,11 +61,6 @@
         }
     }
 
-    /**
-     * Yönetici Giriş Kontrolü
-     * @param {string} pin - Kullanıcının girdiği şifre
-     * @returns {boolean} - Doğrulama başarılı mı?
-     */
     function authenticateAdmin(pin) {
         if (pin === null || pin === undefined) return false;
 
@@ -103,7 +78,6 @@
         const cleanPin = String(pin).trim();
         if (!cleanPin) return false;
 
-        // Kaydedilmiş özel PIN kontrolü
         let customPin = null;
         try {
             customPin = localStorage.getItem(PIN_KEY);
@@ -118,7 +92,6 @@
                 localStorage.setItem(AUTH_SESSION_KEY, 'true');
             } catch (e) { }
 
-            // Tüm bileşenlere oturum değişikliğini bildir
             try {
                 window.dispatchEvent(new CustomEvent('turnuva_auth_changed', {
                     detail: { authenticated: true }
@@ -145,9 +118,6 @@
         }
     }
 
-    /**
-     * Yönetici Çıkışı Yap
-     */
     function logoutAdmin() {
         try {
             sessionStorage.removeItem(AUTH_SESSION_KEY);
@@ -161,9 +131,6 @@
         } catch (e) { }
     }
 
-    /**
-     * Yeni Yönetici Şifresi Belirle
-     */
     function setAdminPin(newPin) {
         if (!newPin || typeof newPin !== 'string') return false;
         const clean = newPin.trim();
@@ -176,7 +143,6 @@
         }
     }
 
-    // TurnuvaAuth Merkezi Namespace
     const TurnuvaAuth = {
         authenticate: authenticateAdmin,
         isAuthenticated: isAdminAuthenticated,
@@ -187,7 +153,6 @@
 
     window.TurnuvaAuth = TurnuvaAuth;
 
-    // Geriye dönük %100 uyumluluk için global fonksiyonlar
     window.authenticateAdmin = authenticateAdmin;
     window.isAdminAuthenticated = isAdminAuthenticated;
     window.logoutAdmin = logoutAdmin;

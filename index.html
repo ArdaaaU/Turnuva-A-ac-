@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futbol Turnuva Ağacı</title>
-    <!-- Tema Flash Engelleme ve Mobil Cihaz Tespiti -->
+    
     <script>
         (function () {
             let savedTheme = localStorage.getItem('turnuva-theme-preference');
@@ -22,13 +22,13 @@
             }
         })();
     </script>
-    <!-- Modern Yazı Tipi -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <style>
-        /* --- TEMA DEĞİŞKENLERİ --- */
+        
         :root,
         [data-theme="light"] {
             --bg-page: #f1f5f9;
@@ -120,7 +120,6 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* --- NAVBAR --- */
         .navbar {
             position: fixed;
             top: 0;
@@ -287,7 +286,6 @@
             font-weight: 800;
         }
 
-        /* Hamburger */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -360,7 +358,6 @@
             visibility: visible;
         }
 
-        /* --- HERO BANNER --- */
         .hero {
             max-width: 1100px;
             margin: 20px auto 26px auto;
@@ -423,9 +420,6 @@
             background: var(--bg-card-hover);
         }
 
-        /* ============================================================
-           TURNUVA AĞACI (TOURNAMENT TREE VIEWPORT & BRACKET TRACK)
-           ============================================================ */
         .bracket-viewport {
             width: 100%;
             max-width: 1380px;
@@ -460,7 +454,6 @@
             box-sizing: border-box;
         }
 
-        /* --- SÜTUNLAR (ROUNDS) --- */
         .bracket-col {
             display: flex;
             flex-direction: column;
@@ -519,7 +512,6 @@
             justify-content: flex-start;
         }
 
-        /* Fikstür Not & Bilgilendirme Satırı (Kullanıcı İsteği ile Kaldırıldı) */
         .fixture-note-row {
             display: none !important;
         }
@@ -546,7 +538,6 @@
             margin-top: 12px;
         }
 
-        /* --- MAÇ KARTI TASARIMI --- */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
@@ -696,7 +687,6 @@
             border: 1px solid var(--border-subtle);
         }
 
-        /* --- FİNAL KARTI --- */
         .final-card {
             border: 1px solid var(--gold-border);
             background: var(--final-card-bg);
@@ -731,7 +721,6 @@
             box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
         }
 
-        /* --- ŞAMPİYON KÜRZÜSÜ KARTI --- */
         .trophy-showcase-card {
             background: var(--final-card-bg);
             border: 1px solid var(--gold-border);
@@ -788,7 +777,6 @@
             font-weight: 600;
         }
 
-        /* Admin Quick Edit Hover */
         .bracket-card-admin-hover {
             cursor: pointer;
         }
@@ -811,9 +799,6 @@
             pointer-events: none;
         }
 
-        /* ============================================================
-           FİKSTÜR KART BİLEŞENİ (MODERN PREMİUM DİZAYN)
-           ============================================================ */
         .fixture-widget-card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
@@ -1100,9 +1085,6 @@
             text-align: center;
         }
 
-        /* ============================================================
-           POPOUT ANNOUNCEMENT MODAL (SİTEYE GİRİŞTE OTOMATİK ÇIKAN POP-UP)
-           ============================================================ */
         .announcement-popup-overlay {
             position: fixed;
             inset: 0;
@@ -1220,7 +1202,6 @@
             gap: 10px;
         }
 
-        /* --- STANDART MODAL & FORM STİLLERİ --- */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1517,7 +1498,6 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
-        /* --- İMZA VE TOAST --- */
         .signature {
             position: fixed;
             bottom: 16px;
@@ -1632,7 +1612,6 @@
                 padding: 10px 12px;
             }
 
-            /* Yönetici Paneli ve PIN Modalı için Responsive Uyum */
             #tournament-admin-modal .admin-modal-card,
             #tournament-admin-modal .modal-container,
             #pin-modal .modal-container {
@@ -1645,7 +1624,6 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
         <a href="index.html" class="nav-brand">
             <img src="logo.jpeg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
@@ -1659,13 +1637,11 @@
                 <a href="duyurular.html" class="nav-link">📢 Duyurular</a>
             </nav>
 
-            <!-- DARK / LIGHT TEMA BUTONU -->
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Tema Değiştir" title="Açık / Koyu Tema">
                 <span class="sun-icon">☀️</span>
                 <span class="moon-icon">🌙</span>
             </button>
 
-            <!-- YÖNETİCİ BUTONU -->
             <button class="admin-nav-btn" id="open-admin-btn" title="Turnuva Yönetimi">
                 <span id="admin-nav-icon">🔒</span>
                 <span id="admin-nav-text">Yönetici Girişi</span>
@@ -1684,7 +1660,6 @@
         </div>
     </header>
 
-    <!-- MOBİL MENÜ ÇEKMECESİ -->
     <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
     <div class="mobile-drawer" id="mobile-drawer">
         <a href="index.html" class="nav-link active" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
@@ -1701,7 +1676,6 @@
         </div>
     </div>
 
-    <!-- BAŞLIK & BİLGİ -->
     <section class="hero">
         <div class="hero-badge">
             <span>⚽ 2026 Futbol Turnuvası</span>
@@ -1717,9 +1691,6 @@
         </div>
     </section>
 
-    <!-- ============================================================
-         POPOUT ANNOUNCEMENT MODAL (SİTEYE GİRİŞTE DİREK ÇIKAN DUYURU)
-         ============================================================ -->
     <div class="announcement-popup-overlay" id="announcement-popup-modal" role="dialog" aria-modal="true">
         <div class="announcement-popup-card">
             <div class="ann-pop-header">
@@ -1744,13 +1715,9 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         TURNUVA AĞACI ALANI (ÖN ELEME -> YARI FİNAL -> FİNAL -> ŞAMPİYON)
-         ============================================================ -->
     <main class="bracket-viewport" id="bracket-viewport">
         <div class="bracket-track">
 
-            <!-- TURNUVA FİKSTÜRÜ (Sitede sadece fikstür yer alır) -->
             <div class="bracket-col fixture-bracket-col" id="col-quarter">
                 <div class="col-header">
                     <span class="col-title">📅 Turnuva Fikstürü</span>
@@ -1766,15 +1733,13 @@
                         </div>
                         <div id="fixture-widget-body">
 
-                            <!-- ======================================================= -->
-                            <!-- BÖLÜM 1: 6-8 EKİM FİKSTÜRÜ -->
-                            <!-- ======================================================= -->
+                            
+                            
                             <div class="fixture-section-divider">
                                 <span>🔥 6-8 Ekim Fikstürü</span>
                                 <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.2); color: #facc15; font-weight: 700;">Güncel</span>
                             </div>
 
-                            <!-- Salı: 18:00 | iç mekan tasarım-2 – maliye işletme-2 -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">
                                     <span>Salı • 6 Ekim 2026</span>
@@ -1793,7 +1758,6 @@
                                 </div>
                             </div>
 
-                            <!-- Çarşamba: 18:00 | maliye işletme-2 – hit-1 & 19:00 | wtk-2 – hit-2 -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">
                                     <span>Çarşamba • 7 Ekim 2026</span>
@@ -1823,7 +1787,6 @@
                                 </div>
                             </div>
 
-                            <!-- Perşembe: 18:00 | iç mekan tasarım-2 – hit-1 -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">
                                     <span>Perşembe • 8 Ekim 2026</span>
@@ -1842,15 +1805,13 @@
                                 </div>
                             </div>
 
-                            <!-- ======================================================= -->
-                            <!-- BÖLÜM 2: 1. HAFTA (OYNANAN ESKİ MAÇLAR - KORUNAN PROGRAM) -->
-                            <!-- ======================================================= -->
+                            
+                            
                             <div class="fixture-section-divider past-matches">
                                 <span>📅 1. Hafta (Oynanan Eski Maçlar)</span>
                                 <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(148, 163, 184, 0.15); color: #cbd5e1; font-weight: 700;">Sonuçlar</span>
                             </div>
 
-                            <!-- 28 Eylül 2026 - Pazartesi -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">28 Eylül 2026 - Pazartesi</div>
                                 <div class="fixture-rows">
@@ -1878,7 +1839,6 @@
                                 </div>
                             </div>
 
-                            <!-- 29 Eylül 2026 - Salı (Turnuva BAY Günü) -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner" style="background: #092c5c;">29 Eylül 2026 - Salı</div>
                                 <div class="fixture-rows">
@@ -1893,7 +1853,6 @@
                                 </div>
                             </div>
 
-                            <!-- 30 Eylül 2026 - Çarşamba -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">30 Eylül 2026 - Çarşamba</div>
                                 <div class="fixture-rows">
@@ -1921,7 +1880,6 @@
                                 </div>
                             </div>
 
-                            <!-- 1 Ekim 2026 - Perşembe -->
                             <div class="fixture-day-group">
                                 <div class="fixture-date-banner">1 Ekim 2026 - Perşembe</div>
                                 <div class="fixture-rows">
@@ -1958,10 +1916,8 @@
         </div>
     </main>
 
-    <!-- SABİT İMZA -->
     <div class="signature">Made By Arda Utancak</div>
 
-    <!-- YÖNETİCİ PIN DOĞRULAMA MODALI -->
     <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true">
         <div class="modal-container" style="max-width: 400px;">
             <div class="modal-header">
@@ -1996,7 +1952,6 @@
         </div>
     </div>
 
-    <!-- TURNUVA AĞACI YÖNETİM MODALI -->
     <div class="modal-overlay" id="tournament-admin-modal" role="dialog" aria-modal="true">
         <div class="admin-modal-card">
 
@@ -2013,7 +1968,6 @@
                 <button class="modal-close-btn" id="close-admin-modal" aria-label="Kapat">&times;</button>
             </div>
 
-            <!-- MODAL SEKMELERİ -->
             <div class="admin-tab-nav" role="tablist">
                 <button type="button" class="admin-tab-btn active" data-tab="pane-fixture" id="tab-btn-fixture">
                     📅 Turnuva Fikstür Maçları
@@ -2028,17 +1982,15 @@
 
             <div class="admin-modal-body">
 
-                <!-- ========================================== -->
-                <!-- SEKME 1: FİKSTÜR MAÇLARI (HAFTALIK PROGRAM) -->
-                <!-- ========================================== -->
+                
+                
                 <div class="admin-tab-pane active" id="pane-fixture">
                     <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
                         📌 Fikstür tablosunda gösterilen haftalık maç programını, canlı durumları ve sonuçlarını bu ekrandan yönetebilirsiniz.
                     </div>
 
-                    <!-- ============================================== -->
-                    <!-- BU HAFTA OYNANACAK MAÇLAR (GÜNCEL FİKSTÜR) -->
-                    <!-- ============================================== -->
+                    
+                    
                     <div class="admin-section-box" style="border-color: rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.06); margin-top: 6px;">
                         <div style="font-weight: 800; font-size: 13.5px; color: #60a5fa; display: flex; align-items: center; gap: 8px;">
                             <span>🔥 6-8 Ekim Fikstürü (Haftalık Maçlar)</span>
@@ -2046,7 +1998,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 7 (Salı • 18:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 7 — Salı • 18:00</span>
@@ -2081,7 +2032,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 8 (Çarşamba • 18:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 8 — Çarşamba • 18:00</span>
@@ -2116,7 +2066,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 9 (Çarşamba • 19:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 9 — Çarşamba • 19:00</span>
@@ -2151,7 +2100,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 10 (Perşembe • 18:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 10 — Perşembe • 18:00</span>
@@ -2186,9 +2134,8 @@
                         </div>
                     </div>
 
-                    <!-- ============================================== -->
-                    <!-- 1. HAFTA (OYNANAN ESKİ MAÇLAR - KORUNAN BÖLÜM) -->
-                    <!-- ============================================== -->
+                    
+                    
                     <div class="admin-section-box" style="border-color: rgba(148, 163, 184, 0.35); background: rgba(148, 163, 184, 0.05); margin-top: 10px;">
                         <div style="font-weight: 800; font-size: 13px; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
                             <span>📅 1. Hafta (Oynanan Eski Maçlar)</span>
@@ -2196,7 +2143,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 1 (28 Eylül • 18:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 1 — 28 Eylül • 18:00</span>
@@ -2231,7 +2177,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 2 (28 Eylül • 19:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 2 — 28 Eylül • 19:00</span>
@@ -2266,7 +2211,6 @@
                         </div>
                     </div>
 
-                    <!-- 29 EYLÜL SALI BİLGİ KUTUSU (BAY GÜNÜ) -->
                     <div class="admin-section-box" style="border-color: rgba(250, 204, 21, 0.35); background: rgba(250, 204, 21, 0.04);">
                         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                             <div>
@@ -2281,7 +2225,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 3 (30 Eylül • 18:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 3 — 30 Eylül • 18:00</span>
@@ -2316,7 +2259,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 4 (30 Eylül • 19:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 4 — 30 Eylül • 19:00</span>
@@ -2351,7 +2293,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 5 (1 Ekim • 18:00) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 5 — 1 Ekim • 18:00</span>
@@ -2386,7 +2327,6 @@
                         </div>
                     </div>
 
-                    <!-- MAÇ 6 (1 Ekim • 18:45) -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 6 — 1 Ekim • 18:45</span>
@@ -2421,7 +2361,6 @@
                         </div>
                     </div>
 
-                    <!-- SKORLARI PUAN DURUMUNA OTOMATİK AKTAR KARTI -->
                     <div class="admin-section-box" style="border-color: rgba(59, 130, 246, 0.45); background: rgba(59, 130, 246, 0.05); margin-top: 4px;">
                         <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
                             <div style="flex: 1; min-width: 250px;">
@@ -2442,15 +2381,13 @@
                     </div>
                 </div>
 
-                <!-- ========================================== -->
-                <!-- SEKME 2: YARI FİNAL, BÜYÜK FİNAL & ŞAMPİYON -->
-                <!-- ========================================== -->
+                
+                
                 <div class="admin-tab-pane" id="pane-semis-final">
                     <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
                         🏆 Eleme ağacındaki yarı finalleri, final karşılaşmasını ve turnuva şampiyonunu bu ekrandan yönetebilirsiniz.
                     </div>
 
-                    <!-- HIZLI EŞLEŞTİRME VE AKTARIM BUTONLARI -->
                     <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05); margin-top: 4px;">
                         <div style="font-weight: 800; font-size: 13.5px; color: var(--gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
                             <span>⚡ Hızlı Eşleştirme & Otomatik Aktarım</span>
@@ -2471,7 +2408,6 @@
                         </div>
                     </div>
 
-                    <!-- 1. YARI FİNAL MAÇI -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚔️ 1. Yarı Final (Salı • 18:00)</span>
@@ -2506,7 +2442,6 @@
                         </div>
                     </div>
 
-                    <!-- 2. YARI FİNAL MAÇI -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚔️ 2. Yarı Final (Çarşamba • 19:00)</span>
@@ -2541,7 +2476,6 @@
                         </div>
                     </div>
 
-                    <!-- BAY TAKIMI YÖNETİMİ -->
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">🛡️ 1. Tur Bay Geçen Takım</span>
@@ -2553,7 +2487,6 @@
                         </div>
                     </div>
 
-                    <!-- BÜYÜK FİNAL MAÇI -->
                     <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.04);">
                         <div class="admin-section-header">
                             <span class="admin-section-title" style="color: var(--gold); font-size: 14.5px;">👑 Büyük Final (Perşembe • 18:45)</span>
@@ -2588,7 +2521,6 @@
                         </div>
                     </div>
 
-                    <!-- ŞAMPİYON KÜRSÜSÜ YÖNETİMİ -->
                     <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.6); background: rgba(245, 158, 11, 0.08);">
                         <div class="admin-section-header">
                             <span class="admin-section-title" style="color: var(--gold);">🏆 Turnuva Şampiyonu</span>
@@ -2606,9 +2538,8 @@
                     </div>
                 </div>
 
-                <!-- ========================================== -->
-                <!-- SEKME 3: AYARLAR & GÜVENLİK                 -->
-                <!-- ========================================== -->
+                
+                
                 <div class="admin-tab-pane" id="pane-settings">
                     <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
                         ⚙️ Yönetici güvenlik şifresini ve sistem tercihlerini bu ekrandan yönetebilirsiniz.
@@ -2661,13 +2592,11 @@
         </div>
     </div>
 
-    <!-- TOAST BİLDİRİMİ -->
     <div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
 
-    <!-- GÜVENLİK VE ŞİFRELEME MODÜLÜ (SHA-256 HASH & BRUTE-FORCE KORUMASI) -->
     <script src="security.js"></script>
 
     <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
@@ -2677,13 +2606,11 @@
     <!-- DUYURULAR MODÜLÜ -->
     <script src="duyurular.js"></script>
 
-    <!-- FİKSTÜR VE AĞAÇ VERİ YÖNETİMİ -->
     <script src="fikstur.js"></script>
 
     <!-- İSTATİSTİK VE PUAN DURUMU YÖNETİMİ -->
     <script src="istatistik.js"></script>
 
-    <!-- ETKİLEŞİM VE İŞ MANTIĞI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. TEMA DEĞİŞTİRME (DARK / LIGHT)
