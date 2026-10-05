@@ -888,18 +888,11 @@
         @media (max-width: 900px) {
             .nav-desktop-links { display: none; }
             .hamburger { display: flex; }
-            /* Telefonda Yönetici Girişi ve Düzenleme Butonlarını Kesin Olarak Gizle (Sadece Bilgisayarda Görünür) */
-            .admin-action-btns,
-            .edit-ann-btn,
-            .delete-ann-btn,
-            #admin-login-btn,
-            #new-announcement-btn,
-            #admin-logout-btn,
             /* Yönetici Paneli ve PIN Modalı Responsive Uyumluluk */
             #announcement-modal .modal-content,
             #pin-modal .modal-content {
                 width: 95%;
-                max-width: 540px;
+                max-width: 600px;
             }
         }
 
@@ -1261,14 +1254,6 @@
             // Yönetici Arayüz Durumunu Güncelle
             function updateAdminUI() {
                 const isAuth = isAdminAuthenticated();
-                const isMobile = isMobileClient();
-
-                if (isMobile) {
-                    adminLoginBtn.style.display = 'none';
-                    newAnnouncementBtn.style.display = 'none';
-                    adminLogoutBtn.style.display = 'none';
-                    return;
-                }
 
                 if (isAuth) {
                     adminLoginBtn.style.display = 'none';
@@ -1349,7 +1334,7 @@
                                     <button class="action-icon-btn copy-link-btn" data-id="${item.id}" title="Duyuruyu Kopyala">
                                         🔗 Paylaş
                                     </button>
-                                    ${(isAuth && !isMobile && !item.isDynamic) ? `
+                                    ${(isAuth && !item.isDynamic) ? `
                                         <button class="action-icon-btn edit-ann-btn" data-id="${item.id}" title="Düzenle">
                                             ✏️ Düzenle
                                         </button>
@@ -1607,9 +1592,17 @@
             });
 
             // Reaktif Senkronizasyon (Diğer sekmeler veya sayfalardan gelen değişiklikler)
+            window.addEventListener('turnuva_auth_changed', () => {
+                updateAdminUI();
+                renderAnnouncements();
+            });
             window.addEventListener('turnuva_announcements_updated', renderAnnouncements);
             window.addEventListener('storage', (e) => {
                 if (e.key === 'turnuva_duyurular_v3' || e.key === 'turnuva_duyurular_v1' || !e.key) {
+                    renderAnnouncements();
+                }
+                if (e.key === 'turnuva_admin_authenticated') {
+                    updateAdminUI();
                     renderAnnouncements();
                 }
             });

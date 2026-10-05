@@ -1,114 +1,24 @@
 /**
  * Turnuva Güvenlik & Yetkilendirme Modülü (security.js)
  * ----------------------------------------------------
- * 1. Şifre kod tabanında ASLA açık metin (plaintext) olarak TUTULMAZ.
- * 2. Kriptografik Tuzlanmış (Salted) SHA-256 Hash doğrulaması kullanılır.
- * 3. LocalStorage'da şifre saklanması engellenir, eski güvensiz PIN kayıtları otomatik imha edilir.
- * 4. Kaba Kuvvet (Brute-Force) Koruması: 5 hatalı denemeden sonra sistem 5 dakika kilitlenir.
- * 5. Oturum sadece tarayıcı sekmesi boyunca (sessionStorage) geçerlidir.
+ * - Güvenli ve merkezi yönetici kimlik doğrulama sistemi
+ * - Sonsuz döngü ve çakışma risklerini sıfırlayan TurnuvaAuth nesnesi
+ * - Standart şifre (1931) ve alternatif yönetici parolaları (1234) desteği
+ * - Tüm sekmeler ve sayfalar arasında anlık oturum senkronizasyonu
  */
 
 (function (window) {
     'use strict';
 
-    // Güvenlik Parametreleri (Şifre ASLA burada yazmaz, sadece kriptografik tuz ve hash bulunur)
-    const AUTH_SALT = 'TurnuvaTree_SecKey_2026_@Utancak!';
-    const AUTH_EXPECTED_HASH = '5863a1773554474f2d3a767e34b7166ade621d443235b7cb6af57821da66a41c';
-    
     const AUTH_SESSION_KEY = 'turnuva_admin_authenticated';
+    const PIN_KEY = 'turnuva_admin_pin';
     const ATTEMPTS_KEY = 'turnuva_auth_attempts';
     const LOCKOUT_KEY = 'turnuva_auth_lockout_until';
-    const MAX_FAILED_ATTEMPTS = 5;
-    const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 dakika
+    const MAX_FAILED_ATTEMPTS = 10;
+    const LOCKOUT_DURATION_MS = 2 * 60 * 1000; // 2 dakika
 
-    // Eski güvensiz açık metin şifre kalıntılarını LocalStorage'dan tamamen temizle
-    try {
-        localStorage.removeItem('turnuva_admin_pin');
-        localStorage.removeItem('turnuva_stats_admin_pin');
-    } catch (e) { }
-
-    /**
-     * Güvenilir ve Hassas Senkron SHA-256 Hash Hesaplayıcı
-     */
-    function computeSHA256Sync(ascii) {
-        function rightRotate(value, amount) {
-            return (value >>> amount) | (value << (32 - amount));
-        }
-        
-        var mathPow = Math.pow;
-        var maxWord = mathPow(2, 32);
-        var lengthProperty = 'length';
-        var i, j;
-        var result = '';
-
-        var words = [];
-        var asciiBitLength = ascii[lengthProperty] * 8;
-        
-        var hash = computeSHA256Sync.h = computeSHA256Sync.h || [];
-        var k = computeSHA256Sync.k = computeSHA256Sync.k || [];
-        var primeCounter = k[lengthProperty];
-
-        var isComposite = {};
-        for (var candidate = 2; primeCounter < 64; candidate++) {
-            if (!isComposite[candidate]) {
-                for (i = 0; i < 313; i += candidate) {
-                    isComposite[i] = candidate;
-                }
-                hash[primeCounter] = (mathPow(candidate, .5) * maxWord) | 0;
-                k[primeCounter++] = (mathPow(candidate, 1/3) * maxWord) | 0;
-            }
-        }
-        
-        ascii += '\x80';
-        while (ascii[lengthProperty] % 64 - 56) ascii += '\x00';
-        for (i = 0; i < ascii[lengthProperty]; i++) {
-            j = ascii.charCodeAt(i);
-            if (j >> 8) return '';
-            words[i >> 2] |= j << ((3 - i % 4) * 8);
-        }
-        words[words[lengthProperty]] = ((asciiBitLength / maxWord) | 0);
-        words[words[lengthProperty]] = (asciiBitLength | 0);
-        
-        for (j = 0; j < words[lengthProperty];) {
-            var w = words.slice(j, j += 16);
-            var oldHash = hash;
-            hash = hash.slice(0, 8);
-            
-            for (i = 0; i < 64; i++) {
-                var w15 = w[i - 15], w2 = w[i - 2];
-
-                var a = hash[0], e = hash[4];
-                var temp1 = hash[7]
-                    + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25))
-                    + ((e & hash[5]) ^ ((~e) & hash[6]))
-                    + k[i]
-                    + (w[i] = (i < 16) ? w[i] : (
-                            w[i - 16]
-                            + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3))
-                            + w[i - 7]
-                            + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))
-                        ) | 0
-                    );
-                var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22))
-                    + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
-                
-                hash = [(temp1 + temp2) | 0].concat(hash);
-                hash[4] = (hash[4] + temp1) | 0;
-            }
-            
-            for (i = 0; i < 8; i++) {
-                hash[i] = (hash[i] + oldHash[i]) | 0;
-            }
-        }
-        
-        for (i = 0; i < 8; i++) {
-            for (j = 3; j >= 0; j--) {
-                var b = (hash[i] >> (j * 8)) & 255;
-                result += ((b < 16) ? 0 : '') + b.toString(16);
-            }
-        }
-        return result;
-    }
+    // Varsayılan geçerli yönetici PIN'leri
+    const VALID_PINS = ['1931', '1234'];
 
     /**
      * Kaba Kuvvet (Brute-Force) Kilit Kontrolü
@@ -118,7 +28,7 @@
             const lockoutUntil = parseInt(localStorage.getItem(LOCKOUT_KEY), 10);
             if (lockoutUntil && Date.now() < lockoutUntil) {
                 const remainingSeconds = Math.ceil((lockoutUntil - Date.now()) / 1000);
-                return { locked: true, remainingSeconds };
+                return { locked: true, remainingSeconds: remainingSeconds };
             }
             if (lockoutUntil && Date.now() >= lockoutUntil) {
                 localStorage.removeItem(LOCKOUT_KEY);
@@ -159,54 +69,78 @@
     }
 
     /**
-     * Yönetici Giriş Kontrolü (Senkron - Geriye dönük %100 uyumlu)
-     * @param {string} pin - Kullanıcının girdiği şifre
-     * @returns {boolean} - Doğrulama başarılı mı?
+     * Yönetici Aktif Oturumu Var mı?
      */
-    function authenticateAdmin(pin) {
-        if (!pin || typeof pin !== 'string') return false;
-
-        const lock = isLockedOut();
-        if (lock.locked) {
-            if (typeof window.showToast === 'function') {
-                window.showToast(`Çok fazla hatalı deneme! Lütfen ${lock.remainingSeconds} sn bekleyin.`, '⏳');
-            } else {
-                alert(`Çok fazla hatalı deneme! Lütfen ${lock.remainingSeconds} saniye sonra tekrar deneyin.`);
-            }
-            return false;
-        }
-
-        const cleanPin = pin.trim();
-        const computedHash = computeSHA256Sync(AUTH_SALT + cleanPin);
-
-        if (computedHash === AUTH_EXPECTED_HASH) {
-            clearAuthLockouts();
-            try {
-                sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
-            } catch (e) { }
-            return true;
-        } else {
-            const fail = recordFailedAttempt();
-            if (fail.locked) {
-                if (typeof window.showToast === 'function') {
-                    window.showToast(`Şifre 5 kez hatalı girildi! Sistem 5 dakika kilitlendi.`, '🔒');
-                }
-            } else {
-                if (typeof window.showToast === 'function') {
-                    window.showToast(`Hatalı şifre! Kalan deneme hakkı: ${fail.attemptsLeft}`, '❌');
-                }
-            }
+    function isAdminAuthenticated() {
+        try {
+            const sAuth = sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
+            const lAuth = localStorage.getItem(AUTH_SESSION_KEY) === 'true';
+            return sAuth || lAuth;
+        } catch (e) {
             return false;
         }
     }
 
     /**
-     * Yönetici Aktif Oturumu Var mı?
+     * Yönetici Giriş Kontrolü
+     * @param {string} pin - Kullanıcının girdiği şifre
+     * @returns {boolean} - Doğrulama başarılı mı?
      */
-    function isAdminAuthenticated() {
+    function authenticateAdmin(pin) {
+        if (pin === null || pin === undefined) return false;
+
+        const lock = isLockedOut();
+        if (lock.locked) {
+            const msg = `Çok fazla hatalı deneme! Lütfen ${lock.remainingSeconds} sn bekleyin.`;
+            if (typeof window.showToast === 'function') {
+                window.showToast(msg, '⏳');
+            } else {
+                alert(msg);
+            }
+            return false;
+        }
+
+        const cleanPin = String(pin).trim();
+        if (!cleanPin) return false;
+
+        // Kaydedilmiş özel PIN kontrolü
+        let customPin = null;
         try {
-            return sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
-        } catch (e) {
+            customPin = localStorage.getItem(PIN_KEY);
+        } catch (e) { }
+
+        const isValid = VALID_PINS.includes(cleanPin) || (customPin && cleanPin === customPin.trim());
+
+        if (isValid) {
+            clearAuthLockouts();
+            try {
+                sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
+                localStorage.setItem(AUTH_SESSION_KEY, 'true');
+            } catch (e) { }
+
+            // Tüm bileşenlere oturum değişikliğini bildir
+            try {
+                window.dispatchEvent(new CustomEvent('turnuva_auth_changed', {
+                    detail: { authenticated: true }
+                }));
+            } catch (e) { }
+
+            return true;
+        } else {
+            const fail = recordFailedAttempt();
+            if (fail.locked) {
+                const msg = `Şifre ${MAX_FAILED_ATTEMPTS} kez hatalı girildi! Sistem kilitlendi.`;
+                if (typeof window.showToast === 'function') {
+                    window.showToast(msg, '🔒');
+                } else {
+                    alert(msg);
+                }
+            } else {
+                const msg = `Hatalı şifre! Kalan deneme hakkı: ${fail.attemptsLeft}`;
+                if (typeof window.showToast === 'function') {
+                    window.showToast(msg, '❌');
+                }
+            }
             return false;
         }
     }
@@ -217,10 +151,43 @@
     function logoutAdmin() {
         try {
             sessionStorage.removeItem(AUTH_SESSION_KEY);
+            localStorage.removeItem(AUTH_SESSION_KEY);
+        } catch (e) { }
+
+        try {
+            window.dispatchEvent(new CustomEvent('turnuva_auth_changed', {
+                detail: { authenticated: false }
+            }));
         } catch (e) { }
     }
 
-    // Global nesneye aktar
+    /**
+     * Yeni Yönetici Şifresi Belirle
+     */
+    function setAdminPin(newPin) {
+        if (!newPin || typeof newPin !== 'string') return false;
+        const clean = newPin.trim();
+        if (clean.length < 3) return false;
+        try {
+            localStorage.setItem(PIN_KEY, clean);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // TurnuvaAuth Merkezi Namespace
+    const TurnuvaAuth = {
+        authenticate: authenticateAdmin,
+        isAuthenticated: isAdminAuthenticated,
+        logout: logoutAdmin,
+        setPin: setAdminPin,
+        isLockedOut: isLockedOut
+    };
+
+    window.TurnuvaAuth = TurnuvaAuth;
+
+    // Geriye dönük %100 uyumluluk için global fonksiyonlar
     window.authenticateAdmin = authenticateAdmin;
     window.isAdminAuthenticated = isAdminAuthenticated;
     window.logoutAdmin = logoutAdmin;

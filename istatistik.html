@@ -1007,21 +1007,13 @@
             .hamburger { display: flex; }
             .stats-container { padding: 0 12px; }
 
-            /* Telefonda Yönetici Paneli ve Butonlarını Kesin Olarak Gizle (Sadece Bilgisayarda Görünür) */
-            .admin-nav-btn,
-            .admin-logout-nav-btn,
-            .mobile-admin-section,
-            .admin-active-badge,
-            #open-admin-btn,
-            #mobile-open-admin-btn,
-            #mobile-admin-logout-btn,
-            #admin-logout-btn,
-            #admin-active-badge,
             /* Yönetici Paneli ve PIN Modalı Responsive Uyumluluk */
+            #stats-admin-modal .modal-container,
             #stats-admin-modal .modal-content,
+            #pin-modal .modal-container,
             #pin-modal .modal-content {
                 width: 95%;
-                max-width: 540px;
+                max-width: 800px;
             }
         }
     </style>
@@ -1073,6 +1065,15 @@
         <a href="index.html" class="nav-link" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link active" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
         <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
+        <div style="padding: 14px; border-top: 1px solid var(--border-subtle); margin-top: 10px;">
+            <button class="admin-nav-btn" id="mobile-open-admin-btn" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;">
+                <span id="mobile-admin-nav-icon">🔒</span>
+                <span id="mobile-admin-nav-text">Yönetici Girişi</span>
+            </button>
+            <button class="admin-logout-nav-btn" id="mobile-admin-logout-btn" style="display: none; width: 100%; margin-top: 8px; justify-content: center; height: 42px; border-radius: 8px; font-weight: 700; gap: 6px; font-size: 13.5px;">
+                🚪 Oturumu Kapat
+            </button>
+        </div>
     </div>
 
     <!-- HERO -->
@@ -1823,6 +1824,27 @@
 
             if (closePinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
             if (cancelPinBtn) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+
+            if (pinModal) {
+                pinModal.addEventListener('click', (e) => {
+                    if (e.target === pinModal) pinModal.classList.remove('active');
+                });
+            }
+            if (statsAdminModal) {
+                statsAdminModal.addEventListener('click', (e) => {
+                    if (e.target === statsAdminModal) statsAdminModal.classList.remove('active');
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (pinModal) pinModal.classList.remove('active');
+                    if (statsAdminModal) statsAdminModal.classList.remove('active');
+                }
+            });
+
+            window.addEventListener('turnuva_auth_changed', () => {
+                updateAdminUI();
+            });
 
             if (togglePinVisibility && adminPinInput) {
                 togglePinVisibility.addEventListener('click', () => {

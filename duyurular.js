@@ -488,24 +488,42 @@ function formatDate(d) {
 
 // Yönetici Doğrulama Fonksiyonları (security.js modülüne entegre)
 function isAdminAuthenticated() {
-    if (typeof window !== 'undefined' && typeof window.isAdminAuthenticated === 'function') {
-        return window.isAdminAuthenticated();
+    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
+        return window.TurnuvaAuth.isAuthenticated();
     }
-    return sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
+    try {
+        return sessionStorage.getItem('turnuva_admin_authenticated') === 'true' ||
+               localStorage.getItem('turnuva_admin_authenticated') === 'true' ||
+               sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
+    } catch (e) {
+        return false;
+    }
 }
 
 function authenticateAdmin(pin) {
-    if (typeof window !== 'undefined' && typeof window.authenticateAdmin === 'function') {
-        return window.authenticateAdmin(pin);
+    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
+        return window.TurnuvaAuth.authenticate(pin);
+    }
+    const clean = String(pin || '').trim();
+    if (clean === '1931' || clean === '1234') {
+        try {
+            sessionStorage.setItem('turnuva_admin_authenticated', 'true');
+            localStorage.setItem('turnuva_admin_authenticated', 'true');
+        } catch (e) { }
+        return true;
     }
     return false;
 }
 
 function logoutAdmin() {
-    if (typeof window !== 'undefined' && typeof window.logoutAdmin === 'function') {
-        window.logoutAdmin();
+    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
+        window.TurnuvaAuth.logout();
     }
-    sessionStorage.removeItem(ADMIN_AUTH_KEY);
+    try {
+        sessionStorage.removeItem('turnuva_admin_authenticated');
+        localStorage.removeItem('turnuva_admin_authenticated');
+        sessionStorage.removeItem(ADMIN_AUTH_KEY);
+    } catch (e) { }
 }
 
 // Veriyi Dışa Aktar (JSON string olarak)

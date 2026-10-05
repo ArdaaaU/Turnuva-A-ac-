@@ -1633,10 +1633,11 @@
             }
 
             /* Yönetici Paneli ve PIN Modalı için Responsive Uyum */
-            #tournament-admin-modal .modal-content,
-            #pin-modal .modal-content {
+            #tournament-admin-modal .admin-modal-card,
+            #tournament-admin-modal .modal-container,
+            #pin-modal .modal-container {
                 width: 95%;
-                max-width: 540px;
+                max-width: 850px;
             }
         }
     </style>
@@ -1689,6 +1690,15 @@
         <a href="index.html" class="nav-link active" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
         <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
+        <div style="padding: 14px; border-top: 1px solid var(--border-subtle); margin-top: 10px;">
+            <button class="admin-nav-btn" id="mobile-open-admin-btn" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;">
+                <span id="mobile-admin-nav-icon">🔒</span>
+                <span id="mobile-admin-nav-text">Yönetici Girişi</span>
+            </button>
+            <button class="admin-logout-nav-btn" id="mobile-admin-logout-btn" style="display: none; width: 100%; margin-top: 8px; justify-content: center; height: 42px; border-radius: 8px; font-weight: 700; gap: 6px; font-size: 13.5px;">
+                🚪 Çıkış Yap
+            </button>
+        </div>
     </div>
 
     <!-- BAŞLIK & BİLGİ -->
@@ -2005,8 +2015,14 @@
 
             <!-- MODAL SEKMELERİ -->
             <div class="admin-tab-nav" role="tablist">
-                <button type="button" class="admin-tab-btn active" data-tab="pane-fixture" id="tab-btn-fixture" style="width: 100%; text-align: center;">
-                    📅 Turnuva Fikstür Maçları Yönetimi
+                <button type="button" class="admin-tab-btn active" data-tab="pane-fixture" id="tab-btn-fixture">
+                    📅 Turnuva Fikstür Maçları
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="pane-semis-final" id="tab-btn-semis-final">
+                    🏆 Yarı Final, Final & Şampiyon
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="pane-settings" id="tab-btn-settings">
+                    ⚙️ Ayarlar & Şifre
                 </button>
             </div>
 
@@ -2423,6 +2439,208 @@
                                 <span>⚡ Skorları Puan Tablosuna Aktar</span>
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- SEKME 2: YARI FİNAL, BÜYÜK FİNAL & ŞAMPİYON -->
+                <!-- ========================================== -->
+                <div class="admin-tab-pane" id="pane-semis-final">
+                    <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
+                        🏆 Eleme ağacındaki yarı finalleri, final karşılaşmasını ve turnuva şampiyonunu bu ekrandan yönetebilirsiniz.
+                    </div>
+
+                    <!-- HIZLI EŞLEŞTİRME VE AKTARIM BUTONLARI -->
+                    <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05); margin-top: 4px;">
+                        <div style="font-weight: 800; font-size: 13.5px; color: var(--gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                            <span>⚡ Hızlı Eşleştirme & Otomatik Aktarım</span>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button type="button" class="btn btn-secondary" id="btn-advance-qf1-to-semi" style="font-size: 12px; padding: 7px 12px;">
+                                ⏩ 1. Ön Eleme Galibini Yarı Finale Aktar
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-advance-qf2-to-semi" style="font-size: 12px; padding: 7px 12px;">
+                                ⏩ 2. Ön Eleme Galibini Yarı Finale Aktar
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-sync-bye-to-semi1" style="font-size: 12px; padding: 7px 12px;">
+                                🛡️ Bay Takımını 1. Yarı Finale Yerleştir
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-advance-semis-to-final" style="font-size: 12px; padding: 7px 12px;">
+                                🏆 Yarı Finallerden Finale Aktar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 1. YARI FİNAL MAÇI -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚔️ 1. Yarı Final (Salı • 18:00)</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Ön Eleme 1 Galibi 🆚 Bay Takımı</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi1-t1-name" placeholder="Takım 1 (Ön Eleme 1 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi1-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi1-t2-name" placeholder="Takım 2 (ic mekan tasarim-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi1-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-semi1-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-semi1-time" placeholder="18:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-semi1-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-semi1-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-semi1-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. YARI FİNAL MAÇI -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">⚔️ 2. Yarı Final (Çarşamba • 19:00)</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Ön Eleme 2 Galibi 🆚 Final Yolu</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi2-t1-name" placeholder="Takım 1 (Ön Eleme 2 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi2-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-semi2-t2-name" placeholder="Takım 2 (Final Yolu)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-semi2-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-semi2-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-semi2-time" placeholder="19:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-semi2-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-semi2-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-semi2-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAY TAKIMI YÖNETİMİ -->
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">🛡️ 1. Tur Bay Geçen Takım</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Direkt Yarı Finale Katılan Takım</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <input type="text" class="admin-team-input" id="admin-bye-team-name" placeholder="ic mekan tasarim-2" style="max-width: 320px;">
+                            <span style="font-size: 12px; color: var(--text-muted);">Bu takım 1. turu bay geçip doğrudan 1. Yarı Finale yerleşir.</span>
+                        </div>
+                    </div>
+
+                    <!-- BÜYÜK FİNAL MAÇI -->
+                    <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.04);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title" style="color: var(--gold); font-size: 14.5px;">👑 Büyük Final (Perşembe • 18:45)</span>
+                            <span style="font-size: 12px; color: var(--gold-light);">Şampiyonluk Karşılaşması</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-final-t1-name" placeholder="1. Finalist (Yarı Final 1 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-final-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-final-t2-name" placeholder="2. Finalist (Yarı Final 2 Galibi)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-final-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-final-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-final-time" placeholder="18:45" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Şampiyon:</span>
+                                <button type="button" class="winner-btn" id="btn-final-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-final-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-final-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ŞAMPİYON KÜRSÜSÜ YÖNETİMİ -->
+                    <div class="admin-section-box" style="border-color: rgba(245, 158, 11, 0.6); background: rgba(245, 158, 11, 0.08);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title" style="color: var(--gold);">🏆 Turnuva Şampiyonu</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Kürsüde Gösterilecek Takım</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <input type="text" class="admin-team-input" id="admin-champion-input" placeholder="Şampiyon Takım İsmi" style="max-width: 320px; font-weight: 800; color: var(--gold);">
+                            <button type="button" class="btn btn-secondary" id="btn-champion-from-final" style="font-size: 12px; padding: 8px 14px;">
+                                👑 Final Galibini Şampiyon Yap
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-champion-clear" style="font-size: 12px; padding: 8px 14px;">
+                                🧹 Temizle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- SEKME 3: AYARLAR & GÜVENLİK                 -->
+                <!-- ========================================== -->
+                <div class="admin-tab-pane" id="pane-settings">
+                    <div style="font-size: 12px; color: var(--text-dim); margin-bottom: -6px;">
+                        ⚙️ Yönetici güvenlik şifresini ve sistem tercihlerini bu ekrandan yönetebilirsiniz.
+                    </div>
+
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title">🔑 Yönetici Şifresi Değiştir</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Varsayılan: 1931 veya 1234</span>
+                        </div>
+                        <div style="max-width: 380px;">
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Yeni Yönetici Şifresi</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="password" id="admin-new-pin-input" class="admin-text-input" placeholder="Yeni şifrenizi giriniz" style="flex: 1;">
+                                <button type="button" class="btn btn-primary" id="btn-save-new-pin" style="white-space: nowrap;">
+                                    💾 Şifreyi Kaydet
+                                </button>
+                            </div>
+                            <div id="pin-change-status-msg" style="font-size: 12px; font-weight: 700; margin-top: 8px; display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section-box" style="border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.04);">
+                        <div class="admin-section-header">
+                            <span class="admin-section-title" style="color: #ef4444;">⚠️ Turnuva Verilerini Sıfırlama</span>
+                        </div>
+                        <p style="font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px 0;">
+                            Turnuva ağacındaki tüm maç skorlarını, durumları ve şampiyon bilgisini varsayılan fikstür durumuna döndürür. Bu işlem geri alınamaz.
+                        </p>
+                        <button class="btn btn-danger-ghost" id="admin-reset-in-settings-btn" type="button">
+                            🔄 Varsayılan Turnuva Durumuna Sıfırla
+                        </button>
                     </div>
                 </div>
 
@@ -3059,6 +3277,65 @@
 
             if (closeAdminModal) closeAdminModal.addEventListener('click', () => adminModal.classList.remove('active'));
             if (cancelAdminModalBtn) cancelAdminModalBtn.addEventListener('click', () => adminModal.classList.remove('active'));
+
+            if (pinModal) {
+                pinModal.addEventListener('click', (e) => {
+                    if (e.target === pinModal) pinModal.classList.remove('active');
+                });
+            }
+            if (adminModal) {
+                adminModal.addEventListener('click', (e) => {
+                    if (e.target === adminModal) adminModal.classList.remove('active');
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (pinModal) pinModal.classList.remove('active');
+                    if (adminModal) adminModal.classList.remove('active');
+                }
+            });
+
+            // Ayarlar Sekmesi: Yeni Şifre Kaydetme
+            const btnSaveNewPin = document.getElementById('btn-save-new-pin');
+            const adminNewPinInput = document.getElementById('admin-new-pin-input');
+            const pinChangeStatusMsg = document.getElementById('pin-change-status-msg');
+            if (btnSaveNewPin && adminNewPinInput) {
+                btnSaveNewPin.addEventListener('click', () => {
+                    const newPin = adminNewPinInput.value.trim();
+                    if (!newPin || newPin.length < 3) {
+                        showToast('Şifre en az 3 karakter olmalıdır.', '⚠️');
+                        if (pinChangeStatusMsg) {
+                            pinChangeStatusMsg.style.display = 'block';
+                            pinChangeStatusMsg.style.color = '#ef4444';
+                            pinChangeStatusMsg.innerText = '❌ Şifre en az 3 karakter olmalıdır.';
+                        }
+                        return;
+                    }
+                    if (window.TurnuvaAuth && typeof window.TurnuvaAuth.setPin === 'function') {
+                        window.TurnuvaAuth.setPin(newPin);
+                    } else {
+                        localStorage.setItem('turnuva_admin_pin', newPin);
+                    }
+                    adminNewPinInput.value = '';
+                    showToast('Yeni yönetici şifresi başarıyla kaydedildi!', '🔑');
+                    if (pinChangeStatusMsg) {
+                        pinChangeStatusMsg.style.display = 'block';
+                        pinChangeStatusMsg.style.color = 'var(--emerald)';
+                        pinChangeStatusMsg.innerText = '✅ Yeni yönetici şifresi güncellendi.';
+                    }
+                });
+            }
+
+            const adminResetInSettingsBtn = document.getElementById('admin-reset-in-settings-btn');
+            if (adminResetInSettingsBtn && adminResetBtn) {
+                adminResetInSettingsBtn.addEventListener('click', () => {
+                    adminResetBtn.click();
+                });
+            }
+
+            window.addEventListener('turnuva_auth_changed', () => {
+                updateAdminStatusUI();
+            });
 
             function setInputValue(id, val) {
                 const el = document.getElementById(id);
