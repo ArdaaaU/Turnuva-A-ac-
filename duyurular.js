@@ -58,7 +58,7 @@ function getActiveFixtureMatches() {
         if (typeof getTournamentData === 'function') {
             tData = getTournamentData();
         } else {
-            const raw = localStorage.getItem('turnuva_bracket_v7') || localStorage.getItem('turnuva_bracket_v6') || localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
+            const raw = localStorage.getItem('turnuva_bracket_v8') || localStorage.getItem('turnuva_bracket_v7') || localStorage.getItem('turnuva_bracket_v6') || localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
             if (raw) tData = JSON.parse(raw);
         }
     } catch (e) {}

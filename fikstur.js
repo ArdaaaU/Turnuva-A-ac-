@@ -7,23 +7,23 @@ const DEFAULT_TOURNAMENT_DATA = {
             id: "mac-1",
             date: "28 Eylül 2026",
             time: "18:00",
-            status: "bekleniyor", 
+            status: "bitti", 
             team1: "maliye isletme -2",
-            score1: null,
+            score1: 6,
             team2: "wtk-2",
-            score2: null,
-            winner: null 
+            score2: 12,
+            winner: "team2" 
         },
         {
             id: "mac-2",
             date: "28 Eylül 2026",
             time: "19:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "hit-1",
-            score1: null,
+            score1: 0,
             team2: "hit-2",
-            score2: null,
-            winner: null
+            score2: 16,
+            winner: "team2"
         },
 
         
@@ -31,46 +31,46 @@ const DEFAULT_TOURNAMENT_DATA = {
             id: "mac-3",
             date: "30 Eylül 2026",
             time: "18:00",
-            status: "bekleniyor",
-            team1: "maliye isletme -2",
-            score1: null,
-            team2: "hit-1",
-            score2: null,
-            winner: null
+            status: "bitti",
+            team1: "ic mekan tasarim-2",
+            score1: 8,
+            team2: "hit-2",
+            score2: 7,
+            winner: "team1"
         },
         {
             id: "mac-4",
             date: "30 Eylül 2026",
             time: "19:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "wtk-2",
-            score1: null,
-            team2: "hit-2",
-            score2: null,
-            winner: null
+            score1: 12,
+            team2: "hit-1",
+            score2: 1,
+            winner: "team1"
         },
         
         {
             id: "mac-5",
             date: "1 Ekim 2026",
             time: "18:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "maliye isletme -2",
-            score1: null,
+            score1: 2,
             team2: "hit-2",
-            score2: null,
-            winner: null
+            score2: 5,
+            winner: "team2"
         },
         {
             id: "mac-6",
             date: "1 Ekim 2026",
-            time: "18:45",
-            status: "bekleniyor",
+            time: "19:00",
+            status: "bitti",
             team1: "wtk-2",
-            score1: null,
-            team2: "hit-1",
-            score2: null,
-            winner: null
+            score1: 7,
+            team2: "ic mekan tasarim-2",
+            score2: 9,
+            winner: "team2"
         },
 
         {
@@ -144,23 +144,23 @@ const DEFAULT_TOURNAMENT_DATA = {
             id: "qf-1",
             date: "28 Eylül 2026",
             time: "18:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "maliye isletme -2",
-            score1: null,
+            score1: 6,
             team2: "wtk-2",
-            score2: null,
-            winner: null
+            score2: 12,
+            winner: "team2"
         },
         {
             id: "qf-2",
             date: "28 Eylül 2026",
             time: "19:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "hit-1",
-            score1: null,
+            score1: 0,
             team2: "hit-2",
-            score2: null,
-            winner: null
+            score2: 16,
+            winner: "team2"
         }
     ],
     tuesdayBay: {
@@ -174,24 +174,24 @@ const DEFAULT_TOURNAMENT_DATA = {
             title: "1. Yarı Final Maçı",
             date: "30 Eylül 2026",
             time: "18:00",
-            status: "bekleniyor",
-            team1: "Ön Eleme 1 Galibi",
-            score1: null,
-            team2: "ic mekan tasarim-2",
-            score2: null,
-            winner: null
+            status: "bitti",
+            team1: "ic mekan tasarim-2",
+            score1: 8,
+            team2: "hit-2",
+            score2: 7,
+            winner: "team1"
         },
         {
             id: "semi-2",
             title: "2. Yarı Final Maçı",
             date: "30 Eylül 2026",
             time: "19:00",
-            status: "bekleniyor",
-            team1: "Ön Eleme 2 Galibi",
-            score1: null,
-            team2: "Final Yolu",
-            score2: null,
-            winner: null
+            status: "bitti",
+            team1: "wtk-2",
+            score1: 12,
+            team2: "hit-1",
+            score2: 1,
+            winner: "team1"
         }
     ],
     byeTeam: "ic mekan tasarim-2",
@@ -199,70 +199,70 @@ const DEFAULT_TOURNAMENT_DATA = {
         id: "third-place-match",
         date: "1 Ekim 2026",
         time: "18:00",
-        status: "bekleniyor",
+        status: "bitti",
         team1: "maliye isletme -2",
-        score1: null,
+        score1: 2,
         team2: "hit-2",
-        score2: null,
-        winner: null
+        score2: 5,
+        winner: "team2"
     },
     final: {
         id: "final-match",
         title: "Büyük Final",
         date: "1 Ekim 2026",
-        time: "18:45",
-        status: "bekleniyor",
-        team1: "Yarı Final 1 Galibi",
-        score1: null,
-        team2: "Yarı Final 2 Galibi",
-        score2: null,
-        winner: null,
-        champion: ""
+        time: "19:00",
+        status: "bitti",
+        team1: "wtk-2",
+        score1: 7,
+        team2: "ic mekan tasarim-2",
+        score2: 9,
+        winner: "team2",
+        champion: "ic mekan tasarim-2"
     },
     
     mac3: {
         id: "mac-3",
         date: "30 Eylül 2026",
         time: "18:00",
-        status: "bekleniyor",
-        team1: "maliye isletme -2",
-        score1: null,
-        team2: "hit-1",
-        score2: null,
-        winner: null
+        status: "bitti",
+        team1: "ic mekan tasarim-2",
+        score1: 8,
+        team2: "hit-2",
+        score2: 7,
+        winner: "team1"
     },
     mac4: {
         id: "mac-4",
         date: "30 Eylül 2026",
         time: "19:00",
-        status: "bekleniyor",
+        status: "bitti",
         team1: "wtk-2",
-        score1: null,
-        team2: "hit-2",
-        score2: null,
-        winner: null
+        score1: 12,
+        team2: "hit-1",
+        score2: 1,
+        winner: "team1"
     },
     mac5: {
         id: "mac-5",
         date: "1 Ekim 2026",
         time: "18:00",
-        status: "bekleniyor",
+        status: "bitti",
         team1: "maliye isletme -2",
-        score1: null,
+        score1: 2,
         team2: "hit-2",
-        score2: null,
-        winner: null
+        score2: 5,
+        winner: "team2"
     },
     mac6: {
         id: "mac-6",
         date: "1 Ekim 2026",
-        time: "18:45",
-        status: "bekleniyor",
+        time: "19:00",
+        status: "bitti",
         team1: "wtk-2",
-        score1: null,
-        team2: "hit-1",
-        score2: null,
-        winner: null
+        score1: 7,
+        team2: "ic mekan tasarim-2",
+        score2: 9,
+        winner: "team2"
     },
     
     mac7: {
@@ -327,7 +327,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v7';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v8';
 let _bracketRealtimeSubscribed = false;
 
 function cloneObject(obj) {
@@ -364,6 +364,19 @@ function ensureMatchesIncludeNewFixture(data) {
             if (!existing.day && defMatch.day) existing.day = defMatch.day;
             if (!existing.note && defMatch.note) existing.note = defMatch.note;
             
+            // Eski maçlar (1-6): Eğer skor boşsa varsayılan oynanmış skoru geri getir
+            if ((defMatch.id === 'mac-1' || defMatch.id === 'mac-2' || defMatch.id === 'mac-3' || defMatch.id === 'mac-4' || defMatch.id === 'mac-5' || defMatch.id === 'mac-6')) {
+                if (existing.score1 === null || existing.score1 === undefined || existing.score1 === '') {
+                    existing.score1 = defMatch.score1;
+                    existing.score2 = defMatch.score2;
+                    existing.winner = defMatch.winner;
+                    existing.status = defMatch.status || 'bitti';
+                    existing.team1 = defMatch.team1;
+                    existing.team2 = defMatch.team2;
+                    existing.time = defMatch.time;
+                }
+            }
+
             // Fikstür güncellemesi: Maç henüz bitmediyse takımları, tarihi ve saati doğrula
             if ((defMatch.id === 'mac-7' || defMatch.id === 'mac-7b' || defMatch.id === 'mac-8' || defMatch.id === 'mac-9' || defMatch.id === 'mac-10') && existing.status !== 'bitti') {
                 existing.date = defMatch.date;
@@ -376,16 +389,47 @@ function ensureMatchesIncludeNewFixture(data) {
     });
 
     existingMap.forEach((m, id) => {
-        if (id === 'mac-3' && !data.mac3) data.mac3 = m;
-        if (id === 'mac-4' && !data.mac4) data.mac4 = m;
-        if (id === 'mac-5' && !data.mac5) data.mac5 = m;
-        if (id === 'mac-6' && !data.mac6) data.mac6 = m;
+        if (id === 'mac-3' && (!data.mac3 || data.mac3.score1 === null)) data.mac3 = m;
+        if (id === 'mac-4' && (!data.mac4 || data.mac4.score1 === null)) data.mac4 = m;
+        if (id === 'mac-5' && (!data.mac5 || data.mac5.score1 === null)) data.mac5 = m;
+        if (id === 'mac-6' && (!data.mac6 || data.mac6.score1 === null)) data.mac6 = m;
         if (id === 'mac-7') data.mac7 = m;
         if (id === 'mac-7b') data.mac7b = m;
         if (id === 'mac-8') data.mac8 = m;
         if (id === 'mac-9') data.mac9 = m;
         if (id === 'mac-10') data.mac10 = m;
     });
+
+    // Eski ağaç verilerini (quarters, semis, thirdPlace, final) de skorları boşsa varsayılanla onar
+    if (Array.isArray(data.quarters)) {
+        if (data.quarters[0] && (data.quarters[0].score1 === null || data.quarters[0].score1 === undefined)) {
+            data.quarters[0].score1 = 6; data.quarters[0].score2 = 12; data.quarters[0].winner = 'team2'; data.quarters[0].status = 'bitti';
+            data.quarters[0].team1 = 'maliye isletme -2'; data.quarters[0].team2 = 'wtk-2';
+        }
+        if (data.quarters[1] && (data.quarters[1].score1 === null || data.quarters[1].score1 === undefined)) {
+            data.quarters[1].score1 = 0; data.quarters[1].score2 = 16; data.quarters[1].winner = 'team2'; data.quarters[1].status = 'bitti';
+            data.quarters[1].team1 = 'hit-1'; data.quarters[1].team2 = 'hit-2';
+        }
+    }
+    if (Array.isArray(data.semis)) {
+        if (data.semis[0] && (data.semis[0].score1 === null || data.semis[0].score1 === undefined)) {
+            data.semis[0].score1 = 8; data.semis[0].score2 = 7; data.semis[0].winner = 'team1'; data.semis[0].status = 'bitti';
+            data.semis[0].team1 = 'ic mekan tasarim-2'; data.semis[0].team2 = 'hit-2';
+        }
+        if (data.semis[1] && (data.semis[1].score1 === null || data.semis[1].score1 === undefined)) {
+            data.semis[1].score1 = 12; data.semis[1].score2 = 1; data.semis[1].winner = 'team1'; data.semis[1].status = 'bitti';
+            data.semis[1].team1 = 'wtk-2'; data.semis[1].team2 = 'hit-1';
+        }
+    }
+    if (data.thirdPlace && (data.thirdPlace.score1 === null || data.thirdPlace.score1 === undefined)) {
+        data.thirdPlace.score1 = 2; data.thirdPlace.score2 = 5; data.thirdPlace.winner = 'team2'; data.thirdPlace.status = 'bitti';
+        data.thirdPlace.team1 = 'maliye isletme -2'; data.thirdPlace.team2 = 'hit-2';
+    }
+    if (data.final && (data.final.score1 === null || data.final.score1 === undefined)) {
+        data.final.score1 = 7; data.final.score2 = 9; data.final.winner = 'team2'; data.final.status = 'bitti';
+        data.final.team1 = 'wtk-2'; data.final.team2 = 'ic mekan tasarim-2';
+        data.final.champion = 'ic mekan tasarim-2';
+    }
 
     // Doğrudan maç nesnelerini de güncelle
     if (data.mac7 && data.mac7.status !== 'bitti') {
@@ -424,7 +468,7 @@ function getTournamentData() {
     try {
         let stored = localStorage.getItem(BRACKET_STORAGE_KEY);
         if (stored === null) {
-            const oldStored = localStorage.getItem('turnuva_bracket_v6') || localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
+            const oldStored = localStorage.getItem('turnuva_bracket_v7') || localStorage.getItem('turnuva_bracket_v6') || localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
             if (oldStored !== null) {
                 stored = oldStored;
             }
