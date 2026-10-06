@@ -1004,6 +1004,18 @@
                 width: 95%;
                 max-width: 800px;
             }
+
+            /* Mobilde Yönetici Butonlarını ve Aksiyonlarını Gizle */
+            .admin-nav-btn,
+            .admin-logout-nav-btn,
+            #open-admin-btn,
+            #admin-logout-btn,
+            #mobile-open-admin-btn,
+            #mobile-admin-logout-btn,
+            .mobile-drawer-admin,
+            .admin-active-badge {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -1050,7 +1062,7 @@
         <a href="index.html" class="nav-link" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link active" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
         <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
-        <div style="padding: 14px; border-top: 1px solid var(--border-subtle); margin-top: 10px;">
+        <div class="mobile-drawer-admin" style="display: none; padding: 14px; border-top: 1px solid var(--border-subtle); margin-top: 10px;">
             <button class="admin-nav-btn" id="mobile-open-admin-btn" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;">
                 <span id="mobile-admin-nav-icon">🔒</span>
                 <span id="mobile-admin-nav-text">Yönetici Girişi</span>

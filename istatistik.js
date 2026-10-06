@@ -683,26 +683,12 @@ function isAdminAuthenticated() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
         return window.TurnuvaAuth.isAuthenticated();
     }
-    try {
-        return sessionStorage.getItem('turnuva_admin_authenticated') === 'true' ||
-               localStorage.getItem('turnuva_admin_authenticated') === 'true' ||
-               sessionStorage.getItem(STATS_ADMIN_AUTH_KEY) === 'true';
-    } catch (e) {
-        return false;
-    }
+    return false;
 }
 
 function authenticateAdmin(pin) {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
         return window.TurnuvaAuth.authenticate(pin);
-    }
-    const clean = String(pin || '').trim();
-    if (clean === '1931' || clean === '1234') {
-        try {
-            sessionStorage.setItem('turnuva_admin_authenticated', 'true');
-            localStorage.setItem('turnuva_admin_authenticated', 'true');
-        } catch (e) { }
-        return true;
     }
     return false;
 }

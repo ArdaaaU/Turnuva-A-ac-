@@ -879,12 +879,28 @@
                 width: 95%;
                 max-width: 600px;
             }
+
+            /* Mobilde Yönetici Butonlarını ve Aksiyonlarını Gizle */
+            .admin-action-btns,
+            #admin-login-btn,
+            #new-announcement-btn,
+            #admin-logout-btn,
+            .card-actions {
+                display: none !important;
+            }
         }
 
         @media (max-width: 768px) {
             .search-and-admin-row {
                 flex-direction: column;
                 align-items: stretch;
+            }
+            .admin-action-btns,
+            #admin-login-btn,
+            #new-announcement-btn,
+            #admin-logout-btn,
+            .card-actions {
+                display: none !important;
             }
             .card-title { font-size: 16px; }
             .card-body { font-size: 13.5px; }
@@ -1354,14 +1370,22 @@
                 });
             }
 
-            confirmDeleteBtn.addEventListener('click', () => {
+            confirmDeleteBtn.addEventListener('click', async () => {
                 if (pendingDeleteId) {
-                    deleteAnnouncement(pendingDeleteId);
+                    const toDelete = pendingDeleteId;
                     pendingDeleteId = null;
                     deleteConfirmModal.classList.remove('active');
                     announcementModal.classList.remove('active');
-                    renderAnnouncements();
-                    showToast('Duyuru başarıyla silindi ve liste güncellendi.', '🗑️');
+                    confirmDeleteBtn.disabled = true;
+                    try {
+                        await deleteAnnouncement(toDelete);
+                        renderAnnouncements();
+                        showToast('Duyuru başarıyla silindi ve veritabanı eşitlendi.', '🗑️');
+                    } catch (err) {
+                        showToast('Silme işlemi sırasında hata oluştu.', '❌');
+                    } finally {
+                        confirmDeleteBtn.disabled = false;
+                    }
                 }
             });
 

@@ -183,7 +183,7 @@ if (typeof window !== 'undefined') {
 }
 
 function getAnnouncements() {
-    let list = [];
+    let list = null;
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored !== null) {
@@ -193,10 +193,12 @@ function getAnnouncements() {
             }
         }
     } catch (e) {
-        console.warn('LocalStorage okunamadı, varsayılan veriler kullanılıyor:', e);
+        console.warn('LocalStorage okunamadı:', e);
     }
     
-    if (!list || list.length === 0) {
+    // Yalnızca localStorage'da veri hiç başlatılmamışsa (null) varsayılan verileri yükle.
+    // Kullanıcı duyuruların tamamını sildiyse (boş dizi []), boş liste olarak kalmalıdır.
+    if (list === null) {
         list = [...DEFAULT_ANNOUNCEMENTS];
     }
 
@@ -212,6 +214,7 @@ function saveAnnouncements(list) {
     try {
         const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanList));
+        localStorage.setItem('turnuva_duyurular_initialized', 'true');
         
         try {
             window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
@@ -318,21 +321,42 @@ function updateAnnouncement(id, updatedFields) {
     return list[index];
 }
 
-function deleteAnnouncement(id) {
-    let list = getAnnouncements();
-    list = list.filter(a => String(a.id) !== String(id));
+async function deleteAnnouncement(id) {
+    if (!id) return getAnnouncements();
+    const strId = String(id).trim();
+
+    let list = [];
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored !== null) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed)) list = parsed;
+        } else {
+            list = [...DEFAULT_ANNOUNCEMENTS];
+        }
+    } catch (e) {
+        list = [...DEFAULT_ANNOUNCEMENTS];
+    }
+
+    list = list.filter(a => a && String(a.id) !== strId && !String(a.id).startsWith('gunun-maci-otomatik-'));
     saveAnnouncements(list);
 
+    // Supabase veritabanından kalıcı olarak sil
     if (typeof getSupabaseClient === 'function') {
         const client = getSupabaseClient();
         if (client) {
-            client.from('duyurular').delete().eq('id', String(id)).then(({ error }) => {
-                if (error) console.error('Supabase silme hatası:', error);
-            }).catch(err => console.error('Supabase silme istisnası:', err));
+            try {
+                const { error } = await client.from('duyurular').delete().eq('id', strId);
+                if (error) {
+                    console.error('Supabase silme hatası:', error.message || error);
+                }
+            } catch (err) {
+                console.error('Supabase silme istisnası:', err);
+            }
         }
     }
 
-    return list;
+    return getAnnouncements();
 }
 
 function resetToDefaultAnnouncements() {
@@ -358,8 +382,30 @@ async function syncAnnouncementsFromSupabase() {
         }
 
         if (Array.isArray(data)) {
-            
             const publicData = data.filter(item => item && (!item.id || !String(item.id).startsWith('system-')) && item.category !== 'system');
+            
+            const isInitialized = localStorage.getItem('turnuva_duyurular_initialized') === 'true';
+
+            // Eğer Supabase'de hiç kayıt yoksa ve localStorage henüz başlatılmamışsa, varsayılanları Supabase'e ekle
+            if (publicData.length === 0 && !isInitialized) {
+                try {
+                    const toInsert = DEFAULT_ANNOUNCEMENTS.map(d => ({
+                        id: d.id,
+                        title: d.title,
+                        category: d.category,
+                        category_label: d.categoryLabel,
+                        date: d.date,
+                        author: d.author,
+                        pinned: d.pinned,
+                        summary: d.summary,
+                        content: d.content
+                    }));
+                    await client.from('duyurular').insert(toInsert);
+                    saveAnnouncements(DEFAULT_ANNOUNCEMENTS);
+                    return DEFAULT_ANNOUNCEMENTS;
+                } catch (e) {}
+            }
+
             const formatted = publicData.map(item => ({
                 id: item.id,
                 title: item.title,
@@ -391,11 +437,10 @@ function initSupabaseRealtime() {
     try {
         client.channel('public:duyurular')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, (payload) => {
-                
-                if (payload && payload.new && (String(payload.new.id).startsWith('system-') || payload.new.category === 'system')) {
+                const targetRow = (payload && payload.new && payload.new.id) ? payload.new : (payload ? payload.old : null);
+                if (targetRow && (String(targetRow.id).startsWith('system-') || targetRow.category === 'system')) {
                     return;
                 }
-                
                 syncAnnouncementsFromSupabase();
             })
             .subscribe((status) => {
@@ -456,26 +501,12 @@ function isAdminAuthenticated() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
         return window.TurnuvaAuth.isAuthenticated();
     }
-    try {
-        return sessionStorage.getItem('turnuva_admin_authenticated') === 'true' ||
-               localStorage.getItem('turnuva_admin_authenticated') === 'true' ||
-               sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
-    } catch (e) {
-        return false;
-    }
+    return false;
 }
 
 function authenticateAdmin(pin) {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
         return window.TurnuvaAuth.authenticate(pin);
-    }
-    const clean = String(pin || '').trim();
-    if (clean === '1931' || clean === '1234') {
-        try {
-            sessionStorage.setItem('turnuva_admin_authenticated', 'true');
-            localStorage.setItem('turnuva_admin_authenticated', 'true');
-        } catch (e) { }
-        return true;
     }
     return false;
 }

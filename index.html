@@ -1618,6 +1618,18 @@
                 width: 95%;
                 max-width: 850px;
             }
+
+            /* Mobilde Yönetici Butonlarını ve Aksiyonlarını Gizle */
+            .admin-nav-btn,
+            .admin-logout-nav-btn,
+            #open-admin-btn,
+            #admin-logout-btn,
+            #mobile-open-admin-btn,
+            #mobile-admin-logout-btn,
+            .mobile-drawer-admin,
+            .admin-active-badge {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -1665,7 +1677,7 @@
         <a href="index.html" class="nav-link active" style="padding: 14px; font-size: 15px;">🏆 Turnuva Ağacı</a>
         <a href="istatistik.html" class="nav-link" style="padding: 14px; font-size: 15px;">📊 İstatistikler</a>
         <a href="duyurular.html" class="nav-link" style="padding: 14px; font-size: 15px;">📢 Duyurular</a>
-        <div style="padding: 14px; border-top: 1px solid var(--border-subtle); margin-top: 10px;">
+        <div class="mobile-drawer-admin" style="display: none; padding: 14px; border-top: 1px solid var(--border-subtle); margin-top: 10px;">
             <button class="admin-nav-btn" id="mobile-open-admin-btn" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;">
                 <span id="mobile-admin-nav-icon">🔒</span>
                 <span id="mobile-admin-nav-text">Yönetici Girişi</span>
@@ -2548,17 +2560,27 @@
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">🔑 Yönetici Şifresi Değiştir</span>
-                            <span style="font-size: 12px; color: var(--text-dim);">Varsayılan: 1931 veya 1234</span>
+                            <span style="font-size: 12px; color: var(--emerald); font-weight: 600;">🛡️ SHA-256 Korumalı Güvenlik</span>
                         </div>
-                        <div style="max-width: 380px;">
-                            <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Yeni Yönetici Şifresi</label>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="password" id="admin-new-pin-input" class="admin-text-input" placeholder="Yeni şifrenizi giriniz" style="flex: 1;">
+                        <div style="max-width: 420px; display: flex; flex-direction: column; gap: 10px;">
+                            <div>
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">Mevcut Şifre</label>
+                                <input type="password" id="admin-curr-pin-input" class="admin-text-input" placeholder="Mevcut yönetici şifreniz" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">Yeni Şifre (En az 4 karakter)</label>
+                                <input type="password" id="admin-new-pin-input" class="admin-text-input" placeholder="Yeni güçlü şifreniz" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">Yeni Şifre Tekrar</label>
+                                <input type="password" id="admin-new-pin-confirm-input" class="admin-text-input" placeholder="Yeni şifrenizi tekrar giriniz" style="width: 100%;">
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-top: 4px;">
                                 <button type="button" class="btn btn-primary" id="btn-save-new-pin" style="white-space: nowrap;">
-                                    💾 Şifreyi Kaydet
+                                    💾 Şifreyi Kaydet ve Güncelle
                                 </button>
                             </div>
-                            <div id="pin-change-status-msg" style="font-size: 12px; font-weight: 700; margin-top: 8px; display: none;"></div>
+                            <div id="pin-change-status-msg" style="font-size: 12px; font-weight: 700; margin-top: 4px; display: none;"></div>
                         </div>
                     </div>
 
@@ -3222,34 +3244,65 @@
                 }
             });
 
-            // Ayarlar Sekmesi: Yeni Şifre Kaydetme
+            // Ayarlar Sekmesi: Güvenli Yeni Şifre Kaydetme
             const btnSaveNewPin = document.getElementById('btn-save-new-pin');
+            const adminCurrPinInput = document.getElementById('admin-curr-pin-input');
             const adminNewPinInput = document.getElementById('admin-new-pin-input');
+            const adminNewPinConfirmInput = document.getElementById('admin-new-pin-confirm-input');
             const pinChangeStatusMsg = document.getElementById('pin-change-status-msg');
             if (btnSaveNewPin && adminNewPinInput) {
                 btnSaveNewPin.addEventListener('click', () => {
+                    const currPin = adminCurrPinInput ? adminCurrPinInput.value.trim() : '';
                     const newPin = adminNewPinInput.value.trim();
-                    if (!newPin || newPin.length < 3) {
-                        showToast('Şifre en az 3 karakter olmalıdır.', '⚠️');
+                    const confirmPin = adminNewPinConfirmInput ? adminNewPinConfirmInput.value.trim() : '';
+
+                    const showStatus = (msg, isSuccess) => {
                         if (pinChangeStatusMsg) {
                             pinChangeStatusMsg.style.display = 'block';
-                            pinChangeStatusMsg.style.color = '#ef4444';
-                            pinChangeStatusMsg.innerText = '❌ Şifre en az 3 karakter olmalıdır.';
+                            pinChangeStatusMsg.style.color = isSuccess ? 'var(--emerald)' : '#ef4444';
+                            pinChangeStatusMsg.innerText = msg;
                         }
+                    };
+
+                    if (!currPin) {
+                        showToast('Lütfen mevcut yönetici şifrenizi giriniz.', '⚠️');
+                        showStatus('❌ Lütfen mevcut şifrenizi giriniz.', false);
+                        if (adminCurrPinInput) adminCurrPinInput.focus();
                         return;
                     }
+
+                    if (!newPin || newPin.length < 4) {
+                        showToast('Yeni şifre en az 4 karakter olmalıdır.', '⚠️');
+                        showStatus('❌ Yeni şifre en az 4 karakter olmalıdır.', false);
+                        adminNewPinInput.focus();
+                        return;
+                    }
+
+                    if (newPin !== confirmPin) {
+                        showToast('Yeni şifreler birbiriyle uyuşmuyor!', '⚠️');
+                        showStatus('❌ Yeni şifreler uyuşmuyor.', false);
+                        if (adminNewPinConfirmInput) adminNewPinConfirmInput.focus();
+                        return;
+                    }
+
                     if (window.TurnuvaAuth && typeof window.TurnuvaAuth.setPin === 'function') {
-                        window.TurnuvaAuth.setPin(newPin);
+                        const success = window.TurnuvaAuth.setPin(newPin, currPin);
+                        if (!success) {
+                            showToast('Mevcut şifre hatalı veya işlem reddedildi!', '❌');
+                            showStatus('❌ Mevcut şifreniz doğrulanamadı.', false);
+                            return;
+                        }
                     } else {
-                        localStorage.setItem('turnuva_admin_pin', newPin);
+                        showToast('Güvenlik servisi yüklenemedi.', '❌');
+                        return;
                     }
+
+                    if (adminCurrPinInput) adminCurrPinInput.value = '';
                     adminNewPinInput.value = '';
-                    showToast('Yeni yönetici şifresi başarıyla kaydedildi!', '🔑');
-                    if (pinChangeStatusMsg) {
-                        pinChangeStatusMsg.style.display = 'block';
-                        pinChangeStatusMsg.style.color = 'var(--emerald)';
-                        pinChangeStatusMsg.innerText = '✅ Yeni yönetici şifresi güncellendi.';
-                    }
+                    if (adminNewPinConfirmInput) adminNewPinConfirmInput.value = '';
+
+                    showToast('Yeni yönetici şifresi başarıyla güncellendi!', '🔑');
+                    showStatus('✅ Yönetici şifreniz güvenli olarak güncellendi.', true);
                 });
             }
 
