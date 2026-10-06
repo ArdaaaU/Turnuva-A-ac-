@@ -75,6 +75,66 @@ const DEFAULT_TOURNAMENT_DATA = {
             team2: "ic mekan tasarim-2",
             score2: 9,
             winner: "team2"
+        },
+        {
+            id: "mac-7",
+            date: "6 Ekim 2026",
+            day: "Salı",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "hit-2",
+            score1: null,
+            team2: "wtk-2",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-7b",
+            date: "6 Ekim 2026",
+            day: "Salı",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "maliye isletme -2",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-8",
+            date: "7 Ekim 2026",
+            day: "Çarşamba",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "maliye isletme -2",
+            score1: null,
+            team2: "hit-1",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-9",
+            date: "7 Ekim 2026",
+            day: "Çarşamba",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "wtk-2",
+            score1: null,
+            team2: "hit-2",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-10",
+            date: "8 Ekim 2026",
+            day: "Perşembe",
+            time: "18:00",
+            status: "bekleniyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "hit-1",
+            score2: null,
+            winner: null
         }
     ],
 
@@ -207,10 +267,70 @@ const DEFAULT_TOURNAMENT_DATA = {
         team2: "ic mekan tasarim-2",
         score2: 9,
         winner: "team2"
+    },
+    mac7: {
+        id: "mac-7",
+        date: "6 Ekim 2026",
+        day: "Salı",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "hit-2",
+        score1: null,
+        team2: "wtk-2",
+        score2: null,
+        winner: null
+    },
+    mac7b: {
+        id: "mac-7b",
+        date: "6 Ekim 2026",
+        day: "Salı",
+        time: "19:00",
+        status: "bekleniyor",
+        team1: "ic mekan tasarim-2",
+        score1: null,
+        team2: "maliye isletme -2",
+        score2: null,
+        winner: null
+    },
+    mac8: {
+        id: "mac-8",
+        date: "7 Ekim 2026",
+        day: "Çarşamba",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "maliye isletme -2",
+        score1: null,
+        team2: "hit-1",
+        score2: null,
+        winner: null
+    },
+    mac9: {
+        id: "mac-9",
+        date: "7 Ekim 2026",
+        day: "Çarşamba",
+        time: "19:00",
+        status: "bekleniyor",
+        team1: "wtk-2",
+        score1: null,
+        team2: "hit-2",
+        score2: null,
+        winner: null
+    },
+    mac10: {
+        id: "mac-10",
+        date: "8 Ekim 2026",
+        day: "Perşembe",
+        time: "18:00",
+        status: "bekleniyor",
+        team1: "ic mekan tasarim-2",
+        score1: null,
+        team2: "hit-1",
+        score2: null,
+        winner: null
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v10';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v11';
 
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
