@@ -67,13 +67,13 @@ function getActiveFixtureMatches() {
     const findMatch = (id) => matches.find(m => m && m.id === id);
 
     const m7 = (tData && tData.mac7) || findMatch('mac-7') || {
-        time: '18:00', team1: 'ic mekan tasarim-2', team2: 'maliye isletme -2'
+        time: '18:00', team1: 'hit-2', team2: 'wtk-2'
     };
     const m8 = (tData && tData.mac8) || findMatch('mac-8') || {
         time: '18:00', team1: 'maliye isletme -2', team2: 'hit-1'
     };
     const m9 = (tData && tData.mac9) || findMatch('mac-9') || {
-        time: '19:00', team1: 'wtk-2', team2: 'hit-2'
+        time: '19:00', team1: 'ic mekan tasarim-2', team2: 'maliye isletme -2'
     };
     const m10 = (tData && tData.mac10) || findMatch('mac-10') || {
         time: '18:00', team1: 'ic mekan tasarim-2', team2: 'hit-1'
@@ -120,21 +120,17 @@ function getDailyTournamentAnnouncement() {
         const t2_8 = m8.team2 || 'hit-1';
         const time8 = m8.time || '18:00';
 
-        const t1_9 = m9.team1 || 'wtk-2';
-        const t2_9 = m9.team2 || 'hit-2';
-        const time9 = m9.time || '19:00';
-
         return {
             id: 'gunun-maci-otomatik-7',
-            title: `⚽ Günün Maçları (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8} & ${t1_9} vs ${t2_9}`,
+            title: `⚽ Günün Maçı (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8}`,
             category: 'mac',
-            categoryLabel: '⚽ Günün Maçları',
+            categoryLabel: '⚽ Günün Maçı',
             date: '7 Ekim 2026',
             author: 'Turnuva Komitesi',
             pinned: true,
             isDynamic: true,
-            summary: `Bugün 2 maç: ${time8} ${t1_8} 🆚 ${t2_8} ve ${time9} ${t1_9} 🆚 ${t2_9}`,
-            content: `🏆 Fikstürde bugün (7 Ekim 2026 Çarşamba) oynanacak karşılaşmalar:\n\n⚡ ${time8} | ${t1_8} 🆚 ${t2_8}\n⚡ ${time9} | ${t1_9} 🆚 ${t2_9}\n\nFikstürde yer alan karşılaşmalarda tüm takımlarımıza ve sporcularımıza centilmence mücadeleler dileriz!`
+            summary: `Bugün (7 Ekim Çarşamba) saat ${time8}'de ${t1_8} ile ${t2_8} karşı karşıya geliyor.`,
+            content: `🏆 Turnuvada 7 Ekim Çarşamba günü programı:\n\n⚡ ${time8} | ${t1_8} 🆚 ${t2_8}\n\nTüm futbolseverleri maçı izlemeye davet ediyor, takımlarımıza başarılar diliyoruz!`
         };
     } else if (day === 8) {
         const t1_10 = m10.team1 || 'ic mekan tasarim-2';
@@ -154,22 +150,25 @@ function getDailyTournamentAnnouncement() {
             content: `🏆 Turnuvada 8 Ekim Perşembe günü programı:\n\n⚡ ${time10} | ${t1_10} 🆚 ${t2_10}\n\nTüm futbolseverleri maçı izlemeye davet ediyor, takımlarımıza başarılar diliyoruz!`
         };
     } else {
-        
-        const t1_7 = m7.team1 || 'ic mekan tasarim-2';
-        const t2_7 = m7.team2 || 'maliye isletme -2';
+        const t1_7 = m7.team1 || 'hit-2';
+        const t2_7 = m7.team2 || 'wtk-2';
         const time7 = m7.time || '18:00';
+
+        const t1_9 = m9.team1 || 'ic mekan tasarim-2';
+        const t2_9 = m9.team2 || 'maliye isletme -2';
+        const time9 = m9.time || '19:00';
 
         return {
             id: 'gunun-maci-otomatik-6',
-            title: `⚽ Günün Maçı (6 Ekim Salı) — ${t1_7} vs ${t2_7}`,
+            title: `⚽ Günün Maçları (6 Ekim Salı) — ${t1_7} vs ${t2_7} & ${t1_9} vs ${t2_9}`,
             category: 'mac',
-            categoryLabel: '⚽ Günün Maçı',
+            categoryLabel: '⚽ Günün Maçları',
             date: '6 Ekim 2026',
             author: 'Turnuva Komitesi',
             pinned: true,
             isDynamic: true,
-            summary: `Bugün (6 Ekim Salı) saat ${time7}'de ${t1_7} ile ${t2_7} karşı karşıya geliyor!`,
-            content: `🏆 Turnuvada yeni hafta heyecanı başlıyor!\n\nBugün (6 Ekim 2026 Salı) oynanacak karşılaşma:\n\n⚡ ${time7} | ${t1_7} 🆚 ${t2_7}\n\nHer iki takımımıza ve tüm oyuncularımıza centilmence mücadeleler ve başarılar dileriz!`
+            summary: `Bugün 2 maç: ${time7} ${t1_7} 🆚 ${t2_7} ve ${time9} ${t1_9} 🆚 ${t2_9}`,
+            content: `🏆 Turnuvada yeni hafta heyecanı başlıyor!\n\nBugün (6 Ekim 2026 Salı) oynanacak karşılaşmalar:\n\n⚡ ${time7} | ${t1_7} 🆚 ${t2_7}\n⚡ ${time9} | ${t1_9} 🆚 ${t2_9}\n\nFikstürde yer alan karşılaşmalarda tüm takımlarımıza ve sporcularımıza centilmence mücadeleler dileriz!`
         };
     }
 }
