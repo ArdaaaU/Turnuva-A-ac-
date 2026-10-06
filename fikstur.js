@@ -327,7 +327,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v8';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v9';
 let _bracketRealtimeSubscribed = false;
 
 function cloneObject(obj) {
@@ -467,21 +467,10 @@ function ensureMatchesIncludeNewFixture(data) {
 function getTournamentData() {
     try {
         let stored = localStorage.getItem(BRACKET_STORAGE_KEY);
-        if (stored === null) {
-            const oldStored = localStorage.getItem('turnuva_bracket_v7') || localStorage.getItem('turnuva_bracket_v6') || localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
-            if (oldStored !== null) {
-                stored = oldStored;
-            }
-        }
         if (stored !== null) {
             const parsed = JSON.parse(stored);
             if (isValidTournamentTree(parsed)) {
-                const migrated = ensureMatchesIncludeNewFixture(parsed);
-                
-                try {
-                    localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(migrated));
-                } catch (saveErr) { }
-                return migrated;
+                return parsed;
             }
         }
     } catch (e) {

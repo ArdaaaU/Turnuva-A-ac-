@@ -973,20 +973,7 @@
                     <input type="text" id="search-input" class="search-input" placeholder="Duyurularda başlık veya içerik ara...">
                 </div>
 
-                <div class="admin-action-btns">
-                    
-                    <button class="btn btn-secondary" id="admin-login-btn">
-                        <span>🔐 Yönetici Girişi</span>
-                    </button>
-                    
-                    <button class="btn btn-primary" id="new-announcement-btn" style="display: none;">
-                        <span>➕ Yeni Duyuru Paylaş</span>
-                    </button>
-                    <button class="btn btn-ghost" id="admin-logout-btn" style="display: none;" title="Yönetici Oturumunu Kapat">
-                        <span>🔒 Çıkış</span>
-                    </button>
                 </div>
-            </div>
 
             <div class="filter-chips" id="filter-chips">
                 <button class="filter-chip active" data-category="all">Tümü (<span id="count-all">0</span>)</button>
@@ -1011,117 +998,11 @@
 
     <div class="signature">Made By Arda Utancak</div>
 
-    <div class="modal-overlay" id="pin-modal">
-        <div class="modal-card" style="max-width: 400px;">
-            <div class="modal-header">
-                <h3 class="modal-title">🔐 Yönetici Doğrulaması</h3>
-                <button class="modal-close-btn" id="close-pin-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">
-                    Yeni duyuru paylaşmak, düzenlemek veya silmek için lütfen yönetici şifresini giriniz.
-                </p>
-                <div class="form-group">
-                    <label class="form-label">Yönetici Şifresi</label>
-                    <div style="position: relative; display: flex; align-items: center;">
-                        <input type="password" id="admin-pin-input" class="form-input" placeholder="••••" autocomplete="current-password" style="padding-right: 44px; letter-spacing: 2px;">
-                        <button type="button" id="toggle-pin-visibility" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 16px; padding: 4px; display: flex; align-items: center; justify-content: center;" title="Şifreyi Göster / Gizle">
-                            👁️
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancel-pin-btn">İptal</button>
-                <button class="btn btn-primary" id="submit-pin-btn">Giriş Yap</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="announcement-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3 class="modal-title" id="announcement-modal-title">➕ Yeni Duyuru Paylaş</h3>
-                <button class="modal-close-btn" id="close-announcement-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="edit-announcement-id" value="">
-                
-                <div class="form-group">
-                    <label class="form-label">Duyuru Başlığı *</label>
-                    <input type="text" id="announcement-title-input" class="form-input" placeholder="Örn: 🏆 Yarı Final Maç Tarihleri Açıklandı" required>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                    <div class="form-group">
-                        <label class="form-label">Kategori</label>
-                        <select id="announcement-category-select" class="form-select">
-                            <option value="onemli">🚨 Önemli Duyuru</option>
-                            <option value="mac">⚽ Maç Bilgisi</option>
-                            <option value="kural">📜 Kural & Disiplin</option>
-                            <option value="genel" selected>📢 Genel Bilgilendirme</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tarih</label>
-                        <input type="text" id="announcement-date-input" class="form-input" placeholder="Örn: 11 Mart 2026">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Yayınlayan / Yetkili</label>
-                    <input type="text" id="announcement-author-input" class="form-input" placeholder="Örn: Turnuva Komitesi" value="Turnuva Komitesi">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-checkbox-label">
-                        <input type="checkbox" id="announcement-pinned-check">
-                        <span>📌 Bu duyuruyu listenin en başına sabitle</span>
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Duyuru İçeriği *</label>
-                    <textarea id="announcement-content-input" class="form-textarea" placeholder="Duyurunun detaylarını buraya yazınız..." required></textarea>
-                </div>
-            </div>
-            <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
-                <button class="btn btn-ghost" id="delete-from-edit-btn" style="color: var(--red); display: none;" type="button">🗑️ Bu Duyuruyu Sil</button>
-                <div style="display: flex; gap: 10px; margin-left: auto;">
-                    <button class="btn btn-secondary" id="cancel-announcement-btn" type="button">İptal</button>
-                    <button class="btn btn-primary" id="save-announcement-btn" type="button">Duyuruyu Yayınla</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="delete-confirm-modal">
-        <div class="modal-card" style="max-width: 420px;">
-            <div class="modal-header">
-                <h3 class="modal-title" style="color: var(--red);">🗑️ Duyuruyu Sil</h3>
-                <button class="modal-close-btn" id="close-delete-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p style="font-size: 14px; color: var(--text-main); font-weight: 600; line-height: 1.5;" id="delete-target-title">
-                    Bu duyuruyu silmek istediğinize emin misiniz?
-                </p>
-                <p style="font-size: 12.5px; color: var(--text-dim); margin-top: 6px; line-height: 1.5;">
-                    Bu işlem geri alınamaz ve duyuru hem bu sayfadan hem de ana sayfadaki bildirim şeridinden anında kaldırılacaktır.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancel-delete-btn" type="button">İptal</button>
-                <button class="btn btn-primary" id="confirm-delete-btn" style="background: var(--red); box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);" type="button">Evet, Sil</button>
-            </div>
-        </div>
-    </div>
-
     <div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
 
-    <script src="security.js"></script>
 
     <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1182,38 +1063,6 @@
             const lastUpdateBadge = document.getElementById('last-update-badge');
             const countAllEl = document.getElementById('count-all');
 
-            const adminLoginBtn = document.getElementById('admin-login-btn');
-            const newAnnouncementBtn = document.getElementById('new-announcement-btn');
-            const adminLogoutBtn = document.getElementById('admin-logout-btn');
-
-            const pinModal = document.getElementById('pin-modal');
-            const closePinModal = document.getElementById('close-pin-modal');
-            const cancelPinBtn = document.getElementById('cancel-pin-btn');
-            const submitPinBtn = document.getElementById('submit-pin-btn');
-            const adminPinInput = document.getElementById('admin-pin-input');
-
-            const announcementModal = document.getElementById('announcement-modal');
-            const closeAnnouncementModal = document.getElementById('close-announcement-modal');
-            const cancelAnnouncementBtn = document.getElementById('cancel-announcement-btn');
-            const saveAnnouncementBtn = document.getElementById('save-announcement-btn');
-            const modalTitleEl = document.getElementById('announcement-modal-title');
-
-            const editIdInput = document.getElementById('edit-announcement-id');
-            const titleInput = document.getElementById('announcement-title-input');
-            const categorySelect = document.getElementById('announcement-category-select');
-            const dateInput = document.getElementById('announcement-date-input');
-            const authorInput = document.getElementById('announcement-author-input');
-            const pinnedCheck = document.getElementById('announcement-pinned-check');
-            const contentInput = document.getElementById('announcement-content-input');
-            const deleteFromEditBtn = document.getElementById('delete-from-edit-btn');
-
-            const deleteConfirmModal = document.getElementById('delete-confirm-modal');
-            const closeDeleteModal = document.getElementById('close-delete-modal');
-            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-            const deleteTargetTitle = document.getElementById('delete-target-title');
-            let pendingDeleteId = null;
-
             const countOnemli = document.getElementById('count-onemli');
             const countMac = document.getElementById('count-mac');
             const countKural = document.getElementById('count-kural');
@@ -1226,23 +1075,8 @@
                 return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
             }
 
-            function updateAdminUI() {
-                const isAuth = isAdminAuthenticated();
-
-                if (isAuth) {
-                    adminLoginBtn.style.display = 'none';
-                    newAnnouncementBtn.style.display = 'inline-flex';
-                    adminLogoutBtn.style.display = 'inline-flex';
-                } else {
-                    adminLoginBtn.style.display = 'inline-flex';
-                    newAnnouncementBtn.style.display = 'none';
-                    adminLogoutBtn.style.display = 'none';
-                }
-            }
-
             function renderAnnouncements() {
                 const list = getAnnouncements();
-                const isAuth = isAdminAuthenticated();
                 const isMobile = isMobileClient();
 
                 totalCountBadge.innerText = list.length;
@@ -1305,14 +1139,7 @@
                                     <button class="action-icon-btn copy-link-btn" data-id="${item.id}" title="Duyuruyu Kopyala">
                                         🔗 Paylaş
                                     </button>
-                                    ${(isAuth && !item.isDynamic) ? `
-                                        <button class="action-icon-btn edit-ann-btn" data-id="${item.id}" title="Düzenle">
-                                            ✏️ Düzenle
-                                        </button>
-                                        <button class="action-icon-btn delete-btn delete-ann-btn" data-id="${item.id}" title="Sil">
-                                            🗑️ Sil
-                                        </button>
-                                    ` : ''}
+
                                 </div>
                             </div>
                         </article>
@@ -1321,90 +1148,6 @@
 
                 attachCardListeners();
             }
-
-            function openDeleteConfirmation(id) {
-                const list = getAnnouncements();
-                const item = list.find(a => String(a.id) === String(id));
-                if (!item) return;
-
-                pendingDeleteId = id;
-                if (deleteTargetTitle) {
-                    deleteTargetTitle.innerText = `"${item.title}" başlıklı duyuruyu silmek istediğinizden emin misiniz?`;
-                }
-                deleteConfirmModal.classList.add('active');
-            }
-
-            function attachCardListeners() {
-                
-                document.querySelectorAll('.copy-link-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const id = btn.getAttribute('data-id');
-                        const url = window.location.origin + window.location.pathname + '#' + id;
-                        if (navigator.clipboard) {
-                            navigator.clipboard.writeText(url).then(() => {
-                                showToast('Duyuru bağlantısı panoya kopyalandı! 📋');
-                            }).catch(() => {
-                                showToast('Bağlantı kopyalandı! 📋');
-                            });
-                        } else {
-                            showToast('Bağlantı hazır! 📋');
-                        }
-                    });
-                });
-
-                document.querySelectorAll('.edit-ann-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const id = btn.getAttribute('data-id');
-                        openEditModal(id);
-                    });
-                });
-
-                document.querySelectorAll('.delete-ann-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const id = btn.getAttribute('data-id');
-                        openDeleteConfirmation(id);
-                    });
-                });
-            }
-
-            confirmDeleteBtn.addEventListener('click', async () => {
-                if (pendingDeleteId) {
-                    const toDelete = pendingDeleteId;
-                    pendingDeleteId = null;
-                    deleteConfirmModal.classList.remove('active');
-                    announcementModal.classList.remove('active');
-                    confirmDeleteBtn.disabled = true;
-                    try {
-                        await deleteAnnouncement(toDelete);
-                        renderAnnouncements();
-                        showToast('Duyuru başarıyla silindi ve veritabanı eşitlendi.', '🗑️');
-                    } catch (err) {
-                        showToast('Silme işlemi sırasında hata oluştu.', '❌');
-                    } finally {
-                        confirmDeleteBtn.disabled = false;
-                    }
-                }
-            });
-
-            closeDeleteModal.addEventListener('click', () => {
-                deleteConfirmModal.classList.remove('active');
-                pendingDeleteId = null;
-            });
-
-            cancelDeleteBtn.addEventListener('click', () => {
-                deleteConfirmModal.classList.remove('active');
-                pendingDeleteId = null;
-            });
-
-            deleteFromEditBtn.addEventListener('click', () => {
-                const id = editIdInput.value;
-                if (id) {
-                    openDeleteConfirmation(id);
-                }
-            });
 
             searchInput.addEventListener('input', (e) => {
                 searchQuery = e.target.value;
@@ -1420,152 +1163,9 @@
                 });
             });
 
-            adminLoginBtn.addEventListener('click', () => {
-                adminPinInput.value = '';
-                adminPinInput.type = 'password';
-                const togglePinBtn = document.getElementById('toggle-pin-visibility');
-                if (togglePinBtn) togglePinBtn.innerText = '👁️';
-                pinModal.classList.add('active');
-                adminPinInput.focus();
-            });
-
-            window.addEventListener('resize', () => {
-                updateAdminUI();
-                renderAnnouncements();
-            });
-
-            const togglePinVisibilityBtn = document.getElementById('toggle-pin-visibility');
-            if (togglePinVisibilityBtn) {
-                togglePinVisibilityBtn.addEventListener('click', () => {
-                    if (adminPinInput.type === 'password') {
-                        adminPinInput.type = 'text';
-                        togglePinVisibilityBtn.innerText = '🙈';
-                    } else {
-                        adminPinInput.type = 'password';
-                        togglePinVisibilityBtn.innerText = '👁️';
-                    }
-                });
-            }
-
-            closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
-            cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
-
-            submitPinBtn.addEventListener('click', () => {
-                const pin = adminPinInput.value.trim();
-                if (authenticateAdmin(pin)) {
-                    pinModal.classList.remove('active');
-                    updateAdminUI();
-                    renderAnnouncements();
-                    showToast('Yönetici girişi başarılı! Hoş geldiniz.', '🎉');
-                } else {
-                    showToast('Hatalı yönetici şifresi! Tekrar deneyiniz.', '❌');
-                    adminPinInput.focus();
-                }
-            });
-
-            adminPinInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') submitPinBtn.click();
-            });
-
-            adminLogoutBtn.addEventListener('click', () => {
-                logoutAdmin();
-                updateAdminUI();
-                renderAnnouncements();
-                showToast('Yönetici oturumu kapatıldı.', '🔒');
-            });
-
-            newAnnouncementBtn.addEventListener('click', () => {
-                editIdInput.value = '';
-                modalTitleEl.innerText = '➕ Yeni Duyuru Paylaş';
-                titleInput.value = '';
-                categorySelect.value = 'genel';
-                dateInput.value = formatDate(new Date());
-                authorInput.value = 'Turnuva Komitesi';
-                pinnedCheck.checked = false;
-                contentInput.value = '';
-                saveAnnouncementBtn.innerText = 'Duyuruyu Yayınla';
-                deleteFromEditBtn.style.display = 'none';
-                announcementModal.classList.add('active');
-                titleInput.focus();
-            });
-
-            function openEditModal(id) {
-                const list = getAnnouncements();
-                const item = list.find(a => String(a.id) === String(id));
-                if (!item) return;
-
-                editIdInput.value = item.id;
-                modalTitleEl.innerText = '✏️ Duyuruyu Düzenle';
-                titleInput.value = item.title;
-                categorySelect.value = item.category || 'genel';
-                dateInput.value = item.date;
-                authorInput.value = item.author || 'Turnuva Komitesi';
-                pinnedCheck.checked = Boolean(item.pinned);
-                contentInput.value = item.content || '';
-                saveAnnouncementBtn.innerText = 'Değişiklikleri Kaydet';
-                deleteFromEditBtn.style.display = 'inline-flex';
-                announcementModal.classList.add('active');
-            }
-
-            closeAnnouncementModal.addEventListener('click', () => announcementModal.classList.remove('active'));
-            cancelAnnouncementBtn.addEventListener('click', () => announcementModal.classList.remove('active'));
-
-            saveAnnouncementBtn.addEventListener('click', () => {
-                const title = titleInput.value.trim();
-                const content = contentInput.value.trim();
-
-                if (!title || !content) {
-                    showToast('Lütfen başlık ve içerik alanlarını doldurunuz!', '⚠️');
-                    return;
-                }
-
-                const payload = {
-                    title: title,
-                    category: categorySelect.value,
-                    date: dateInput.value.trim() || formatDate(new Date()),
-                    author: authorInput.value.trim() || 'Turnuva Komitesi',
-                    pinned: pinnedCheck.checked,
-                    content: content
-                };
-
-                const editId = editIdInput.value;
-                if (editId) {
-                    updateAnnouncement(editId, payload);
-                    showToast('Duyuru başarıyla güncellendi! ✅');
-                } else {
-                    addAnnouncement(payload);
-                    showToast('Yeni duyuru başarıyla yayınlandı! 🚀');
-                }
-
-                announcementModal.classList.remove('active');
-                renderAnnouncements();
-            });
-
-            [pinModal, announcementModal, deleteConfirmModal].forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.classList.remove('active');
-                });
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    pinModal.classList.remove('active');
-                    announcementModal.classList.remove('active');
-                    deleteConfirmModal.classList.remove('active');
-                }
-            });
-
-            window.addEventListener('turnuva_auth_changed', () => {
-                updateAdminUI();
-                renderAnnouncements();
-            });
             window.addEventListener('turnuva_announcements_updated', renderAnnouncements);
             window.addEventListener('storage', (e) => {
                 if (e.key === 'turnuva_duyurular_v3' || e.key === 'turnuva_duyurular_v1' || !e.key) {
-                    renderAnnouncements();
-                }
-                if (e.key === 'turnuva_admin_authenticated') {
-                    updateAdminUI();
                     renderAnnouncements();
                 }
             });
@@ -1593,7 +1193,6 @@
                     .replace(/'/g, '&#039;');
             }
 
-            updateAdminUI();
             renderAnnouncements();
         });
     </script>
