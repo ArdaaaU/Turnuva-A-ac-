@@ -95,7 +95,7 @@ const DEFAULT_STANDINGS = [
     { id: "t-hit1", name: "hit-1", o: 2, g: 0, b: 0, m: 2, av: -27, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v6';
+const STATS_STORAGE_KEY = 'turnuva_stats_v7';
 const STANDINGS_STORAGE_KEY = 'turnuva_standings_v6';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 

@@ -95,7 +95,7 @@ Turnuvada toplam **5 takım** ve **34 lisanslı oyuncu** mücadele etmektedir:
 ├── maliye isletme -2 (8 Oyuncu)
 │   └── burak, burak kus, emir, emirhan, mert, toprak, umut, yigit
 └── wtk-2 (8 Oyuncu)
-    └── ali, alpi, goktug, kurtmehmet, mehmet acar, oguzhan, serhat, sihir
+    └── ali, alpi, goktug, mehmet, mehmet acar, muhammet, oguzhan, serhat
 ```
 
 ---
