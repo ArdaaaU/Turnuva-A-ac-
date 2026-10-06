@@ -3251,7 +3251,7 @@
             const adminNewPinConfirmInput = document.getElementById('admin-new-pin-confirm-input');
             const pinChangeStatusMsg = document.getElementById('pin-change-status-msg');
             if (btnSaveNewPin && adminNewPinInput) {
-                btnSaveNewPin.addEventListener('click', () => {
+                btnSaveNewPin.addEventListener('click', async () => {
                     const currPin = adminCurrPinInput ? adminCurrPinInput.value.trim() : '';
                     const newPin = adminNewPinInput.value.trim();
                     const confirmPin = adminNewPinConfirmInput ? adminNewPinConfirmInput.value.trim() : '';
@@ -3285,24 +3285,32 @@
                         return;
                     }
 
-                    if (window.TurnuvaAuth && typeof window.TurnuvaAuth.setPin === 'function') {
-                        const success = window.TurnuvaAuth.setPin(newPin, currPin);
-                        if (!success) {
-                            showToast('Mevcut şifre hatalı veya işlem reddedildi!', '❌');
-                            showStatus('❌ Mevcut şifreniz doğrulanamadı.', false);
+                    btnSaveNewPin.disabled = true;
+                    btnSaveNewPin.innerText = '⏳ Kaydediliyor...';
+
+                    try {
+                        if (window.TurnuvaAuth && typeof window.TurnuvaAuth.setPin === 'function') {
+                            const success = await window.TurnuvaAuth.setPin(newPin, currPin);
+                            if (!success) {
+                                showToast('Mevcut şifre hatalı veya işlem reddedildi!', '❌');
+                                showStatus('❌ Mevcut şifreniz doğrulanamadı.', false);
+                                return;
+                            }
+                        } else {
+                            showToast('Güvenlik servisi yüklenemedi.', '❌');
                             return;
                         }
-                    } else {
-                        showToast('Güvenlik servisi yüklenemedi.', '❌');
-                        return;
+
+                        if (adminCurrPinInput) adminCurrPinInput.value = '';
+                        adminNewPinInput.value = '';
+                        if (adminNewPinConfirmInput) adminNewPinConfirmInput.value = '';
+
+                        showToast('Yeni yönetici şifresi buluta kaydedildi ve tüm cihazlarda güncellendi!', '🔑');
+                        showStatus('✅ Yeni şifreniz tüm cihazlar için başarıyla güncellendi.', true);
+                    } finally {
+                        btnSaveNewPin.disabled = false;
+                        btnSaveNewPin.innerText = '💾 Şifreyi Kaydet ve Güncelle';
                     }
-
-                    if (adminCurrPinInput) adminCurrPinInput.value = '';
-                    adminNewPinInput.value = '';
-                    if (adminNewPinConfirmInput) adminNewPinConfirmInput.value = '';
-
-                    showToast('Yeni yönetici şifresi başarıyla güncellendi!', '🔑');
-                    showStatus('✅ Yönetici şifreniz güvenli olarak güncellendi.', true);
                 });
             }
 

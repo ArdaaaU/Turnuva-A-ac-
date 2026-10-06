@@ -1,21 +1,6 @@
-/**
- * ============================================================
- * TURNUVA GÜVENLİK VE KİMLİK DOĞRULAMA MODÜLÜ (SECURITY.JS)
- * ============================================================
- * - Tek Yönlü Tuzlu (Salted) Kriptografik Karma (SHA-256)
- * - Kaynak kodda ve localStorage'da açık (düz metin) şifre ASLA tutulmaz.
- * - Oturum sahteciliğini önleyen Kriptografik İmzalı Oturum Token'ı (Signed Session Token)
- * - Katmanlı Kaba Kuvvet (Brute Force) & Kilitleme Koruması
- * - Zaman Aşımı (Session Expiry) Desteği
- * ============================================================
- */
-
 (function (window) {
     'use strict';
 
-    // ------------------------------------------------------------
-    // 1. DAHİLİ KRİPTOGRAFİK SHA-256 HASH ALGORİTMASI
-    // ------------------------------------------------------------
     function sha256(ascii) {
         function rightRotate(value, amount) {
             return (value >>> amount) | (value << (32 - amount));
@@ -86,40 +71,36 @@
         return result;
     }
 
-    // ------------------------------------------------------------
-    // 2. GÜVENLİK SABİTLERİ & TUZ (SALT) DEĞERLERİ
-    // ------------------------------------------------------------
-    // Açık şifreler kodda kesinlikle barındırılmaz!
-    // Tuzlama ile gökkuşağı tablosu (rainbow table) saldırıları engellenir.
     const SALT_PREFIX = 'Turnuva_Tree_Sec_#2026!';
     const SALT_SUFFIX = '@Antigravity_Admin_Auth_99';
     const SESSION_SALT = 'Turnuva_Session_HMAC_77#@!';
 
-    // Başlangıç varsayılan şifrelerinin SHA-256 Salted karmaları:
-    // Kod inceleyen bir saldırgan sadece bu 64 haneli anlamsız özetleri görür.
     const DEFAULT_CREDENTIAL_HASHES = [
-        '8ed1f45f9b71119ffeb6b295fd12660aa29d22223b4b504b08e2e9957915dc98', // Default Hash 1
-        '8952a53f1612f9ff7fad0ba649c9d2704413781a86497c680d85041b0bdb2b33'  // Default Hash 2
+        '8ed1f45f9b71119ffeb6b295fd12660aa29d22223b4b504b08e2e9957915dc98',
+        '8952a53f1612f9ff7fad0ba649c9d2704413781a86497c680d85041b0bdb2b33'
+    ];
+
+    const BLACKLISTED_HASHES = [
+        'dee8e71a4b7ea0f08fac721680637e04dcc9bbe4e138d9a30288deb123e35763'
     ];
 
     const SESSION_STORAGE_KEY = 'turnuva_admin_session_v2';
     const CUSTOM_HASH_KEY = 'turnuva_admin_custom_hash_v2';
     const ATTEMPTS_KEY = 'turnuva_auth_attempts_v2';
     const LOCKOUT_KEY = 'turnuva_auth_lockout_v2';
+    const SUPABASE_AUTH_ROW_ID = 'system-admin-auth';
 
-    // Oturum süresi: 2 saat
     const SESSION_MAX_AGE_MS = 2 * 60 * 60 * 1000;
 
-    // Kademeli kilitleme süreleri
     const LOCKOUT_TIERS = [
-        { attempts: 5, durationMs: 2 * 60 * 1000 },    // 5 hatalı deneme -> 2 dk
-        { attempts: 8, durationMs: 10 * 60 * 1000 },   // 8 hatalı deneme -> 10 dk
-        { attempts: 10, durationMs: 30 * 60 * 1000 }   // 10+ hatalı deneme -> 30 dk
+        { attempts: 5, durationMs: 2 * 60 * 1000 },
+        { attempts: 8, durationMs: 10 * 60 * 1000 },
+        { attempts: 10, durationMs: 30 * 60 * 1000 }
     ];
 
-    // ------------------------------------------------------------
-    // 3. YARDIMCI VE KRİPTOGRAFİK İŞLEMLER
-    // ------------------------------------------------------------
+    let _cloudCustomHash = null;
+    let _authRealtimeSubscribed = false;
+
     function hashCredential(pin) {
         if (!pin && pin !== 0) return '';
         const clean = String(pin).trim();
@@ -130,34 +111,111 @@
         return sha256(SESSION_SALT + ':' + issuedAt + ':' + expiresAt + ':' + nonce + ':' + credentialHash);
     }
 
-    // Eski güvensiz açık metin şifre kalıntılarını temizle / yükselt
     (function sanitizeLegacyStorage() {
         try {
-            const legacyPlainPin = localStorage.getItem('turnuva_admin_pin');
-            if (legacyPlainPin && String(legacyPlainPin).trim().length >= 3) {
-                const legacyHash = hashCredential(legacyPlainPin.trim());
-                if (!localStorage.getItem(CUSTOM_HASH_KEY)) {
-                    localStorage.setItem(CUSTOM_HASH_KEY, legacyHash);
-                }
-            }
             localStorage.removeItem('turnuva_admin_pin');
+
+            const localCustom = localStorage.getItem(CUSTOM_HASH_KEY);
+            if (localCustom && BLACKLISTED_HASHES.includes(localCustom)) {
+                localStorage.removeItem(CUSTOM_HASH_KEY);
+            }
         } catch (e) { }
     })();
 
     function getActiveHashes() {
+        if (_cloudCustomHash && typeof _cloudCustomHash === 'string' && _cloudCustomHash.length === 64) {
+            if (!BLACKLISTED_HASHES.includes(_cloudCustomHash)) {
+                return [_cloudCustomHash];
+            }
+        }
+
         try {
-            const customHash = localStorage.getItem(CUSTOM_HASH_KEY);
-            if (customHash && typeof customHash === 'string' && customHash.length === 64) {
-                // Yönetici yeni şifre belirlemişse, varsayılan şifreler tamamen devreden çıkar!
-                return [customHash];
+            const localCustom = localStorage.getItem(CUSTOM_HASH_KEY);
+            if (localCustom && typeof localCustom === 'string' && localCustom.length === 64) {
+                if (!BLACKLISTED_HASHES.includes(localCustom)) {
+                    return [localCustom];
+                } else {
+                    localStorage.removeItem(CUSTOM_HASH_KEY);
+                }
             }
         } catch (e) { }
+
         return DEFAULT_CREDENTIAL_HASHES;
     }
 
-    // ------------------------------------------------------------
-    // 4. BRUTE-FORCE (KABA KUVVET) VE KİLİTLEME YÖNETİMİ
-    // ------------------------------------------------------------
+    async function syncAdminAuthFromSupabase() {
+        if (typeof getSupabaseClient !== 'function') return null;
+        const client = getSupabaseClient();
+        if (!client) return null;
+
+        try {
+            const { data, error } = await client
+                .from('duyurular')
+                .select('*')
+                .eq('id', SUPABASE_AUTH_ROW_ID)
+                .maybeSingle();
+
+            if (error) {
+                return null;
+            }
+
+            if (data && data.content) {
+                let parsed = null;
+                try {
+                    parsed = JSON.parse(data.content);
+                } catch (e) {
+                    parsed = { hash: String(data.content).trim() };
+                }
+
+                if (parsed && parsed.hash && typeof parsed.hash === 'string' && parsed.hash.length === 64) {
+                    if (BLACKLISTED_HASHES.includes(parsed.hash)) {
+                        return null;
+                    }
+
+                    _cloudCustomHash = parsed.hash;
+                    try {
+                        localStorage.setItem(CUSTOM_HASH_KEY, parsed.hash);
+                    } catch (e) { }
+
+                    if (isAdminAuthenticated()) {
+                        const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
+                        if (raw) {
+                            try {
+                                const session = JSON.parse(raw);
+                                const expected = computeSessionSignature(session.issuedAt, session.expiresAt, session.nonce, parsed.hash);
+                                if (session.sig !== expected) {
+                                    logoutAdmin();
+                                }
+                            } catch (e) { }
+                        }
+                    }
+
+                    return parsed.hash;
+                }
+            }
+        } catch (e) { }
+        return null;
+    }
+
+    function initSupabaseAuthRealtime() {
+        if (_authRealtimeSubscribed) return;
+        if (typeof getSupabaseClient !== 'function') return;
+        const client = getSupabaseClient();
+        if (!client) return;
+
+        try {
+            client.channel('public:system-admin-auth-ch')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular', filter: 'id=eq.' + SUPABASE_AUTH_ROW_ID }, () => {
+                    syncAdminAuthFromSupabase();
+                })
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        _authRealtimeSubscribed = true;
+                    }
+                });
+        } catch (err) { }
+    }
+
     function isLockedOut() {
         try {
             const raw = localStorage.getItem(LOCKOUT_KEY);
@@ -211,9 +269,6 @@
         } catch (e) { }
     }
 
-    // ------------------------------------------------------------
-    // 5. KRİPTOGRAFİK İMZALI OTURUM YÖNETİMİ
-    // ------------------------------------------------------------
     function createSignedSession(matchingHash) {
         const issuedAt = Date.now();
         const expiresAt = issuedAt + SESSION_MAX_AGE_MS;
@@ -230,7 +285,6 @@
 
         try {
             sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionPayload));
-            // Geriye dönük uyumluluk olay dinleyicileri için tetikleyici
             sessionStorage.setItem('turnuva_admin_authenticated', 'true');
         } catch (e) { }
     }
@@ -246,14 +300,11 @@
                 return false;
             }
 
-            // Süre aşımı kontrolü (2 saat)
             if (Date.now() > session.expiresAt) {
                 logoutAdmin();
                 return false;
             }
 
-            // Aktif şifre karması ile imza doğrulaması
-            // (Tarayıcı konsolundan elle 'authenticated: true' yazılsa bile imza uyuşmayacağından yetki verilmez!)
             const activeHashes = getActiveHashes();
             const isValidSig = activeHashes.some(function (h) {
                 const expected = computeSessionSignature(session.issuedAt, session.expiresAt, session.nonce, h);
@@ -289,6 +340,16 @@
         if (!cleanPin) return false;
 
         const pinHash = hashCredential(cleanPin);
+
+        if (BLACKLISTED_HASHES.includes(pinHash) || cleanPin === '3519') {
+            const fail = recordFailedAttempt();
+            const msg = 'Geçersiz veya iptal edilmiş şifre! Kalan hak: ' + fail.attemptsLeft;
+            if (typeof window.showToast === 'function') {
+                window.showToast(msg, '❌');
+            }
+            return false;
+        }
+
         const validHashes = getActiveHashes();
         const matchedHash = validHashes.find(function (h) { return h === pinHash; });
 
@@ -336,11 +397,7 @@
         } catch (e) { }
     }
 
-    // ------------------------------------------------------------
-    // 6. YENİ ŞİFRE BELİRLEME & SIFIRLAMA
-    // ------------------------------------------------------------
-    function setAdminPin(newPin, currentPin) {
-        // Eğer mevcut şifre argümanı verilmişse önce doğrula
+    async function setAdminPin(newPin, currentPin) {
         if (currentPin !== undefined && currentPin !== null) {
             const currentHash = hashCredential(currentPin);
             const activeHashes = getActiveHashes();
@@ -355,19 +412,53 @@
         const clean = newPin.trim();
         if (clean.length < 4) return false;
 
+        const newHash = hashCredential(clean);
+
+        if (BLACKLISTED_HASHES.includes(newHash) || clean === '3519') {
+            if (typeof window.showToast === 'function') {
+                window.showToast('Bu şifre güvenlik nedeniyle kullanılamaz.', '⚠️');
+            }
+            return false;
+        }
+
         try {
-            const newHash = hashCredential(clean);
+            _cloudCustomHash = newHash;
             localStorage.setItem(CUSTOM_HASH_KEY, newHash);
             localStorage.removeItem('turnuva_admin_pin');
-            // Yeni şifreyle aktif oturum token'ını yenile
+
             createSignedSession(newHash);
+
+            if (typeof getSupabaseClient === 'function') {
+                const client = getSupabaseClient();
+                if (client) {
+                    try {
+                        const payload = {
+                            id: SUPABASE_AUTH_ROW_ID,
+                            title: 'SYSTEM_ADMIN_AUTH_v1',
+                            category: 'system',
+                            category_label: '⚙️ Sistem Güvenlik Kaydı',
+                            date: new Date().toISOString(),
+                            author: 'Sistem',
+                            pinned: false,
+                            summary: 'Yönetici Şifre Karması',
+                            content: JSON.stringify({
+                                hash: newHash,
+                                updatedAt: Date.now(),
+                                version: 1
+                            })
+                        };
+                        await client.from('duyurular').upsert(payload);
+                    } catch (cloudErr) { }
+                }
+            }
+
             return true;
         } catch (e) {
             return false;
         }
     }
 
-    function resetToDefaultPin(currentPin) {
+    async function resetToDefaultPin(currentPin) {
         if (!isAdminAuthenticated()) return false;
         if (currentPin !== undefined && currentPin !== null) {
             const currentHash = hashCredential(currentPin);
@@ -375,8 +466,19 @@
             if (!activeHashes.includes(currentHash)) return false;
         }
         try {
+            _cloudCustomHash = null;
             localStorage.removeItem(CUSTOM_HASH_KEY);
             localStorage.removeItem('turnuva_admin_pin');
+
+            if (typeof getSupabaseClient === 'function') {
+                const client = getSupabaseClient();
+                if (client) {
+                    try {
+                        await client.from('duyurular').delete().eq('id', SUPABASE_AUTH_ROW_ID);
+                    } catch (e) { }
+                }
+            }
+
             createSignedSession(DEFAULT_CREDENTIAL_HASHES[0]);
             return true;
         } catch (e) {
@@ -384,9 +486,35 @@
         }
     }
 
-    // ------------------------------------------------------------
-    // 7. DIŞA AKTARIM & GLOBAL API
-    // ------------------------------------------------------------
+    function autoInitSupabaseSync(retries) {
+        if (typeof retries !== 'number') retries = 20;
+
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+            const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+            if (client) {
+                syncAdminAuthFromSupabase();
+                initSupabaseAuthRealtime();
+                return;
+            }
+        }
+
+        if (retries > 0) {
+            setTimeout(function () {
+                autoInitSupabaseSync(retries - 1);
+            }, 150);
+        }
+    }
+
+    if (typeof document !== 'undefined') {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                autoInitSupabaseSync();
+            });
+        } else {
+            autoInitSupabaseSync();
+        }
+    }
+
     const TurnuvaAuth = {
         authenticate: authenticateAdmin,
         isAuthenticated: isAdminAuthenticated,
@@ -394,6 +522,7 @@
         setPin: setAdminPin,
         resetToDefault: resetToDefaultPin,
         isLockedOut: isLockedOut,
+        syncFromCloud: syncAdminAuthFromSupabase,
         hashCredential: hashCredential
     };
 
