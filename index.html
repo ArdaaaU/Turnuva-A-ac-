@@ -1773,17 +1773,6 @@
                                         <button class="fixture-star-btn" data-star-id="fix-star-mac8"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
                                     </div>
-
-                                    <div class="fixture-row" id="fix-row-mac9" data-match="mac9">
-                                        <div class="fixture-cell-time" id="fix-time-mac9">19:00</div>
-                                        <div class="fixture-cell-matchup">
-                                            <span class="fixture-team-name home" id="fix-team1-mac9">wtk-2</span>
-                                            <span class="fixture-score-label" id="fix-score-mac9">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-mac9">hit-2</span>
-                                        </div>
-                                        <button class="fixture-star-btn" data-star-id="fix-star-mac9"
-                                            title="Favorilere Ekle" aria-label="Favori">☆</button>
-                                    </div>
                                 </div>
                             </div>
 
@@ -2107,12 +2096,8 @@
                 const m8 = data.mac8 || findMatch('mac-8') || matches[7];
                 renderMatchRow('mac8', m8);
 
-                // Maç 9 (Çarşamba • 19:00) — wtk-2 vs hit-2
-                const m9 = data.mac9 || findMatch('mac-9') || matches[8];
-                renderMatchRow('mac9', m9);
-
                 // Maç 10 (Perşembe • 18:00) — ic mekan tasarim-2 vs hit-1
-                const m10 = data.mac10 || findMatch('mac-10') || matches[9];
+                const m10 = data.mac10 || findMatch('mac-10') || matches[8];
                 renderMatchRow('mac10', m10);
 
                 const quarters = Array.isArray(data.quarters) ? data.quarters : (data.quarter ? [data.quarter] : []);

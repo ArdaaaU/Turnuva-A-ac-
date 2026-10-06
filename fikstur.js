@@ -114,18 +114,6 @@ const DEFAULT_TOURNAMENT_DATA = {
             winner: null
         },
         {
-            id: "mac-9",
-            date: "7 Ekim 2026",
-            day: "Çarşamba",
-            time: "19:00",
-            status: "bekleniyor",
-            team1: "wtk-2",
-            score1: null,
-            team2: "hit-2",
-            score2: null,
-            winner: null
-        },
-        {
             id: "mac-10",
             date: "8 Ekim 2026",
             day: "Perşembe",
@@ -306,18 +294,6 @@ const DEFAULT_TOURNAMENT_DATA = {
         score2: null,
         winner: null
     },
-    mac9: {
-        id: "mac-9",
-        date: "7 Ekim 2026",
-        day: "Çarşamba",
-        time: "19:00",
-        status: "bekleniyor",
-        team1: "wtk-2",
-        score1: null,
-        team2: "hit-2",
-        score2: null,
-        winner: null
-    },
     mac10: {
         id: "mac-10",
         date: "8 Ekim 2026",
@@ -332,7 +308,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v14';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v15';
 
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
