@@ -1,65 +1,94 @@
-
+// ============================================================
+// TURNUVA İSTATİSTİK VE PUAN DURUMU MODÜLÜ (STATİK / YEREL DEPOLAMA)
+// ============================================================
 
 const DEFAULT_TEAMS_ROSTER = {
     "hit-2": [
         "aykut",
-        "gazi",
         "mahmut",
         "cakir",
+        "gazi",
         "ibo",
         "mertcan"
     ],
     "wtk-2": [
-        "alpi",
+        "mehmet",
         "serhat",
-        "mehmet acar",
+        "muhammet",
         "oguzhan",
+        "goktug",
+        "mehmet acar",
+        "alpi",
         "sihir",
         "kurtmehmet",
-        "ali",
-        "goktug"
+        "ali"
     ],
     "hit-1": [
+        "davut",
         "can",
         "semih",
         "tunc",
         "baris",
         "enes",
-        "davut",
         "bilal",
         "arda"
     ],
     "maliye isletme -2": [
         "burak",
         "emirhan",
-        "umut",
+        "mert",
         "toprak",
+        "umut",
         "emir",
         "burak kus",
-        "yigit",
-        "mert"
+        "yigit"
     ],
     "ic mekan tasarim-2": [
         "enes",
         "ahmethan",
-        "sadik",
-        "samet"
+        "samet",
+        "sadik"
     ]
+};
+
+// Görseldeki Gol Krallığı verileri
+const DEFAULT_PLAYER_GOALS = {
+    "hit-2:aykut": 18,
+    "wtk-2:mehmet": 15,
+    "ic mekan tasarim-2:enes": 8,
+    "ic mekan tasarim-2:ahmethan": 6,
+    "hit-2:mahmut": 5,
+    "wtk-2:serhat": 5,
+    "maliye isletme -2:burak": 4,
+    "wtk-2:muhammet": 4,
+    "wtk-2:oguzhan": 4,
+    "hit-2:cakir": 3,
+    "hit-2:gazi": 2,
+    "ic mekan tasarim-2:samet": 2,
+    "wtk-2:goktug": 2,
+    "hit-1:davut": 1,
+    "maliye isletme -2:emirhan": 1,
+    "maliye isletme -2:mert": 1,
+    "maliye isletme -2:toprak": 1,
+    "wtk-2:mehmet acar": 1
 };
 
 const DEFAULT_PLAYERS = [];
 let _pCounter = 1;
 for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
     playerNames.forEach(pName => {
+        const goalKey = `${teamName}:${pName}`;
+        const goals = DEFAULT_PLAYER_GOALS[goalKey] || 0;
         DEFAULT_PLAYERS.push({
             id: `p-${_pCounter++}`,
             name: pName,
             team: teamName,
-            goals: 0
+            goals: goals
         });
     });
 }
 
+// Görseldeki Turnuva Puan Durumu (5 Takım Genel Sıralama)
 const DEFAULT_STANDINGS = [
     { id: "t-hit2", name: "hit-2", o: 3, g: 2, b: 0, m: 1, av: 18, p: 6 },
     { id: "t-wtk2", name: "wtk-2", o: 3, g: 2, b: 0, m: 1, av: 15, p: 6 },
@@ -68,12 +97,9 @@ const DEFAULT_STANDINGS = [
     { id: "t-hit1", name: "hit-1", o: 2, g: 0, b: 0, m: 2, av: -27, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v5';
-const STANDINGS_STORAGE_KEY = 'turnuva_standings_v5';
+const STATS_STORAGE_KEY = 'turnuva_stats_v6';
+const STANDINGS_STORAGE_KEY = 'turnuva_standings_v6';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
-
-let _statsRealtimeSubscribed = false;
-let _standingsRealtimeSubscribed = false;
 
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -105,84 +131,17 @@ function getPlayersData() {
     return defaultData;
 }
 
-async function savePlayersData(playersList, syncToCloud = true) {
-    
+async function savePlayersData(playersList, syncToCloud = false) {
     try {
         localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(playersList));
         window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: playersList } }));
     } catch (e) {
         console.error('İstatistik verisi yerel önbelleğe kaydedilemedi:', e);
     }
-
-    if (!syncToCloud) {
-        return { success: true, cloudSynced: false, method: 'local_only' };
-    }
-
-    if (typeof getSupabaseClient !== 'function') {
-        return { success: true, cloudSynced: false, method: 'no_client' };
-    }
-
-    const client = getSupabaseClient();
-    if (!client) {
-        return { success: true, cloudSynced: false, method: 'no_client' };
-    }
-
-    let cloudSynced = false;
-    let cloudTarget = null;
-    let lastError = null;
-
-    try {
-        const { error: sError } = await client
-            .from('turnuva_istatistik')
-            .upsert({
-                id: 'main',
-                data: playersList,
-                updated_at: new Date().toISOString()
-            });
-
-        if (!sError) {
-            cloudSynced = true;
-            cloudTarget = 'turnuva_istatistik';
-        } else {
-            lastError = sError;
-        }
-    } catch (e) {
-        lastError = e;
-    }
-
-    if (!cloudSynced) {
-        try {
-            const systemPayload = {
-                id: 'system-turnuva-istatistik',
-                title: 'SYSTEM_TOURNAMENT_STATS_v2',
-                category: 'system',
-                category_label: 'Sistem İstatistik Verisi',
-                date: new Date().toISOString(),
-                author: 'System',
-                pinned: false,
-                summary: 'Otomatik Turnuva Oyuncu ve İstatistik Veritabanı Kaydı',
-                content: JSON.stringify(playersList)
-            };
-
-            const { error: dError } = await client
-                .from('duyurular')
-                .upsert(systemPayload);
-
-            if (!dError) {
-                cloudSynced = true;
-                cloudTarget = 'duyurular (yedek sistem depolama)';
-            } else {
-                lastError = dError;
-            }
-        } catch (dErr) {
-            lastError = dErr;
-        }
-    }
-
-    return { success: true, cloudSynced, cloudTarget, error: lastError };
+    return { success: true, cloudSynced: false, method: 'local_only' };
 }
 
-async function addPlayer(playerObj, syncToCloud = true) {
+async function addPlayer(playerObj, syncToCloud = false) {
     const list = getPlayersData();
     const newPlayer = {
         id: 'p-' + Date.now(),
@@ -196,7 +155,7 @@ async function addPlayer(playerObj, syncToCloud = true) {
     return { player: newPlayer, ...res };
 }
 
-async function deletePlayer(playerId, syncToCloud = true) {
+async function deletePlayer(playerId, syncToCloud = false) {
     let list = getPlayersData();
     list = list.filter(p => String(p.id) !== String(playerId));
     const res = await savePlayersData(list, syncToCloud);
@@ -205,127 +164,26 @@ async function deletePlayer(playerId, syncToCloud = true) {
 
 async function resetPlayersData() {
     const defaultData = cloneObject(DEFAULT_PLAYERS);
-    await savePlayersData(defaultData, true);
+    await savePlayersData(defaultData, false);
     return defaultData;
 }
 
 async function fetchPlayersCloudData() {
-    if (typeof getSupabaseClient !== 'function') return null;
-    const client = getSupabaseClient();
-    if (!client) return null;
-
-    try {
-        const { data, error } = await client
-            .from('turnuva_istatistik')
-            .select('data')
-            .eq('id', 'main')
-            .maybeSingle();
-
-        if (!error && data && isValidTournamentRoster(data.data)) {
-            return data.data;
-        }
-    } catch (err) {
-        console.warn('turnuva_istatistik sorgulanamadı:', err);
-    }
-
-    try {
-        const { data: sData, error: sError } = await client
-            .from('duyurular')
-            .select('content')
-            .eq('id', 'system-turnuva-istatistik')
-            .maybeSingle();
-
-        if (!sError && sData && sData.content) {
-            const parsed = JSON.parse(sData.content);
-            if (isValidTournamentRoster(parsed)) {
-                return parsed;
-            }
-        }
-    } catch (dErr) {
-        console.warn('Yedek sistem istatistik kaydı sorgulanamadı:', dErr);
-    }
-
     return null;
 }
 
 async function initPlayersDataSync(onDataLoadedCallback) {
-    if (typeof getSupabaseClient !== 'function') return;
-    const client = getSupabaseClient();
-    if (!client) return;
-
-    try {
-        const cloudData = await fetchPlayersCloudData();
-        if (cloudData && isValidTournamentRoster(cloudData)) {
-            localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(cloudData));
-            window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: cloudData } }));
-            if (typeof onDataLoadedCallback === 'function') {
-                onDataLoadedCallback(cloudData);
-            }
-        } else {
-            
-            savePlayersData(getPlayersData(), true);
-        }
-    } catch (err) {
-        console.warn('İstatistik bulut verisi çekilemedi:', err);
-    }
-
-    if (!_statsRealtimeSubscribed) {
-        try {
-            client
-                .channel('realtime_turnuva_istatistik')
-                .on(
-                    'postgres_changes',
-                    { event: '*', schema: 'public', table: 'turnuva_istatistik', filter: 'id=eq.main' },
-                    payload => {
-                        if (payload.new && Array.isArray(payload.new.data)) {
-                            localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(payload.new.data));
-                            window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: payload.new.data } }));
-                            if (typeof onDataLoadedCallback === 'function') {
-                                onDataLoadedCallback(payload.new.data);
-                            }
-                        }
-                    }
-                )
-                .subscribe();
-
-            client
-                .channel('realtime_duyurular_istatistik')
-                .on(
-                    'postgres_changes',
-                    { event: '*', schema: 'public', table: 'duyurular', filter: 'id=eq.system-turnuva-istatistik' },
-                    payload => {
-                        if (payload.new && payload.new.content) {
-                            try {
-                                const parsed = JSON.parse(payload.new.content);
-                                if (Array.isArray(parsed)) {
-                                    localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(parsed));
-                                    window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: parsed } }));
-                                    if (typeof onDataLoadedCallback === 'function') {
-                                        onDataLoadedCallback(parsed);
-                                    }
-                                }
-                            } catch (pe) {
-                                console.warn('Realtime stats JSON hatası:', pe);
-                            }
-                        }
-                    }
-                )
-                .subscribe(status => {
-                    if (status === 'SUBSCRIBED') {
-                        _statsRealtimeSubscribed = true;
-                    }
-                });
-        } catch (rtErr) {
-            console.warn('Realtime istatistik başlatılamadı:', rtErr);
-        }
+    const localData = getPlayersData();
+    if (typeof onDataLoadedCallback === 'function') {
+        onDataLoadedCallback(localData);
     }
 }
 
 function isValidTournamentStandings(standingsList) {
-    if (!Array.isArray(standingsList) || standingsList.length === 0) return false;
-    const currentTeams = Object.keys(DEFAULT_TEAMS_ROSTER);
-    return currentTeams.every(teamName =>
-        standingsList.some(t => t.name && t.name.toLowerCase().trim() === teamName.toLowerCase().trim())
+    if (!Array.isArray(standingsList) || standingsList.length < 5) return false;
+    const requiredKeys = ['id', 'name', 'o', 'g', 'b', 'm', 'av', 'p'];
+    return standingsList.every(team => 
+        team && requiredKeys.every(k => k in team)
     );
 }
 
@@ -339,7 +197,7 @@ function getStandingsData() {
             }
         }
     } catch (e) {
-        console.warn('Puan durumu okunamadı:', e);
+        console.warn('Puan durumu yerel verisi okunamadı:', e);
     }
 
     const defaultData = cloneObject(DEFAULT_STANDINGS);
@@ -347,125 +205,30 @@ function getStandingsData() {
     return defaultData;
 }
 
-async function saveStandingsData(standingsList, syncToCloud = true) {
+async function saveStandingsData(standingsList, syncToCloud = false) {
     try {
         localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(standingsList));
         window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: standingsList } }));
     } catch (e) {
         console.error('Puan durumu yerel kaydedilemedi:', e);
     }
-
-    if (!syncToCloud) {
-        return { success: true, cloudSynced: false };
-    }
-
-    if (typeof getSupabaseClient !== 'function') return { success: true, cloudSynced: false };
-    const client = getSupabaseClient();
-    if (!client) return { success: true, cloudSynced: false };
-
-    let cloudSynced = false;
-    try {
-        const systemPayload = {
-            id: 'system-turnuva-standings',
-            title: 'SYSTEM_TOURNAMENT_STANDINGS_v3',
-            category: 'system',
-            category_label: 'Sistem Puan Durumu',
-            date: new Date().toISOString(),
-            author: 'System',
-            pinned: false,
-            summary: 'Tek Tablolu Puan Durumu Veritabanı Kaydı v3',
-            content: JSON.stringify(standingsList)
-        };
-
-        const { error } = await client.from('duyurular').upsert(systemPayload);
-        if (!error) cloudSynced = true;
-    } catch (err) {
-        console.warn('Puan durumu bulut kayıt istisnası:', err);
-    }
-
-    return { success: true, cloudSynced };
+    return { success: true, cloudSynced: false };
 }
 
 async function resetStandingsData() {
     const defaultData = cloneObject(DEFAULT_STANDINGS);
-    await saveStandingsData(defaultData, true);
+    await saveStandingsData(defaultData, false);
     return defaultData;
 }
 
 async function fetchStandingsCloudData() {
-    if (typeof getSupabaseClient !== 'function') return null;
-    const client = getSupabaseClient();
-    if (!client) return null;
-
-    try {
-        const { data, error } = await client
-            .from('duyurular')
-            .select('content')
-            .eq('id', 'system-turnuva-standings')
-            .maybeSingle();
-
-        if (!error && data && data.content) {
-            const parsed = JSON.parse(data.content);
-            if (isValidTournamentStandings(parsed)) return parsed;
-        }
-    } catch (e) {
-        console.warn('Puan durumu buluttan alınamadı:', e);
-    }
     return null;
 }
 
 async function initStandingsDataSync(onDataLoadedCallback) {
-    if (typeof getSupabaseClient !== 'function') return;
-    const client = getSupabaseClient();
-    if (!client) return;
-
-    try {
-        const cloudData = await fetchStandingsCloudData();
-        if (cloudData && isValidTournamentStandings(cloudData)) {
-            localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(cloudData));
-            window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: cloudData } }));
-            if (typeof onDataLoadedCallback === 'function') {
-                onDataLoadedCallback(cloudData);
-            }
-        } else {
-            saveStandingsData(getStandingsData(), true);
-        }
-    } catch (err) {
-        console.warn('Puan durumu ilk yükleme hatası:', err);
-    }
-
-    if (!_standingsRealtimeSubscribed) {
-        try {
-            client
-                .channel('realtime_duyurular_standings')
-                .on(
-                    'postgres_changes',
-                    { event: '*', schema: 'public', table: 'duyurular', filter: 'id=eq.system-turnuva-standings' },
-                    payload => {
-                        if (payload.new && payload.new.content) {
-                            try {
-                                const parsed = JSON.parse(payload.new.content);
-                                if (Array.isArray(parsed)) {
-                                    localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(parsed));
-                                    window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: parsed } }));
-                                    if (typeof onDataLoadedCallback === 'function') {
-                                        onDataLoadedCallback(parsed);
-                                    }
-                                }
-                            } catch (e) {
-                                console.warn('Realtime standings parse hatası:', e);
-                            }
-                        }
-                    }
-                )
-                .subscribe(status => {
-                    if (status === 'SUBSCRIBED') {
-                        _standingsRealtimeSubscribed = true;
-                    }
-                });
-        } catch (rtErr) {
-            console.warn('Realtime standings başlatılamadı:', rtErr);
-        }
+    const localData = getStandingsData();
+    if (typeof onDataLoadedCallback === 'function') {
+        onDataLoadedCallback(localData);
     }
 }
 
@@ -526,11 +289,6 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
     if (tournamentData.mac4) addCandidateMatch(tournamentData.mac4);
     if (tournamentData.mac5) addCandidateMatch(tournamentData.mac5);
     if (tournamentData.mac6) addCandidateMatch(tournamentData.mac6);
-    if (tournamentData.mac7) addCandidateMatch(tournamentData.mac7);
-    if (tournamentData.mac7b) addCandidateMatch(tournamentData.mac7b);
-    if (tournamentData.mac8) addCandidateMatch(tournamentData.mac8);
-    if (tournamentData.mac9) addCandidateMatch(tournamentData.mac9);
-    if (tournamentData.mac10) addCandidateMatch(tournamentData.mac10);
 
     if (Array.isArray(tournamentData.quarters)) {
         tournamentData.quarters.forEach(addCandidateMatch);
@@ -617,7 +375,7 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
     return { standings, matchesProcessed, details };
 }
 
-async function syncStandingsFromTournamentMatches(tournamentData, syncToCloud = true) {
+async function syncStandingsFromTournamentMatches(tournamentData, syncToCloud = false) {
     const calc = calculateStandingsFromTournamentMatches(tournamentData);
     const saveRes = await saveStandingsData(calc.standings, syncToCloud);
     return {
@@ -646,7 +404,7 @@ function getSortedStandings(standingsList) {
     return sorted;
 }
 
-function getTopScorers(playersList, sortBy = 'team') {
+function getTopScorers(playersList, sortBy = 'goals') {
     const list = playersList || getPlayersData();
     if (sortBy === 'goals') {
         return [...list].sort((a, b) => {
@@ -681,56 +439,12 @@ function getCardReports() {
 }
 
 function isAdminAuthenticated() {
-    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
-        return window.TurnuvaAuth.isAuthenticated();
-    }
     return false;
 }
 
 function authenticateAdmin(pin) {
-    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
-        return window.TurnuvaAuth.authenticate(pin);
-    }
     return false;
 }
 
 function logoutAdmin() {
-    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
-        window.TurnuvaAuth.logout();
-    }
-    try {
-        sessionStorage.removeItem('turnuva_admin_authenticated');
-        localStorage.removeItem('turnuva_admin_authenticated');
-        sessionStorage.removeItem(STATS_ADMIN_AUTH_KEY);
-    } catch (e) { }
-}
-
-if (typeof window !== 'undefined') {
-    const autoInitAll = (retries = 15) => {
-        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-            const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
-            if (client) {
-                initPlayersDataSync((cloudData) => {
-                    if (typeof renderAllStatsViews === 'function') {
-                        renderAllStatsViews(cloudData);
-                    }
-                });
-                initStandingsDataSync((cloudStandings) => {
-                    if (typeof renderStandingsTable === 'function') {
-                        renderStandingsTable(cloudStandings);
-                    }
-                });
-            } else if (retries > 0) {
-                setTimeout(() => autoInitAll(retries - 1), 150);
-            }
-        }
-    };
-
-    if (typeof document !== 'undefined') {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => autoInitAll());
-        } else {
-            autoInitAll();
-        }
-    }
 }

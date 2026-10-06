@@ -1099,8 +1099,8 @@
                         <span class="stat-header-badge" id="top-scorer-badge">34 Oyuncu</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 6px;">
-                        <button type="button" class="expand-all-btn" id="btn-sort-team" title="Takımlara Göre Alfabetik Sırala" style="background: var(--gold-glow); color: var(--gold); border-color: var(--gold);">🔤 Takımlara Göre (A-Z)</button>
-                        <button type="button" class="expand-all-btn" id="btn-sort-goals" title="En Çok Gol Atana Göre Sırala">⚽ Gole Göre</button>
+                        <button type="button" class="expand-all-btn" id="btn-sort-team" title="Takımlara Göre Alfabetik Sırala">🔤 Takımlara Göre (A-Z)</button>
+                        <button type="button" class="expand-all-btn" id="btn-sort-goals" title="En Çok Gol Atana Göre Sırala" style="background: var(--gold-glow); color: var(--gold); border-color: var(--gold);">⚽ Gole Göre</button>
                     </div>
                 </div>
                 <div class="stat-table-responsive" style="max-height: 580px; overflow-y: auto;">
@@ -1168,9 +1168,7 @@
     </div>
 
 
-    <!-- SUPABASE VE İSTATİSTİK MODÜLLERİ -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
+    <!-- İSTATİSTİK MODÜLLERİ -->
     <script src="fikstur.js"></script>
     <script src="istatistik.js"></script>
 
@@ -1282,7 +1280,7 @@
             const btnSortTeam = document.getElementById('btn-sort-team');
             const btnSortGoals = document.getElementById('btn-sort-goals');
 
-            let currentScorerSort = 'team'; 
+            let currentScorerSort = 'goals'; 
 
             function renderTopScorers(players) {
                 if (!topScorersTbody) return;

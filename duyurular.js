@@ -47,7 +47,7 @@ const DEFAULT_ANNOUNCEMENTS = [
     }
 ];
 
-const STORAGE_KEY = 'turnuva_duyurular_v4';
+const STORAGE_KEY = 'turnuva_duyurular_v5';
 const ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 
 let _realtimeSubscribed = false;
@@ -265,25 +265,6 @@ function addAnnouncement(item) {
 
     saveAnnouncements(list);
 
-    if (typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            client.from('duyurular').insert([{
-                id: newItem.id,
-                title: newItem.title,
-                category: newItem.category,
-                category_label: newItem.categoryLabel,
-                date: newItem.date,
-                author: newItem.author,
-                pinned: newItem.pinned,
-                summary: newItem.summary,
-                content: newItem.content
-            }]).then(({ error }) => {
-                if (error) console.error('Supabase ekleme hatası:', error);
-            }).catch(err => console.error('Supabase ekleme istisnası:', err));
-        }
-    }
-
     return newItem;
 }
 
@@ -304,25 +285,6 @@ function updateAnnouncement(id, updatedFields) {
 
     list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
     saveAnnouncements(list);
-
-    if (typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            const updated = list[index];
-            client.from('duyurular').update({
-                title: updated.title,
-                category: updated.category,
-                category_label: updated.categoryLabel,
-                date: updated.date,
-                author: updated.author,
-                pinned: updated.pinned,
-                summary: updated.summary,
-                content: updated.content
-            }).eq('id', String(id)).then(({ error }) => {
-                if (error) console.error('Supabase güncelleme hatası:', error);
-            }).catch(err => console.error('Supabase güncelleme istisnası:', err));
-        }
-    }
 
     return list[index];
 }
@@ -347,21 +309,6 @@ async function deleteAnnouncement(id) {
     list = list.filter(a => a && String(a.id) !== strId && !String(a.id).startsWith('gunun-maci-otomatik-'));
     saveAnnouncements(list);
 
-    // Supabase veritabanından kalıcı olarak sil
-    if (typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            try {
-                const { error } = await client.from('duyurular').delete().eq('id', strId);
-                if (error) {
-                    console.error('Supabase silme hatası:', error.message || error);
-                }
-            } catch (err) {
-                console.error('Supabase silme istisnası:', err);
-            }
-        }
-    }
-
     return getAnnouncements();
 }
 
@@ -371,113 +318,12 @@ function resetToDefaultAnnouncements() {
 }
 
 async function syncAnnouncementsFromSupabase() {
-    if (typeof getSupabaseClient !== 'function') return null;
-    const client = getSupabaseClient();
-    if (!client) return null;
-
-    try {
-        const { data, error } = await client
-            .from('duyurular')
-            .select('*')
-            .order('pinned', { ascending: false })
-            .order('created_at', { ascending: false });
-
-        if (error) {
-            console.warn('Supabase veri çekme uyarısı:', error.message);
-            return null;
-        }
-
-        if (Array.isArray(data)) {
-            const publicData = data.filter(item => item && (!item.id || !String(item.id).startsWith('system-')) && item.category !== 'system');
-            
-            const isInitialized = localStorage.getItem('turnuva_duyurular_initialized') === 'true';
-
-            // Eğer Supabase'de hiç kayıt yoksa ve localStorage henüz başlatılmamışsa, varsayılanları Supabase'e ekle
-            if (publicData.length === 0 && !isInitialized) {
-                try {
-                    const toInsert = DEFAULT_ANNOUNCEMENTS.map(d => ({
-                        id: d.id,
-                        title: d.title,
-                        category: d.category,
-                        category_label: d.categoryLabel,
-                        date: d.date,
-                        author: d.author,
-                        pinned: d.pinned,
-                        summary: d.summary,
-                        content: d.content
-                    }));
-                    await client.from('duyurular').insert(toInsert);
-                    saveAnnouncements(DEFAULT_ANNOUNCEMENTS);
-                    return DEFAULT_ANNOUNCEMENTS;
-                } catch (e) {}
-            }
-
-            const formatted = publicData.map(item => ({
-                id: item.id,
-                title: item.title,
-                category: item.category || 'genel',
-                categoryLabel: item.category_label || getCategoryLabel(item.category || 'genel'),
-                date: item.date,
-                author: item.author || 'Turnuva Komitesi',
-                pinned: Boolean(item.pinned),
-                summary: item.summary || (item.content ? item.content.slice(0, 110) + '...' : ''),
-                content: item.content || ''
-            }));
-
-            formatted.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-            saveAnnouncements(formatted);
-            return formatted;
-        }
-    } catch (e) {
-        console.warn('Supabase senkronizasyon istisnası:', e);
-    }
     return null;
 }
 
 function initSupabaseRealtime() {
-    if (_realtimeSubscribed) return;
-    if (typeof getSupabaseClient !== 'function') return;
-    const client = getSupabaseClient();
-    if (!client) return;
-
-    try {
-        client.channel('public:duyurular')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, (payload) => {
-                const targetRow = (payload && payload.new && payload.new.id) ? payload.new : (payload ? payload.old : null);
-                if (targetRow && (String(targetRow.id).startsWith('system-') || targetRow.category === 'system')) {
-                    return;
-                }
-                syncAnnouncementsFromSupabase();
-            })
-            .subscribe((status) => {
-                if (status === 'SUBSCRIBED') {
-                    _realtimeSubscribed = true;
-                }
-            });
-    } catch (err) {
-        console.warn('Supabase realtime abonelik hatası:', err);
-    }
 }
 
-if (typeof window !== 'undefined') {
-    const autoInit = (retries = 15) => {
-        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-            const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
-            if (client) {
-                syncAnnouncementsFromSupabase();
-                initSupabaseRealtime();
-            } else if (retries > 0) {
-                setTimeout(() => autoInit(retries - 1), 150);
-            }
-        }
-    };
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => autoInit());
-    } else {
-        autoInit();
-    }
-}
 
 function getCategoryLabel(cat) {
     switch (cat) {
