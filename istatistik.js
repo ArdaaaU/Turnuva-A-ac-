@@ -60,7 +60,7 @@ const DEFAULT_PLAYER_GOALS = {
     "hit-2:mahmut": 5,
     "wtk-2:serhat": 5,
     "maliye isletme -2:burak": 4,
-    "wtk-2:muhammet": 4,
+    "wtk-2:muhammet": 5,
     "wtk-2:oguzhan": 4,
     "hit-2:cakir": 3,
     "hit-2:gazi": 2,
@@ -91,14 +91,14 @@ for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
 // Görseldeki Turnuva Puan Durumu (5 Takım Genel Sıralama)
 const DEFAULT_STANDINGS = [
     { id: "t-hit2", name: "hit-2", o: 3, g: 2, b: 0, m: 1, av: 18, p: 6 },
-    { id: "t-wtk2", name: "wtk-2", o: 3, g: 2, b: 0, m: 1, av: 15, p: 6 },
+    { id: "t-wtk2", name: "wtk-2", o: 3, g: 2, b: 0, m: 1, av: 16, p: 6 },
     { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 2, g: 2, b: 0, m: 0, av: 3, p: 6 },
     { id: "t-maliye2", name: "maliye isletme -2", o: 2, g: 0, b: 0, m: 2, av: -9, p: 0 },
     { id: "t-hit1", name: "hit-1", o: 2, g: 0, b: 0, m: 2, av: -27, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v8';
-const STANDINGS_STORAGE_KEY = 'turnuva_standings_v6';
+const STATS_STORAGE_KEY = 'turnuva_stats_v9';
+const STANDINGS_STORAGE_KEY = 'turnuva_standings_v7';
 const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
 
 function cloneObject(obj) {

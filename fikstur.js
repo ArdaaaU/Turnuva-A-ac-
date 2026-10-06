@@ -71,7 +71,7 @@ const DEFAULT_TOURNAMENT_DATA = {
             time: "19:00",
             status: "bitti",
             team1: "wtk-2",
-            score1: 7,
+            score1: 8,
             team2: "ic mekan tasarim-2",
             score2: 9,
             winner: "team2"
@@ -217,7 +217,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         time: "19:00",
         status: "bitti",
         team1: "wtk-2",
-        score1: 7,
+        score1: 8,
         team2: "ic mekan tasarim-2",
         score2: 9,
         winner: "team2",
@@ -263,7 +263,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         time: "19:00",
         status: "bitti",
         team1: "wtk-2",
-        score1: 7,
+        score1: 8,
         team2: "ic mekan tasarim-2",
         score2: 9,
         winner: "team2"
@@ -330,7 +330,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v11';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v12';
 
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
