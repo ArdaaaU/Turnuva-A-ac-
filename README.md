@@ -92,8 +92,8 @@ Turnuvada toplam **5 takım** ve **34 lisanslı oyuncu** mücadele etmektedir:
 │   └── aykut, cakir, gazi, ibo, mahmut, mertcan, sazak, tamer
 ├── ic mekan tasarim-2 (4 Oyuncu)
 │   └── ahmethan, enes, sadik, samet
-├── maliye isletme -2 (8 Oyuncu)
-│   └── burak, burak kus, emir, emirhan, mert, toprak, umut, yigit
+├── maliye isletme -2 (9 Oyuncu)
+│   └── burak, burak kus, emir, emirhan, enes, mert, toprak, umut, yigit
 └── wtk-2 (8 Oyuncu)
     └── ali, alpi, goktug, mehmet, mehmet acar, muhammet, oguzhan, serhat
 ```
