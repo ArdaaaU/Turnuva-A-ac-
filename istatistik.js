@@ -54,7 +54,7 @@ const DEFAULT_TEAMS_ROSTER = {
 
 // Görseldeki Gol Krallığı verileri
 const DEFAULT_PLAYER_GOALS = {
-    "hit-2:aykut": 21,
+    "hit-2:aykut": 22,
     "wtk-2:mehmet": 18,
     "ic mekan tasarim-2:ahmethan": 9,
     "ic mekan tasarim-2:enes": 8,
