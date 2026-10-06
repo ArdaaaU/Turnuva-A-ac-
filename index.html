@@ -1768,14 +1768,14 @@
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
                                     </div>
 
-                                    <div class="fixture-row" id="fix-row-mac9" data-match="mac9">
-                                        <div class="fixture-cell-time" id="fix-time-mac9">19:00</div>
+                                    <div class="fixture-row" id="fix-row-mac7b" data-match="mac7b">
+                                        <div class="fixture-cell-time" id="fix-time-mac7b">19:00</div>
                                         <div class="fixture-cell-matchup">
-                                            <span class="fixture-team-name home" id="fix-team1-mac9">ic mekan tasarim-2</span>
-                                            <span class="fixture-score-label" id="fix-score-mac9">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-mac9">maliye isletme -2</span>
+                                            <span class="fixture-team-name home" id="fix-team1-mac7b">ic mekan tasarim-2</span>
+                                            <span class="fixture-score-label" id="fix-score-mac7b">v</span>
+                                            <span class="fixture-team-name away" id="fix-team2-mac7b">maliye isletme -2</span>
                                         </div>
-                                        <button class="fixture-star-btn" data-star-id="fix-star-mac9"
+                                        <button class="fixture-star-btn" data-star-id="fix-star-mac7b"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
                                     </div>
                                 </div>
@@ -1794,6 +1794,17 @@
                                             <span class="fixture-team-name away" id="fix-team2-mac8">hit-1</span>
                                         </div>
                                         <button class="fixture-star-btn" data-star-id="fix-star-mac8"
+                                            title="Favorilere Ekle" aria-label="Favori">☆</button>
+                                    </div>
+
+                                    <div class="fixture-row" id="fix-row-mac9" data-match="mac9">
+                                        <div class="fixture-cell-time" id="fix-time-mac9">19:00</div>
+                                        <div class="fixture-cell-matchup">
+                                            <span class="fixture-team-name home" id="fix-team1-mac9">wtk-2</span>
+                                            <span class="fixture-score-label" id="fix-score-mac9">v</span>
+                                            <span class="fixture-team-name away" id="fix-team2-mac9">hit-2</span>
+                                        </div>
+                                        <button class="fixture-star-btn" data-star-id="fix-star-mac9"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
                                     </div>
                                 </div>
@@ -2010,6 +2021,10 @@
                         </div>
                     </div>
 
+                    <div class="admin-section-box" style="border-left: 3px solid #3b82f6; background: rgba(59, 130, 246, 0.08); padding: 8px 12px; margin-top: 8px; margin-bottom: -4px;">
+                        <span style="font-weight: 800; font-size: 13px; color: #93c5fd;">📅 Salı • 6 Ekim 2026 Karşılaşmaları (2 Maç)</span>
+                    </div>
+
                     <div class="admin-section-box">
                         <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 7 — Salı • 18:00</span>
@@ -2046,8 +2061,46 @@
 
                     <div class="admin-section-box">
                         <div class="admin-section-header">
+                            <span class="admin-section-title">⚽ Maç 7B — Salı • 19:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Salı 2. Maç</span>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-mac7b-t1-name" placeholder="Takım 1 (ic mekan tasarim-2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-mac7b-t1-score" placeholder="-">
+                            </div>
+                            <div class="admin-team-row-edit">
+                                <input type="text" class="admin-team-input" id="admin-mac7b-t2-name" placeholder="Takım 2 (maliye isletme -2)">
+                                <input type="number" min="0" class="admin-score-input" id="admin-mac7b-t2-score" placeholder="-">
+                            </div>
+                        </div>
+                        <div class="admin-meta-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Durum:</label>
+                                <select class="admin-status-select" id="admin-mac7b-status">
+                                    <option value="bekleniyor">Bekleniyor</option>
+                                    <option value="canli">🔴 Canlı</option>
+                                    <option value="bitti">✅ Tamamlandı</option>
+                                </select>
+                                <input type="text" class="admin-text-input" id="admin-mac7b-time" placeholder="19:00" style="width: 100px;">
+                            </div>
+                            <div class="admin-winner-pills">
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Galip:</span>
+                                <button type="button" class="winner-btn" id="btn-mac7b-w-t1">Takım 1</button>
+                                <button type="button" class="winner-btn" id="btn-mac7b-w-t2">Takım 2</button>
+                                <button type="button" class="winner-btn" id="btn-mac7b-w-none">Belli Değil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section-box" style="border-left: 3px solid #10b981; background: rgba(16, 185, 129, 0.08); padding: 8px 12px; margin-top: 10px; margin-bottom: -4px;">
+                        <span style="font-weight: 800; font-size: 13px; color: #6ee7b7;">📅 Çarşamba • 7 Ekim 2026 Karşılaşmaları (2 Maç)</span>
+                    </div>
+
+                    <div class="admin-section-box">
+                        <div class="admin-section-header">
                             <span class="admin-section-title">⚽ Maç 8 — Çarşamba • 18:00</span>
-                            <span style="font-size: 12px; color: var(--text-dim);">Çarşamba Karşılaşması</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Çarşamba 1. Maç</span>
                         </div>
                         <div class="admin-grid-2">
                             <div class="admin-team-row-edit">
@@ -2080,16 +2133,16 @@
 
                     <div class="admin-section-box">
                         <div class="admin-section-header">
-                            <span class="admin-section-title">⚽ Maç 9 — Salı • 19:00</span>
-                            <span style="font-size: 12px; color: var(--text-dim);">Salı 2. Maç</span>
+                            <span class="admin-section-title">⚽ Maç 9 — Çarşamba • 19:00</span>
+                            <span style="font-size: 12px; color: var(--text-dim);">Çarşamba 2. Maç</span>
                         </div>
                         <div class="admin-grid-2">
                             <div class="admin-team-row-edit">
-                                <input type="text" class="admin-team-input" id="admin-mac9-t1-name" placeholder="Takım 1 (ic mekan tasarim-2)">
+                                <input type="text" class="admin-team-input" id="admin-mac9-t1-name" placeholder="Takım 1 (wtk-2)">
                                 <input type="number" min="0" class="admin-score-input" id="admin-mac9-t1-score" placeholder="-">
                             </div>
                             <div class="admin-team-row-edit">
-                                <input type="text" class="admin-team-input" id="admin-mac9-t2-name" placeholder="Takım 2 (maliye isletme -2)">
+                                <input type="text" class="admin-team-input" id="admin-mac9-t2-name" placeholder="Takım 2 (hit-2)">
                                 <input type="number" min="0" class="admin-score-input" id="admin-mac9-t2-score" placeholder="-">
                             </div>
                         </div>
@@ -2110,6 +2163,10 @@
                                 <button type="button" class="winner-btn" id="btn-mac9-w-none">Belli Değil</button>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="admin-section-box" style="border-left: 3px solid #8b5cf6; background: rgba(139, 92, 246, 0.08); padding: 8px 12px; margin-top: 10px; margin-bottom: -4px;">
+                        <span style="font-weight: 800; font-size: 13px; color: #c4b5fd;">📅 Perşembe • 8 Ekim 2026 Karşılaşması</span>
                     </div>
 
                     <div class="admin-section-box">
@@ -2804,13 +2861,17 @@
                 const m7 = data.mac7 || findMatch('mac-7') || matches[6];
                 renderMatchRow('mac7', m7);
 
-                // Maç 9 (Salı • 19:00) — ic mekan tasarim-2 vs maliye isletme -2
-                const m9 = data.mac9 || findMatch('mac-9') || matches[8];
-                renderMatchRow('mac9', m9);
+                // Maç 7B (Salı • 19:00) — ic mekan tasarim-2 vs maliye isletme -2
+                const m7b = data.mac7b || findMatch('mac-7b');
+                renderMatchRow('mac7b', m7b);
 
                 // Maç 8 (Çarşamba • 18:00) — maliye isletme -2 vs hit-1
                 const m8 = data.mac8 || findMatch('mac-8') || matches[7];
                 renderMatchRow('mac8', m8);
+
+                // Maç 9 (Çarşamba • 19:00) — wtk-2 vs hit-2
+                const m9 = data.mac9 || findMatch('mac-9') || matches[8];
+                renderMatchRow('mac9', m9);
 
                 // Maç 10 (Perşembe • 18:00) — ic mekan tasarim-2 vs hit-1
                 const m10 = data.mac10 || findMatch('mac-10') || matches[9];
@@ -3350,7 +3411,7 @@
                 const findMatch = (id) => matches.find(m => m.id === id);
 
                 // ------------------------------------------
-                // BU HAFTA OYNANACAK MAÇLAR (7, 8, 9, 10)
+                // BU HAFTA OYNANACAK MAÇLAR (7, 7B, 8, 9, 10)
                 // ------------------------------------------
                 // Maç 7 (Salı • 18:00) — hit-2 vs wtk-2
                 const m7 = data.mac7 || findMatch('mac-7') || matches[6] || {};
@@ -3362,6 +3423,16 @@
                 setInputValue('admin-mac7-time', m7.time || '18:00');
                 updateWinnerButtonGroup('mac7', m7.winner);
 
+                // Maç 7B (Salı • 19:00) — ic mekan tasarim-2 vs maliye isletme -2
+                const m7b = data.mac7b || findMatch('mac-7b') || {};
+                setInputValue('admin-mac7b-t1-name', m7b.team1 || 'ic mekan tasarim-2');
+                setInputValue('admin-mac7b-t1-score', m7b.score1 !== null && m7b.score1 !== undefined ? m7b.score1 : '');
+                setInputValue('admin-mac7b-t2-name', m7b.team2 || 'maliye isletme -2');
+                setInputValue('admin-mac7b-t2-score', m7b.score2 !== null && m7b.score2 !== undefined ? m7b.score2 : '');
+                setInputValue('admin-mac7b-status', m7b.status || 'bekleniyor');
+                setInputValue('admin-mac7b-time', m7b.time || '19:00');
+                updateWinnerButtonGroup('mac7b', m7b.winner);
+
                 // Maç 8 (Çarşamba • 18:00) — maliye isletme -2 vs hit-1
                 const m8 = data.mac8 || findMatch('mac-8') || matches[7] || {};
                 setInputValue('admin-mac8-t1-name', m8.team1 || 'maliye isletme -2');
@@ -3372,11 +3443,11 @@
                 setInputValue('admin-mac8-time', m8.time || '18:00');
                 updateWinnerButtonGroup('mac8', m8.winner);
 
-                // Maç 9 (Salı • 19:00) — ic mekan tasarim-2 vs maliye isletme -2
+                // Maç 9 (Çarşamba • 19:00) — wtk-2 vs hit-2
                 const m9 = data.mac9 || findMatch('mac-9') || matches[8] || {};
-                setInputValue('admin-mac9-t1-name', m9.team1 || 'ic mekan tasarim-2');
+                setInputValue('admin-mac9-t1-name', m9.team1 || 'wtk-2');
                 setInputValue('admin-mac9-t1-score', m9.score1 !== null && m9.score1 !== undefined ? m9.score1 : '');
-                setInputValue('admin-mac9-t2-name', m9.team2 || 'maliye isletme -2');
+                setInputValue('admin-mac9-t2-name', m9.team2 || 'hit-2');
                 setInputValue('admin-mac9-t2-score', m9.score2 !== null && m9.score2 !== undefined ? m9.score2 : '');
                 setInputValue('admin-mac9-status', m9.status || 'bekleniyor');
                 setInputValue('admin-mac9-time', m9.time || '19:00');
@@ -3602,6 +3673,7 @@
 
             // Kazanan butonları bağlama
             setupWinnerButtons('mac7', () => currentEditingTournament && currentEditingTournament.mac7);
+            setupWinnerButtons('mac7b', () => currentEditingTournament && currentEditingTournament.mac7b);
             setupWinnerButtons('mac8', () => currentEditingTournament && currentEditingTournament.mac8);
             setupWinnerButtons('mac9', () => currentEditingTournament && currentEditingTournament.mac9);
             setupWinnerButtons('mac10', () => currentEditingTournament && currentEditingTournament.mac10);
@@ -3617,7 +3689,7 @@
             setupWinnerButtons('semi2', () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[1]);
             setupWinnerButtons('final', () => currentEditingTournament && currentEditingTournament.final);
 
-            ['mac7', 'mac8', 'mac9', 'mac10', 'qf1', 'qf2', 'fix-m3', 'fix-m4', 'mac5', 'mac6', 'semi1', 'semi2', 'final'].forEach(attachScoreWinnerAutoSync);
+            ['mac7', 'mac7b', 'mac8', 'mac9', 'mac10', 'qf1', 'qf2', 'fix-m3', 'fix-m4', 'mac5', 'mac6', 'semi1', 'semi2', 'final'].forEach(attachScoreWinnerAutoSync);
 
             // 1. Ön Eleme Galibini 1. Yarı Finale Aktarma
             const btnAdvanceQf1ToSemi = document.getElementById('btn-advance-qf1-to-semi');
@@ -3846,7 +3918,7 @@
                 m6.winner = getSelectedWinner('mac6', m6.score1, m6.score2);
                 currentEditingTournament.mac6 = m6;
 
-                // 6. Bu Hafta Oynanacak Maçlar (Fikstür 7, 8, 9, 10)
+                // 6. Bu Hafta Oynanacak Maçlar (Fikstür 7, 7B, 8, 9, 10)
                 // Maç 7 (Salı • 18:00)
                 const m7 = currentEditingTournament.mac7 || {};
                 m7.id = m7.id || 'mac-7';
@@ -3862,6 +3934,21 @@
                 m7.winner = getSelectedWinner('mac7', m7.score1, m7.score2);
                 currentEditingTournament.mac7 = m7;
 
+                // Maç 7B (Salı • 19:00)
+                const m7b = currentEditingTournament.mac7b || {};
+                m7b.id = m7b.id || 'mac-7b';
+                m7b.date = '6 Ekim 2026';
+                m7b.day = 'Salı';
+                m7b.team1 = getInputValue('admin-mac7b-t1-name', 'ic mekan tasarim-2');
+                m7b.score1 = getInputScore('admin-mac7b-t1-score');
+                m7b.team2 = getInputValue('admin-mac7b-t2-name', 'maliye isletme -2');
+                m7b.score2 = getInputScore('admin-mac7b-t2-score');
+                m7b.status = getInputValue('admin-mac7b-status', 'bekleniyor');
+                m7b.time = getInputValue('admin-mac7b-time', '19:00');
+                m7b.note = '';
+                m7b.winner = getSelectedWinner('mac7b', m7b.score1, m7b.score2);
+                currentEditingTournament.mac7b = m7b;
+
                 // Maç 8 (Çarşamba • 18:00)
                 const m8 = currentEditingTournament.mac8 || {};
                 m8.id = m8.id || 'mac-8';
@@ -3876,14 +3963,14 @@
                 m8.winner = getSelectedWinner('mac8', m8.score1, m8.score2);
                 currentEditingTournament.mac8 = m8;
 
-                // Maç 9 (Salı • 19:00)
+                // Maç 9 (Çarşamba • 19:00)
                 const m9 = currentEditingTournament.mac9 || {};
                 m9.id = m9.id || 'mac-9';
-                m9.date = '6 Ekim 2026';
-                m9.day = 'Salı';
-                m9.team1 = getInputValue('admin-mac9-t1-name', 'ic mekan tasarim-2');
+                m9.date = '7 Ekim 2026';
+                m9.day = 'Çarşamba';
+                m9.team1 = getInputValue('admin-mac9-t1-name', 'wtk-2');
                 m9.score1 = getInputScore('admin-mac9-t1-score');
-                m9.team2 = getInputValue('admin-mac9-t2-name', 'maliye isletme -2');
+                m9.team2 = getInputValue('admin-mac9-t2-name', 'hit-2');
                 m9.score2 = getInputScore('admin-mac9-t2-score');
                 m9.status = getInputValue('admin-mac9-status', 'bekleniyor');
                 m9.time = getInputValue('admin-mac9-time', '19:00');
@@ -3894,7 +3981,8 @@
                 // Maç 10 (Perşembe • 18:00)
                 const m10 = currentEditingTournament.mac10 || {};
                 m10.id = m10.id || 'mac-10';
-                m10.date = 'Perşembe';
+                m10.date = '8 Ekim 2026';
+                m10.day = 'Perşembe';
                 m10.team1 = getInputValue('admin-mac10-t1-name', 'ic mekan tasarim-2');
                 m10.score1 = getInputScore('admin-mac10-t1-score');
                 m10.team2 = getInputValue('admin-mac10-t2-name', 'hit-1');
@@ -3959,6 +4047,7 @@
                     cloneObject(m5),
                     cloneObject(m6),
                     cloneObject(m7),
+                    cloneObject(m7b),
                     cloneObject(m8),
                     cloneObject(m9),
                     cloneObject(m10)
@@ -4110,7 +4199,7 @@
             });
 
             window.addEventListener('storage', (e) => {
-                if (e.key === 'turnuva_bracket_v5' || e.key === 'turnuva_bracket_v2') {
+                if (e.key === 'turnuva_bracket_v7' || e.key === 'turnuva_bracket_v6' || e.key === 'turnuva_bracket_v5' || e.key === 'turnuva_bracket_v2') {
                     renderAllTournamentViews();
                 }
                 if (e.key === 'turnuva_admin_authenticated') {

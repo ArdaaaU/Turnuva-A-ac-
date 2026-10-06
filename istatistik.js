@@ -527,6 +527,7 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
     if (tournamentData.mac5) addCandidateMatch(tournamentData.mac5);
     if (tournamentData.mac6) addCandidateMatch(tournamentData.mac6);
     if (tournamentData.mac7) addCandidateMatch(tournamentData.mac7);
+    if (tournamentData.mac7b) addCandidateMatch(tournamentData.mac7b);
     if (tournamentData.mac8) addCandidateMatch(tournamentData.mac8);
     if (tournamentData.mac9) addCandidateMatch(tournamentData.mac9);
     if (tournamentData.mac10) addCandidateMatch(tournamentData.mac10);

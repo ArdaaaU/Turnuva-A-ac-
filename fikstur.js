@@ -87,6 +87,19 @@ const DEFAULT_TOURNAMENT_DATA = {
         },
         
         {
+            id: "mac-7b",
+            date: "6 Ekim 2026",
+            day: "Salı",
+            time: "19:00",
+            status: "bekleniyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "maliye isletme -2",
+            score2: null,
+            winner: null
+        },
+        
+        {
             id: "mac-8",
             date: "7 Ekim 2026",
             day: "Çarşamba",
@@ -101,13 +114,13 @@ const DEFAULT_TOURNAMENT_DATA = {
         
         {
             id: "mac-9",
-            date: "6 Ekim 2026",
-            day: "Salı",
+            date: "7 Ekim 2026",
+            day: "Çarşamba",
             time: "19:00",
             status: "bekleniyor",
-            team1: "ic mekan tasarim-2",
+            team1: "wtk-2",
             score1: null,
-            team2: "maliye isletme -2",
+            team2: "hit-2",
             score2: null,
             winner: null
         },
@@ -264,6 +277,18 @@ const DEFAULT_TOURNAMENT_DATA = {
         score2: null,
         winner: null
     },
+    mac7b: {
+        id: "mac-7b",
+        date: "6 Ekim 2026",
+        day: "Salı",
+        time: "19:00",
+        status: "bekleniyor",
+        team1: "ic mekan tasarim-2",
+        score1: null,
+        team2: "maliye isletme -2",
+        score2: null,
+        winner: null
+    },
     mac8: {
         id: "mac-8",
         date: "7 Ekim 2026",
@@ -278,13 +303,13 @@ const DEFAULT_TOURNAMENT_DATA = {
     },
     mac9: {
         id: "mac-9",
-        date: "6 Ekim 2026",
-        day: "Salı",
+        date: "7 Ekim 2026",
+        day: "Çarşamba",
         time: "19:00",
         status: "bekleniyor",
-        team1: "ic mekan tasarim-2",
+        team1: "wtk-2",
         score1: null,
-        team2: "maliye isletme -2",
+        team2: "hit-2",
         score2: null,
         winner: null
     },
@@ -302,7 +327,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v5';
+const BRACKET_STORAGE_KEY = 'turnuva_bracket_v7';
 let _bracketRealtimeSubscribed = false;
 
 function cloneObject(obj) {
@@ -339,10 +364,8 @@ function ensureMatchesIncludeNewFixture(data) {
             if (!existing.day && defMatch.day) existing.day = defMatch.day;
             if (!existing.note && defMatch.note) existing.note = defMatch.note;
             
-            // 6 Ekim Fikstür güncellemesi: mac-7 ve mac-9 henüz oynanmadıysa otomatik yeni takımları ve saatleri ata
-            if ((defMatch.id === 'mac-7' || defMatch.id === 'mac-9') &&
-                (existing.status === 'bekleniyor' || !existing.status) &&
-                existing.score1 === null && existing.score2 === null) {
+            // Fikstür güncellemesi: Maç henüz bitmediyse takımları, tarihi ve saati doğrula
+            if ((defMatch.id === 'mac-7' || defMatch.id === 'mac-7b' || defMatch.id === 'mac-8' || defMatch.id === 'mac-9' || defMatch.id === 'mac-10') && existing.status !== 'bitti') {
                 existing.date = defMatch.date;
                 existing.day = defMatch.day;
                 existing.time = defMatch.time;
@@ -358,20 +381,35 @@ function ensureMatchesIncludeNewFixture(data) {
         if (id === 'mac-5' && !data.mac5) data.mac5 = m;
         if (id === 'mac-6' && !data.mac6) data.mac6 = m;
         if (id === 'mac-7') data.mac7 = m;
+        if (id === 'mac-7b') data.mac7b = m;
         if (id === 'mac-8') data.mac8 = m;
         if (id === 'mac-9') data.mac9 = m;
         if (id === 'mac-10') data.mac10 = m;
     });
 
-    // data.mac7 ve data.mac9 nesnelerini de güncelle
-    if (data.mac7 && (data.mac7.status === 'bekleniyor' || !data.mac7.status) && data.mac7.score1 === null && data.mac7.score2 === null) {
+    // Doğrudan maç nesnelerini de güncelle
+    if (data.mac7 && data.mac7.status !== 'bitti') {
         data.mac7.date = DEFAULT_TOURNAMENT_DATA.mac7.date;
         data.mac7.day = DEFAULT_TOURNAMENT_DATA.mac7.day;
         data.mac7.time = DEFAULT_TOURNAMENT_DATA.mac7.time;
         data.mac7.team1 = DEFAULT_TOURNAMENT_DATA.mac7.team1;
         data.mac7.team2 = DEFAULT_TOURNAMENT_DATA.mac7.team2;
     }
-    if (data.mac9 && (data.mac9.status === 'bekleniyor' || !data.mac9.status) && data.mac9.score1 === null && data.mac9.score2 === null) {
+    if (data.mac7b && data.mac7b.status !== 'bitti') {
+        data.mac7b.date = DEFAULT_TOURNAMENT_DATA.mac7b.date;
+        data.mac7b.day = DEFAULT_TOURNAMENT_DATA.mac7b.day;
+        data.mac7b.time = DEFAULT_TOURNAMENT_DATA.mac7b.time;
+        data.mac7b.team1 = DEFAULT_TOURNAMENT_DATA.mac7b.team1;
+        data.mac7b.team2 = DEFAULT_TOURNAMENT_DATA.mac7b.team2;
+    }
+    if (data.mac8 && data.mac8.status !== 'bitti') {
+        data.mac8.date = DEFAULT_TOURNAMENT_DATA.mac8.date;
+        data.mac8.day = DEFAULT_TOURNAMENT_DATA.mac8.day;
+        data.mac8.time = DEFAULT_TOURNAMENT_DATA.mac8.time;
+        data.mac8.team1 = DEFAULT_TOURNAMENT_DATA.mac8.team1;
+        data.mac8.team2 = DEFAULT_TOURNAMENT_DATA.mac8.team2;
+    }
+    if (data.mac9 && data.mac9.status !== 'bitti') {
         data.mac9.date = DEFAULT_TOURNAMENT_DATA.mac9.date;
         data.mac9.day = DEFAULT_TOURNAMENT_DATA.mac9.day;
         data.mac9.time = DEFAULT_TOURNAMENT_DATA.mac9.time;
@@ -384,7 +422,13 @@ function ensureMatchesIncludeNewFixture(data) {
 
 function getTournamentData() {
     try {
-        const stored = localStorage.getItem(BRACKET_STORAGE_KEY);
+        let stored = localStorage.getItem(BRACKET_STORAGE_KEY);
+        if (stored === null) {
+            const oldStored = localStorage.getItem('turnuva_bracket_v6') || localStorage.getItem('turnuva_bracket_v5') || localStorage.getItem('turnuva_bracket_v2');
+            if (oldStored !== null) {
+                stored = oldStored;
+            }
+        }
         if (stored !== null) {
             const parsed = JSON.parse(stored);
             if (isValidTournamentTree(parsed)) {
