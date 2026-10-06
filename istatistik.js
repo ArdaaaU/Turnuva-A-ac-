@@ -19,8 +19,6 @@ const DEFAULT_TEAMS_ROSTER = {
         "goktug",
         "mehmet acar",
         "alpi",
-        "sihir",
-        "kurtmehmet",
         "ali"
     ],
     "hit-1": [
@@ -108,7 +106,7 @@ function cloneObject(obj) {
 function isValidTournamentRoster(playersList) {
     if (!Array.isArray(playersList) || playersList.length < 20) return false;
     const currentTeams = Object.keys(DEFAULT_TEAMS_ROSTER);
-    return currentTeams.every(teamName => 
+    return currentTeams.every(teamName =>
         playersList.some(p => p.team && p.team.toLowerCase().trim() === teamName.toLowerCase().trim())
     );
 }
@@ -182,7 +180,7 @@ async function initPlayersDataSync(onDataLoadedCallback) {
 function isValidTournamentStandings(standingsList) {
     if (!Array.isArray(standingsList) || standingsList.length < 5) return false;
     const requiredKeys = ['id', 'name', 'o', 'g', 'b', 'm', 'av', 'p'];
-    return standingsList.every(team => 
+    return standingsList.every(team =>
         team && requiredKeys.every(k => k in team)
     );
 }
