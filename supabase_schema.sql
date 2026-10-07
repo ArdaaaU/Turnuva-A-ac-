@@ -1,10 +1,3 @@
--- ============================================================
--- TURNUVA AĞACI DUYURULAR TABLOSU VE İZİNLERİ (SUPABASE SQL)
--- ============================================================
--- Bu kodu Supabase panelinizde sol menüdeki "SQL Editor" kısmına
--- yapıştırıp sağ alttaki "Run" (veya Ctrl+Enter) butonuna basarak çalıştırınız.
-
--- 1. Duyurular Tablosunu Oluştur
 CREATE TABLE IF NOT EXISTS public.duyurular (
     id TEXT PRIMARY KEY,
     title TEXT NOT NULL,
@@ -18,39 +11,30 @@ CREATE TABLE IF NOT EXISTS public.duyurular (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 2. Güvenlik ve İzinler (Row Level Security - RLS)
 ALTER TABLE public.duyurular ENABLE ROW LEVEL SECURITY;
 
--- Ziyaretçilerin duyuruları okuma izni
 DROP POLICY IF EXISTS "Herkes duyuruları okuyabilir" ON public.duyurular;
 CREATE POLICY "Herkes duyuruları okuyabilir" 
 ON public.duyurular FOR SELECT 
 USING (true);
 
--- Duyuru ekleme izni
 DROP POLICY IF EXISTS "Duyuru ekleme izni" ON public.duyurular;
 CREATE POLICY "Duyuru ekleme izni" 
 ON public.duyurular FOR INSERT 
 WITH CHECK (true);
 
--- Duyuru güncelleme izni
 DROP POLICY IF EXISTS "Duyuru güncelleme izni" ON public.duyurular;
 CREATE POLICY "Duyuru güncelleme izni" 
 ON public.duyurular FOR UPDATE 
 USING (true);
 
--- Duyuru silme izni
 DROP POLICY IF EXISTS "Duyuru silme izni" ON public.duyurular;
 CREATE POLICY "Duyuru silme izni" 
 ON public.duyurular FOR DELETE 
 USING (true);
 
--- 3. Canlı (Realtime) Bildirimleri Aktif Et
--- Supabase veritabanında bir duyuru silindiğinde veya eklendiğinde
--- sitedeki tüm kullanıcıların ekranının anında güncellenmesi için:
 ALTER PUBLICATION supabase_realtime ADD TABLE public.duyurular;
 
--- 4. Başlangıç Varsayılan Duyuruları Ekle (Tablo boşsa)
 INSERT INTO public.duyurular (id, title, category, category_label, date, author, pinned, summary, content)
 VALUES 
 (
@@ -99,16 +83,12 @@ VALUES
 )
 ON CONFLICT (id) DO NOTHING;
 
--- ============================================================
--- 5. TURNUVA AĞACI VE FİKSTÜR TABLOSU (AĞAÇ & FİKSTÜR İÇİN)
--- ============================================================
 CREATE TABLE IF NOT EXISTS public.turnuva_fikstur (
     id TEXT PRIMARY KEY DEFAULT 'main',
     data JSONB NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- RLS Güvenlik Politikaları
 ALTER TABLE public.turnuva_fikstur ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Herkes fikstürü okuyabilir" ON public.turnuva_fikstur;
@@ -126,19 +106,14 @@ CREATE POLICY "Fikstür güncelleme izni"
 ON public.turnuva_fikstur FOR UPDATE 
 USING (true);
 
--- Realtime Dinleme
 ALTER PUBLICATION supabase_realtime ADD TABLE public.turnuva_fikstur;
 
--- ============================================================
--- 6. TURNUVA OYUNCU VE İSTATİSTİK TABLOSU (İSTATİSTİKLER İÇİN)
--- ============================================================
 CREATE TABLE IF NOT EXISTS public.turnuva_istatistik (
     id TEXT PRIMARY KEY DEFAULT 'main',
     data JSONB NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- RLS Güvenlik Politikaları
 ALTER TABLE public.turnuva_istatistik ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Herkes istatistikleri okuyabilir" ON public.turnuva_istatistik;
@@ -156,6 +131,4 @@ CREATE POLICY "İstatistik güncelleme izni"
 ON public.turnuva_istatistik FOR UPDATE 
 USING (true);
 
--- Realtime Dinleme
 ALTER PUBLICATION supabase_realtime ADD TABLE public.turnuva_istatistik;
-
