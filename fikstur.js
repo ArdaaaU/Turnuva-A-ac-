@@ -1,7 +1,3 @@
-// ============================================================
-// TURNUVA FİKSTÜR VE EŞLEŞME AĞACI MODÜLÜ (STATİK / YEREL DEPOLAMA)
-// ============================================================
-
 const DEFAULT_TOURNAMENT_DATA = {
     matches: [
         {
@@ -308,7 +304,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     }
 };
 
-const BRACKET_STORAGE_KEY = 'turnuva_bracket_v15';
+let inMemoryTournamentData = cloneObject(DEFAULT_TOURNAMENT_DATA);
 
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -322,30 +318,15 @@ function isValidTournamentTree(data) {
 }
 
 function getTournamentData() {
-    try {
-        let stored = localStorage.getItem(BRACKET_STORAGE_KEY);
-        if (stored !== null) {
-            const parsed = JSON.parse(stored);
-            if (isValidTournamentTree(parsed)) {
-                return parsed;
-            }
-        }
-    } catch (e) {
-        console.warn('Turnuva verisi okunamadı:', e);
+    if (!inMemoryTournamentData || !isValidTournamentTree(inMemoryTournamentData)) {
+        inMemoryTournamentData = cloneObject(DEFAULT_TOURNAMENT_DATA);
     }
-
-    const defaultData = cloneObject(DEFAULT_TOURNAMENT_DATA);
-    saveTournamentData(defaultData, false);
-    return defaultData;
+    return cloneObject(inMemoryTournamentData);
 }
 
 async function saveTournamentData(data, syncToCloud = false) {
-    try {
-        localStorage.setItem(BRACKET_STORAGE_KEY, JSON.stringify(data));
-        window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data } }));
-    } catch (e) {
-        console.error('Turnuva verisi yerel önbelleğe kaydedilemedi:', e);
-    }
+    inMemoryTournamentData = cloneObject(data);
+    window.dispatchEvent(new CustomEvent('turnuva_bracket_updated', { detail: { data: inMemoryTournamentData } }));
 
     return {
         success: true,
@@ -356,9 +337,9 @@ async function saveTournamentData(data, syncToCloud = false) {
 }
 
 async function resetTournamentData() {
-    const defaultData = cloneObject(DEFAULT_TOURNAMENT_DATA);
-    await saveTournamentData(defaultData, false);
-    return defaultData;
+    inMemoryTournamentData = cloneObject(DEFAULT_TOURNAMENT_DATA);
+    await saveTournamentData(inMemoryTournamentData, false);
+    return cloneObject(inMemoryTournamentData);
 }
 
 async function fetchTournamentCloudData() {
@@ -371,3 +352,4 @@ async function initTournamentDataSync(onDataLoadedCallback) {
         onDataLoadedCallback(localData);
     }
 }
+

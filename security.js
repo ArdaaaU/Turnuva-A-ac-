@@ -84,10 +84,6 @@
         'dee8e71a4b7ea0f08fac721680637e04dcc9bbe4e138d9a30288deb123e35763'
     ];
 
-    const SESSION_STORAGE_KEY = 'turnuva_admin_session_v2';
-    const CUSTOM_HASH_KEY = 'turnuva_admin_custom_hash_v2';
-    const ATTEMPTS_KEY = 'turnuva_auth_attempts_v2';
-    const LOCKOUT_KEY = 'turnuva_auth_lockout_v2';
     const SUPABASE_AUTH_ROW_ID = 'system-admin-auth';
 
     const SESSION_MAX_AGE_MS = 2 * 60 * 60 * 1000;
@@ -98,6 +94,7 @@
         { attempts: 10, durationMs: 30 * 60 * 1000 }
     ];
 
+    let _localCustomHash = null;
     let _cloudCustomHash = null;
     let _authRealtimeSubscribed = false;
 
@@ -111,17 +108,6 @@
         return sha256(SESSION_SALT + ':' + issuedAt + ':' + expiresAt + ':' + nonce + ':' + credentialHash);
     }
 
-    (function sanitizeLegacyStorage() {
-        try {
-            localStorage.removeItem('turnuva_admin_pin');
-
-            const localCustom = localStorage.getItem(CUSTOM_HASH_KEY);
-            if (localCustom && BLACKLISTED_HASHES.includes(localCustom)) {
-                localStorage.removeItem(CUSTOM_HASH_KEY);
-            }
-        } catch (e) { }
-    })();
-
     function getActiveHashes() {
         if (_cloudCustomHash && typeof _cloudCustomHash === 'string' && _cloudCustomHash.length === 64) {
             if (!BLACKLISTED_HASHES.includes(_cloudCustomHash)) {
@@ -129,16 +115,13 @@
             }
         }
 
-        try {
-            const localCustom = localStorage.getItem(CUSTOM_HASH_KEY);
-            if (localCustom && typeof localCustom === 'string' && localCustom.length === 64) {
-                if (!BLACKLISTED_HASHES.includes(localCustom)) {
-                    return [localCustom];
-                } else {
-                    localStorage.removeItem(CUSTOM_HASH_KEY);
-                }
+        if (_localCustomHash && typeof _localCustomHash === 'string' && _localCustomHash.length === 64) {
+            if (!BLACKLISTED_HASHES.includes(_localCustomHash)) {
+                return [_localCustomHash];
+            } else {
+                _localCustomHash = null;
             }
-        } catch (e) { }
+        }
 
         return DEFAULT_CREDENTIAL_HASHES;
     }
@@ -173,20 +156,11 @@
                     }
 
                     _cloudCustomHash = parsed.hash;
-                    try {
-                        localStorage.setItem(CUSTOM_HASH_KEY, parsed.hash);
-                    } catch (e) { }
 
-                    if (isAdminAuthenticated()) {
-                        const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
-                        if (raw) {
-                            try {
-                                const session = JSON.parse(raw);
-                                const expected = computeSessionSignature(session.issuedAt, session.expiresAt, session.nonce, parsed.hash);
-                                if (session.sig !== expected) {
-                                    logoutAdmin();
-                                }
-                            } catch (e) { }
+                    if (isAdminAuthenticated() && _inMemorySession) {
+                        const expected = computeSessionSignature(_inMemorySession.issuedAt, _inMemorySession.expiresAt, _inMemorySession.nonce, parsed.hash);
+                        if (_inMemorySession.sig !== expected) {
+                            logoutAdmin();
                         }
                     }
 
@@ -216,57 +190,47 @@
         } catch (err) { }
     }
 
+    let _inMemoryLockout = null;
+    let _inMemoryAttempts = 0;
+    let _inMemorySession = null;
+
     function isLockedOut() {
-        try {
-            const raw = localStorage.getItem(LOCKOUT_KEY);
-            if (raw) {
-                const lockData = JSON.parse(raw);
-                if (lockData && lockData.until && Date.now() < lockData.until) {
-                    const remainingSeconds = Math.ceil((lockData.until - Date.now()) / 1000);
-                    return { locked: true, remainingSeconds: remainingSeconds };
-                } else if (lockData && lockData.until && Date.now() >= lockData.until) {
-                    clearAuthLockouts();
-                }
-            }
-        } catch (e) { }
+        if (_inMemoryLockout && _inMemoryLockout.until && Date.now() < _inMemoryLockout.until) {
+            const remainingSeconds = Math.ceil((_inMemoryLockout.until - Date.now()) / 1000);
+            return { locked: true, remainingSeconds: remainingSeconds };
+        } else if (_inMemoryLockout && _inMemoryLockout.until && Date.now() >= _inMemoryLockout.until) {
+            clearAuthLockouts();
+        }
         return { locked: false, remainingSeconds: 0 };
     }
 
     function recordFailedAttempt() {
-        try {
-            let attempts = parseInt(localStorage.getItem(ATTEMPTS_KEY), 10) || 0;
-            attempts += 1;
-            localStorage.setItem(ATTEMPTS_KEY, attempts.toString());
+        _inMemoryAttempts += 1;
+        let attempts = _inMemoryAttempts;
 
-            let lockDuration = 0;
-            for (let i = LOCKOUT_TIERS.length - 1; i >= 0; i--) {
-                if (attempts >= LOCKOUT_TIERS[i].attempts) {
-                    lockDuration = LOCKOUT_TIERS[i].durationMs;
-                    break;
-                }
+        let lockDuration = 0;
+        for (let i = LOCKOUT_TIERS.length - 1; i >= 0; i--) {
+            if (attempts >= LOCKOUT_TIERS[i].attempts) {
+                lockDuration = LOCKOUT_TIERS[i].durationMs;
+                break;
             }
-
-            if (lockDuration > 0) {
-                const lockData = {
-                    until: Date.now() + lockDuration,
-                    attempts: attempts
-                };
-                localStorage.setItem(LOCKOUT_KEY, JSON.stringify(lockData));
-                return { locked: true, remainingSeconds: Math.ceil(lockDuration / 1000), attempts: attempts };
-            }
-
-            const attemptsLeft = Math.max(1, 5 - attempts);
-            return { locked: false, attemptsLeft: attemptsLeft, attempts: attempts };
-        } catch (e) {
-            return { locked: false, attemptsLeft: 3, attempts: 1 };
         }
+
+        if (lockDuration > 0) {
+            _inMemoryLockout = {
+                until: Date.now() + lockDuration,
+                attempts: attempts
+            };
+            return { locked: true, remainingSeconds: Math.ceil(lockDuration / 1000), attempts: attempts };
+        }
+
+        const attemptsLeft = Math.max(1, 5 - attempts);
+        return { locked: false, attemptsLeft: attemptsLeft, attempts: attempts };
     }
 
     function clearAuthLockouts() {
-        try {
-            localStorage.removeItem(ATTEMPTS_KEY);
-            localStorage.removeItem(LOCKOUT_KEY);
-        } catch (e) { }
+        _inMemoryAttempts = 0;
+        _inMemoryLockout = null;
     }
 
     function createSignedSession(matchingHash) {
@@ -275,51 +239,41 @@
         const nonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
         const signature = computeSessionSignature(issuedAt, expiresAt, nonce, matchingHash);
 
-        const sessionPayload = {
+        _inMemorySession = {
             authenticated: true,
             issuedAt: issuedAt,
             expiresAt: expiresAt,
             nonce: nonce,
             sig: signature
         };
-
-        try {
-            sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionPayload));
-            sessionStorage.setItem('turnuva_admin_authenticated', 'true');
-        } catch (e) { }
     }
 
     function isAdminAuthenticated() {
-        try {
-            const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
-            if (!raw) return false;
+        if (!_inMemorySession) return false;
 
-            const session = JSON.parse(raw);
-            if (!session || !session.sig || !session.issuedAt || !session.expiresAt || !session.nonce) {
-                logoutAdmin();
-                return false;
-            }
-
-            if (Date.now() > session.expiresAt) {
-                logoutAdmin();
-                return false;
-            }
-
-            const activeHashes = getActiveHashes();
-            const isValidSig = activeHashes.some(function (h) {
-                const expected = computeSessionSignature(session.issuedAt, session.expiresAt, session.nonce, h);
-                return session.sig === expected;
-            });
-
-            if (!isValidSig) {
-                logoutAdmin();
-                return false;
-            }
-
-            return true;
-        } catch (e) {
+        const session = _inMemorySession;
+        if (!session.sig || !session.issuedAt || !session.expiresAt || !session.nonce) {
+            logoutAdmin();
             return false;
         }
+
+        if (Date.now() > session.expiresAt) {
+            logoutAdmin();
+            return false;
+        }
+
+        const activeHashes = getActiveHashes();
+        const isValidSig = activeHashes.some(function (h) {
+            const expected = computeSessionSignature(session.issuedAt, session.expiresAt, session.nonce, h);
+            return session.sig === expected;
+        });
+
+        if (!isValidSig) {
+            logoutAdmin();
+            return false;
+        }
+
+        return true;
     }
 
     function authenticateAdmin(pin) {
@@ -384,11 +338,7 @@
     }
 
     function logoutAdmin() {
-        try {
-            sessionStorage.removeItem(SESSION_STORAGE_KEY);
-            sessionStorage.removeItem('turnuva_admin_authenticated');
-            localStorage.removeItem('turnuva_admin_authenticated');
-        } catch (e) { }
+        _inMemorySession = null;
 
         try {
             window.dispatchEvent(new CustomEvent('turnuva_auth_changed', {
@@ -422,9 +372,8 @@
         }
 
         try {
+            _localCustomHash = newHash;
             _cloudCustomHash = newHash;
-            localStorage.setItem(CUSTOM_HASH_KEY, newHash);
-            localStorage.removeItem('turnuva_admin_pin');
 
             createSignedSession(newHash);
 
@@ -466,9 +415,8 @@
             if (!activeHashes.includes(currentHash)) return false;
         }
         try {
+            _localCustomHash = null;
             _cloudCustomHash = null;
-            localStorage.removeItem(CUSTOM_HASH_KEY);
-            localStorage.removeItem('turnuva_admin_pin');
 
             if (typeof getSupabaseClient === 'function') {
                 const client = getSupabaseClient();

@@ -63,11 +63,11 @@ Modern, mobil uyumlu ve gerçek zamanlı (**Supabase Realtime**) senkronizasyon 
 
 ### ☁️ 5. Çift Katmanlı Bulut Eşitleme (Dual-Layer Sync)
 - **Supabase Realtime:** Bir yöneticinin girdiği skor, istatistik veya paylaştığı duyuru veritabanına anında yansır; sayfayı yenilemeye gerek kalmadan tüm bağlı cihazlarda canlı güncellenir.
-- **LocalStorage Fallback:** İnternet veya veritabanı kesintisi yaşansa bile yerel tarayıcı belleğine yedeklenerek veri kaybı önlenir.
+- **Bellek İçi (In-Memory) Veri:** Tarayıcı çerezlerine veya yerel depolamaya (LocalStorage) hiçbir veri yazılmaz; tüm veriler oturum süresince bellek üzerinde güvenli ve temiz bir biçimde tutulur.
 
 ### 🌓 6. Koyu / Açık Tema (Dark & Light Mode)
 - Özel HSL/Hex renk paleti ile tasarlanmış modern karanlık ve aydınlık temalar.
-- Kullanıcının tema tercihi (`localStorage`) üzerinde saklanır, sayfa yenilendiğinde tema parlaması (**flash of unstyled theme**) engellenir.
+- Sayfa açıkken tema anlık değiştirilebilir, çerez veya yerel depolama tutulmaz.
 
 ---
 
@@ -227,7 +227,7 @@ Tarayıcınızdan `http://localhost:8080` adresine gidin.
 - **Frontend:** HTML5, Semantik Etiketler, CSS3 (Modern Flexbox, CSS Grid, Glassmorphism, CSS Değişkenleri), Vanilla JavaScript (ES6+).
 - **Yazı Tipi:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (Google Fonts).
 - **Veritabanı & Canlı Yayın:** [Supabase](https://supabase.com) (PostgreSQL, Row Level Security, Realtime WebSockets).
-- **Yerel Depolama:** Browser LocalStorage API (Kesintisiz offline çalışma desteği).
+- **Bellek Yönetimi:** In-Memory JavaScript State (Tarayıcı çerezleri veya LocalStorage'a hiçbir veri kaydedilmez).
 - **Tasarım:** Tamamen responsive (Masaüstü, tablet ve mobil uyumlu).
 
 ---

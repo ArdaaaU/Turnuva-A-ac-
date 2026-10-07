@@ -48,7 +48,7 @@ const DEFAULT_TEAMS_ROSTER = {
         "enes",
         "ahmethan",
         "samet",
-        "sadik"
+        "emre"
     ]
 };
 
@@ -100,9 +100,8 @@ const DEFAULT_STANDINGS = [
     { id: "t-hit1", name: "hit-1", o: 2, g: 0, b: 0, m: 2, av: -27, p: 0 }
 ];
 
-const STATS_STORAGE_KEY = 'turnuva_stats_v11';
-const STANDINGS_STORAGE_KEY = 'turnuva_standings_v9';
-const STATS_ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
+let inMemoryPlayers = cloneObject(DEFAULT_PLAYERS);
+let inMemoryStandings = cloneObject(DEFAULT_STANDINGS);
 
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -117,30 +116,15 @@ function isValidTournamentRoster(playersList) {
 }
 
 function getPlayersData() {
-    try {
-        const stored = localStorage.getItem(STATS_STORAGE_KEY);
-        if (stored !== null) {
-            const parsed = JSON.parse(stored);
-            if (isValidTournamentRoster(parsed)) {
-                return parsed;
-            }
-        }
-    } catch (e) {
-        console.warn('İstatistik yerel verisi okunamadı:', e);
+    if (!inMemoryPlayers || !isValidTournamentRoster(inMemoryPlayers)) {
+        inMemoryPlayers = cloneObject(DEFAULT_PLAYERS);
     }
-
-    const defaultData = cloneObject(DEFAULT_PLAYERS);
-    savePlayersData(defaultData, false);
-    return defaultData;
+    return cloneObject(inMemoryPlayers);
 }
 
 async function savePlayersData(playersList, syncToCloud = false) {
-    try {
-        localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(playersList));
-        window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: playersList } }));
-    } catch (e) {
-        console.error('İstatistik verisi yerel önbelleğe kaydedilemedi:', e);
-    }
+    inMemoryPlayers = cloneObject(playersList);
+    window.dispatchEvent(new CustomEvent('turnuva_stats_updated', { detail: { players: inMemoryPlayers } }));
     return { success: true, cloudSynced: false, method: 'local_only' };
 }
 
@@ -166,9 +150,9 @@ async function deletePlayer(playerId, syncToCloud = false) {
 }
 
 async function resetPlayersData() {
-    const defaultData = cloneObject(DEFAULT_PLAYERS);
-    await savePlayersData(defaultData, false);
-    return defaultData;
+    inMemoryPlayers = cloneObject(DEFAULT_PLAYERS);
+    await savePlayersData(inMemoryPlayers, false);
+    return cloneObject(inMemoryPlayers);
 }
 
 async function fetchPlayersCloudData() {
@@ -191,37 +175,22 @@ function isValidTournamentStandings(standingsList) {
 }
 
 function getStandingsData() {
-    try {
-        const stored = localStorage.getItem(STANDINGS_STORAGE_KEY);
-        if (stored !== null) {
-            const parsed = JSON.parse(stored);
-            if (isValidTournamentStandings(parsed)) {
-                return parsed;
-            }
-        }
-    } catch (e) {
-        console.warn('Puan durumu yerel verisi okunamadı:', e);
+    if (!inMemoryStandings || !isValidTournamentStandings(inMemoryStandings)) {
+        inMemoryStandings = cloneObject(DEFAULT_STANDINGS);
     }
-
-    const defaultData = cloneObject(DEFAULT_STANDINGS);
-    saveStandingsData(defaultData, false);
-    return defaultData;
+    return cloneObject(inMemoryStandings);
 }
 
 async function saveStandingsData(standingsList, syncToCloud = false) {
-    try {
-        localStorage.setItem(STANDINGS_STORAGE_KEY, JSON.stringify(standingsList));
-        window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: standingsList } }));
-    } catch (e) {
-        console.error('Puan durumu yerel kaydedilemedi:', e);
-    }
+    inMemoryStandings = cloneObject(standingsList);
+    window.dispatchEvent(new CustomEvent('turnuva_standings_updated', { detail: { standings: inMemoryStandings } }));
     return { success: true, cloudSynced: false };
 }
 
 async function resetStandingsData() {
-    const defaultData = cloneObject(DEFAULT_STANDINGS);
-    await saveStandingsData(defaultData, false);
-    return defaultData;
+    inMemoryStandings = cloneObject(DEFAULT_STANDINGS);
+    await saveStandingsData(inMemoryStandings, false);
+    return cloneObject(inMemoryStandings);
 }
 
 async function fetchStandingsCloudData() {

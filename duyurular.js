@@ -47,19 +47,11 @@ const DEFAULT_ANNOUNCEMENTS = [
     }
 ];
 
-const STORAGE_KEY = 'turnuva_duyurular_v5';
-const ADMIN_AUTH_KEY = 'turnuva_admin_authenticated';
-
-let _realtimeSubscribed = false;
-
 function getActiveFixtureMatches() {
     let tData = null;
     try {
         if (typeof getTournamentData === 'function') {
             tData = getTournamentData();
-        } else {
-            const raw = localStorage.getItem('turnuva_bracket_v9') || localStorage.getItem('turnuva_bracket_v8');
-            if (raw) tData = JSON.parse(raw);
         }
     } catch (e) {}
 
@@ -88,11 +80,6 @@ function getActiveTournamentDay() {
             const urlParams = new URLSearchParams(window.location.search);
             const dParam = parseInt(urlParams.get('day') || urlParams.get('gun'), 10);
             if (dParam === 6 || dParam === 7 || dParam === 8) return dParam;
-        }
-        const sessionDay = sessionStorage.getItem('turnuva_active_fixture_day');
-        if (sessionDay) {
-            const sd = parseInt(sessionDay, 10);
-            if (sd === 6 || sd === 7 || sd === 8) return sd;
         }
     } catch (e) {}
 
@@ -181,25 +168,14 @@ if (typeof window !== 'undefined') {
     });
 }
 
+let inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
+
+function cloneObject(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 function getAnnouncements() {
-    let list = null;
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored !== null) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed)) {
-                list = parsed.filter(a => a && (!a.id || (!String(a.id).startsWith('system-') && !String(a.id).startsWith('gunun-maci-otomatik-'))) && a.category !== 'system');
-            }
-        }
-    } catch (e) {
-        console.warn('LocalStorage okunamadı:', e);
-    }
-    
-    // Yalnızca localStorage'da veri hiç başlatılmamışsa (null) varsayılan verileri yükle.
-    // Kullanıcı duyuruların tamamını sildiyse (boş dizi []), boş liste olarak kalmalıdır.
-    if (list === null) {
-        list = [...DEFAULT_ANNOUNCEMENTS];
-    }
+    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
 
     const dailyAnn = getDailyTournamentAnnouncement();
     if (dailyAnn) {
@@ -210,17 +186,12 @@ function getAnnouncements() {
 }
 
 function saveAnnouncements(list) {
+    const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
+    inMemoryAnnouncements = cloneObject(cleanList);
+    
     try {
-        const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanList));
-        localStorage.setItem('turnuva_duyurular_initialized', 'true');
-        
-        try {
-            window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
-        } catch (evErr) {}
-    } catch (e) {
-        console.error('LocalStorage kaydetme hatası:', e);
-    }
+        window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
+    } catch (evErr) {}
 }
 
 function getLatestAnnouncement() {
@@ -232,7 +203,7 @@ function getLatestAnnouncement() {
 }
 
 function addAnnouncement(item) {
-    const list = getAnnouncements().filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
+    const list = (inMemoryAnnouncements || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
     const newItem = {
         id: 'd-' + Date.now(),
         title: item.title,
@@ -262,7 +233,7 @@ function addAnnouncement(item) {
 }
 
 function updateAnnouncement(id, updatedFields) {
-    const list = getAnnouncements();
+    const list = cloneObject(inMemoryAnnouncements || []);
     const index = list.findIndex(a => String(a.id) === String(id));
     if (index === -1) return null;
 
@@ -286,19 +257,7 @@ async function deleteAnnouncement(id) {
     if (!id) return getAnnouncements();
     const strId = String(id).trim();
 
-    let list = [];
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored !== null) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed)) list = parsed;
-        } else {
-            list = [...DEFAULT_ANNOUNCEMENTS];
-        }
-    } catch (e) {
-        list = [...DEFAULT_ANNOUNCEMENTS];
-    }
-
+    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
     list = list.filter(a => a && String(a.id) !== strId && !String(a.id).startsWith('gunun-maci-otomatik-'));
     saveAnnouncements(list);
 
@@ -306,8 +265,9 @@ async function deleteAnnouncement(id) {
 }
 
 function resetToDefaultAnnouncements() {
-    saveAnnouncements(DEFAULT_ANNOUNCEMENTS);
-    return DEFAULT_ANNOUNCEMENTS;
+    inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
+    saveAnnouncements(inMemoryAnnouncements);
+    return cloneObject(DEFAULT_ANNOUNCEMENTS);
 }
 
 async function syncAnnouncementsFromSupabase() {
@@ -360,11 +320,6 @@ function logoutAdmin() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
         window.TurnuvaAuth.logout();
     }
-    try {
-        sessionStorage.removeItem('turnuva_admin_authenticated');
-        localStorage.removeItem('turnuva_admin_authenticated');
-        sessionStorage.removeItem(ADMIN_AUTH_KEY);
-    } catch (e) { }
 }
 
 function exportAnnouncementsJSON() {
