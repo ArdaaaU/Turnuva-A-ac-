@@ -109,15 +109,15 @@ function getDailyTournamentAnnouncement() {
 
         return {
             id: 'gunun-maci-otomatik-7',
-            title: `⚽ Günün Maçı (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8}`,
+            title: `⚽ Maç Sonucu (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8}`,
             category: 'mac',
-            categoryLabel: '⚽ Günün Maçı',
+            categoryLabel: '⚽ Maç Sonucu',
             date: '7 Ekim 2026',
             author: 'Turnuva Komitesi',
             pinned: true,
             isDynamic: true,
-            summary: `Bugün: ${time8} ${t1_8} 🆚 ${t2_8}`,
-            content: `🏆 Turnuvada 7 Ekim Çarşamba günü programı:\n\n⚡ ${time8} | ${t1_8} 🆚 ${t2_8}\n\nTüm futbolseverleri maçı izlemeye davet ediyor, takımlarımıza başarılar diliyoruz!`
+            summary: `7 Ekim Çarşamba oynanan maçta ${t2_8}, penaltılar sonucunda galip gelmiştir.`,
+            content: `🏆 7 Ekim Çarşamba günü saat ${time8}'de oynanan ${t1_8} 🆚 ${t2_8} karşılaşması penaltılar ile bitti ve maçı ${t2_8} kazandı!\n\nMücadele eden her iki takımımıza da tebrik eder, kalan maçlarında başarılar dileriz.`
         };
     } else if (day === 8) {
         const t1_10 = m10.team1 || 'ic mekan tasarim-2';

@@ -102,12 +102,13 @@ const DEFAULT_TOURNAMENT_DATA = {
             date: "7 Ekim 2026",
             day: "Çarşamba",
             time: "18:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "maliye isletme -2",
-            score1: null,
+            score1: "penaltılar",
             team2: "hit-1",
-            score2: null,
-            winner: null
+            score2: "ile bitti",
+            winner: "team2",
+            note: "Penaltılarla"
         },
         {
             id: "mac-10",
@@ -283,12 +284,13 @@ const DEFAULT_TOURNAMENT_DATA = {
         date: "7 Ekim 2026",
         day: "Çarşamba",
         time: "18:00",
-        status: "bekleniyor",
+        status: "bitti",
         team1: "maliye isletme -2",
-        score1: null,
+        score1: "penaltılar",
         team2: "hit-1",
-        score2: null,
-        winner: null
+        score2: "ile bitti",
+        winner: "team2",
+        note: "Penaltılarla"
     },
     mac10: {
         id: "mac-10",

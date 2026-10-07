@@ -1765,8 +1765,8 @@
                                         <div class="fixture-cell-matchup">
                                             <span class="fixture-team-name home" id="fix-team1-mac8">maliye isletme
                                                 -2</span>
-                                            <span class="fixture-score-label" id="fix-score-mac8">v</span>
-                                            <span class="fixture-team-name away" id="fix-team2-mac8">hit-1</span>
+                                            <span class="fixture-score-label has-score" id="fix-score-mac8">Penaltılar İle Bitti</span>
+                                            <span class="fixture-team-name away is-winner" id="fix-team2-mac8">hit-1</span>
                                         </div>
                                         <button class="fixture-star-btn" data-star-id="fix-star-mac8"
                                             title="Favorilere Ekle" aria-label="Favori">☆</button>
@@ -2079,7 +2079,14 @@
                     }
                     if (fixScore) {
                         if (m.score1 !== null && m.score1 !== '' && m.score2 !== null && m.score2 !== '') {
-                            fixScore.innerText = `${m.score1}-${m.score2}`;
+                            if (isNaN(m.score1) || isNaN(m.score2)) {
+                                fixScore.innerText = `${m.score1} ${m.score2}`;
+                            } else {
+                                fixScore.innerText = `${m.score1}-${m.score2}`;
+                            }
+                            fixScore.classList.add('has-score');
+                        } else if (m.status === 'bitti' && m.note) {
+                            fixScore.innerText = m.note;
                             fixScore.classList.add('has-score');
                         } else {
                             fixScore.innerText = 'v';
