@@ -134,7 +134,7 @@ function getDailyTournamentAnnouncement() {
             pinned: true,
             isDynamic: true,
             summary: `8 Ekim Perşembe günü oynanan karşılaşmada ${t1_10}, ${t2_10} karşısında 7-3 galip gelmiştir.`,
-            content: `🏆 8 Ekim Perşembe günü saat ${time10}'de oynanan karşılaşma sonucu:\n\n⚡ ${t1_10} 7 - 3 ${t2_10}\n\n⚽ Goller:\n• ${t1_10}: Ahmet (4), Samet (3)\n• ${t2_10}: Can (1), Davut (1), Sazak (1)\n\nKarşılaşmayı kazanan ${t1_10} takımını tebrik eder, mücadele eden her iki takımımıza da teşekkür ederiz!`
+            content: `🏆 8 Ekim Perşembe günü saat ${time10}'de oynanan karşılaşma sonucu:\n\n⚡ ${t1_10} 7 - 3 ${t2_10}\n\nKarşılaşmayı kazanan ${t1_10} takımını tebrik eder, mücadele eden her iki takımımıza da teşekkür ederiz!`
         };
     } else {
         const t1_7 = m7.team1 || 'hit-2';
