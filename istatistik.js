@@ -56,23 +56,23 @@ const DEFAULT_TEAMS_ROSTER = {
 const DEFAULT_PLAYER_GOALS = {
     "hit-2:aykut": 22,
     "wtk-2:mehmet": 18,
+    "ic mekan tasarim-2:ahmethan": 13,
     "maliye isletme -2:burak": 10,
-    "ic mekan tasarim-2:ahmethan": 9,
     "ic mekan tasarim-2:enes": 8,
+    "ic mekan tasarim-2:samet": 6,
     "hit-2:cakir": 5,
     "hit-2:mahmut": 5,
     "wtk-2:muhammet": 5,
     "wtk-2:serhat": 5,
+    "hit-1:davut": 4,
     "wtk-2:oguzhan": 4,
-    "hit-1:davut": 3,
     "hit-2:gazi": 3,
-    "ic mekan tasarim-2:samet": 3,
     "maliye isletme -2:toprak": 3,
+    "hit-1:can": 2,
+    "hit-2:sazak": 2,
     "maliye isletme -2:mert": 2,
     "wtk-2:goktug": 2,
-    "hit-1:can": 1,
     "hit-1:arda": 1,
-    "hit-2:sazak": 1,
     "maliye isletme -2:emirhan": 1,
     "maliye isletme -2:enes": 1,
     "wtk-2:mehmet acar": 1
@@ -96,9 +96,9 @@ for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
 // Görseldeki Turnuva Puan Durumu (5 Takım Genel Sıralama)
 const DEFAULT_STANDINGS = [
     { id: "t-hit2", name: "hit-2", o: 4, g: 3, b: 0, m: 1, av: 23, p: 9 },
+    { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 4, g: 3, b: 0, m: 1, av: 5, p: 9 },
     { id: "t-wtk2", name: "wtk-2", o: 4, g: 2, b: 0, m: 2, av: 11, p: 6 },
-    { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 3, g: 2, b: 0, m: 1, av: 1, p: 6 },
-    { id: "t-hit1", name: "hit-1", o: 3, g: 1, b: 0, m: 2, av: -28, p: 3 },
+    { id: "t-hit1", name: "hit-1", o: 4, g: 1, b: 0, m: 3, av: -32, p: 3 },
     { id: "t-maliye2", name: "maliye isletme -2", o: 4, g: 1, b: 0, m: 3, av: -6, p: 3 }
 ];
 

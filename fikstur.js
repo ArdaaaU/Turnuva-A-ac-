@@ -91,11 +91,11 @@ const DEFAULT_TOURNAMENT_DATA = {
             time: "19:00",
             status: "bitti",
             team1: "ic mekan tasarim-2",
-            score1: 3,
+            score1: "penaltılar",
             team2: "maliye isletme -2",
-            score2: 5,
+            score2: "ile bitti",
             winner: "team2",
-            note: "Penaltılarla"
+            note: "Penaltılar ile bitti"
         },
         {
             id: "mac-8",
@@ -115,12 +115,12 @@ const DEFAULT_TOURNAMENT_DATA = {
             date: "8 Ekim 2026",
             day: "Perşembe",
             time: "18:00",
-            status: "bekleniyor",
+            status: "bitti",
             team1: "ic mekan tasarim-2",
-            score1: null,
+            score1: 7,
             team2: "hit-1",
-            score2: null,
-            winner: null
+            score2: 3,
+            winner: "team1"
         }
     ],
 
@@ -273,11 +273,11 @@ const DEFAULT_TOURNAMENT_DATA = {
         time: "19:00",
         status: "bitti",
         team1: "ic mekan tasarim-2",
-        score1: 3,
+        score1: "penaltılar",
         team2: "maliye isletme -2",
-        score2: 5,
+        score2: "ile bitti",
         winner: "team2",
-        note: "Penaltılarla"
+        note: "Penaltılar ile bitti"
     },
     mac8: {
         id: "mac-8",
@@ -297,12 +297,12 @@ const DEFAULT_TOURNAMENT_DATA = {
         date: "8 Ekim 2026",
         day: "Perşembe",
         time: "18:00",
-        status: "bekleniyor",
+        status: "bitti",
         team1: "ic mekan tasarim-2",
-        score1: null,
+        score1: 7,
         team2: "hit-1",
-        score2: null,
-        winner: null
+        score2: 3,
+        winner: "team1"
     }
 };
 

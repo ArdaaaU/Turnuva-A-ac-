@@ -126,15 +126,15 @@ function getDailyTournamentAnnouncement() {
 
         return {
             id: 'gunun-maci-otomatik-8',
-            title: `⚽ Günün Maçı (8 Ekim Perşembe) — ${t1_10} vs ${t2_10}`,
+            title: `⚽ Maç Sonucu (8 Ekim Perşembe) — ${t1_10} 7-3 ${t2_10}`,
             category: 'mac',
-            categoryLabel: '⚽ Günün Maçı',
+            categoryLabel: '⚽ Maç Sonucu',
             date: '8 Ekim 2026',
             author: 'Turnuva Komitesi',
             pinned: true,
             isDynamic: true,
-            summary: `Bugün (8 Ekim Perşembe) saat ${time10}'de ${t1_10} ile ${t2_10} karşı karşıya geliyor.`,
-            content: `🏆 Turnuvada 8 Ekim Perşembe günü programı:\n\n⚡ ${time10} | ${t1_10} 🆚 ${t2_10}\n\nTüm futbolseverleri maçı izlemeye davet ediyor, takımlarımıza başarılar diliyoruz!`
+            summary: `8 Ekim Perşembe günü oynanan karşılaşmada ${t1_10}, ${t2_10} karşısında 7-3 galip gelmiştir.`,
+            content: `🏆 8 Ekim Perşembe günü saat ${time10}'de oynanan karşılaşma sonucu:\n\n⚡ ${t1_10} 7 - 3 ${t2_10}\n\n⚽ Goller:\n• ${t1_10}: Ahmet (4), Samet (3)\n• ${t2_10}: Can (1), Davut (1), Sazak (1)\n\nKarşılaşmayı kazanan ${t1_10} takımını tebrik eder, mücadele eden her iki takımımıza da teşekkür ederiz!`
         };
     } else {
         const t1_7 = m7.team1 || 'hit-2';
