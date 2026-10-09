@@ -121,6 +121,30 @@ const DEFAULT_TOURNAMENT_DATA = {
             team2: "hit-1",
             score2: 3,
             winner: "team1"
+        },
+        {
+            id: "mac-11",
+            date: "13 Ekim 2026",
+            day: "Salı",
+            time: "18:00",
+            status: "bekliyor",
+            team1: "wtk-2",
+            score1: null,
+            team2: "maliye isletme -2",
+            score2: null,
+            winner: null
+        },
+        {
+            id: "mac-12",
+            date: "13 Ekim 2026",
+            day: "Salı",
+            time: "19:00",
+            status: "bekliyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "hit-2",
+            score2: null,
+            winner: null
         }
     ],
 
@@ -303,6 +327,30 @@ const DEFAULT_TOURNAMENT_DATA = {
         team2: "hit-1",
         score2: 3,
         winner: "team1"
+    },
+    mac11: {
+        id: "mac-11",
+        date: "13 Ekim 2026",
+        day: "Salı",
+        time: "18:00",
+        status: "bekliyor",
+        team1: "wtk-2",
+        score1: null,
+        team2: "maliye isletme -2",
+        score2: null,
+        winner: null
+    },
+    mac12: {
+        id: "mac-12",
+        date: "13 Ekim 2026",
+        day: "Salı",
+        time: "19:00",
+        status: "bekliyor",
+        team1: "ic mekan tasarim-2",
+        score1: null,
+        team2: "hit-2",
+        score2: null,
+        winner: null
     }
 };
 

@@ -221,9 +221,9 @@ function findCanonicalTournamentTeam(inputName) {
         .trim();
 
     if (clean === 'hit2') return 'hit-2';
-    if (clean === 'wtk2') return 'wtk-2';
+    if (clean === 'wtk2' || clean === 'wtk' || clean.includes('wtk')) return 'wtk-2';
     if (clean === 'hit1') return 'hit-1';
-    if (clean.includes('maliye') || clean === 'maliyeisletme2') return 'maliye isletme -2';
+    if (clean.includes('maliye') || clean.includes('isletme') || clean === 'maliyeisletme2') return 'maliye isletme -2';
     if (clean.includes('mekan') || clean === 'icmekantasarim2') return 'ic mekan tasarim-2';
 
     return null;
@@ -268,6 +268,8 @@ function calculateStandingsFromTournamentMatches(tournamentData) {
     if (tournamentData.mac8) addCandidateMatch(tournamentData.mac8);
     if (tournamentData.mac9) addCandidateMatch(tournamentData.mac9);
     if (tournamentData.mac10) addCandidateMatch(tournamentData.mac10);
+    if (tournamentData.mac11) addCandidateMatch(tournamentData.mac11);
+    if (tournamentData.mac12) addCandidateMatch(tournamentData.mac12);
 
     if (Array.isArray(tournamentData.quarters)) {
         tournamentData.quarters.forEach(addCandidateMatch);

@@ -2,13 +2,24 @@
 
 const DEFAULT_ANNOUNCEMENTS = [
     {
+        id: "d-5",
+        title: "⚽ 13 Ekim Salı Yeni Maç Programı Açıklandı!",
+        category: "mac",
+        categoryLabel: "⚽ Maç Bilgisi",
+        date: "9 Ekim 2026",
+        author: "Turnuva Komitesi",
+        pinned: true,
+        summary: "13 Ekim Salı günü oynanacak maçlar: 18:00 WTK vs Maliye İşletme, 19:00 İç Mekan Tasarım vs HİT-2.",
+        content: "🏆 Turnuvamızda yeni hafta maç programı belirlenmiştir!\n\n13 Ekim 2026 Salı günü oynanacak karşılaşmalar:\n\n⚡ 18:00 | WTK 🆚 Maliye İşletme\n⚡ 19:00 | İç Mekan Tasarım 🆚 HİT-2\n\nTüm takımlarımıza ve sporcularımıza centilmence ve keyifli mücadeleler dileriz!"
+    },
+    {
         id: "d-1",
         title: "🏆 Turnuva 28 Eylül'de Başlıyor! Ön Eleme Maçları Açıklandı",
         category: "onemli",
         categoryLabel: "🚨 Önemli Duyuru",
         date: "28 Eylül 2026",
         author: "Turnuva Komitesi",
-        pinned: true,
+        pinned: false,
         summary: "28 Eylül Ön Eleme Maçları: 18:00 maliye isletme -2 vs wtk-2, 19:00 hit-1 vs hit-2. ic mekan tasarim-2 kura ile doğrudan yarı finale yükseldi.",
         content: "2026 Futbol Turnuvamız tüm coşkusuyla başlıyor! Ön Eleme maçları 28 Eylül 2026 tarihinde oynanacaktır:\n\n⚡ 18:00 | maliye isletme -2 vs wtk-2\n⚡ 19:00 | hit-1 vs hit-2\n\n⭐ ic mekan tasarim-2 kura sonucunda 1. Turu bay geçerek doğrudan 29 Eylül'deki Yarı Final'e yükselmiştir.\n\nTüm takımlarımıza ve sporcularımıza centilmence mücadeleler ve başarılar dileriz!"
     },
@@ -70,8 +81,14 @@ function getActiveFixtureMatches() {
     const m10 = (tData && tData.mac10) || findMatch('mac-10') || {
         time: '18:00', team1: 'ic mekan tasarim-2', team2: 'hit-1'
     };
+    const m11 = (tData && tData.mac11) || findMatch('mac-11') || {
+        time: '18:00', team1: 'wtk-2', team2: 'maliye isletme -2'
+    };
+    const m12 = (tData && tData.mac12) || findMatch('mac-12') || {
+        time: '19:00', team1: 'ic mekan tasarim-2', team2: 'hit-2'
+    };
 
-    return { m7, m7b, m8, m10 };
+    return { m7, m7b, m8, m10, m11, m12 };
 }
 
 function getActiveTournamentDay() {
@@ -79,7 +96,7 @@ function getActiveTournamentDay() {
         if (typeof window !== 'undefined' && window.location && window.location.search) {
             const urlParams = new URLSearchParams(window.location.search);
             const dParam = parseInt(urlParams.get('day') || urlParams.get('gun'), 10);
-            if (dParam === 6 || dParam === 7 || dParam === 8) return dParam;
+            if (dParam === 6 || dParam === 7 || dParam === 8 || dParam === 13) return dParam;
         }
     } catch (e) {}
 
@@ -88,21 +105,45 @@ function getActiveTournamentDay() {
     const month = now.getMonth(); 
 
     if (month === 9) { 
+        if (date === 6) return 6;
         if (date === 7) return 7;
-        if (date >= 8) return 8;
-        return 6; 
+        if (date === 8) return 8;
+        if (date >= 9) return 13;
+        return 13; 
     }
 
+    if (date === 6) return 6;
     if (date === 7) return 7;
     if (date === 8) return 8;
-    return 6; 
+    return 13; 
 }
 
 function getDailyTournamentAnnouncement() {
     const day = getActiveTournamentDay();
-    const { m7, m7b, m8, m10 } = getActiveFixtureMatches();
+    const { m7, m7b, m8, m10, m11, m12 } = getActiveFixtureMatches();
 
-    if (day === 7) {
+    if (day === 13) {
+        const t1_11 = m11.team1 || 'wtk-2';
+        const t2_11 = m11.team2 || 'maliye isletme -2';
+        const time11 = m11.time || '18:00';
+
+        const t1_12 = m12.team1 || 'ic mekan tasarim-2';
+        const t2_12 = m12.team2 || 'hit-2';
+        const time12 = m12.time || '19:00';
+
+        return {
+            id: 'gunun-maci-otomatik-13',
+            title: `⚽ Günün Maçları (13 Ekim Salı) — ${t1_11} vs ${t2_11} & ${t1_12} vs ${t2_12}`,
+            category: 'mac',
+            categoryLabel: '⚽ Günün Maçları',
+            date: '13 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `13 Ekim Salı günü 2 karşılaşma: ${time11} ${t1_11} 🆚 ${t2_11} ve ${time12} ${t1_12} 🆚 ${t2_12}`,
+            content: `🏆 Turnuva heyecanı 13 Ekim Salı günü tüm hızıyla devam ediyor!\n\n13 Ekim 2026 Salı günü oynanacak karşılaşmalar:\n\n⚡ ${time11} | ${t1_11} 🆚 ${t2_11}\n⚡ ${time12} | ${t1_12} 🆚 ${t2_12}\n\nFikstürde mücadele edecek olan tüm takımlarımıza ve sporcularımıza centilmence mücadeleler dileriz!`
+        };
+    } else if (day === 7) {
         const t1_8 = m8.team1 || 'maliye isletme -2';
         const t2_8 = m8.team2 || 'hit-1';
         const time8 = m8.time || '18:00';

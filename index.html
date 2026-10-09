@@ -1705,7 +1705,7 @@
             <div class="bracket-col fixture-bracket-col" id="col-quarter">
                 <div class="col-header">
                     <span class="col-title">📅 Turnuva Fikstürü</span>
-                    <span class="col-badge" id="qf-badge-date">6-8 Ekim 2026</span>
+                    <span class="col-badge" id="qf-badge-date">13 Ekim 2026</span>
                 </div>
                 <div class="col-content">
 
@@ -1718,9 +1718,44 @@
                         <div id="fixture-widget-body">
 
                             <div class="fixture-section-divider">
-                                <span>🔥 6-8 Ekim Fikstürü</span>
+                                <span>🔥 13 Ekim Fikstürü</span>
                                 <span
-                                    style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.2); color: #facc15; font-weight: 700;">Güncel</span>
+                                    style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.2); color: #facc15; font-weight: 700;">Yeni / Yaklaşan</span>
+                            </div>
+
+                            <div class="fixture-day-group">
+                                <div class="fixture-date-banner">
+                                    <span>Salı • 13 Ekim 2026</span>
+                                </div>
+                                <div class="fixture-rows">
+                                    <div class="fixture-row" id="fix-row-mac11" data-match="mac11">
+                                        <div class="fixture-cell-time" id="fix-time-mac11">18:00</div>
+                                        <div class="fixture-cell-matchup">
+                                            <span class="fixture-team-name home" id="fix-team1-mac11">wtk-2</span>
+                                            <span class="fixture-score-label" id="fix-score-mac11">v</span>
+                                            <span class="fixture-team-name away" id="fix-team2-mac11">maliye isletme -2</span>
+                                        </div>
+                                        <button class="fixture-star-btn" data-star-id="fix-star-mac11"
+                                            title="Favorilere Ekle" aria-label="Favori">☆</button>
+                                    </div>
+
+                                    <div class="fixture-row" id="fix-row-mac12" data-match="mac12">
+                                        <div class="fixture-cell-time" id="fix-time-mac12">19:00</div>
+                                        <div class="fixture-cell-matchup">
+                                            <span class="fixture-team-name home" id="fix-team1-mac12">ic mekan tasarim-2</span>
+                                            <span class="fixture-score-label" id="fix-score-mac12">v</span>
+                                            <span class="fixture-team-name away" id="fix-team2-mac12">hit-2</span>
+                                        </div>
+                                        <button class="fixture-star-btn" data-star-id="fix-star-mac12"
+                                            title="Favorilere Ekle" aria-label="Favori">☆</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fixture-section-divider past-matches">
+                                <span>📅 2. Hafta (6-8 Ekim Maçları)</span>
+                                <span
+                                    style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(148, 163, 184, 0.15); color: #cbd5e1; font-weight: 700;">Sonuçlar</span>
                             </div>
 
                             <div class="fixture-day-group">
@@ -2098,7 +2133,16 @@
                 const matches = Array.isArray(data.matches) ? data.matches : [];
                 const findMatch = (id) => matches.find(m => m.id === id);
 
-                // 1. BU HAFTA OYNANACAK YENİ MAÇLAR (Haftalık Kalan Maç Fikstürü)
+                // 1. YENİ MAÇLAR (13 Ekim Salı Fikstürü)
+                // Maç 11 (Salı • 18:00) — wtk-2 vs maliye isletme -2
+                const m11 = data.mac11 || findMatch('mac-11') || matches[10];
+                renderMatchRow('mac11', m11);
+
+                // Maç 12 (Salı • 19:00) — ic mekan tasarim-2 vs hit-2
+                const m12 = data.mac12 || findMatch('mac-12') || matches[11];
+                renderMatchRow('mac12', m12);
+
+                // 2. 2. HAFTA MAÇLARI (6-8 Ekim Fikstürü)
                 // Maç 7 (Salı • 18:00) — hit-2 vs wtk-2
                 const m7 = data.mac7 || findMatch('mac-7') || matches[6];
                 renderMatchRow('mac7', m7);
