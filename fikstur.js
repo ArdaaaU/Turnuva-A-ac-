@@ -124,7 +124,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         },
         {
             id: "mac-11",
-            date: "13 Ekim 2026",
+            date: "13 Ekim Salı",
             day: "Salı",
             time: "18:00",
             status: "bekliyor",
@@ -183,26 +183,26 @@ const DEFAULT_TOURNAMENT_DATA = {
         {
             id: "semi-1",
             title: "1. Yarı Final Maçı",
-            date: "30 Eylül 2026",
+            date: "13 Ekim Salı",
             time: "18:00",
-            status: "bitti",
-            team1: "ic mekan tasarim-2",
-            score1: 8,
-            team2: "hit-2",
-            score2: 7,
-            winner: "team1"
+            status: "bekliyor",
+            team1: "wtk-2",
+            score1: null,
+            team2: "maliye isletme -2",
+            score2: null,
+            winner: null
         },
         {
             id: "semi-2",
             title: "2. Yarı Final Maçı",
-            date: "30 Eylül 2026",
+            date: "13 Ekim Salı",
             time: "19:00",
-            status: "bitti",
-            team1: "wtk-2",
-            score1: 12,
-            team2: "hit-1",
-            score2: 1,
-            winner: "team1"
+            status: "bekliyor",
+            team1: "ic mekan tasarim-2",
+            score1: null,
+            team2: "hit-2",
+            score2: null,
+            winner: null
         }
     ],
 
@@ -222,16 +222,17 @@ const DEFAULT_TOURNAMENT_DATA = {
 
     final: {
         id: "final-match",
-        title: "Büyük Final",
-        date: "1 Ekim 2026",
-        time: "19:00",
-        status: "bitti",
-        team1: "wtk-2",
-        score1: 8,
-        team2: "ic mekan tasarim-2",
-        score2: 9,
-        winner: "team2",
-        champion: "ic mekan tasarim-2"
+        title: "Şampiyonluk Maçı",
+        date: "15 Ekim Perşembe",
+        day: "Perşembe",
+        time: "18:45",
+        status: "bekliyor",
+        team1: "Yarı Final 1 Galibi",
+        score1: null,
+        team2: "Yarı Final 2 Galibi",
+        score2: null,
+        winner: null,
+        champion: null
     },
 
     mac3: {
@@ -330,7 +331,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     },
     mac11: {
         id: "mac-11",
-        date: "13 Ekim 2026",
+        date: "13 Ekim Salı",
         day: "Salı",
         time: "18:00",
         status: "bekliyor",
@@ -342,7 +343,7 @@ const DEFAULT_TOURNAMENT_DATA = {
     },
     mac12: {
         id: "mac-12",
-        date: "13 Ekim 2026",
+        date: "13 Ekim Salı",
         day: "Salı",
         time: "19:00",
         status: "bekliyor",
