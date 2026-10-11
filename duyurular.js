@@ -85,7 +85,7 @@ function getActiveFixtureMatches() {
         time: '18:00', team1: 'wtk-2', team2: 'maliye isletme -2'
     };
     const m12 = (tData && tData.mac12) || findMatch('mac-12') || {
-        time: '19:00', team1: 'ic mekan tasarim-2', team2: 'hit-2'
+        time: '19:00', team1: 'hit-1', team2: 'hit-2'
     };
 
     return { m7, m7b, m8, m10, m11, m12 };
@@ -127,7 +127,7 @@ function getDailyTournamentAnnouncement() {
         const t2_11 = m11.team2 || 'maliye isletme -2';
         const time11 = m11.time || '18:00';
 
-        const t1_12 = m12.team1 || 'ic mekan tasarim-2';
+        const t1_12 = m12.team1 || 'hit-1';
         const t2_12 = m12.team2 || 'hit-2';
         const time12 = m12.time || '19:00';
 

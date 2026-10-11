@@ -1814,7 +1814,7 @@
                                 <div class="match-team-row" id="semi-2-row-1">
                                     <div class="team-label">
                                         <span class="team-dot"></span>
-                                        <span id="semi-2-team-1">ic mekan tasarim-2</span>
+                                        <span id="semi-2-team-1">hit-1</span>
                                     </div>
                                     <span class="score-pill" id="semi-2-score-1">-</span>
                                 </div>
@@ -1931,7 +1931,7 @@
                             <div class="fixture-row" id="fix-row-mac12" data-match="mac12">
                                 <div class="fixture-cell-time" id="fix-time-mac12">19:00</div>
                                 <div class="fixture-cell-matchup">
-                                    <span class="fixture-team-name home" id="fix-team1-mac12">ic mekan tasarim-2</span>
+                                    <span class="fixture-team-name home" id="fix-team1-mac12">hit-1</span>
                                     <span class="fixture-score-label" id="fix-score-mac12">v</span>
                                     <span class="fixture-team-name away" id="fix-team2-mac12">hit-2</span>
                                 </div>
@@ -2320,7 +2320,7 @@
                 const m11 = data.mac11 || findMatch('mac-11') || matches[10];
                 renderMatchRow('mac11', m11);
 
-                // Maç 12 (Salı • 19:00) — ic mekan tasarim-2 vs hit-2
+                // Maç 12 (Salı • 19:00) — hit-1 vs hit-2
                 const m12 = data.mac12 || findMatch('mac-12') || matches[11];
                 renderMatchRow('mac12', m12);
 
@@ -2421,7 +2421,7 @@
                         semi2Badge.innerText = formatStatusBadge(s2.status, s2.time || '19:00');
                         semi2Badge.className = 'match-status-badge ' + getStatusClass(s2.status);
                     }
-                    if (semi2T1) semi2T1.innerText = s2.team1 || 'ic mekan tasarim-2';
+                    if (semi2T1) semi2T1.innerText = s2.team1 || 'hit-1';
                     if (semi2S1) semi2S1.innerText = formatScoreDisplay(s2.score1);
                     if (semi2T2) semi2T2.innerText = s2.team2 || 'hit-2';
                     if (semi2S2) semi2S2.innerText = formatScoreDisplay(s2.score2);
