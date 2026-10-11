@@ -21,7 +21,8 @@ const DEFAULT_TEAMS_ROSTER = {
         "goktug",
         "mehmet acar",
         "alpi",
-        "ali"
+        "ali",
+        "ahmethan"
     ],
     "hit-1": [
         "davut",
@@ -46,7 +47,6 @@ const DEFAULT_TEAMS_ROSTER = {
     ],
     "ic mekan tasarim-2": [
         "enes",
-        "ahmethan",
         "samet",
         "emre"
     ]
@@ -56,7 +56,7 @@ const DEFAULT_TEAMS_ROSTER = {
 const DEFAULT_PLAYER_GOALS = {
     "hit-2:aykut": 22,
     "wtk-2:mehmet": 18,
-    "ic mekan tasarim-2:ahmethan": 13,
+    "wtk-2:ahmethan": 13,
     "maliye isletme -2:burak": 10,
     "ic mekan tasarim-2:enes": 8,
     "ic mekan tasarim-2:samet": 6,
