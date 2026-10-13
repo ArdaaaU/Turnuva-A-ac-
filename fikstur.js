@@ -127,24 +127,24 @@ const DEFAULT_TOURNAMENT_DATA = {
             date: "13 Ekim Salı",
             day: "Salı",
             time: "18:00",
-            status: "bekliyor",
+            status: "bitti",
             team1: "wtk-2",
-            score1: null,
+            score1: 11,
             team2: "maliye isletme -2",
-            score2: null,
-            winner: null
+            score2: 5,
+            winner: "team1"
         },
         {
             id: "mac-12",
             date: "13 Ekim 2026",
             day: "Salı",
             time: "19:00",
-            status: "bekliyor",
+            status: "bitti",
             team1: "hit-1",
-            score1: null,
+            score1: 4,
             team2: "hit-2",
-            score2: null,
-            winner: null
+            score2: 20,
+            winner: "team2"
         }
     ],
 
@@ -185,24 +185,24 @@ const DEFAULT_TOURNAMENT_DATA = {
             title: "1. Yarı Final Maçı",
             date: "13 Ekim Salı",
             time: "18:00",
-            status: "bekliyor",
+            status: "bitti",
             team1: "wtk-2",
-            score1: null,
+            score1: 11,
             team2: "maliye isletme -2",
-            score2: null,
-            winner: null
+            score2: 5,
+            winner: "team1"
         },
         {
             id: "semi-2",
             title: "2. Yarı Final Maçı",
             date: "13 Ekim Salı",
             time: "19:00",
-            status: "bekliyor",
+            status: "bitti",
             team1: "hit-1",
-            score1: null,
+            score1: 4,
             team2: "hit-2",
-            score2: null,
-            winner: null
+            score2: 20,
+            winner: "team2"
         }
     ],
 
@@ -227,9 +227,9 @@ const DEFAULT_TOURNAMENT_DATA = {
         day: "Perşembe",
         time: "18:45",
         status: "bekliyor",
-        team1: "Yarı Final 1 Galibi",
+        team1: "wtk-2",
         score1: null,
-        team2: "Yarı Final 2 Galibi",
+        team2: "hit-2",
         score2: null,
         winner: null,
         champion: null
@@ -334,24 +334,24 @@ const DEFAULT_TOURNAMENT_DATA = {
         date: "13 Ekim Salı",
         day: "Salı",
         time: "18:00",
-        status: "bekliyor",
+        status: "bitti",
         team1: "wtk-2",
-        score1: null,
+        score1: 11,
         team2: "maliye isletme -2",
-        score2: null,
-        winner: null
+        score2: 5,
+        winner: "team1"
     },
     mac12: {
         id: "mac-12",
         date: "13 Ekim Salı",
         day: "Salı",
         time: "19:00",
-        status: "bekliyor",
+        status: "bitti",
         team1: "hit-1",
-        score1: null,
+        score1: 4,
         team2: "hit-2",
-        score2: null,
-        winner: null
+        score2: 20,
+        winner: "team2"
     }
 };
 
