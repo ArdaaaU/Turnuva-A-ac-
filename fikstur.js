@@ -225,7 +225,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         title: "Şampiyonluk Maçı",
         date: "15 Ekim Perşembe",
         day: "Perşembe",
-        time: "18:45",
+        time: "",
         status: "bekliyor",
         team1: "wtk-2",
         score1: null,

@@ -1841,7 +1841,7 @@
                     <div class="card final-card bracket-match-card" id="bracket-card-final">
                         <div class="card-header">
                             <span class="card-tag"><span style="color: #f59e0b;">⭐</span> Şampiyonluk Maçı</span>
-                            <span class="card-date match-status-badge" id="final-card-date">18:45</span>
+                            <span class="card-date match-status-badge" id="final-card-date"></span>
                         </div>
                         <div class="match-card">
                             <div class="match-teams-box">
@@ -2447,7 +2447,14 @@
                     const row2 = document.getElementById('final-row-2');
                     const winnerPill = document.getElementById('final-winner-pill');
 
-                    if (finalDate) finalDate.innerText = f.time || '18:45';
+                    if (finalDate) {
+                        finalDate.innerText = f.time || '';
+                        if (!f.time) {
+                            finalDate.style.display = 'none';
+                        } else {
+                            finalDate.style.display = '';
+                        }
+                    }
 
                     // Yarı final galipleri varsa ve final takımı henüz varsayılan ise otomatik aktar
                     let finalTeam1 = f.team1 || 'Yarı Final 1 Galibi';

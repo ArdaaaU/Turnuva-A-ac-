@@ -10,7 +10,7 @@ const DEFAULT_ANNOUNCEMENTS = [
         author: "Turnuva Komitesi",
         pinned: true,
         summary: "13 Ekim Yarı Finaller: WTK-2 11 - 5 Maliye İşletme, HİT-2 20 - 4 HİT-1. Büyük Finalde WTK-2 ile HİT-2 karşılaşıyor!",
-        content: "🏆 Turnuvamızda yarı final heyecanı nefes kesen maçlarla tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşma Sonuçları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n(Goller: Mehmet 6, Ahmethan 3, Serhat 2 | Toprak 3, Burak 1, Emirhan 1)\n\n⚡ HİT-2: 20 - 4 HİT-1\n(Goller: Aykut 11, Mahmut 5, Çakır 2, Gazi 1, Tamer 1 | Davut 3, Can 1)\n\n👑 BÜYÜK FİNAL (15 Ekim Perşembe • 18:45):\n🔥 WTK-2 🆚 HİT-2\n\nFinale yükselen her iki takımımıza başarılar dileriz!"
+        content: "🏆 Turnuvamızda yarı final heyecanı nefes kesen maçlarla tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşma Sonuçları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n(Goller: Mehmet 6, Ahmethan 3, Serhat 2 | Toprak 3, Burak 1, Emirhan 1)\n\n⚡ HİT-2: 20 - 4 HİT-1\n(Goller: Aykut 11, Mahmut 5, Çakır 2, Gazi 1, Tamer 1 | Davut 3, Can 1)\n\n👑 BÜYÜK FİNAL (15 Ekim Perşembe):\n🔥 WTK-2 🆚 HİT-2\n\nFinale yükselen her iki takımımıza başarılar dileriz!"
     },
     {
         id: "d-1",
@@ -133,7 +133,7 @@ function getDailyTournamentAnnouncement() {
             pinned: true,
             isDynamic: true,
             summary: `Yarı Final Maçları: WTK-2 11 - 5 Maliye İşletme -2 & HİT-2 20 - 4 HİT-1. Finalistler: WTK-2 ve HİT-2!`,
-            content: `🏆 Yarı final heyecanı tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşmaları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n⚡ HİT-2: 20 - 4 HİT-1\n\n👑 15 Ekim Perşembe 18:45 Şampiyonluk Maçı: WTK-2 🆚 HİT-2`
+            content: `🏆 Yarı final heyecanı tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşmaları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n⚡ HİT-2: 20 - 4 HİT-1\n\n👑 15 Ekim Perşembe Şampiyonluk Maçı: WTK-2 🆚 HİT-2`
         };
     } else if (day === 7) {
         const t1_8 = m8.team1 || 'maliye isletme -2';
