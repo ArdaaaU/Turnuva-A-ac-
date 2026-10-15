@@ -3,14 +3,14 @@
 const DEFAULT_ANNOUNCEMENTS = [
     {
         id: "d-6",
-        title: "👑 2026 Turnuva Şampiyonu: HİT-2! Kupa Sahibini Buldu 🏆",
+        title: "👑 2026 Turnuva Şampiyonu HİT-2! Kupa Sahibini Buldu 🏆",
         category: "mac",
-        categoryLabel: "🏆 Şampiyonluk & Final",
+        categoryLabel: "🏆 Şampiyonluk & Ödüller",
         date: "15 Ekim 2026",
         author: "Turnuva Komitesi",
         pinned: true,
-        summary: "Büyük Finalde HİT-2, WTK-2'yi 6-3 mağlup ederek 2026 Turnuva Şampiyonu oldu! Gol krallığında Aykut zirveyi perçinledi.",
-        content: "🏆 2026 Turnuvası muhteşem bir Büyük Final maçıyla sona erdi!\n\n👑 15 Ekim 2026 Perşembe - Büyük Final Sonucu:\n⚡ HİT-2: 6 - 3 :WTK-2\n\n⚽ Final Maçı Golleri:\n• HİT-2: Aykut (4), Gazi (1), Mahmut (1)\n• WTK-2: Ahmethan (2), Serhat (1)\n\n🥇 Turnuva Şampiyonu olan HİT-2 takımını ve turnuvaya renk katan tüm sporcularımızı tebrik ederiz!"
+        summary: "Büyük Finali kazanan HİT-2 turnuva şampiyonu oldu! Gol Kralı Aykut, En İyi Kaleci ise Gazi oldu.",
+        content: "🏆 2026 Futbol Turnuvamız nefes kesen Büyük Final mücadelesiyle tamamlandı!\n\n👑 BÜYÜK FİNAL SKORU:\n⚡ HİT-2: 6 - 3 WTK-2\n\n🌟 TURNUVA BİREYSEL ÖDÜLLERİ:\n🥇 2026 Turnuva Şampiyonu: HİT-2\n👑 Turnuvanın Gol Kralı: Aykut\n🧤 Turnuvanın En İyi Kalecisi: Gazi\n\nŞampiyon HİT-2 takımını, turnuva boyunca harika bir mücadele sergileyen finalist WTK-2'yi ve turnuvaya emek veren tüm takımlarımızı gönülden tebrik ederiz!"
     },
     {
         id: "d-5",
