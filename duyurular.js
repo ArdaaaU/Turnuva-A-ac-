@@ -107,7 +107,7 @@ function getActiveTournamentDay() {
         if (typeof window !== 'undefined' && window.location && window.location.search) {
             const urlParams = new URLSearchParams(window.location.search);
             const dParam = parseInt(urlParams.get('day') || urlParams.get('gun'), 10);
-            if (dParam === 6 || dParam === 7 || dParam === 8 || dParam === 13) return dParam;
+            if (dParam === 6 || dParam === 7 || dParam === 8 || dParam === 13 || dParam === 15) return dParam;
         }
     } catch (e) {}
 
@@ -115,25 +115,30 @@ function getActiveTournamentDay() {
     const date = now.getDate();
     const month = now.getMonth(); 
 
-    if (month === 9) { 
+    if (month === 9) { // Ekim (0-indexed 9)
         if (date === 6) return 6;
         if (date === 7) return 7;
         if (date === 8) return 8;
-        if (date >= 9) return 13;
-        return 13; 
+        if (date >= 9 && date < 15) return 13;
+        if (date >= 15) return 15;
+        return 15; 
     }
 
     if (date === 6) return 6;
     if (date === 7) return 7;
     if (date === 8) return 8;
-    return 13; 
+    if (date >= 9 && date < 15) return 13;
+    return 15; 
 }
 
 function getDailyTournamentAnnouncement() {
     const day = getActiveTournamentDay();
     const { m7, m7b, m8, m10, m11, m12 } = getActiveFixtureMatches();
 
-    if (day === 13) {
+    if (day === 15) {
+        // Büyük Final günü ve sonrası için DEFAULT_ANNOUNCEMENTS içindeki 'd-6' Şampiyonluk duyurusu en başta gösterilir
+        return null;
+    } else if (day === 13) {
         return {
             id: 'gunun-maci-otomatik-13',
             title: `🏆 Yarı Final Sonuçları (13 Ekim Salı) — Finalistler Belirlendi!`,
