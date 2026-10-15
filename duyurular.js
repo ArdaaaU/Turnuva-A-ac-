@@ -2,13 +2,24 @@
 
 const DEFAULT_ANNOUNCEMENTS = [
     {
+        id: "d-6",
+        title: "👑 2026 Turnuva Şampiyonu: HİT-2! Kupa Sahibini Buldu 🏆",
+        category: "mac",
+        categoryLabel: "🏆 Şampiyonluk & Final",
+        date: "15 Ekim 2026",
+        author: "Turnuva Komitesi",
+        pinned: true,
+        summary: "Büyük Finalde HİT-2, WTK-2'yi 6-3 mağlup ederek 2026 Turnuva Şampiyonu oldu! Gol krallığında Aykut zirveyi perçinledi.",
+        content: "🏆 2026 Turnuvası muhteşem bir Büyük Final maçıyla sona erdi!\n\n👑 15 Ekim 2026 Perşembe - Büyük Final Sonucu:\n⚡ HİT-2: 6 - 3 :WTK-2\n\n⚽ Final Maçı Golleri:\n• HİT-2: Aykut (4), Gazi (1), Mahmut (1)\n• WTK-2: Ahmethan (2), Serhat (1)\n\n🥇 Turnuva Şampiyonu olan HİT-2 takımını ve turnuvaya renk katan tüm sporcularımızı tebrik ederiz!"
+    },
+    {
         id: "d-5",
         title: "🔥 Yarı Final Maçları Tamamlandı! Büyük Final: WTK vs HİT-2",
         category: "mac",
         categoryLabel: "🏆 Yarı Final Sonuçları",
         date: "13 Ekim 2026",
         author: "Turnuva Komitesi",
-        pinned: true,
+        pinned: false,
         summary: "13 Ekim Yarı Finaller: WTK-2 11 - 5 Maliye İşletme, HİT-2 20 - 4 HİT-1. Büyük Finalde WTK-2 ile HİT-2 karşılaşıyor!",
         content: "🏆 Turnuvamızda yarı final heyecanı nefes kesen maçlarla tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşma Sonuçları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n(Goller: Mehmet 6, Ahmethan 3, Serhat 2 | Toprak 3, Burak 1, Emirhan 1)\n\n⚡ HİT-2: 20 - 4 HİT-1\n(Goller: Aykut 11, Mahmut 5, Çakır 2, Gazi 1, Tamer 1 | Davut 3, Can 1)\n\n👑 BÜYÜK FİNAL (15 Ekim Perşembe):\n🔥 WTK-2 🆚 HİT-2\n\nFinale yükselen her iki takımımıza başarılar dileriz!"
     },

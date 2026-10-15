@@ -145,6 +145,19 @@ const DEFAULT_TOURNAMENT_DATA = {
             team2: "hit-2",
             score2: 20,
             winner: "team2"
+        },
+        {
+            id: "final-match",
+            date: "15 Ekim 2026",
+            day: "Perşembe",
+            time: "19:00",
+            status: "bitti",
+            team1: "wtk-2",
+            score1: 3,
+            team2: "hit-2",
+            score2: 6,
+            winner: "team2",
+            champion: "hit-2"
         }
     ],
 
@@ -225,14 +238,14 @@ const DEFAULT_TOURNAMENT_DATA = {
         title: "Şampiyonluk Maçı",
         date: "15 Ekim Perşembe",
         day: "Perşembe",
-        time: "",
-        status: "bekliyor",
+        time: "19:00",
+        status: "bitti",
         team1: "wtk-2",
-        score1: null,
+        score1: 3,
         team2: "hit-2",
-        score2: null,
-        winner: null,
-        champion: null
+        score2: 6,
+        winner: "team2",
+        champion: "hit-2"
     },
 
     mac3: {

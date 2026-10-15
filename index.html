@@ -1848,19 +1848,19 @@
                                 <div class="match-team-row" id="final-row-1">
                                     <div class="team-label">
                                         <span class="team-dot" style="background: #f59e0b;"></span>
-                                        <span id="final-team-1">Yarı Final 1 Galibi</span>
+                                        <span id="final-team-1">wtk-2</span>
                                     </div>
-                                    <span class="score-pill" id="final-score-1">-</span>
+                                    <span class="score-pill" id="final-score-1">3</span>
                                 </div>
-                                <div class="match-team-row" id="final-row-2">
+                                <div class="match-team-row is-winner" id="final-row-2">
                                     <div class="team-label">
                                         <span class="team-dot" style="background: #f59e0b;"></span>
-                                        <span id="final-team-2">Yarı Final 2 Galibi</span>
+                                        <span id="final-team-2">hit-2</span>
                                     </div>
-                                    <span class="score-pill" id="final-score-2">-</span>
+                                    <span class="score-pill" id="final-score-2">6</span>
                                 </div>
                             </div>
-                            <div class="winner-pill" id="final-winner-pill">👑 Şampiyon: Henüz Belli Değil</div>
+                            <div class="winner-pill champion-crowned" id="final-winner-pill">👑 Şampiyon: <strong style="color: #ffffff;">hit-2</strong> 🏆</div>
                         </div>
                     </div>
                 </div>
@@ -1876,8 +1876,8 @@
                     <div class="trophy-showcase-card" id="bracket-card-trophy">
                         <div class="trophy-big-icon">🏆</div>
                         <div class="trophy-title-tag">2026 TURNUVA ŞAMPİYONU</div>
-                        <div class="trophy-champion-name" id="display-champion-name">Henüz Belli Değil</div>
-                        <div class="trophy-status-label" id="display-champion-sub">Final Maçı Sonrası Taçlanacak</div>
+                        <div class="trophy-champion-name" id="display-champion-name" style="color: var(--gold);">👑 hit-2</div>
+                        <div class="trophy-status-label" id="display-champion-sub">🏆 2026 Turnuva Birincisi</div>
                     </div>
                 </div>
             </div>
@@ -1908,8 +1908,31 @@
                 <div id="fixture-widget-body">
 
                     <div class="fixture-section-divider">
-                        <span>🔥 13 Ekim Fikstürü</span>
+                        <span>🏆 BÜYÜK FİNAL (15 Ekim Perşembe)</span>
+                    </div>
 
+                    <div class="fixture-day-group">
+                        <div class="fixture-date-banner" style="background: linear-gradient(90deg, #1e293b 0%, #334155 100%);">
+                            <span>Perşembe • 15 Ekim 2026</span>
+                        </div>
+                        <div class="fixture-rows">
+                            <div class="fixture-row" id="fix-row-final" data-match="final">
+                                <div class="fixture-cell-time" id="fix-time-final">19:00</div>
+                                <div class="fixture-cell-matchup">
+                                    <span class="fixture-team-name home" id="fix-team1-final">wtk-2</span>
+                                    <span class="fixture-score-label has-score" id="fix-score-final">3-6</span>
+                                    <span class="fixture-team-name away is-winner" id="fix-team2-final">hit-2</span>
+                                </div>
+                                <button class="fixture-star-btn" data-star-id="fix-star-final" title="Favorilere Ekle"
+                                    aria-label="Favori">☆</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fixture-section-divider past-matches">
+                        <span>🔥 Yarı Finaller (13 Ekim Salı)</span>
+                        <span
+                            style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(148, 163, 184, 0.15); color: #cbd5e1; font-weight: 700;">Sonuçlar</span>
                     </div>
 
                     <div class="fixture-day-group">
@@ -1920,8 +1943,8 @@
                             <div class="fixture-row" id="fix-row-mac11" data-match="mac11">
                                 <div class="fixture-cell-time" id="fix-time-mac11">18:00</div>
                                 <div class="fixture-cell-matchup">
-                                    <span class="fixture-team-name home" id="fix-team1-mac11">wtk-2</span>
-                                    <span class="fixture-score-label" id="fix-score-mac11">v</span>
+                                    <span class="fixture-team-name home is-winner" id="fix-team1-mac11">wtk-2</span>
+                                    <span class="fixture-score-label has-score" id="fix-score-mac11">11-5</span>
                                     <span class="fixture-team-name away" id="fix-team2-mac11">maliye isletme -2</span>
                                 </div>
                                 <button class="fixture-star-btn" data-star-id="fix-star-mac11" title="Favorilere Ekle"
@@ -1932,8 +1955,8 @@
                                 <div class="fixture-cell-time" id="fix-time-mac12">19:00</div>
                                 <div class="fixture-cell-matchup">
                                     <span class="fixture-team-name home" id="fix-team1-mac12">hit-1</span>
-                                    <span class="fixture-score-label" id="fix-score-mac12">v</span>
-                                    <span class="fixture-team-name away" id="fix-team2-mac12">hit-2</span>
+                                    <span class="fixture-score-label has-score" id="fix-score-mac12">4-20</span>
+                                    <span class="fixture-team-name away is-winner" id="fix-team2-mac12">hit-2</span>
                                 </div>
                                 <button class="fixture-star-btn" data-star-id="fix-star-mac12" title="Favorilere Ekle"
                                     aria-label="Favori">☆</button>
@@ -2111,15 +2134,15 @@
                                     aria-label="Favori">☆</button>
                             </div>
 
-                            <div class="fixture-row" id="fix-row-final" data-match="final">
-                                <div class="fixture-cell-time" id="fix-time-final">19:00</div>
+                            <div class="fixture-row" id="fix-row-mac6" data-match="mac6">
+                                <div class="fixture-cell-time" id="fix-time-mac6">19:00</div>
                                 <div class="fixture-cell-matchup">
-                                    <span class="fixture-team-name home" id="fix-team1-final">wtk-2</span>
-                                    <span class="fixture-score-label has-score" id="fix-score-final">8-9</span>
-                                    <span class="fixture-team-name away is-winner" id="fix-team2-final">iç mekan
+                                    <span class="fixture-team-name home" id="fix-team1-mac6">wtk-2</span>
+                                    <span class="fixture-score-label has-score" id="fix-score-mac6">8-9</span>
+                                    <span class="fixture-team-name away is-winner" id="fix-team2-mac6">iç mekan
                                         tasarım -2</span>
                                 </div>
-                                <button class="fixture-star-btn" data-star-id="fix-star-final" title="Favorilere Ekle"
+                                <button class="fixture-star-btn" data-star-id="fix-star-mac6" title="Favorilere Ekle"
                                     aria-label="Favori">☆</button>
                             </div>
                         </div>
@@ -2363,9 +2386,13 @@
                 const m5 = data.mac5 || data.thirdPlace || findMatch('mac-5') || matches[4];
                 renderMatchRow('third', m5);
 
-                // Maç 6 (1 Ekim • 18:45) — wtk-2 vs hit-1
+                // Maç 6 (1 Ekim • 19:00) — wtk-2 vs ic mekan tasarim-2
                 const m6 = data.mac6 || findMatch('mac-6') || matches[5];
-                renderMatchRow('final', m6);
+                renderMatchRow('mac6', m6);
+
+                // Büyük Final (15 Ekim • 19:00) — wtk-2 vs hit-2
+                const fMatch = data.final || findMatch('final-match');
+                renderMatchRow('final', fMatch);
 
                 const fixtureCard = document.getElementById('bracket-fixture-card');
                 initFavoriteStars();
