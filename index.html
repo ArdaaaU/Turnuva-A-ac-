@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futbol Turnuva Ağacı</title>
 
-    <script>
-        (function () {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isSmallScreen = window.innerWidth <= 900;
-            if (isMobileUA || (isSmallScreen && ('ontouchstart' in window || navigator.maxTouchPoints > 0))) {
-                document.documentElement.classList.add('is-mobile-device');
-            }
-        })();
-    </script>
+    <script>
+        (function () {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isSmallScreen = window.innerWidth <= 900;
+            if (isMobileUA || (isSmallScreen && ('ontouchstart' in window || navigator.maxTouchPoints > 0))) {
+                document.documentElement.classList.add('is-mobile-device');
+            }
+        })();
+</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1415,7 +1415,7 @@
             flex-wrap: wrap;
         }
 
-        /* Modern Admin Match Card */
+        
         .admin-match-card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
@@ -1901,18 +1901,18 @@
         </div>
     </div>
 
-    <!-- 1. TURNUVA AĞACI (YARI FİNALLER -> BÜYÜK FİNAL -> ŞAMPİYONLUK) -->
+    
     <main class="bracket-viewport" id="bracket-viewport">
         <div class="bracket-track">
 
-            <!-- 1. SÜTUN: YARI FİNALLER -->
+            
             <div class="bracket-col" id="col-semi">
                 <div class="col-header">
                     <span class="col-title">🔥 YARI FİNALLER</span>
                     <span class="col-badge" id="semis-badge-date">13 Ekim Salı</span>
                 </div>
                 <div class="col-content">
-                    <!-- 1. Yarı Final Maçı -->
+                    
                     <div class="card bracket-match-card" id="bracket-card-semi-1">
                         <div class="card-header">
                             <span class="card-tag" id="semi-1-title">1. Yarı Final Maçı</span>
@@ -1938,7 +1938,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. Yarı Final Maçı -->
+                    
                     <div class="card bracket-match-card" id="bracket-card-semi-2">
                         <div class="card-header">
                             <span class="card-tag" id="semi-2-title">2. Yarı Final Maçı</span>
@@ -1966,7 +1966,7 @@
                 </div>
             </div>
 
-            <!-- 2. SÜTUN: BÜYÜK FİNAL -->
+            
             <div class="bracket-col" id="col-final">
                 <div class="col-header">
                     <span class="col-title">🏆 BÜYÜK FİNAL</span>
@@ -2001,7 +2001,7 @@
                 </div>
             </div>
 
-            <!-- 3. SÜTUN: ŞAMPİYONLUK KÜRSÜSÜ -->
+            
             <div class="bracket-col" id="col-champion">
                 <div class="col-header">
                     <span class="col-title">👑 ŞAMPİYONLUK</span>
@@ -2020,7 +2020,7 @@
         </div>
     </main>
 
-    <!-- 2. TÜM MAÇLAR & DETAYLI FİKSTÜR -->
+    
     <section class="fixture-section-wrapper">
         <div class="fixture-container">
             <div class="fixture-header-banner">
@@ -2364,7 +2364,7 @@
 
             <div class="admin-modal-body">
 
-                <!-- 1. HAFTA PANE -->
+                
                 <div class="admin-tab-pane active" id="pane-fixture-1">
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 2px;">
                         <div style="font-weight: 800; font-size: 13.5px; color: var(--gold); display: flex; align-items: center; gap: 6px;">
@@ -2373,7 +2373,7 @@
                         <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(217, 119, 6, 0.12); color: var(--gold); font-weight: 700;">6 Maç + 1 Bay</span>
                     </div>
 
-                    <!-- Maç 1 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2410,7 +2410,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 2 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2447,7 +2447,7 @@
                         </div>
                     </div>
 
-                    <!-- 29 Eylül Salı BAY Günü -->
+                    
                     <div style="padding: 10px 14px; background: rgba(250, 204, 21, 0.05); border: 1px dashed rgba(250, 204, 21, 0.35); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 15px;">🛡️</span>
@@ -2459,7 +2459,7 @@
                         <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(250, 204, 21, 0.15); color: #facc15; font-weight: 700;">Maç Yok</span>
                     </div>
 
-                    <!-- Maç 3 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2496,7 +2496,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 4 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2533,7 +2533,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 5 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2570,7 +2570,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 6 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2608,7 +2608,7 @@
                     </div>
                 </div>
 
-                <!-- 2. HAFTA PANE -->
+                
                 <div class="admin-tab-pane" id="pane-fixture-2">
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 2px;">
                         <div style="font-weight: 800; font-size: 13.5px; color: #60a5fa; display: flex; align-items: center; gap: 6px;">
@@ -2617,7 +2617,7 @@
                         <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; font-weight: 700;">4 Maç</span>
                     </div>
 
-                    <!-- Maç 7 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2654,7 +2654,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 7B -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2694,7 +2694,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 8 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2734,7 +2734,7 @@
                         </div>
                     </div>
 
-                    <!-- Maç 10 -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2772,7 +2772,7 @@
                     </div>
                 </div>
 
-                <!-- FINALLER PANE -->
+                
                 <div class="admin-tab-pane" id="pane-semis-final">
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 2px;">
                         <div style="font-weight: 800; font-size: 13.5px; color: var(--gold); display: flex; align-items: center; gap: 6px;">
@@ -2781,7 +2781,7 @@
                         <span style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.15); color: var(--gold); font-weight: 700;">13 - 15 Ekim Finalleri</span>
                     </div>
 
-                    <!-- 1. Yarı Final (Maç 11) -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2818,7 +2818,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. Yarı Final (Maç 12) -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2855,7 +2855,7 @@
                         </div>
                     </div>
 
-                    <!-- 3.lük Maçı -->
+                    
                     <div class="admin-match-card is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2892,7 +2892,7 @@
                         </div>
                     </div>
 
-                    <!-- Büyük Final -->
+                    
                     <div class="admin-match-card is-final is-finished">
                         <div class="admin-match-topbar">
                             <div class="admin-match-badge-title">
@@ -2929,7 +2929,7 @@
                         </div>
                     </div>
 
-                    <!-- Şampiyon Kartı -->
+                    
                     <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.05) 100%); border: 1.5px solid var(--gold); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                         <div>
                             <div style="font-weight: 800; font-size: 14px; color: var(--gold); display: flex; align-items: center; gap: 6px;">
@@ -2946,7 +2946,7 @@
 
                 </div>
 
-                <!-- 4. SENKRON & AYARLAR PANE -->
+                
                 <div class="admin-tab-pane" id="pane-sync-tools">
                     <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
@@ -2996,1250 +2996,1036 @@
     </div>
 
 
-    <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
 
-    <!-- GÜVENLİK VE YÖNETİCİ KİMLİK DOĞRULAMA (BELLEK İÇİ HMAC GÜVENLİK) -->
+    
     <script src="js/security.js"></script>
 
-    <!-- DUYURULAR MODÜLÜ -->
+    
     <script src="js/duyurular.js"></script>
 
-    <!-- FİKSTÜR MODÜLÜ (SUPABASE BULUT SENKRONİZASYONLU) -->
+    
     <script src="js/fikstur.js"></script>
 
-    <!-- İSTATİSTİK VE PUAN DURUMU YÖNETİMİ (SUPABASE BULUT SENKRONİZASYONLU) -->
+    
     <script src="js/istatistik.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. TEMA DEĞİŞTİRME (DARK / LIGHT)
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-                    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', nextTheme);
-                });
-            }
-
-            // 2. HAMBURGER VE MOBİL ÇEKMECE
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const mobileDrawer = document.getElementById('mobile-drawer');
-            const drawerOverlay = document.getElementById('drawer-overlay');
-
-            const toggleDrawer = () => {
-                hamburgerBtn.classList.toggle('active');
-                mobileDrawer.classList.toggle('active');
-                drawerOverlay.classList.toggle('active');
-            };
-
-            if (hamburgerBtn && drawerOverlay) {
-                hamburgerBtn.addEventListener('click', toggleDrawer);
-                drawerOverlay.addEventListener('click', toggleDrawer);
-            }
-
-            // 3. TOAST BİLDİRİMİ
-            const toastEl = document.getElementById('toast-msg');
-            const toastText = document.getElementById('toast-text');
-            const toastIcon = document.getElementById('toast-icon');
-            let toastTimeout = null;
-
-            function showToast(message, icon = '✅') {
-                if (!toastEl) return;
-                if (toastTimeout) clearTimeout(toastTimeout);
-                toastText.innerText = message;
-                toastIcon.innerText = icon;
-                toastEl.classList.add('show');
-                toastTimeout = setTimeout(() => {
-                    toastEl.classList.remove('show');
-                }, 3200);
-            }
-
-            function escapeHtml(str) {
-                if (!str) return '';
-                return String(str)
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;');
-            }
-
-            function formatScoreDisplay(score) {
-                if (score === null || score === undefined || score === '') return '-';
-                return String(score);
-            }
-
-            function formatStatusBadge(status, defaultTime) {
-                if (status === 'canli') return '🔴 CANLI';
-                if (status === 'bitti') return '✅ Bitti';
-                return defaultTime || 'Bekleniyor';
-            }
-
-            function getStatusClass(status) {
-                if (status === 'canli') return 'status-canli';
-                if (status === 'bitti') return 'status-bitti';
-                return '';
-            }
-
-            // ============================================================
-            // 4. OTOMATİK DUYURU POP-UP (POPOUT MODAL)
-            // ============================================================
-            const announcementPopupModal = document.getElementById('announcement-popup-modal');
-            const popupCloseBtn = document.getElementById('popup-close-btn');
-            const popupDismissBtn = document.getElementById('popup-dismiss-btn');
-            const openAnnouncementPopupBtn = document.getElementById('open-announcement-popup-btn');
-
-            function showAnnouncementPopup(force = false) {
-                if (!announcementPopupModal) return;
-                if (typeof getLatestAnnouncement !== 'function') return;
-
-                const latest = getLatestAnnouncement();
-                if (latest) {
-                    const popupCatBadge = document.getElementById('popup-cat-badge');
-                    const popupDate = document.getElementById('popup-date');
-                    const popupTitle = document.getElementById('popup-title');
-                    const popupContent = document.getElementById('popup-content');
-                    const popupLinkBtn = document.getElementById('popup-link-btn');
-
-                    if (popupCatBadge) popupCatBadge.innerText = latest.categoryLabel || '📢 Duyuru';
-                    if (popupDate) popupDate.innerText = latest.date || '';
-                    if (popupTitle) popupTitle.innerText = latest.title || 'Turnuva Duyurusu';
-                    if (popupContent) popupContent.innerText = latest.content || latest.summary || '';
-                    if (popupLinkBtn) popupLinkBtn.href = 'duyurular.html#' + latest.id;
-
-                    // Siteye girildiğinde duyuru direk ekrana çıkar
-                    announcementPopupModal.classList.add('active');
-                }
-            }
-
-            function closeAnnouncementPopup() {
-                if (announcementPopupModal) {
-                    announcementPopupModal.classList.remove('active');
-                }
-            }
-
-            if (popupCloseBtn) popupCloseBtn.addEventListener('click', closeAnnouncementPopup);
-            if (popupDismissBtn) popupDismissBtn.addEventListener('click', closeAnnouncementPopup);
-            if (announcementPopupModal) {
-                announcementPopupModal.addEventListener('click', (e) => {
-                    if (e.target === announcementPopupModal) closeAnnouncementPopup();
-                });
-            }
-            if (openAnnouncementPopupBtn) {
-                openAnnouncementPopupBtn.addEventListener('click', () => showAnnouncementPopup(true));
-            }
-
-            // Sayfa yüklendiğinde duyuruyu direk ekrana çıkar
-            setTimeout(() => {
-                showAnnouncementPopup();
-            }, 350);
-
-            // ============================================================
-            // 5. TURNUVA AĞACI RENDER ETME FONKSİYONLARI
-            // ============================================================
-            function renderAllTournamentViews(tournamentData) {
-                const data = tournamentData || getTournamentData();
-
-                // Fikstür Satırı Render Yardımcısı
-                function renderMatchRow(rowKey, m) {
-                    if (!m) return;
-                    const fixTime = document.getElementById(`fix-time-${rowKey}`);
-                    const fixT1 = document.getElementById(`fix-team1-${rowKey}`);
-                    const fixT2 = document.getElementById(`fix-team2-${rowKey}`);
-                    const fixScore = document.getElementById(`fix-score-${rowKey}`);
-
-                    if (fixTime) fixTime.innerText = m.time || '18:00';
-                    if (fixT1) {
-                        fixT1.innerText = m.team1 || '';
-                        fixT1.classList.toggle('is-winner', m.winner === 'team1');
-                    }
-                    if (fixT2) {
-                        fixT2.innerText = m.team2 || '';
-                        fixT2.classList.toggle('is-winner', m.winner === 'team2');
-                    }
-                    if (fixScore) {
-                        if (m.score1 !== null && m.score1 !== '' && m.score2 !== null && m.score2 !== '') {
-                            if (isNaN(m.score1) || isNaN(m.score2)) {
-                                fixScore.innerText = `${m.score1} ${m.score2}`;
-                            } else {
-                                fixScore.innerText = `${m.score1}-${m.score2}`;
-                            }
-                            fixScore.classList.add('has-score');
-                        } else if (m.status === 'bitti' && m.note) {
-                            fixScore.innerText = m.note;
-                            fixScore.classList.add('has-score');
-                        } else {
-                            fixScore.innerText = 'v';
-                            fixScore.classList.remove('has-score');
-                        }
-                    }
-                }
-
-                const matches = Array.isArray(data.matches) ? data.matches : [];
-                const findMatch = (id) => matches.find(m => m.id === id);
-
-                // 1. YENİ MAÇLAR (13 Ekim Salı Fikstürü)
-                // Maç 11 (Salı • 18:00) — wtk-2 vs maliye isletme -2
-                const m11 = data.mac11 || findMatch('mac-11') || matches[10];
-                renderMatchRow('mac11', m11);
-
-                // Maç 12 (Salı • 19:00) — hit-1 vs hit-2
-                const m12 = data.mac12 || findMatch('mac-12') || matches[11];
-                renderMatchRow('mac12', m12);
-
-                // 2. 2. HAFTA MAÇLARI (6-8 Ekim Fikstürü)
-                // Maç 7 (Salı • 18:00) — hit-2 vs wtk-2
-                const m7 = data.mac7 || findMatch('mac-7') || matches[6];
-                renderMatchRow('mac7', m7);
-
-                // Maç 7B (Salı • 19:00) — ic mekan tasarim-2 vs maliye isletme -2
-                const m7b = data.mac7b || findMatch('mac-7b');
-                renderMatchRow('mac7b', m7b);
-
-                // Maç 8 (Çarşamba • 18:00) — maliye isletme -2 vs hit-1
-                const m8 = data.mac8 || findMatch('mac-8') || matches[7];
-                renderMatchRow('mac8', m8);
-
-                // Maç 10 (Perşembe • 18:00) — ic mekan tasarim-2 vs hit-1
-                const m10 = data.mac10 || findMatch('mac-10') || matches[8];
-                renderMatchRow('mac10', m10);
-
-                const quarters = Array.isArray(data.quarters) ? data.quarters : (data.quarter ? [data.quarter] : []);
-
-                // 1. Ön Eleme (28 Eylül • 18:00)
-                const q1 = quarters[0] || findMatch('mac-1') || matches[0];
-                renderMatchRow('qf1', q1);
-
-                // Maç 2 (28 Eylül • 19:00)
-                const q2 = quarters[1] || findMatch('mac-2') || matches[1];
-                renderMatchRow('qf2', q2);
-
-                // Maç 3 (30 Eylül • 18:00) — maliye isletme -2 vs hit-1
-                const m3 = data.mac3 || findMatch('mac-3') || matches[2];
-                renderMatchRow('semi1', m3);
-
-                // Maç 4 (30 Eylül • 19:00) — wtk-2 vs hit-2
-                const m4 = data.mac4 || findMatch('mac-4') || matches[3];
-                renderMatchRow('semi2', m4);
-
-                // Maç 5 (1 Ekim • 18:00) — maliye isletme -2 vs hit-2
-                const m5 = data.mac5 || data.thirdPlace || findMatch('mac-5') || matches[4];
-                renderMatchRow('third', m5);
-
-                // Maç 6 (1 Ekim • 19:00) — wtk-2 vs ic mekan tasarim-2
-                const m6 = data.mac6 || findMatch('mac-6') || matches[5];
-                renderMatchRow('mac6', m6);
-
-                // Büyük Final (15 Ekim • 12:30) — wtk-2 vs hit-2
-                const fMatch = data.final || findMatch('final-match');
-                renderMatchRow('final', fMatch);
-
-                const fixtureCard = document.getElementById('bracket-fixture-card');
-                initFavoriteStars();
-
-                // Yarı Finaller Tarih Rozeti
-                const semisBadgeDate = document.getElementById('semis-badge-date');
-                if (semisBadgeDate) {
-                    semisBadgeDate.innerText = (data.semis && data.semis[0] && data.semis[0].date) ? data.semis[0].date : '13 Ekim 2026';
-                }
-
-                // 2. 1. YARI FİNAL (13 Ekim • 18:00)
-                const s1 = (data.semis && data.semis[0]) ? data.semis[0] : (data.mac11 || findMatch('mac-11'));
-                if (s1) {
-                    const semi1Card = document.getElementById('bracket-card-semi-1');
-                    const semi1Title = document.getElementById('semi-1-title');
-                    const semi1Badge = document.getElementById('semi-1-badge');
-                    const semi1T1 = document.getElementById('semi-1-team-1');
-                    const semi1S1 = document.getElementById('semi-1-score-1');
-                    const semi1T2 = document.getElementById('semi-1-team-2');
-                    const semi1S2 = document.getElementById('semi-1-score-2');
-                    const row1 = document.getElementById('semi-1-row-1');
-                    const row2 = document.getElementById('semi-1-row-2');
-
-                    if (semi1Title) semi1Title.innerText = s1.title || '1. Yarı Final Maçı';
-                    if (semi1Badge) {
-                        semi1Badge.innerText = formatStatusBadge(s1.status, s1.time || '18:00');
-                        semi1Badge.className = 'match-status-badge ' + getStatusClass(s1.status);
-                    }
-                    if (semi1T1) semi1T1.innerText = s1.team1 || 'wtk-2';
-                    if (semi1S1) semi1S1.innerText = formatScoreDisplay(s1.score1);
-                    if (semi1T2) semi1T2.innerText = s1.team2 || 'maliye isletme -2';
-                    if (semi1S2) semi1S2.innerText = formatScoreDisplay(s1.score2);
-
-                    if (row1) row1.classList.toggle('is-winner', s1.winner === 'team1');
-                    if (row2) row2.classList.toggle('is-winner', s1.winner === 'team2');
-                }
-
-                // 3. 2. YARI FİNAL (13 Ekim • 19:00)
-                const s2 = (data.semis && data.semis[1]) ? data.semis[1] : (data.mac12 || findMatch('mac-12'));
-                if (s2) {
-                    const semi2Card = document.getElementById('bracket-card-semi-2');
-                    const semi2Title = document.getElementById('semi-2-title');
-                    const semi2Badge = document.getElementById('semi-2-badge');
-                    const semi2T1 = document.getElementById('semi-2-team-1');
-                    const semi2S1 = document.getElementById('semi-2-score-1');
-                    const semi2T2 = document.getElementById('semi-2-team-2');
-                    const semi2S2 = document.getElementById('semi-2-score-2');
-                    const row1 = document.getElementById('semi-2-row-1');
-                    const row2 = document.getElementById('semi-2-row-2');
-
-                    if (semi2Title) semi2Title.innerText = s2.title || '2. Yarı Final Maçı';
-                    if (semi2Badge) {
-                        semi2Badge.innerText = formatStatusBadge(s2.status, s2.time || '19:00');
-                        semi2Badge.className = 'match-status-badge ' + getStatusClass(s2.status);
-                    }
-                    if (semi2T1) semi2T1.innerText = s2.team1 || 'hit-1';
-                    if (semi2S1) semi2S1.innerText = formatScoreDisplay(s2.score1);
-                    if (semi2T2) semi2T2.innerText = s2.team2 || 'hit-2';
-                    if (semi2S2) semi2S2.innerText = formatScoreDisplay(s2.score2);
-
-                    if (row1) row1.classList.toggle('is-winner', s2.winner === 'team1');
-                    if (row2) row2.classList.toggle('is-winner', s2.winner === 'team2');
-                }
-
-                // 4. BÜYÜK FİNAL
-                if (data.final) {
-                    const f = data.final;
-                    const finalBadgeDate = document.getElementById('final-badge-date');
-                    if (finalBadgeDate) {
-                        finalBadgeDate.innerText = f.date || '15 Ekim 2026';
-                    }
-                    const finalCard = document.getElementById('bracket-card-final');
-                    const finalDate = document.getElementById('final-card-date');
-                    const finalT1 = document.getElementById('final-team-1');
-                    const finalS1 = document.getElementById('final-score-1');
-                    const finalT2 = document.getElementById('final-team-2');
-                    const finalS2 = document.getElementById('final-score-2');
-                    const row1 = document.getElementById('final-row-1');
-                    const row2 = document.getElementById('final-row-2');
-                    const winnerPill = document.getElementById('final-winner-pill');
-
-                    if (finalDate) {
-                        finalDate.innerText = f.time || '';
-                        if (!f.time) {
-                            finalDate.style.display = 'none';
-                        } else {
-                            finalDate.style.display = '';
-                        }
-                    }
-
-                    // Yarı final galipleri varsa ve final takımı henüz varsayılan ise otomatik aktar
-                    let finalTeam1 = f.team1 || 'Yarı Final 1 Galibi';
-                    if ((!f.team1 || f.team1 === 'Yarı Final 1 Galibi') && s1) {
-                        if (s1.winner === 'team1') finalTeam1 = s1.team1;
-                        else if (s1.winner === 'team2') finalTeam1 = s1.team2;
-                    }
-
-                    let finalTeam2 = f.team2 || 'Yarı Final 2 Galibi';
-                    if ((!f.team2 || f.team2 === 'Yarı Final 2 Galibi') && s2) {
-                        if (s2.winner === 'team1') finalTeam2 = s2.team1;
-                        else if (s2.winner === 'team2') finalTeam2 = s2.team2;
-                    }
-
-                    if (finalT1) finalT1.innerText = finalTeam1;
-                    if (finalS1) finalS1.innerText = formatScoreDisplay(f.score1);
-                    if (finalT2) finalT2.innerText = finalTeam2;
-                    if (finalS2) finalS2.innerText = formatScoreDisplay(f.score2);
-
-                    if (row1) row1.classList.toggle('is-winner', f.winner === 'team1');
-                    if (row2) row2.classList.toggle('is-winner', f.winner === 'team2');
-
-                    let champName = f.champion;
-                    if (!champName && f.winner) {
-                        champName = f.winner === 'team1' ? finalTeam1 : (f.winner === 'team2' ? finalTeam2 : null);
-                    }
-
-                    if (winnerPill) {
-                        if (champName && champName.trim() !== '') {
-                            winnerPill.innerHTML = `👑 Şampiyon: <strong style="color: #ffffff;">${escapeHtml(champName)}</strong> 🏆`;
-                            winnerPill.className = 'winner-pill champion-crowned';
-                        } else {
-                            winnerPill.innerText = '👑 Şampiyon: Henüz Belli Değil';
-                            winnerPill.className = 'winner-pill';
-                        }
-                    }
-
-                    // 5. ŞAMPİYON KÜRZÜSÜ
-                    const displayChampName = document.getElementById('display-champion-name');
-                    const displayChampSub = document.getElementById('display-champion-sub');
-                    if (displayChampName) {
-                        if (champName && champName.trim() !== '') {
-                            displayChampName.innerHTML = `👑 ${escapeHtml(champName)}`;
-                            displayChampName.style.color = 'var(--gold)';
-                            if (displayChampSub) displayChampSub.innerText = '🏆 2026 Turnuva Birincisi';
-                        } else {
-                            displayChampName.innerText = 'Henüz Belli Değil';
-                            displayChampName.style.color = 'var(--text-main)';
-                            if (displayChampSub) displayChampSub.innerText = 'Final Maçı Sonrası Taçlanacak';
-                        }
-                    }
-                }
-            }
-
-            function isMobileClient() {
-                return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
-            }
-
-
-
-            // Fikstür Favori Yıldızları ve Etkileşim Fonksiyonları
-            let inMemoryFavorites = [];
-            function initFavoriteStars() {
-                try {
-                    document.querySelectorAll('.fixture-star-btn').forEach(btn => {
-                        const starId = btn.getAttribute('data-star-id');
-                        if (inMemoryFavorites.includes(starId)) {
-                            btn.classList.add('active');
-                            btn.innerHTML = '★';
-                        } else {
-                            btn.classList.remove('active');
-                            btn.innerHTML = '☆';
-                        }
-
-                        btn.onclick = (e) => {
-                            e.stopPropagation();
-                            if (inMemoryFavorites.includes(starId)) {
-                                inMemoryFavorites = inMemoryFavorites.filter(id => id !== starId);
-                                btn.classList.remove('active');
-                                btn.innerHTML = '☆';
-                                showToast('Maç favorilerden çıkarıldı.', '☆');
-                            } else {
-                                inMemoryFavorites.push(starId);
-                                btn.classList.add('active');
-                                btn.innerHTML = '★';
-                                showToast('Maç favorilere eklendi!', '★');
-                            }
-                        };
-                    });
-                } catch (err) {
-                    console.error('Favorite star init error:', err);
-                }
-            }
-
-            function initFixtureWidgetEvents() {
-                const fixToggleBtn = document.getElementById('fixture-widget-toggle-btn');
-                const fixBody = document.getElementById('fixture-widget-body');
-                if (fixToggleBtn && fixBody) {
-                    fixToggleBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const isCollapsed = fixBody.style.display === 'none';
-                        if (isCollapsed) {
-                            fixBody.style.display = 'block';
-                            fixToggleBtn.innerHTML = '✕';
-                            fixToggleBtn.title = 'Fikstürü Daralt';
-                        } else {
-                            fixBody.style.display = 'none';
-                            fixToggleBtn.innerHTML = '＋';
-                            fixToggleBtn.title = 'Fikstürü Genişlet';
-                        }
-                    });
-                }
-
-            }
-
-            renderAllTournamentViews();
-            initFixtureWidgetEvents();
-
-            window.addEventListener('turnuva_bracket_updated', (e) => {
-                if (e.detail && e.detail.data) {
-                    renderAllTournamentViews(e.detail.data);
-                } else {
-                    renderAllTournamentViews();
-                }
-            });
-
-            // ============================================================
-            // YÖNETİCİ GİRİŞİ, PIN DOĞRULAMA VE TURNUVA YÖNETİM MODALI
-            // ============================================================
-            const openAdminBtn = document.getElementById('open-admin-btn');
-            const adminLogoutBtn = document.getElementById('admin-logout-btn');
-            const mobileOpenAdminBtn = document.getElementById('mobile-open-admin-btn');
-            const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
-
-            const pinModal = document.getElementById('pin-modal');
-            const closePinModalBtn = document.getElementById('close-pin-modal');
-            const cancelPinBtn = document.getElementById('cancel-pin-btn');
-            const submitPinBtn = document.getElementById('submit-pin-btn');
-            const adminPinInput = document.getElementById('admin-pin-input');
-            const togglePinVisibility = document.getElementById('toggle-pin-visibility');
-
-            const adminModal = document.getElementById('tournament-admin-modal');
-            const closeAdminModal = document.getElementById('close-admin-modal');
-            const cancelAdminModalBtn = document.getElementById('cancel-admin-modal-btn');
-            const saveTournamentBtn = document.getElementById('save-tournament-btn');
-            const adminResetBtn = document.getElementById('admin-reset-btn');
-
-            let currentEditingTournament = null;
-
-            function updateAdminStatusUI() {
-                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
-                const openBtn = document.getElementById('open-admin-btn');
-                const btnText = document.getElementById('admin-btn-text');
-                const logoutBtn = document.getElementById('admin-logout-btn');
-                const mobileOpen = document.getElementById('mobile-open-admin-btn');
-                const mobileText = document.getElementById('mobile-admin-btn-text');
-                const mobileLogout = document.getElementById('mobile-admin-logout-btn');
-
-                if (openBtn) {
-                    openBtn.classList.toggle('is-auth', isAuth);
-                    if (btnText) btnText.innerText = isAuth ? 'Yönetim Paneli' : 'Yönetici Girişi';
-                }
-                if (logoutBtn) logoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
-
-                if (mobileOpen) {
-                    mobileOpen.classList.toggle('is-auth', isAuth);
-                    if (mobileText) mobileText.innerText = isAuth ? '⚙️ Yönetim Paneli' : '🔒 Yönetici Girişi';
-                }
-                if (mobileLogout) mobileLogout.style.display = isAuth ? 'inline-flex' : 'none';
-            }
-
-            function openAdminModalWithTab(tabId) {
-                const isAuth = typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.isAuthenticated === 'function' && window.TurnuvaAuth.isAuthenticated();
-                if (!isAuth) {
-                    if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
-                        window.TurnuvaAuth.openPinModal(() => openAdminModalWithTab(tabId));
-                    }
-                    return;
-                }
-                tabId = tabId || 'pane-fixture-1';
-                currentEditingTournament = JSON.parse(JSON.stringify(getTournamentData()));
-                populateAdminModalValues(currentEditingTournament);
-                document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
-                });
-                document.querySelectorAll('.admin-tab-pane').forEach(pane => {
-                    pane.classList.toggle('active', pane.id === tabId);
-                });
-                if (adminModal) adminModal.classList.add('active');
-            }
-
-            function handleAdminClick() {
-                if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
-                    openAdminModalWithTab('pane-fixture-1');
-                } else if (typeof TurnuvaAuth !== 'undefined' && TurnuvaAuth.openPinModal) {
-                    TurnuvaAuth.openPinModal(() => openAdminModalWithTab('pane-fixture-1'));
-                } else {
-                    if (pinModal) {
-                        if (adminPinInput) adminPinInput.value = '';
-                        pinModal.classList.add('active');
-                        setTimeout(() => { if (adminPinInput) adminPinInput.focus(); }, 100);
-                    }
-                }
-            }
-
-            if (openAdminBtn) openAdminBtn.addEventListener('click', handleAdminClick);
-            if (mobileOpenAdminBtn) {
-                mobileOpenAdminBtn.addEventListener('click', () => {
-                    const mobileDrawer = document.getElementById('mobile-drawer');
-                    const drawerOverlay = document.getElementById('drawer-overlay');
-                    const hamburgerBtn = document.getElementById('hamburger-btn');
-                    if (mobileDrawer) mobileDrawer.classList.remove('active');
-                    if (drawerOverlay) drawerOverlay.classList.remove('active');
-                    if (hamburgerBtn) hamburgerBtn.classList.remove('active');
-                    handleAdminClick();
-                });
-            }
-
-            // Tab geçişleri
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const tabId = btn.getAttribute('data-tab');
-                    if (!tabId) return;
-                    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
-                    btn.classList.add('active');
-                    const targetPane = document.getElementById(tabId);
-                    if (targetPane) targetPane.classList.add('active');
-                });
-            });
-
-            // Şifre modalı butonları
-            if (togglePinVisibility && adminPinInput) {
-                togglePinVisibility.addEventListener('click', () => {
-                    const isPwd = adminPinInput.type === 'password';
-                    adminPinInput.type = isPwd ? 'text' : 'password';
-                    togglePinVisibility.innerText = isPwd ? '🙈' : '👁️';
-                });
-            }
-
-            function checkPinSubmit() {
-                if (!adminPinInput) return;
-                const pin = adminPinInput.value.trim();
-                const pinErr = document.getElementById('pin-error-msg');
-                if (typeof authenticateAdmin === 'function' && authenticateAdmin(pin)) {
-                    if (pinModal) pinModal.classList.remove('active');
-                    if (pinErr) pinErr.style.display = 'none';
-                    updateAdminStatusUI();
-                    showToast('Yönetici girişi başarılı!', '🔑');
-                    openAdminModalWithTab('pane-fixture-1');
-                } else {
-                    if (pinErr) pinErr.style.display = 'block';
-                    showToast('Hatalı şifre! Lütfen tekrar deneyiniz.', '❌');
-                    adminPinInput.select();
-                    adminPinInput.focus();
-                }
-            }
-
-            if (submitPinBtn) submitPinBtn.addEventListener('click', checkPinSubmit);
-            if (adminPinInput) {
-                adminPinInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') checkPinSubmit();
-                });
-            }
-            if (closePinModalBtn && pinModal) closePinModalBtn.addEventListener('click', () => pinModal.classList.remove('active'));
-            if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
-
-            if (closeAdminModal && adminModal) closeAdminModal.addEventListener('click', () => adminModal.classList.remove('active'));
-            if (cancelAdminModalBtn && adminModal) cancelAdminModalBtn.addEventListener('click', () => adminModal.classList.remove('active'));
-
-            if (pinModal) {
-                pinModal.addEventListener('click', (e) => {
-                    if (e.target === pinModal) pinModal.classList.remove('active');
-                });
-            }
-            if (adminModal) {
-                adminModal.addEventListener('click', (e) => {
-                    if (e.target === adminModal) adminModal.classList.remove('active');
-                });
-            }
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (pinModal) pinModal.classList.remove('active');
-                    if (adminModal) adminModal.classList.remove('active');
-                }
-            });
-
-            function setInputValue(id, val) {
-                const el = document.getElementById(id);
-                if (el) el.value = (val !== null && val !== undefined) ? val : '';
-            }
-
-            function getInputValue(id, fallback = '') {
-                const el = document.getElementById(id);
-                return el ? el.value.trim() : fallback;
-            }
-
-            function getInputScore(id) {
-                const el = document.getElementById(id);
-                if (!el) return null;
-                const v = el.value.trim();
-                if (v === '') return null;
-                const num = parseInt(v, 10);
-                return isNaN(num) ? v : num;
-            }
-
-            function updateWinnerButtonGroup(prefix, winnerValue) {
-                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
-                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
-                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
-
-                if (btnT1) btnT1.classList.toggle('active', winnerValue === 'team1');
-                if (btnT2) btnT2.classList.toggle('active', winnerValue === 'team2');
-                if (btnNone) btnNone.classList.toggle('active', !winnerValue);
-            }
-
-            function getSelectedWinner(prefix, score1, score2) {
-                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
-                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
-                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
-                if (btnT1 && btnT1.classList.contains('active')) return 'team1';
-                if (btnT2 && btnT2.classList.contains('active')) return 'team2';
-                if (btnNone && btnNone.classList.contains('active')) return null;
-                const s1 = parseInt(score1, 10);
-                const s2 = parseInt(score2, 10);
-                if (!isNaN(s1) && !isNaN(s2)) {
-                    if (s1 > s2) return 'team1';
-                    if (s2 > s1) return 'team2';
-                }
-                return null;
-            }
-
-            function setupWinnerButtons(prefix, targetObjectGetter) {
-                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
-                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
-                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
-
-                if (btnT1) {
-                    btnT1.addEventListener('click', () => {
-                        updateWinnerButtonGroup(prefix, 'team1');
-                        const target = targetObjectGetter();
-                        if (target) target.winner = 'team1';
-                    });
-                }
-                if (btnT2) {
-                    btnT2.addEventListener('click', () => {
-                        updateWinnerButtonGroup(prefix, 'team2');
-                        const target = targetObjectGetter();
-                        if (target) target.winner = 'team2';
-                    });
-                }
-                if (btnNone) {
-                    btnNone.addEventListener('click', () => {
-                        updateWinnerButtonGroup(prefix, null);
-                        const target = targetObjectGetter();
-                        if (target) target.winner = null;
-                    });
-                }
-            }
-
-            function attachScoreWinnerAutoSync(prefix) {
-                const s1Input = document.getElementById(`admin-${prefix}-t1-score`);
-                const s2Input = document.getElementById(`admin-${prefix}-t2-score`);
-                const statusSelect = document.getElementById(`admin-${prefix}-status`);
-                if (!s1Input || !s2Input) return;
-
-                const syncWinnerAndStatus = () => {
-                    const v1 = s1Input.value.trim();
-                    const v2 = s2Input.value.trim();
-                    if (v1 === '' && v2 === '') {
-                        updateWinnerButtonGroup(prefix, null);
-                        if (statusSelect && statusSelect.value === 'bitti') {
-                            statusSelect.value = 'bekleniyor';
-                        }
-                        return;
-                    }
-                    const s1 = parseInt(v1, 10);
-                    const s2 = parseInt(v2, 10);
-                    if (!isNaN(s1) && !isNaN(s2)) {
-                        if (statusSelect && statusSelect.value === 'bekleniyor') {
-                            statusSelect.value = 'bitti';
-                        }
-                        if (s1 > s2) {
-                            updateWinnerButtonGroup(prefix, 'team1');
-                            if (prefix === 'final') {
-                                const t1 = getInputValue('admin-final-t1-name');
-                                if (t1 && t1 !== 'Yarı Final 1 Galibi') {
-                                    setInputValue('admin-champion-input', t1);
-                                }
-                            }
-                        } else if (s2 > s1) {
-                            updateWinnerButtonGroup(prefix, 'team2');
-                            if (prefix === 'final') {
-                                const t2 = getInputValue('admin-final-t2-name');
-                                if (t2 && t2 !== 'Yarı Final 2 Galibi') {
-                                    setInputValue('admin-champion-input', t2);
-                                }
-                            }
-                        } else {
-                            updateWinnerButtonGroup(prefix, null);
-                        }
-                    } else if (v1 !== '' || v2 !== '') {
-                        if (statusSelect && statusSelect.value === 'bekleniyor') {
-                            statusSelect.value = 'canli';
-                        }
-                    }
-                };
-
-                s1Input.addEventListener('input', syncWinnerAndStatus);
-                s2Input.addEventListener('input', syncWinnerAndStatus);
-            }
-
-            function populateAdminModalValues(data) {
-                if (!data) return;
-                const quarters = Array.isArray(data.quarters) ? data.quarters : [];
-                const matches = Array.isArray(data.matches) ? data.matches : [];
-                const findMatch = (id) => matches.find(m => m.id === id);
-
-                // 1. Hafta Maçları
-                // Maç 1 (qf1)
-                const q1 = data.mac1 || quarters[0] || findMatch('mac-1') || matches[0] || {};
-                setInputValue('admin-qf1-t1-name', q1.team1 || 'maliye isletme -2');
-                setInputValue('admin-qf1-t1-score', q1.score1 !== null && q1.score1 !== undefined ? q1.score1 : '');
-                setInputValue('admin-qf1-t2-name', q1.team2 || 'wtk-2');
-                setInputValue('admin-qf1-t2-score', q1.score2 !== null && q1.score2 !== undefined ? q1.score2 : '');
-                setInputValue('admin-qf1-status', q1.status || 'bekleniyor');
-                setInputValue('admin-qf1-time', q1.time || '18:00');
-                updateWinnerButtonGroup('qf1', q1.winner);
-
-                // Maç 2 (qf2)
-                const q2 = data.mac2 || quarters[1] || findMatch('mac-2') || matches[1] || {};
-                setInputValue('admin-qf2-t1-name', q2.team1 || 'hit-1');
-                setInputValue('admin-qf2-t1-score', q2.score1 !== null && q2.score1 !== undefined ? q2.score1 : '');
-                setInputValue('admin-qf2-t2-name', q2.team2 || 'hit-2');
-                setInputValue('admin-qf2-t2-score', q2.score2 !== null && q2.score2 !== undefined ? q2.score2 : '');
-                setInputValue('admin-qf2-status', q2.status || 'bekleniyor');
-                setInputValue('admin-qf2-time', q2.time || '19:00');
-                updateWinnerButtonGroup('qf2', q2.winner);
-
-                // Maç 3 (fix-m3)
-                const m3 = data.mac3 || findMatch('mac-3') || matches[2] || {};
-                setInputValue('admin-fix-m3-t1-name', m3.team1 || 'ic mekan tasarim-2');
-                setInputValue('admin-fix-m3-t1-score', m3.score1 !== null && m3.score1 !== undefined ? m3.score1 : '');
-                setInputValue('admin-fix-m3-t2-name', m3.team2 || 'hit-2');
-                setInputValue('admin-fix-m3-t2-score', m3.score2 !== null && m3.score2 !== undefined ? m3.score2 : '');
-                setInputValue('admin-fix-m3-status', m3.status || 'bekleniyor');
-                setInputValue('admin-fix-m3-time', m3.time || '18:00');
-                updateWinnerButtonGroup('fix-m3', m3.winner);
-
-                // Maç 4 (fix-m4)
-                const m4 = data.mac4 || findMatch('mac-4') || matches[3] || {};
-                setInputValue('admin-fix-m4-t1-name', m4.team1 || 'wtk-2');
-                setInputValue('admin-fix-m4-t1-score', m4.score1 !== null && m4.score1 !== undefined ? m4.score1 : '');
-                setInputValue('admin-fix-m4-t2-name', m4.team2 || 'hit-1');
-                setInputValue('admin-fix-m4-t2-score', m4.score2 !== null && m4.score2 !== undefined ? m4.score2 : '');
-                setInputValue('admin-fix-m4-status', m4.status || 'bekleniyor');
-                setInputValue('admin-fix-m4-time', m4.time || '19:00');
-                updateWinnerButtonGroup('fix-m4', m4.winner);
-
-                // Maç 5 (mac5)
-                const m5 = data.mac5 || findMatch('mac-5') || matches[4] || {};
-                setInputValue('admin-mac5-t1-name', m5.team1 || 'maliye isletme -2');
-                setInputValue('admin-mac5-t1-score', m5.score1 !== null && m5.score1 !== undefined ? m5.score1 : '');
-                setInputValue('admin-mac5-t2-name', m5.team2 || 'hit-2');
-                setInputValue('admin-mac5-t2-score', m5.score2 !== null && m5.score2 !== undefined ? m5.score2 : '');
-                setInputValue('admin-mac5-status', m5.status || 'bekleniyor');
-                setInputValue('admin-mac5-time', m5.time || '18:00');
-                updateWinnerButtonGroup('mac5', m5.winner);
-
-                // Maç 6 (mac6)
-                const m6 = data.mac6 || findMatch('mac-6') || matches[5] || {};
-                setInputValue('admin-mac6-t1-name', m6.team1 || 'wtk-2');
-                setInputValue('admin-mac6-t1-score', m6.score1 !== null && m6.score1 !== undefined ? m6.score1 : '');
-                setInputValue('admin-mac6-t2-name', m6.team2 || 'ic mekan tasarim-2');
-                setInputValue('admin-mac6-t2-score', m6.score2 !== null && m6.score2 !== undefined ? m6.score2 : '');
-                setInputValue('admin-mac6-status', m6.status || 'bekleniyor');
-                setInputValue('admin-mac6-time', m6.time || '19:00');
-                updateWinnerButtonGroup('mac6', m6.winner);
-
-                // 2. Hafta Maçları
-                // Maç 7 (mac7)
-                const m7 = data.mac7 || findMatch('mac-7') || matches[6] || {};
-                setInputValue('admin-mac7-t1-name', m7.team1 || 'hit-2');
-                setInputValue('admin-mac7-t1-score', m7.score1 !== null && m7.score1 !== undefined ? m7.score1 : '');
-                setInputValue('admin-mac7-t2-name', m7.team2 || 'wtk-2');
-                setInputValue('admin-mac7-t2-score', m7.score2 !== null && m7.score2 !== undefined ? m7.score2 : '');
-                setInputValue('admin-mac7-status', m7.status || 'bekleniyor');
-                setInputValue('admin-mac7-time', m7.time || '18:00');
-                updateWinnerButtonGroup('mac7', m7.winner);
-
-                // Maç 7B (mac7b)
-                const m7b = data.mac7b || findMatch('mac-7b') || matches[7] || {};
-                setInputValue('admin-mac7b-t1-name', m7b.team1 || 'ic mekan tasarim-2');
-                setInputValue('admin-mac7b-t1-score', m7b.score1 !== null && m7b.score1 !== undefined ? m7b.score1 : '');
-                setInputValue('admin-mac7b-t2-name', m7b.team2 || 'maliye isletme -2');
-                setInputValue('admin-mac7b-t2-score', m7b.score2 !== null && m7b.score2 !== undefined ? m7b.score2 : '');
-                setInputValue('admin-mac7b-status', m7b.status || 'bekleniyor');
-                setInputValue('admin-mac7b-time', m7b.time || '19:00');
-                setInputValue('admin-mac7b-note', m7b.note || 'Penaltılar ile bitti');
-                updateWinnerButtonGroup('mac7b', m7b.winner || 'team2');
-
-                // Maç 8 (mac8)
-                const m8 = data.mac8 || findMatch('mac-8') || matches[8] || {};
-                setInputValue('admin-mac8-t1-name', m8.team1 || 'maliye isletme -2');
-                setInputValue('admin-mac8-t1-score', m8.score1 !== null && m8.score1 !== undefined ? m8.score1 : '');
-                setInputValue('admin-mac8-t2-name', m8.team2 || 'hit-1');
-                setInputValue('admin-mac8-t2-score', m8.score2 !== null && m8.score2 !== undefined ? m8.score2 : '');
-                setInputValue('admin-mac8-status', m8.status || 'bekleniyor');
-                setInputValue('admin-mac8-time', m8.time || '18:00');
-                setInputValue('admin-mac8-note', m8.note || 'Penaltılarla bitti');
-                updateWinnerButtonGroup('mac8', m8.winner || 'team1');
-
-                // Maç 10 (mac10)
-                const m10 = data.mac10 || findMatch('mac-10') || matches[9] || {};
-                setInputValue('admin-mac10-t1-name', m10.team1 || 'ic mekan tasarim-2');
-                setInputValue('admin-mac10-t1-score', m10.score1 !== null && m10.score1 !== undefined ? m10.score1 : '');
-                setInputValue('admin-mac10-t2-name', m10.team2 || 'hit-1');
-                setInputValue('admin-mac10-t2-score', m10.score2 !== null && m10.score2 !== undefined ? m10.score2 : '');
-                setInputValue('admin-mac10-status', m10.status || 'bekleniyor');
-                setInputValue('admin-mac10-time', m10.time || '18:00');
-                updateWinnerButtonGroup('mac10', m10.winner);
-
-                // Yarı Finaller & Finaller
-                // 1. Yarı Final (semi1 / Maç 11)
-                const s1 = data.mac11 || (data.semis && data.semis[0]) || findMatch('mac-11') || {};
-                setInputValue('admin-semi1-t1-name', s1.team1 || 'wtk-2');
-                setInputValue('admin-semi1-t1-score', s1.score1 !== null && s1.score1 !== undefined ? s1.score1 : '');
-                setInputValue('admin-semi1-t2-name', s1.team2 || 'maliye isletme -2');
-                setInputValue('admin-semi1-t2-score', s1.score2 !== null && s1.score2 !== undefined ? s1.score2 : '');
-                setInputValue('admin-semi1-status', s1.status || 'bekleniyor');
-                setInputValue('admin-semi1-time', s1.time || '18:00');
-                updateWinnerButtonGroup('semi1', s1.winner);
-
-                // 2. Yarı Final (semi2 / Maç 12)
-                const s2 = data.mac12 || (data.semis && data.semis[1]) || findMatch('mac-12') || {};
-                setInputValue('admin-semi2-t1-name', s2.team1 || 'hit-1');
-                setInputValue('admin-semi2-t1-score', s2.score1 !== null && s2.score1 !== undefined ? s2.score1 : '');
-                setInputValue('admin-semi2-t2-name', s2.team2 || 'hit-2');
-                setInputValue('admin-semi2-t2-score', s2.score2 !== null && s2.score2 !== undefined ? s2.score2 : '');
-                setInputValue('admin-semi2-status', s2.status || 'bekleniyor');
-                setInputValue('admin-semi2-time', s2.time || '19:00');
-                updateWinnerButtonGroup('semi2', s2.winner);
-
-                // 3.lük Maçı (third)
-                const th = data.thirdPlace || findMatch('third-place-match') || {};
-                setInputValue('admin-third-t1-name', th.team1 || 'maliye isletme -2');
-                setInputValue('admin-third-t1-score', th.score1 !== null && th.score1 !== undefined ? th.score1 : '');
-                setInputValue('admin-third-t2-name', th.team2 || 'hit-2');
-                setInputValue('admin-third-t2-score', th.score2 !== null && th.score2 !== undefined ? th.score2 : '');
-                setInputValue('admin-third-status', th.status || 'bekleniyor');
-                setInputValue('admin-third-time', th.time || '18:00');
-                updateWinnerButtonGroup('third', th.winner);
-
-                // Büyük Final (final)
-                const f = data.final || findMatch('final-match') || {};
-                setInputValue('admin-final-t1-name', f.team1 || 'wtk-2');
-                setInputValue('admin-final-t1-score', f.score1 !== null && f.score1 !== undefined ? f.score1 : '');
-                setInputValue('admin-final-t2-name', f.team2 || 'hit-2');
-                setInputValue('admin-final-t2-score', f.score2 !== null && f.score2 !== undefined ? f.score2 : '');
-                setInputValue('admin-final-status', f.status || 'bekleniyor');
-                setInputValue('admin-final-time', f.time || '12:30');
-                updateWinnerButtonGroup('final', f.winner);
-
-                // Şampiyon
-                setInputValue('admin-champion-input', f.champion || data.champion || 'hit-2');
-            }
-
-            function readAdminInputsIntoMemory() {
-                if (!currentEditingTournament) currentEditingTournament = JSON.parse(JSON.stringify(getTournamentData()));
-
-                // Maç 1
-                if (!Array.isArray(currentEditingTournament.quarters)) currentEditingTournament.quarters = [{}, {}];
-                const q1 = currentEditingTournament.quarters[0] || {};
-                q1.id = 'mac-1'; q1.date = '28 Eylül 2026'; q1.day = 'Pazartesi';
-                q1.team1 = getInputValue('admin-qf1-t1-name', 'maliye isletme -2');
-                q1.score1 = getInputScore('admin-qf1-t1-score');
-                q1.team2 = getInputValue('admin-qf1-t2-name', 'wtk-2');
-                q1.score2 = getInputScore('admin-qf1-t2-score');
-                q1.status = getInputValue('admin-qf1-status', 'bekleniyor');
-                q1.time = getInputValue('admin-qf1-time', '18:00');
-                q1.winner = getSelectedWinner('qf1', q1.score1, q1.score2);
-                currentEditingTournament.quarters[0] = q1;
-                currentEditingTournament.mac1 = q1;
-
-                // Maç 2
-                const q2 = currentEditingTournament.quarters[1] || {};
-                q2.id = 'mac-2'; q2.date = '28 Eylül 2026'; q2.day = 'Pazartesi';
-                q2.team1 = getInputValue('admin-qf2-t1-name', 'hit-1');
-                q2.score1 = getInputScore('admin-qf2-t1-score');
-                q2.team2 = getInputValue('admin-qf2-t2-name', 'hit-2');
-                q2.score2 = getInputScore('admin-qf2-t2-score');
-                q2.status = getInputValue('admin-qf2-status', 'bekleniyor');
-                q2.time = getInputValue('admin-qf2-time', '19:00');
-                q2.winner = getSelectedWinner('qf2', q2.score1, q2.score2);
-                currentEditingTournament.quarters[1] = q2;
-                currentEditingTournament.mac2 = q2;
-
-                // Maç 3
-                const m3 = currentEditingTournament.mac3 || {};
-                m3.id = 'mac-3'; m3.date = '30 Eylül 2026'; m3.day = 'Çarşamba';
-                m3.team1 = getInputValue('admin-fix-m3-t1-name', 'ic mekan tasarim-2');
-                m3.score1 = getInputScore('admin-fix-m3-t1-score');
-                m3.team2 = getInputValue('admin-fix-m3-t2-name', 'hit-2');
-                m3.score2 = getInputScore('admin-fix-m3-t2-score');
-                m3.status = getInputValue('admin-fix-m3-status', 'bekleniyor');
-                m3.time = getInputValue('admin-fix-m3-time', '18:00');
-                m3.winner = getSelectedWinner('fix-m3', m3.score1, m3.score2);
-                currentEditingTournament.mac3 = m3;
-
-                // Maç 4
-                const m4 = currentEditingTournament.mac4 || {};
-                m4.id = 'mac-4'; m4.date = '30 Eylül 2026'; m4.day = 'Çarşamba';
-                m4.team1 = getInputValue('admin-fix-m4-t1-name', 'wtk-2');
-                m4.score1 = getInputScore('admin-fix-m4-t1-score');
-                m4.team2 = getInputValue('admin-fix-m4-t2-name', 'hit-1');
-                m4.score2 = getInputScore('admin-fix-m4-t2-score');
-                m4.status = getInputValue('admin-fix-m4-status', 'bekleniyor');
-                m4.time = getInputValue('admin-fix-m4-time', '19:00');
-                m4.winner = getSelectedWinner('fix-m4', m4.score1, m4.score2);
-                currentEditingTournament.mac4 = m4;
-
-                // Maç 5
-                const m5 = currentEditingTournament.mac5 || {};
-                m5.id = 'mac-5'; m5.date = '1 Ekim 2026'; m5.day = 'Perşembe';
-                m5.team1 = getInputValue('admin-mac5-t1-name', 'maliye isletme -2');
-                m5.score1 = getInputScore('admin-mac5-t1-score');
-                m5.team2 = getInputValue('admin-mac5-t2-name', 'hit-2');
-                m5.score2 = getInputScore('admin-mac5-t2-score');
-                m5.status = getInputValue('admin-mac5-status', 'bekleniyor');
-                m5.time = getInputValue('admin-mac5-time', '18:00');
-                m5.winner = getSelectedWinner('mac5', m5.score1, m5.score2);
-                currentEditingTournament.mac5 = m5;
-
-                // Maç 6
-                const m6 = currentEditingTournament.mac6 || {};
-                m6.id = 'mac-6'; m6.date = '1 Ekim 2026'; m6.day = 'Perşembe';
-                m6.team1 = getInputValue('admin-mac6-t1-name', 'wtk-2');
-                m6.score1 = getInputScore('admin-mac6-t1-score');
-                m6.team2 = getInputValue('admin-mac6-t2-name', 'ic mekan tasarim-2');
-                m6.score2 = getInputScore('admin-mac6-t2-score');
-                m6.status = getInputValue('admin-mac6-status', 'bekleniyor');
-                m6.time = getInputValue('admin-mac6-time', '19:00');
-                m6.winner = getSelectedWinner('mac6', m6.score1, m6.score2);
-                currentEditingTournament.mac6 = m6;
-
-                // Maç 7
-                const m7 = currentEditingTournament.mac7 || {};
-                m7.id = 'mac-7'; m7.date = '6 Ekim 2026'; m7.day = 'Salı';
-                m7.team1 = getInputValue('admin-mac7-t1-name', 'hit-2');
-                m7.score1 = getInputScore('admin-mac7-t1-score');
-                m7.team2 = getInputValue('admin-mac7-t2-name', 'wtk-2');
-                m7.score2 = getInputScore('admin-mac7-t2-score');
-                m7.status = getInputValue('admin-mac7-status', 'bekleniyor');
-                m7.time = getInputValue('admin-mac7-time', '18:00');
-                m7.winner = getSelectedWinner('mac7', m7.score1, m7.score2);
-                currentEditingTournament.mac7 = m7;
-
-                // Maç 7B
-                const m7b = currentEditingTournament.mac7b || {};
-                m7b.id = 'mac-7b'; m7b.date = '6 Ekim 2026'; m7b.day = 'Salı';
-                m7b.team1 = getInputValue('admin-mac7b-t1-name', 'ic mekan tasarim-2');
-                m7b.score1 = getInputScore('admin-mac7b-t1-score');
-                m7b.team2 = getInputValue('admin-mac7b-t2-name', 'maliye isletme -2');
-                m7b.score2 = getInputScore('admin-mac7b-t2-score');
-                m7b.status = getInputValue('admin-mac7b-status', 'bekleniyor');
-                m7b.time = getInputValue('admin-mac7b-time', '19:00');
-                m7b.note = getInputValue('admin-mac7b-note', 'Penaltılar ile bitti');
-                m7b.winner = getSelectedWinner('mac7b', m7b.score1, m7b.score2) || 'team2';
-                currentEditingTournament.mac7b = m7b;
-
-                // Maç 8
-                const m8 = currentEditingTournament.mac8 || {};
-                m8.id = 'mac-8'; m8.date = '7 Ekim 2026'; m8.day = 'Çarşamba';
-                m8.team1 = getInputValue('admin-mac8-t1-name', 'maliye isletme -2');
-                m8.score1 = getInputScore('admin-mac8-t1-score');
-                m8.team2 = getInputValue('admin-mac8-t2-name', 'hit-1');
-                m8.score2 = getInputScore('admin-mac8-t2-score');
-                m8.status = getInputValue('admin-mac8-status', 'bekleniyor');
-                m8.time = getInputValue('admin-mac8-time', '18:00');
-                m8.note = getInputValue('admin-mac8-note', 'Penaltılarla bitti');
-                m8.winner = getSelectedWinner('mac8', m8.score1, m8.score2) || 'team1';
-                currentEditingTournament.mac8 = m8;
-
-                // Maç 10
-                const m10 = currentEditingTournament.mac10 || {};
-                m10.id = 'mac-10'; m10.date = '8 Ekim 2026'; m10.day = 'Perşembe';
-                m10.team1 = getInputValue('admin-mac10-t1-name', 'ic mekan tasarim-2');
-                m10.score1 = getInputScore('admin-mac10-t1-score');
-                m10.team2 = getInputValue('admin-mac10-t2-name', 'hit-1');
-                m10.score2 = getInputScore('admin-mac10-t2-score');
-                m10.status = getInputValue('admin-mac10-status', 'bekleniyor');
-                m10.time = getInputValue('admin-mac10-time', '18:00');
-                m10.winner = getSelectedWinner('mac10', m10.score1, m10.score2);
-                currentEditingTournament.mac10 = m10;
-
-                // 1. Yarı Final (Maç 11)
-                if (!Array.isArray(currentEditingTournament.semis)) currentEditingTournament.semis = [{}, {}];
-                const s1 = currentEditingTournament.semis[0] || {};
-                s1.id = 'mac-11'; s1.title = '1. Yarı Final Maçı'; s1.date = '13 Ekim Salı'; s1.day = 'Salı';
-                s1.team1 = getInputValue('admin-semi1-t1-name', 'wtk-2');
-                s1.score1 = getInputScore('admin-semi1-t1-score');
-                s1.team2 = getInputValue('admin-semi1-t2-name', 'maliye isletme -2');
-                s1.score2 = getInputScore('admin-semi1-t2-score');
-                s1.status = getInputValue('admin-semi1-status', 'bekleniyor');
-                s1.time = getInputValue('admin-semi1-time', '18:00');
-                s1.winner = getSelectedWinner('semi1', s1.score1, s1.score2);
-                currentEditingTournament.semis[0] = s1;
-                currentEditingTournament.mac11 = s1;
-
-                // 2. Yarı Final (Maç 12)
-                const s2 = currentEditingTournament.semis[1] || {};
-                s2.id = 'mac-12'; s2.title = '2. Yarı Final Maçı'; s2.date = '13 Ekim Salı'; s2.day = 'Salı';
-                s2.team1 = getInputValue('admin-semi2-t1-name', 'hit-1');
-                s2.score1 = getInputScore('admin-semi2-t1-score');
-                s2.team2 = getInputValue('admin-semi2-t2-name', 'hit-2');
-                s2.score2 = getInputScore('admin-semi2-t2-score');
-                s2.status = getInputValue('admin-semi2-status', 'bekleniyor');
-                s2.time = getInputValue('admin-semi2-time', '19:00');
-                s2.winner = getSelectedWinner('semi2', s2.score1, s2.score2);
-                currentEditingTournament.semis[1] = s2;
-                currentEditingTournament.mac12 = s2;
-
-                // 3.lük Maçı
-                const th = currentEditingTournament.thirdPlace || {};
-                th.id = 'third-place-match'; th.date = '1 Ekim 2026'; th.time = '18:00';
-                th.team1 = getInputValue('admin-third-t1-name', 'maliye isletme -2');
-                th.score1 = getInputScore('admin-third-t1-score');
-                th.team2 = getInputValue('admin-third-t2-name', 'hit-2');
-                th.score2 = getInputScore('admin-third-t2-score');
-                th.status = getInputValue('admin-third-status', 'bekleniyor');
-                th.time = getInputValue('admin-third-time', '18:00');
-                th.winner = getSelectedWinner('third', th.score1, th.score2);
-                currentEditingTournament.thirdPlace = th;
-
-                // Büyük Final
-                const f = currentEditingTournament.final || {};
-                f.id = 'final-match'; f.title = 'Şampiyonluk Maçı'; f.date = '15 Ekim Perşembe'; f.day = 'Perşembe';
-                f.team1 = getInputValue('admin-final-t1-name', 'wtk-2');
-                f.score1 = getInputScore('admin-final-t1-score');
-                f.team2 = getInputValue('admin-final-t2-name', 'hit-2');
-                f.score2 = getInputScore('admin-final-t2-score');
-                f.status = getInputValue('admin-final-status', 'bekleniyor');
-                f.time = getInputValue('admin-final-time', '12:30');
-                f.winner = getSelectedWinner('final', f.score1, f.score2);
-                const champ = getInputValue('admin-champion-input', 'hit-2');
-                f.champion = champ;
-                currentEditingTournament.champion = champ;
-                currentEditingTournament.final = f;
-
-                // Global matches listesi tam senkronizasyon
-                currentEditingTournament.matches = [
-                    JSON.parse(JSON.stringify(q1)),
-                    JSON.parse(JSON.stringify(q2)),
-                    JSON.parse(JSON.stringify(m3)),
-                    JSON.parse(JSON.stringify(m4)),
-                    JSON.parse(JSON.stringify(m5)),
-                    JSON.parse(JSON.stringify(m6)),
-                    JSON.parse(JSON.stringify(m7)),
-                    JSON.parse(JSON.stringify(m7b)),
-                    JSON.parse(JSON.stringify(m8)),
-                    JSON.parse(JSON.stringify(m10)),
-                    JSON.parse(JSON.stringify(s1)),
-                    JSON.parse(JSON.stringify(s2)),
-                    JSON.parse(JSON.stringify(f))
-                ];
-            }
-
-            // Kazanan butonları bağlama ve canlı skor eşitleme
-            const winnerPrefixes = [
-                { prefix: 'qf1', getter: () => currentEditingTournament && currentEditingTournament.quarters && currentEditingTournament.quarters[0] },
-                { prefix: 'qf2', getter: () => currentEditingTournament && currentEditingTournament.quarters && currentEditingTournament.quarters[1] },
-                { prefix: 'fix-m3', getter: () => currentEditingTournament && currentEditingTournament.mac3 },
-                { prefix: 'fix-m4', getter: () => currentEditingTournament && currentEditingTournament.mac4 },
-                { prefix: 'mac5', getter: () => currentEditingTournament && currentEditingTournament.mac5 },
-                { prefix: 'mac6', getter: () => currentEditingTournament && currentEditingTournament.mac6 },
-                { prefix: 'mac7', getter: () => currentEditingTournament && currentEditingTournament.mac7 },
-                { prefix: 'mac7b', getter: () => currentEditingTournament && currentEditingTournament.mac7b },
-                { prefix: 'mac8', getter: () => currentEditingTournament && currentEditingTournament.mac8 },
-                { prefix: 'mac10', getter: () => currentEditingTournament && currentEditingTournament.mac10 },
-                { prefix: 'semi1', getter: () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[0] },
-                { prefix: 'semi2', getter: () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[1] },
-                { prefix: 'third', getter: () => currentEditingTournament && currentEditingTournament.thirdPlace },
-                { prefix: 'final', getter: () => currentEditingTournament && currentEditingTournament.final }
-            ];
-
-            winnerPrefixes.forEach(item => setupWinnerButtons(item.prefix, item.getter));
-            winnerPrefixes.forEach(item => attachScoreWinnerAutoSync(item.prefix));
-
-            // Skorları Puan Durumuna Otomatik Eşitle Butonu
-            const btnSyncScoresToStandings = document.getElementById('btn-sync-scores-to-standings');
-            if (btnSyncScoresToStandings) {
-                btnSyncScoresToStandings.addEventListener('click', async () => {
-                    const originalBtnText = btnSyncScoresToStandings.innerHTML;
-                    btnSyncScoresToStandings.disabled = true;
-                    btnSyncScoresToStandings.innerHTML = '⏳ Hesaplanıyor & Aktarılıyor...';
-                    const statusMsg = document.getElementById('standings-sync-status-msg');
-                    if (statusMsg) {
-                        statusMsg.style.display = 'block';
-                        statusMsg.style.color = 'var(--text-muted)';
-                        statusMsg.innerText = 'Puan durumu hesaplanıyor...';
-                    }
-
-                    try {
-                        readAdminInputsIntoMemory();
-                        if (typeof syncStandingsFromTournamentMatches !== 'function') {
-                            showToast('İstatistik modülü yüklenemedi.', '❌');
-                            return;
-                        }
-
-                        const result = await syncStandingsFromTournamentMatches(currentEditingTournament, true);
-                        const count = (result && result.matchesProcessed) || 0;
-                        if (statusMsg) {
-                            statusMsg.style.display = 'block';
-                            statusMsg.style.color = '#10b981';
-                            statusMsg.innerText = `✅ Başarılı: ${count} adet maç puan tablosuna ve Supabase buluta aktarıldı!`;
-                        }
-                        showToast(`📊 ${count} maç puan tablosuna eşitlendi!`, '✅');
-                    } catch (err) {
-                        console.error('Puan durumu aktarma hatası:', err);
-                        if (statusMsg) {
-                            statusMsg.style.display = 'block';
-                            statusMsg.style.color = '#ef4444';
-                            statusMsg.innerText = '❌ Aktarım sırasında bir hata oluştu.';
-                        }
-                        showToast('Puan tablosu aktarılırken hata oluştu.', '❌');
-                    } finally {
-                        btnSyncScoresToStandings.disabled = false;
-                        btnSyncScoresToStandings.innerHTML = originalBtnText;
-                    }
-                });
-            }
-
-            // Kaydet & Yayınla Butonu
-            if (saveTournamentBtn) {
-                saveTournamentBtn.addEventListener('click', async () => {
-                    const originalBtnText = saveTournamentBtn.innerHTML;
-                    saveTournamentBtn.disabled = true;
-                    saveTournamentBtn.innerHTML = '⏳ Kaydediliyor...';
-
-                    try {
-                        readAdminInputsIntoMemory();
-                        const result = await saveTournamentData(currentEditingTournament, true);
-                        renderAllTournamentViews(currentEditingTournament);
-                        if (adminModal) adminModal.classList.remove('active');
-
-                        if (typeof syncStandingsFromTournamentMatches === 'function') {
-                            syncStandingsFromTournamentMatches(currentEditingTournament, true).catch(() => {});
-                        }
-
-                        if (result && result.cloudSynced) {
-                            showToast('Turnuva ağacı kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
-                        } else {
-                            showToast('Değişiklikler başarıyla kaydedildi.', '💾');
-                        }
-                    } catch (err) {
-                        console.error('Kaydetme hatası:', err);
-                        showToast('Kaydedilirken hata oluştu.', '❌');
-                    } finally {
-                        saveTournamentBtn.disabled = false;
-                        saveTournamentBtn.innerHTML = originalBtnText;
-                    }
-                });
-            }
-
-            // Sıfırlama Butonu
-            if (adminResetBtn) {
-                adminResetBtn.addEventListener('click', async () => {
-                    const confirmWord = prompt('⚠️ DİKKAT: Tüm turnuva ağacı varsayılan fikstüre sıfırlanacaktır!\n\nOnaylamak için "SIFIRLA" yazınız:');
-                    if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') return;
-
-                    const confirmPin = prompt('Yönetici şifrenizi giriniz:');
-                    if (typeof authenticateAdmin !== 'function' || !authenticateAdmin(confirmPin)) {
-                        showToast('Yetkisiz işlem! Hatalı şifre.', '❌');
-                        return;
-                    }
-
-                    try {
-                        const defaultData = await resetTournamentData();
-                        currentEditingTournament = JSON.parse(JSON.stringify(defaultData));
-                        populateAdminModalValues(currentEditingTournament);
-                        renderAllTournamentViews(currentEditingTournament);
-                        showToast('Turnuva ağacı varsayılana sıfırlandı.', '🔄');
-                    } catch (e) {
-                        showToast('Sıfırlama hatası.', '❌');
-                    }
-                });
-            }
-
-            // Çıkış Butonları Dinleyicisi
-            if (adminLogoutBtn) {
-                adminLogoutBtn.addEventListener('click', () => {
-                    if (typeof logoutAdmin === 'function') logoutAdmin();
-                    updateAdminStatusUI();
-                    showToast('Yönetici oturumu kapatıldı.', '🚪');
-                });
-            }
-            if (mobileAdminLogoutBtn) {
-                mobileAdminLogoutBtn.addEventListener('click', () => {
-                    if (typeof logoutAdmin === 'function') logoutAdmin();
-                    updateAdminStatusUI();
-                    showToast('Yönetici oturumu kapatıldı.', '🚪');
-                });
-            }
-
-            // Realtime & İlk Senkronizasyon Başlatma
-            if (typeof initTournamentDataSync === 'function') {
-                initTournamentDataSync();
-            }
-
-            window.addEventListener('turnuva_auth_changed', () => {
-                updateAdminStatusUI();
-            });
-
-            updateAdminStatusUI();
-        });
-    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', nextTheme);
+                });
+            }
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            const drawerOverlay = document.getElementById('drawer-overlay');
+            const toggleDrawer = () => {
+                hamburgerBtn.classList.toggle('active');
+                mobileDrawer.classList.toggle('active');
+                drawerOverlay.classList.toggle('active');
+            };
+            if (hamburgerBtn && drawerOverlay) {
+                hamburgerBtn.addEventListener('click', toggleDrawer);
+                drawerOverlay.addEventListener('click', toggleDrawer);
+            }
+            const toastEl = document.getElementById('toast-msg');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            let toastTimeout = null;
+            function showToast(message, icon = '✅') {
+                if (!toastEl) return;
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastText.innerText = message;
+                toastIcon.innerText = icon;
+                toastEl.classList.add('show');
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 3200);
+            }
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+            function formatScoreDisplay(score) {
+                if (score === null || score === undefined || score === '') return '-';
+                return String(score);
+            }
+            function formatStatusBadge(status, defaultTime) {
+                if (status === 'canli') return '🔴 CANLI';
+                if (status === 'bitti') return '✅ Bitti';
+                return defaultTime || 'Bekleniyor';
+            }
+            function getStatusClass(status) {
+                if (status === 'canli') return 'status-canli';
+                if (status === 'bitti') return 'status-bitti';
+                return '';
+            }
+            const announcementPopupModal = document.getElementById('announcement-popup-modal');
+            const popupCloseBtn = document.getElementById('popup-close-btn');
+            const popupDismissBtn = document.getElementById('popup-dismiss-btn');
+            const openAnnouncementPopupBtn = document.getElementById('open-announcement-popup-btn');
+            function showAnnouncementPopup(force = false) {
+                if (!announcementPopupModal) return;
+                if (typeof getLatestAnnouncement !== 'function') return;
+                const latest = getLatestAnnouncement();
+                if (latest) {
+                    const popupCatBadge = document.getElementById('popup-cat-badge');
+                    const popupDate = document.getElementById('popup-date');
+                    const popupTitle = document.getElementById('popup-title');
+                    const popupContent = document.getElementById('popup-content');
+                    const popupLinkBtn = document.getElementById('popup-link-btn');
+                    if (popupCatBadge) popupCatBadge.innerText = latest.categoryLabel || '📢 Duyuru';
+                    if (popupDate) popupDate.innerText = latest.date || '';
+                    if (popupTitle) popupTitle.innerText = latest.title || 'Turnuva Duyurusu';
+                    if (popupContent) popupContent.innerText = latest.content || latest.summary || '';
+                    if (popupLinkBtn) popupLinkBtn.href = 'duyurular.html#' + latest.id;
+                    announcementPopupModal.classList.add('active');
+                }
+            }
+            function closeAnnouncementPopup() {
+                if (announcementPopupModal) {
+                    announcementPopupModal.classList.remove('active');
+                }
+            }
+            if (popupCloseBtn) popupCloseBtn.addEventListener('click', closeAnnouncementPopup);
+            if (popupDismissBtn) popupDismissBtn.addEventListener('click', closeAnnouncementPopup);
+            if (announcementPopupModal) {
+                announcementPopupModal.addEventListener('click', (e) => {
+                    if (e.target === announcementPopupModal) closeAnnouncementPopup();
+                });
+            }
+            if (openAnnouncementPopupBtn) {
+                openAnnouncementPopupBtn.addEventListener('click', () => showAnnouncementPopup(true));
+            }
+            setTimeout(() => {
+                showAnnouncementPopup();
+            }, 350);
+            function renderAllTournamentViews(tournamentData) {
+                const data = tournamentData || getTournamentData();
+                function renderMatchRow(rowKey, m) {
+                    if (!m) return;
+                    const fixTime = document.getElementById(`fix-time-${rowKey}`);
+                    const fixT1 = document.getElementById(`fix-team1-${rowKey}`);
+                    const fixT2 = document.getElementById(`fix-team2-${rowKey}`);
+                    const fixScore = document.getElementById(`fix-score-${rowKey}`);
+                    if (fixTime) fixTime.innerText = m.time || '18:00';
+                    if (fixT1) {
+                        fixT1.innerText = m.team1 || '';
+                        fixT1.classList.toggle('is-winner', m.winner === 'team1');
+                    }
+                    if (fixT2) {
+                        fixT2.innerText = m.team2 || '';
+                        fixT2.classList.toggle('is-winner', m.winner === 'team2');
+                    }
+                    if (fixScore) {
+                        if (m.score1 !== null && m.score1 !== '' && m.score2 !== null && m.score2 !== '') {
+                            if (isNaN(m.score1) || isNaN(m.score2)) {
+                                fixScore.innerText = `${m.score1} ${m.score2}`;
+                            } else {
+                                fixScore.innerText = `${m.score1}-${m.score2}`;
+                            }
+                            fixScore.classList.add('has-score');
+                        } else if (m.status === 'bitti' && m.note) {
+                            fixScore.innerText = m.note;
+                            fixScore.classList.add('has-score');
+                        } else {
+                            fixScore.innerText = 'v';
+                            fixScore.classList.remove('has-score');
+                        }
+                    }
+                }
+                const matches = Array.isArray(data.matches) ? data.matches : [];
+                const findMatch = (id) => matches.find(m => m.id === id);
+                const m11 = data.mac11 || findMatch('mac-11') || matches[10];
+                renderMatchRow('mac11', m11);
+                const m12 = data.mac12 || findMatch('mac-12') || matches[11];
+                renderMatchRow('mac12', m12);
+                const m7 = data.mac7 || findMatch('mac-7') || matches[6];
+                renderMatchRow('mac7', m7);
+                const m7b = data.mac7b || findMatch('mac-7b');
+                renderMatchRow('mac7b', m7b);
+                const m8 = data.mac8 || findMatch('mac-8') || matches[7];
+                renderMatchRow('mac8', m8);
+                const m10 = data.mac10 || findMatch('mac-10') || matches[8];
+                renderMatchRow('mac10', m10);
+                const quarters = Array.isArray(data.quarters) ? data.quarters : (data.quarter ? [data.quarter] : []);
+                const q1 = quarters[0] || findMatch('mac-1') || matches[0];
+                renderMatchRow('qf1', q1);
+                const q2 = quarters[1] || findMatch('mac-2') || matches[1];
+                renderMatchRow('qf2', q2);
+                const m3 = data.mac3 || findMatch('mac-3') || matches[2];
+                renderMatchRow('semi1', m3);
+                const m4 = data.mac4 || findMatch('mac-4') || matches[3];
+                renderMatchRow('semi2', m4);
+                const m5 = data.mac5 || data.thirdPlace || findMatch('mac-5') || matches[4];
+                renderMatchRow('third', m5);
+                const m6 = data.mac6 || findMatch('mac-6') || matches[5];
+                renderMatchRow('mac6', m6);
+                const fMatch = data.final || findMatch('final-match');
+                renderMatchRow('final', fMatch);
+                const fixtureCard = document.getElementById('bracket-fixture-card');
+                initFavoriteStars();
+                const semisBadgeDate = document.getElementById('semis-badge-date');
+                if (semisBadgeDate) {
+                    semisBadgeDate.innerText = (data.semis && data.semis[0] && data.semis[0].date) ? data.semis[0].date : '13 Ekim 2026';
+                }
+                const s1 = (data.semis && data.semis[0]) ? data.semis[0] : (data.mac11 || findMatch('mac-11'));
+                if (s1) {
+                    const semi1Card = document.getElementById('bracket-card-semi-1');
+                    const semi1Title = document.getElementById('semi-1-title');
+                    const semi1Badge = document.getElementById('semi-1-badge');
+                    const semi1T1 = document.getElementById('semi-1-team-1');
+                    const semi1S1 = document.getElementById('semi-1-score-1');
+                    const semi1T2 = document.getElementById('semi-1-team-2');
+                    const semi1S2 = document.getElementById('semi-1-score-2');
+                    const row1 = document.getElementById('semi-1-row-1');
+                    const row2 = document.getElementById('semi-1-row-2');
+                    if (semi1Title) semi1Title.innerText = s1.title || '1. Yarı Final Maçı';
+                    if (semi1Badge) {
+                        semi1Badge.innerText = formatStatusBadge(s1.status, s1.time || '18:00');
+                        semi1Badge.className = 'match-status-badge ' + getStatusClass(s1.status);
+                    }
+                    if (semi1T1) semi1T1.innerText = s1.team1 || 'wtk-2';
+                    if (semi1S1) semi1S1.innerText = formatScoreDisplay(s1.score1);
+                    if (semi1T2) semi1T2.innerText = s1.team2 || 'maliye isletme -2';
+                    if (semi1S2) semi1S2.innerText = formatScoreDisplay(s1.score2);
+                    if (row1) row1.classList.toggle('is-winner', s1.winner === 'team1');
+                    if (row2) row2.classList.toggle('is-winner', s1.winner === 'team2');
+                }
+                const s2 = (data.semis && data.semis[1]) ? data.semis[1] : (data.mac12 || findMatch('mac-12'));
+                if (s2) {
+                    const semi2Card = document.getElementById('bracket-card-semi-2');
+                    const semi2Title = document.getElementById('semi-2-title');
+                    const semi2Badge = document.getElementById('semi-2-badge');
+                    const semi2T1 = document.getElementById('semi-2-team-1');
+                    const semi2S1 = document.getElementById('semi-2-score-1');
+                    const semi2T2 = document.getElementById('semi-2-team-2');
+                    const semi2S2 = document.getElementById('semi-2-score-2');
+                    const row1 = document.getElementById('semi-2-row-1');
+                    const row2 = document.getElementById('semi-2-row-2');
+                    if (semi2Title) semi2Title.innerText = s2.title || '2. Yarı Final Maçı';
+                    if (semi2Badge) {
+                        semi2Badge.innerText = formatStatusBadge(s2.status, s2.time || '19:00');
+                        semi2Badge.className = 'match-status-badge ' + getStatusClass(s2.status);
+                    }
+                    if (semi2T1) semi2T1.innerText = s2.team1 || 'hit-1';
+                    if (semi2S1) semi2S1.innerText = formatScoreDisplay(s2.score1);
+                    if (semi2T2) semi2T2.innerText = s2.team2 || 'hit-2';
+                    if (semi2S2) semi2S2.innerText = formatScoreDisplay(s2.score2);
+                    if (row1) row1.classList.toggle('is-winner', s2.winner === 'team1');
+                    if (row2) row2.classList.toggle('is-winner', s2.winner === 'team2');
+                }
+                if (data.final) {
+                    const f = data.final;
+                    const finalBadgeDate = document.getElementById('final-badge-date');
+                    if (finalBadgeDate) {
+                        finalBadgeDate.innerText = f.date || '15 Ekim 2026';
+                    }
+                    const finalCard = document.getElementById('bracket-card-final');
+                    const finalDate = document.getElementById('final-card-date');
+                    const finalT1 = document.getElementById('final-team-1');
+                    const finalS1 = document.getElementById('final-score-1');
+                    const finalT2 = document.getElementById('final-team-2');
+                    const finalS2 = document.getElementById('final-score-2');
+                    const row1 = document.getElementById('final-row-1');
+                    const row2 = document.getElementById('final-row-2');
+                    const winnerPill = document.getElementById('final-winner-pill');
+                    if (finalDate) {
+                        finalDate.innerText = f.time || '';
+                        if (!f.time) {
+                            finalDate.style.display = 'none';
+                        } else {
+                            finalDate.style.display = '';
+                        }
+                    }
+                    let finalTeam1 = f.team1 || 'Yarı Final 1 Galibi';
+                    if ((!f.team1 || f.team1 === 'Yarı Final 1 Galibi') && s1) {
+                        if (s1.winner === 'team1') finalTeam1 = s1.team1;
+                        else if (s1.winner === 'team2') finalTeam1 = s1.team2;
+                    }
+                    let finalTeam2 = f.team2 || 'Yarı Final 2 Galibi';
+                    if ((!f.team2 || f.team2 === 'Yarı Final 2 Galibi') && s2) {
+                        if (s2.winner === 'team1') finalTeam2 = s2.team1;
+                        else if (s2.winner === 'team2') finalTeam2 = s2.team2;
+                    }
+                    if (finalT1) finalT1.innerText = finalTeam1;
+                    if (finalS1) finalS1.innerText = formatScoreDisplay(f.score1);
+                    if (finalT2) finalT2.innerText = finalTeam2;
+                    if (finalS2) finalS2.innerText = formatScoreDisplay(f.score2);
+                    if (row1) row1.classList.toggle('is-winner', f.winner === 'team1');
+                    if (row2) row2.classList.toggle('is-winner', f.winner === 'team2');
+                    let champName = f.champion;
+                    if (!champName && f.winner) {
+                        champName = f.winner === 'team1' ? finalTeam1 : (f.winner === 'team2' ? finalTeam2 : null);
+                    }
+                    if (winnerPill) {
+                        if (champName && champName.trim() !== '') {
+                            winnerPill.innerHTML = `👑 Şampiyon: <strong style="color: #ffffff;">${escapeHtml(champName)}</strong> 🏆`;
+                            winnerPill.className = 'winner-pill champion-crowned';
+                        } else {
+                            winnerPill.innerText = '👑 Şampiyon: Henüz Belli Değil';
+                            winnerPill.className = 'winner-pill';
+                        }
+                    }
+                    const displayChampName = document.getElementById('display-champion-name');
+                    const displayChampSub = document.getElementById('display-champion-sub');
+                    if (displayChampName) {
+                        if (champName && champName.trim() !== '') {
+                            displayChampName.innerHTML = `👑 ${escapeHtml(champName)}`;
+                            displayChampName.style.color = 'var(--gold)';
+                            if (displayChampSub) displayChampSub.innerText = '🏆 2026 Turnuva Birincisi';
+                        } else {
+                            displayChampName.innerText = 'Henüz Belli Değil';
+                            displayChampName.style.color = 'var(--text-main)';
+                            if (displayChampSub) displayChampSub.innerText = 'Final Maçı Sonrası Taçlanacak';
+                        }
+                    }
+                }
+            }
+            function isMobileClient() {
+                return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
+            }
+            let inMemoryFavorites = [];
+            function initFavoriteStars() {
+                try {
+                    document.querySelectorAll('.fixture-star-btn').forEach(btn => {
+                        const starId = btn.getAttribute('data-star-id');
+                        if (inMemoryFavorites.includes(starId)) {
+                            btn.classList.add('active');
+                            btn.innerHTML = '★';
+                        } else {
+                            btn.classList.remove('active');
+                            btn.innerHTML = '☆';
+                        }
+                        btn.onclick = (e) => {
+                            e.stopPropagation();
+                            if (inMemoryFavorites.includes(starId)) {
+                                inMemoryFavorites = inMemoryFavorites.filter(id => id !== starId);
+                                btn.classList.remove('active');
+                                btn.innerHTML = '☆';
+                                showToast('Maç favorilerden çıkarıldı.', '☆');
+                            } else {
+                                inMemoryFavorites.push(starId);
+                                btn.classList.add('active');
+                                btn.innerHTML = '★';
+                                showToast('Maç favorilere eklendi!', '★');
+                            }
+                        };
+                    });
+                } catch (err) {
+                    console.error('Favorite star init error:', err);
+                }
+            }
+            function initFixtureWidgetEvents() {
+                const fixToggleBtn = document.getElementById('fixture-widget-toggle-btn');
+                const fixBody = document.getElementById('fixture-widget-body');
+                if (fixToggleBtn && fixBody) {
+                    fixToggleBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const isCollapsed = fixBody.style.display === 'none';
+                        if (isCollapsed) {
+                            fixBody.style.display = 'block';
+                            fixToggleBtn.innerHTML = '✕';
+                            fixToggleBtn.title = 'Fikstürü Daralt';
+                        } else {
+                            fixBody.style.display = 'none';
+                            fixToggleBtn.innerHTML = '＋';
+                            fixToggleBtn.title = 'Fikstürü Genişlet';
+                        }
+                    });
+                }
+            }
+            renderAllTournamentViews();
+            initFixtureWidgetEvents();
+            window.addEventListener('turnuva_bracket_updated', (e) => {
+                if (e.detail && e.detail.data) {
+                    renderAllTournamentViews(e.detail.data);
+                } else {
+                    renderAllTournamentViews();
+                }
+            });
+            const openAdminBtn = document.getElementById('open-admin-btn');
+            const adminLogoutBtn = document.getElementById('admin-logout-btn');
+            const mobileOpenAdminBtn = document.getElementById('mobile-open-admin-btn');
+            const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
+            const pinModal = document.getElementById('pin-modal');
+            const closePinModalBtn = document.getElementById('close-pin-modal');
+            const cancelPinBtn = document.getElementById('cancel-pin-btn');
+            const submitPinBtn = document.getElementById('submit-pin-btn');
+            const adminPinInput = document.getElementById('admin-pin-input');
+            const togglePinVisibility = document.getElementById('toggle-pin-visibility');
+            const adminModal = document.getElementById('tournament-admin-modal');
+            const closeAdminModal = document.getElementById('close-admin-modal');
+            const cancelAdminModalBtn = document.getElementById('cancel-admin-modal-btn');
+            const saveTournamentBtn = document.getElementById('save-tournament-btn');
+            const adminResetBtn = document.getElementById('admin-reset-btn');
+            let currentEditingTournament = null;
+            function updateAdminStatusUI() {
+                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+                const openBtn = document.getElementById('open-admin-btn');
+                const btnText = document.getElementById('admin-btn-text');
+                const logoutBtn = document.getElementById('admin-logout-btn');
+                const mobileOpen = document.getElementById('mobile-open-admin-btn');
+                const mobileText = document.getElementById('mobile-admin-btn-text');
+                const mobileLogout = document.getElementById('mobile-admin-logout-btn');
+                if (openBtn) {
+                    openBtn.classList.toggle('is-auth', isAuth);
+                    if (btnText) btnText.innerText = isAuth ? 'Yönetim Paneli' : 'Yönetici Girişi';
+                }
+                if (logoutBtn) logoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
+                if (mobileOpen) {
+                    mobileOpen.classList.toggle('is-auth', isAuth);
+                    if (mobileText) mobileText.innerText = isAuth ? '⚙️ Yönetim Paneli' : '🔒 Yönetici Girişi';
+                }
+                if (mobileLogout) mobileLogout.style.display = isAuth ? 'inline-flex' : 'none';
+            }
+            function openAdminModalWithTab(tabId) {
+                const isAuth = typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.isAuthenticated === 'function' && window.TurnuvaAuth.isAuthenticated();
+                if (!isAuth) {
+                    if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
+                        window.TurnuvaAuth.openPinModal(() => openAdminModalWithTab(tabId));
+                    }
+                    return;
+                }
+                tabId = tabId || 'pane-fixture-1';
+                currentEditingTournament = JSON.parse(JSON.stringify(getTournamentData()));
+                populateAdminModalValues(currentEditingTournament);
+                document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+                });
+                document.querySelectorAll('.admin-tab-pane').forEach(pane => {
+                    pane.classList.toggle('active', pane.id === tabId);
+                });
+                if (adminModal) adminModal.classList.add('active');
+            }
+            function handleAdminClick() {
+                if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
+                    openAdminModalWithTab('pane-fixture-1');
+                } else if (typeof TurnuvaAuth !== 'undefined' && TurnuvaAuth.openPinModal) {
+                    TurnuvaAuth.openPinModal(() => openAdminModalWithTab('pane-fixture-1'));
+                } else {
+                    if (pinModal) {
+                        if (adminPinInput) adminPinInput.value = '';
+                        pinModal.classList.add('active');
+                        setTimeout(() => { if (adminPinInput) adminPinInput.focus(); }, 100);
+                    }
+                }
+            }
+            if (openAdminBtn) openAdminBtn.addEventListener('click', handleAdminClick);
+            if (mobileOpenAdminBtn) {
+                mobileOpenAdminBtn.addEventListener('click', () => {
+                    const mobileDrawer = document.getElementById('mobile-drawer');
+                    const drawerOverlay = document.getElementById('drawer-overlay');
+                    const hamburgerBtn = document.getElementById('hamburger-btn');
+                    if (mobileDrawer) mobileDrawer.classList.remove('active');
+                    if (drawerOverlay) drawerOverlay.classList.remove('active');
+                    if (hamburgerBtn) hamburgerBtn.classList.remove('active');
+                    handleAdminClick();
+                });
+            }
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    if (!tabId) return;
+                    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
+                    btn.classList.add('active');
+                    const targetPane = document.getElementById(tabId);
+                    if (targetPane) targetPane.classList.add('active');
+                });
+            });
+            if (togglePinVisibility && adminPinInput) {
+                togglePinVisibility.addEventListener('click', () => {
+                    const isPwd = adminPinInput.type === 'password';
+                    adminPinInput.type = isPwd ? 'text' : 'password';
+                    togglePinVisibility.innerText = isPwd ? '🙈' : '👁️';
+                });
+            }
+            function checkPinSubmit() {
+                if (!adminPinInput) return;
+                const pin = adminPinInput.value.trim();
+                const pinErr = document.getElementById('pin-error-msg');
+                if (typeof authenticateAdmin === 'function' && authenticateAdmin(pin)) {
+                    if (pinModal) pinModal.classList.remove('active');
+                    if (pinErr) pinErr.style.display = 'none';
+                    updateAdminStatusUI();
+                    showToast('Yönetici girişi başarılı!', '🔑');
+                    openAdminModalWithTab('pane-fixture-1');
+                } else {
+                    if (pinErr) pinErr.style.display = 'block';
+                    showToast('Hatalı şifre! Lütfen tekrar deneyiniz.', '❌');
+                    adminPinInput.select();
+                    adminPinInput.focus();
+                }
+            }
+            if (submitPinBtn) submitPinBtn.addEventListener('click', checkPinSubmit);
+            if (adminPinInput) {
+                adminPinInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') checkPinSubmit();
+                });
+            }
+            if (closePinModalBtn && pinModal) closePinModalBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+            if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+            if (closeAdminModal && adminModal) closeAdminModal.addEventListener('click', () => adminModal.classList.remove('active'));
+            if (cancelAdminModalBtn && adminModal) cancelAdminModalBtn.addEventListener('click', () => adminModal.classList.remove('active'));
+            if (pinModal) {
+                pinModal.addEventListener('click', (e) => {
+                    if (e.target === pinModal) pinModal.classList.remove('active');
+                });
+            }
+            if (adminModal) {
+                adminModal.addEventListener('click', (e) => {
+                    if (e.target === adminModal) adminModal.classList.remove('active');
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (pinModal) pinModal.classList.remove('active');
+                    if (adminModal) adminModal.classList.remove('active');
+                }
+            });
+            function setInputValue(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.value = (val !== null && val !== undefined) ? val : '';
+            }
+            function getInputValue(id, fallback = '') {
+                const el = document.getElementById(id);
+                return el ? el.value.trim() : fallback;
+            }
+            function getInputScore(id) {
+                const el = document.getElementById(id);
+                if (!el) return null;
+                const v = el.value.trim();
+                if (v === '') return null;
+                const num = parseInt(v, 10);
+                return isNaN(num) ? v : num;
+            }
+            function updateWinnerButtonGroup(prefix, winnerValue) {
+                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
+                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
+                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
+                if (btnT1) btnT1.classList.toggle('active', winnerValue === 'team1');
+                if (btnT2) btnT2.classList.toggle('active', winnerValue === 'team2');
+                if (btnNone) btnNone.classList.toggle('active', !winnerValue);
+            }
+            function getSelectedWinner(prefix, score1, score2) {
+                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
+                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
+                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
+                if (btnT1 && btnT1.classList.contains('active')) return 'team1';
+                if (btnT2 && btnT2.classList.contains('active')) return 'team2';
+                if (btnNone && btnNone.classList.contains('active')) return null;
+                const s1 = parseInt(score1, 10);
+                const s2 = parseInt(score2, 10);
+                if (!isNaN(s1) && !isNaN(s2)) {
+                    if (s1 > s2) return 'team1';
+                    if (s2 > s1) return 'team2';
+                }
+                return null;
+            }
+            function setupWinnerButtons(prefix, targetObjectGetter) {
+                const btnT1 = document.getElementById(`btn-${prefix}-w-t1`);
+                const btnT2 = document.getElementById(`btn-${prefix}-w-t2`);
+                const btnNone = document.getElementById(`btn-${prefix}-w-none`);
+                if (btnT1) {
+                    btnT1.addEventListener('click', () => {
+                        updateWinnerButtonGroup(prefix, 'team1');
+                        const target = targetObjectGetter();
+                        if (target) target.winner = 'team1';
+                    });
+                }
+                if (btnT2) {
+                    btnT2.addEventListener('click', () => {
+                        updateWinnerButtonGroup(prefix, 'team2');
+                        const target = targetObjectGetter();
+                        if (target) target.winner = 'team2';
+                    });
+                }
+                if (btnNone) {
+                    btnNone.addEventListener('click', () => {
+                        updateWinnerButtonGroup(prefix, null);
+                        const target = targetObjectGetter();
+                        if (target) target.winner = null;
+                    });
+                }
+            }
+            function attachScoreWinnerAutoSync(prefix) {
+                const s1Input = document.getElementById(`admin-${prefix}-t1-score`);
+                const s2Input = document.getElementById(`admin-${prefix}-t2-score`);
+                const statusSelect = document.getElementById(`admin-${prefix}-status`);
+                if (!s1Input || !s2Input) return;
+                const syncWinnerAndStatus = () => {
+                    const v1 = s1Input.value.trim();
+                    const v2 = s2Input.value.trim();
+                    if (v1 === '' && v2 === '') {
+                        updateWinnerButtonGroup(prefix, null);
+                        if (statusSelect && statusSelect.value === 'bitti') {
+                            statusSelect.value = 'bekleniyor';
+                        }
+                        return;
+                    }
+                    const s1 = parseInt(v1, 10);
+                    const s2 = parseInt(v2, 10);
+                    if (!isNaN(s1) && !isNaN(s2)) {
+                        if (statusSelect && statusSelect.value === 'bekleniyor') {
+                            statusSelect.value = 'bitti';
+                        }
+                        if (s1 > s2) {
+                            updateWinnerButtonGroup(prefix, 'team1');
+                            if (prefix === 'final') {
+                                const t1 = getInputValue('admin-final-t1-name');
+                                if (t1 && t1 !== 'Yarı Final 1 Galibi') {
+                                    setInputValue('admin-champion-input', t1);
+                                }
+                            }
+                        } else if (s2 > s1) {
+                            updateWinnerButtonGroup(prefix, 'team2');
+                            if (prefix === 'final') {
+                                const t2 = getInputValue('admin-final-t2-name');
+                                if (t2 && t2 !== 'Yarı Final 2 Galibi') {
+                                    setInputValue('admin-champion-input', t2);
+                                }
+                            }
+                        } else {
+                            updateWinnerButtonGroup(prefix, null);
+                        }
+                    } else if (v1 !== '' || v2 !== '') {
+                        if (statusSelect && statusSelect.value === 'bekleniyor') {
+                            statusSelect.value = 'canli';
+                        }
+                    }
+                };
+                s1Input.addEventListener('input', syncWinnerAndStatus);
+                s2Input.addEventListener('input', syncWinnerAndStatus);
+            }
+            function populateAdminModalValues(data) {
+                if (!data) return;
+                const quarters = Array.isArray(data.quarters) ? data.quarters : [];
+                const matches = Array.isArray(data.matches) ? data.matches : [];
+                const findMatch = (id) => matches.find(m => m.id === id);
+                const q1 = data.mac1 || quarters[0] || findMatch('mac-1') || matches[0] || {};
+                setInputValue('admin-qf1-t1-name', q1.team1 || 'maliye isletme -2');
+                setInputValue('admin-qf1-t1-score', q1.score1 !== null && q1.score1 !== undefined ? q1.score1 : '');
+                setInputValue('admin-qf1-t2-name', q1.team2 || 'wtk-2');
+                setInputValue('admin-qf1-t2-score', q1.score2 !== null && q1.score2 !== undefined ? q1.score2 : '');
+                setInputValue('admin-qf1-status', q1.status || 'bekleniyor');
+                setInputValue('admin-qf1-time', q1.time || '18:00');
+                updateWinnerButtonGroup('qf1', q1.winner);
+                const q2 = data.mac2 || quarters[1] || findMatch('mac-2') || matches[1] || {};
+                setInputValue('admin-qf2-t1-name', q2.team1 || 'hit-1');
+                setInputValue('admin-qf2-t1-score', q2.score1 !== null && q2.score1 !== undefined ? q2.score1 : '');
+                setInputValue('admin-qf2-t2-name', q2.team2 || 'hit-2');
+                setInputValue('admin-qf2-t2-score', q2.score2 !== null && q2.score2 !== undefined ? q2.score2 : '');
+                setInputValue('admin-qf2-status', q2.status || 'bekleniyor');
+                setInputValue('admin-qf2-time', q2.time || '19:00');
+                updateWinnerButtonGroup('qf2', q2.winner);
+                const m3 = data.mac3 || findMatch('mac-3') || matches[2] || {};
+                setInputValue('admin-fix-m3-t1-name', m3.team1 || 'ic mekan tasarim-2');
+                setInputValue('admin-fix-m3-t1-score', m3.score1 !== null && m3.score1 !== undefined ? m3.score1 : '');
+                setInputValue('admin-fix-m3-t2-name', m3.team2 || 'hit-2');
+                setInputValue('admin-fix-m3-t2-score', m3.score2 !== null && m3.score2 !== undefined ? m3.score2 : '');
+                setInputValue('admin-fix-m3-status', m3.status || 'bekleniyor');
+                setInputValue('admin-fix-m3-time', m3.time || '18:00');
+                updateWinnerButtonGroup('fix-m3', m3.winner);
+                const m4 = data.mac4 || findMatch('mac-4') || matches[3] || {};
+                setInputValue('admin-fix-m4-t1-name', m4.team1 || 'wtk-2');
+                setInputValue('admin-fix-m4-t1-score', m4.score1 !== null && m4.score1 !== undefined ? m4.score1 : '');
+                setInputValue('admin-fix-m4-t2-name', m4.team2 || 'hit-1');
+                setInputValue('admin-fix-m4-t2-score', m4.score2 !== null && m4.score2 !== undefined ? m4.score2 : '');
+                setInputValue('admin-fix-m4-status', m4.status || 'bekleniyor');
+                setInputValue('admin-fix-m4-time', m4.time || '19:00');
+                updateWinnerButtonGroup('fix-m4', m4.winner);
+                const m5 = data.mac5 || findMatch('mac-5') || matches[4] || {};
+                setInputValue('admin-mac5-t1-name', m5.team1 || 'maliye isletme -2');
+                setInputValue('admin-mac5-t1-score', m5.score1 !== null && m5.score1 !== undefined ? m5.score1 : '');
+                setInputValue('admin-mac5-t2-name', m5.team2 || 'hit-2');
+                setInputValue('admin-mac5-t2-score', m5.score2 !== null && m5.score2 !== undefined ? m5.score2 : '');
+                setInputValue('admin-mac5-status', m5.status || 'bekleniyor');
+                setInputValue('admin-mac5-time', m5.time || '18:00');
+                updateWinnerButtonGroup('mac5', m5.winner);
+                const m6 = data.mac6 || findMatch('mac-6') || matches[5] || {};
+                setInputValue('admin-mac6-t1-name', m6.team1 || 'wtk-2');
+                setInputValue('admin-mac6-t1-score', m6.score1 !== null && m6.score1 !== undefined ? m6.score1 : '');
+                setInputValue('admin-mac6-t2-name', m6.team2 || 'ic mekan tasarim-2');
+                setInputValue('admin-mac6-t2-score', m6.score2 !== null && m6.score2 !== undefined ? m6.score2 : '');
+                setInputValue('admin-mac6-status', m6.status || 'bekleniyor');
+                setInputValue('admin-mac6-time', m6.time || '19:00');
+                updateWinnerButtonGroup('mac6', m6.winner);
+                const m7 = data.mac7 || findMatch('mac-7') || matches[6] || {};
+                setInputValue('admin-mac7-t1-name', m7.team1 || 'hit-2');
+                setInputValue('admin-mac7-t1-score', m7.score1 !== null && m7.score1 !== undefined ? m7.score1 : '');
+                setInputValue('admin-mac7-t2-name', m7.team2 || 'wtk-2');
+                setInputValue('admin-mac7-t2-score', m7.score2 !== null && m7.score2 !== undefined ? m7.score2 : '');
+                setInputValue('admin-mac7-status', m7.status || 'bekleniyor');
+                setInputValue('admin-mac7-time', m7.time || '18:00');
+                updateWinnerButtonGroup('mac7', m7.winner);
+                const m7b = data.mac7b || findMatch('mac-7b') || matches[7] || {};
+                setInputValue('admin-mac7b-t1-name', m7b.team1 || 'ic mekan tasarim-2');
+                setInputValue('admin-mac7b-t1-score', m7b.score1 !== null && m7b.score1 !== undefined ? m7b.score1 : '');
+                setInputValue('admin-mac7b-t2-name', m7b.team2 || 'maliye isletme -2');
+                setInputValue('admin-mac7b-t2-score', m7b.score2 !== null && m7b.score2 !== undefined ? m7b.score2 : '');
+                setInputValue('admin-mac7b-status', m7b.status || 'bekleniyor');
+                setInputValue('admin-mac7b-time', m7b.time || '19:00');
+                setInputValue('admin-mac7b-note', m7b.note || 'Penaltılar ile bitti');
+                updateWinnerButtonGroup('mac7b', m7b.winner || 'team2');
+                const m8 = data.mac8 || findMatch('mac-8') || matches[8] || {};
+                setInputValue('admin-mac8-t1-name', m8.team1 || 'maliye isletme -2');
+                setInputValue('admin-mac8-t1-score', m8.score1 !== null && m8.score1 !== undefined ? m8.score1 : '');
+                setInputValue('admin-mac8-t2-name', m8.team2 || 'hit-1');
+                setInputValue('admin-mac8-t2-score', m8.score2 !== null && m8.score2 !== undefined ? m8.score2 : '');
+                setInputValue('admin-mac8-status', m8.status || 'bekleniyor');
+                setInputValue('admin-mac8-time', m8.time || '18:00');
+                setInputValue('admin-mac8-note', m8.note || 'Penaltılarla bitti');
+                updateWinnerButtonGroup('mac8', m8.winner || 'team1');
+                const m10 = data.mac10 || findMatch('mac-10') || matches[9] || {};
+                setInputValue('admin-mac10-t1-name', m10.team1 || 'ic mekan tasarim-2');
+                setInputValue('admin-mac10-t1-score', m10.score1 !== null && m10.score1 !== undefined ? m10.score1 : '');
+                setInputValue('admin-mac10-t2-name', m10.team2 || 'hit-1');
+                setInputValue('admin-mac10-t2-score', m10.score2 !== null && m10.score2 !== undefined ? m10.score2 : '');
+                setInputValue('admin-mac10-status', m10.status || 'bekleniyor');
+                setInputValue('admin-mac10-time', m10.time || '18:00');
+                updateWinnerButtonGroup('mac10', m10.winner);
+                const s1 = data.mac11 || (data.semis && data.semis[0]) || findMatch('mac-11') || {};
+                setInputValue('admin-semi1-t1-name', s1.team1 || 'wtk-2');
+                setInputValue('admin-semi1-t1-score', s1.score1 !== null && s1.score1 !== undefined ? s1.score1 : '');
+                setInputValue('admin-semi1-t2-name', s1.team2 || 'maliye isletme -2');
+                setInputValue('admin-semi1-t2-score', s1.score2 !== null && s1.score2 !== undefined ? s1.score2 : '');
+                setInputValue('admin-semi1-status', s1.status || 'bekleniyor');
+                setInputValue('admin-semi1-time', s1.time || '18:00');
+                updateWinnerButtonGroup('semi1', s1.winner);
+                const s2 = data.mac12 || (data.semis && data.semis[1]) || findMatch('mac-12') || {};
+                setInputValue('admin-semi2-t1-name', s2.team1 || 'hit-1');
+                setInputValue('admin-semi2-t1-score', s2.score1 !== null && s2.score1 !== undefined ? s2.score1 : '');
+                setInputValue('admin-semi2-t2-name', s2.team2 || 'hit-2');
+                setInputValue('admin-semi2-t2-score', s2.score2 !== null && s2.score2 !== undefined ? s2.score2 : '');
+                setInputValue('admin-semi2-status', s2.status || 'bekleniyor');
+                setInputValue('admin-semi2-time', s2.time || '19:00');
+                updateWinnerButtonGroup('semi2', s2.winner);
+                const th = data.thirdPlace || findMatch('third-place-match') || {};
+                setInputValue('admin-third-t1-name', th.team1 || 'maliye isletme -2');
+                setInputValue('admin-third-t1-score', th.score1 !== null && th.score1 !== undefined ? th.score1 : '');
+                setInputValue('admin-third-t2-name', th.team2 || 'hit-2');
+                setInputValue('admin-third-t2-score', th.score2 !== null && th.score2 !== undefined ? th.score2 : '');
+                setInputValue('admin-third-status', th.status || 'bekleniyor');
+                setInputValue('admin-third-time', th.time || '18:00');
+                updateWinnerButtonGroup('third', th.winner);
+                const f = data.final || findMatch('final-match') || {};
+                setInputValue('admin-final-t1-name', f.team1 || 'wtk-2');
+                setInputValue('admin-final-t1-score', f.score1 !== null && f.score1 !== undefined ? f.score1 : '');
+                setInputValue('admin-final-t2-name', f.team2 || 'hit-2');
+                setInputValue('admin-final-t2-score', f.score2 !== null && f.score2 !== undefined ? f.score2 : '');
+                setInputValue('admin-final-status', f.status || 'bekleniyor');
+                setInputValue('admin-final-time', f.time || '12:30');
+                updateWinnerButtonGroup('final', f.winner);
+                setInputValue('admin-champion-input', f.champion || data.champion || 'hit-2');
+            }
+            function readAdminInputsIntoMemory() {
+                if (!currentEditingTournament) currentEditingTournament = JSON.parse(JSON.stringify(getTournamentData()));
+                if (!Array.isArray(currentEditingTournament.quarters)) currentEditingTournament.quarters = [{}, {}];
+                const q1 = currentEditingTournament.quarters[0] || {};
+                q1.id = 'mac-1'; q1.date = '28 Eylül 2026'; q1.day = 'Pazartesi';
+                q1.team1 = getInputValue('admin-qf1-t1-name', 'maliye isletme -2');
+                q1.score1 = getInputScore('admin-qf1-t1-score');
+                q1.team2 = getInputValue('admin-qf1-t2-name', 'wtk-2');
+                q1.score2 = getInputScore('admin-qf1-t2-score');
+                q1.status = getInputValue('admin-qf1-status', 'bekleniyor');
+                q1.time = getInputValue('admin-qf1-time', '18:00');
+                q1.winner = getSelectedWinner('qf1', q1.score1, q1.score2);
+                currentEditingTournament.quarters[0] = q1;
+                currentEditingTournament.mac1 = q1;
+                const q2 = currentEditingTournament.quarters[1] || {};
+                q2.id = 'mac-2'; q2.date = '28 Eylül 2026'; q2.day = 'Pazartesi';
+                q2.team1 = getInputValue('admin-qf2-t1-name', 'hit-1');
+                q2.score1 = getInputScore('admin-qf2-t1-score');
+                q2.team2 = getInputValue('admin-qf2-t2-name', 'hit-2');
+                q2.score2 = getInputScore('admin-qf2-t2-score');
+                q2.status = getInputValue('admin-qf2-status', 'bekleniyor');
+                q2.time = getInputValue('admin-qf2-time', '19:00');
+                q2.winner = getSelectedWinner('qf2', q2.score1, q2.score2);
+                currentEditingTournament.quarters[1] = q2;
+                currentEditingTournament.mac2 = q2;
+                const m3 = currentEditingTournament.mac3 || {};
+                m3.id = 'mac-3'; m3.date = '30 Eylül 2026'; m3.day = 'Çarşamba';
+                m3.team1 = getInputValue('admin-fix-m3-t1-name', 'ic mekan tasarim-2');
+                m3.score1 = getInputScore('admin-fix-m3-t1-score');
+                m3.team2 = getInputValue('admin-fix-m3-t2-name', 'hit-2');
+                m3.score2 = getInputScore('admin-fix-m3-t2-score');
+                m3.status = getInputValue('admin-fix-m3-status', 'bekleniyor');
+                m3.time = getInputValue('admin-fix-m3-time', '18:00');
+                m3.winner = getSelectedWinner('fix-m3', m3.score1, m3.score2);
+                currentEditingTournament.mac3 = m3;
+                const m4 = currentEditingTournament.mac4 || {};
+                m4.id = 'mac-4'; m4.date = '30 Eylül 2026'; m4.day = 'Çarşamba';
+                m4.team1 = getInputValue('admin-fix-m4-t1-name', 'wtk-2');
+                m4.score1 = getInputScore('admin-fix-m4-t1-score');
+                m4.team2 = getInputValue('admin-fix-m4-t2-name', 'hit-1');
+                m4.score2 = getInputScore('admin-fix-m4-t2-score');
+                m4.status = getInputValue('admin-fix-m4-status', 'bekleniyor');
+                m4.time = getInputValue('admin-fix-m4-time', '19:00');
+                m4.winner = getSelectedWinner('fix-m4', m4.score1, m4.score2);
+                currentEditingTournament.mac4 = m4;
+                const m5 = currentEditingTournament.mac5 || {};
+                m5.id = 'mac-5'; m5.date = '1 Ekim 2026'; m5.day = 'Perşembe';
+                m5.team1 = getInputValue('admin-mac5-t1-name', 'maliye isletme -2');
+                m5.score1 = getInputScore('admin-mac5-t1-score');
+                m5.team2 = getInputValue('admin-mac5-t2-name', 'hit-2');
+                m5.score2 = getInputScore('admin-mac5-t2-score');
+                m5.status = getInputValue('admin-mac5-status', 'bekleniyor');
+                m5.time = getInputValue('admin-mac5-time', '18:00');
+                m5.winner = getSelectedWinner('mac5', m5.score1, m5.score2);
+                currentEditingTournament.mac5 = m5;
+                const m6 = currentEditingTournament.mac6 || {};
+                m6.id = 'mac-6'; m6.date = '1 Ekim 2026'; m6.day = 'Perşembe';
+                m6.team1 = getInputValue('admin-mac6-t1-name', 'wtk-2');
+                m6.score1 = getInputScore('admin-mac6-t1-score');
+                m6.team2 = getInputValue('admin-mac6-t2-name', 'ic mekan tasarim-2');
+                m6.score2 = getInputScore('admin-mac6-t2-score');
+                m6.status = getInputValue('admin-mac6-status', 'bekleniyor');
+                m6.time = getInputValue('admin-mac6-time', '19:00');
+                m6.winner = getSelectedWinner('mac6', m6.score1, m6.score2);
+                currentEditingTournament.mac6 = m6;
+                const m7 = currentEditingTournament.mac7 || {};
+                m7.id = 'mac-7'; m7.date = '6 Ekim 2026'; m7.day = 'Salı';
+                m7.team1 = getInputValue('admin-mac7-t1-name', 'hit-2');
+                m7.score1 = getInputScore('admin-mac7-t1-score');
+                m7.team2 = getInputValue('admin-mac7-t2-name', 'wtk-2');
+                m7.score2 = getInputScore('admin-mac7-t2-score');
+                m7.status = getInputValue('admin-mac7-status', 'bekleniyor');
+                m7.time = getInputValue('admin-mac7-time', '18:00');
+                m7.winner = getSelectedWinner('mac7', m7.score1, m7.score2);
+                currentEditingTournament.mac7 = m7;
+                const m7b = currentEditingTournament.mac7b || {};
+                m7b.id = 'mac-7b'; m7b.date = '6 Ekim 2026'; m7b.day = 'Salı';
+                m7b.team1 = getInputValue('admin-mac7b-t1-name', 'ic mekan tasarim-2');
+                m7b.score1 = getInputScore('admin-mac7b-t1-score');
+                m7b.team2 = getInputValue('admin-mac7b-t2-name', 'maliye isletme -2');
+                m7b.score2 = getInputScore('admin-mac7b-t2-score');
+                m7b.status = getInputValue('admin-mac7b-status', 'bekleniyor');
+                m7b.time = getInputValue('admin-mac7b-time', '19:00');
+                m7b.note = getInputValue('admin-mac7b-note', 'Penaltılar ile bitti');
+                m7b.winner = getSelectedWinner('mac7b', m7b.score1, m7b.score2) || 'team2';
+                currentEditingTournament.mac7b = m7b;
+                const m8 = currentEditingTournament.mac8 || {};
+                m8.id = 'mac-8'; m8.date = '7 Ekim 2026'; m8.day = 'Çarşamba';
+                m8.team1 = getInputValue('admin-mac8-t1-name', 'maliye isletme -2');
+                m8.score1 = getInputScore('admin-mac8-t1-score');
+                m8.team2 = getInputValue('admin-mac8-t2-name', 'hit-1');
+                m8.score2 = getInputScore('admin-mac8-t2-score');
+                m8.status = getInputValue('admin-mac8-status', 'bekleniyor');
+                m8.time = getInputValue('admin-mac8-time', '18:00');
+                m8.note = getInputValue('admin-mac8-note', 'Penaltılarla bitti');
+                m8.winner = getSelectedWinner('mac8', m8.score1, m8.score2) || 'team1';
+                currentEditingTournament.mac8 = m8;
+                const m10 = currentEditingTournament.mac10 || {};
+                m10.id = 'mac-10'; m10.date = '8 Ekim 2026'; m10.day = 'Perşembe';
+                m10.team1 = getInputValue('admin-mac10-t1-name', 'ic mekan tasarim-2');
+                m10.score1 = getInputScore('admin-mac10-t1-score');
+                m10.team2 = getInputValue('admin-mac10-t2-name', 'hit-1');
+                m10.score2 = getInputScore('admin-mac10-t2-score');
+                m10.status = getInputValue('admin-mac10-status', 'bekleniyor');
+                m10.time = getInputValue('admin-mac10-time', '18:00');
+                m10.winner = getSelectedWinner('mac10', m10.score1, m10.score2);
+                currentEditingTournament.mac10 = m10;
+                if (!Array.isArray(currentEditingTournament.semis)) currentEditingTournament.semis = [{}, {}];
+                const s1 = currentEditingTournament.semis[0] || {};
+                s1.id = 'mac-11'; s1.title = '1. Yarı Final Maçı'; s1.date = '13 Ekim Salı'; s1.day = 'Salı';
+                s1.team1 = getInputValue('admin-semi1-t1-name', 'wtk-2');
+                s1.score1 = getInputScore('admin-semi1-t1-score');
+                s1.team2 = getInputValue('admin-semi1-t2-name', 'maliye isletme -2');
+                s1.score2 = getInputScore('admin-semi1-t2-score');
+                s1.status = getInputValue('admin-semi1-status', 'bekleniyor');
+                s1.time = getInputValue('admin-semi1-time', '18:00');
+                s1.winner = getSelectedWinner('semi1', s1.score1, s1.score2);
+                currentEditingTournament.semis[0] = s1;
+                currentEditingTournament.mac11 = s1;
+                const s2 = currentEditingTournament.semis[1] || {};
+                s2.id = 'mac-12'; s2.title = '2. Yarı Final Maçı'; s2.date = '13 Ekim Salı'; s2.day = 'Salı';
+                s2.team1 = getInputValue('admin-semi2-t1-name', 'hit-1');
+                s2.score1 = getInputScore('admin-semi2-t1-score');
+                s2.team2 = getInputValue('admin-semi2-t2-name', 'hit-2');
+                s2.score2 = getInputScore('admin-semi2-t2-score');
+                s2.status = getInputValue('admin-semi2-status', 'bekleniyor');
+                s2.time = getInputValue('admin-semi2-time', '19:00');
+                s2.winner = getSelectedWinner('semi2', s2.score1, s2.score2);
+                currentEditingTournament.semis[1] = s2;
+                currentEditingTournament.mac12 = s2;
+                const th = currentEditingTournament.thirdPlace || {};
+                th.id = 'third-place-match'; th.date = '1 Ekim 2026'; th.time = '18:00';
+                th.team1 = getInputValue('admin-third-t1-name', 'maliye isletme -2');
+                th.score1 = getInputScore('admin-third-t1-score');
+                th.team2 = getInputValue('admin-third-t2-name', 'hit-2');
+                th.score2 = getInputScore('admin-third-t2-score');
+                th.status = getInputValue('admin-third-status', 'bekleniyor');
+                th.time = getInputValue('admin-third-time', '18:00');
+                th.winner = getSelectedWinner('third', th.score1, th.score2);
+                currentEditingTournament.thirdPlace = th;
+                const f = currentEditingTournament.final || {};
+                f.id = 'final-match'; f.title = 'Şampiyonluk Maçı'; f.date = '15 Ekim Perşembe'; f.day = 'Perşembe';
+                f.team1 = getInputValue('admin-final-t1-name', 'wtk-2');
+                f.score1 = getInputScore('admin-final-t1-score');
+                f.team2 = getInputValue('admin-final-t2-name', 'hit-2');
+                f.score2 = getInputScore('admin-final-t2-score');
+                f.status = getInputValue('admin-final-status', 'bekleniyor');
+                f.time = getInputValue('admin-final-time', '12:30');
+                f.winner = getSelectedWinner('final', f.score1, f.score2);
+                const champ = getInputValue('admin-champion-input', 'hit-2');
+                f.champion = champ;
+                currentEditingTournament.champion = champ;
+                currentEditingTournament.final = f;
+                currentEditingTournament.matches = [
+                    JSON.parse(JSON.stringify(q1)),
+                    JSON.parse(JSON.stringify(q2)),
+                    JSON.parse(JSON.stringify(m3)),
+                    JSON.parse(JSON.stringify(m4)),
+                    JSON.parse(JSON.stringify(m5)),
+                    JSON.parse(JSON.stringify(m6)),
+                    JSON.parse(JSON.stringify(m7)),
+                    JSON.parse(JSON.stringify(m7b)),
+                    JSON.parse(JSON.stringify(m8)),
+                    JSON.parse(JSON.stringify(m10)),
+                    JSON.parse(JSON.stringify(s1)),
+                    JSON.parse(JSON.stringify(s2)),
+                    JSON.parse(JSON.stringify(f))
+                ];
+            }
+            const winnerPrefixes = [
+                { prefix: 'qf1', getter: () => currentEditingTournament && currentEditingTournament.quarters && currentEditingTournament.quarters[0] },
+                { prefix: 'qf2', getter: () => currentEditingTournament && currentEditingTournament.quarters && currentEditingTournament.quarters[1] },
+                { prefix: 'fix-m3', getter: () => currentEditingTournament && currentEditingTournament.mac3 },
+                { prefix: 'fix-m4', getter: () => currentEditingTournament && currentEditingTournament.mac4 },
+                { prefix: 'mac5', getter: () => currentEditingTournament && currentEditingTournament.mac5 },
+                { prefix: 'mac6', getter: () => currentEditingTournament && currentEditingTournament.mac6 },
+                { prefix: 'mac7', getter: () => currentEditingTournament && currentEditingTournament.mac7 },
+                { prefix: 'mac7b', getter: () => currentEditingTournament && currentEditingTournament.mac7b },
+                { prefix: 'mac8', getter: () => currentEditingTournament && currentEditingTournament.mac8 },
+                { prefix: 'mac10', getter: () => currentEditingTournament && currentEditingTournament.mac10 },
+                { prefix: 'semi1', getter: () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[0] },
+                { prefix: 'semi2', getter: () => currentEditingTournament && currentEditingTournament.semis && currentEditingTournament.semis[1] },
+                { prefix: 'third', getter: () => currentEditingTournament && currentEditingTournament.thirdPlace },
+                { prefix: 'final', getter: () => currentEditingTournament && currentEditingTournament.final }
+            ];
+            winnerPrefixes.forEach(item => setupWinnerButtons(item.prefix, item.getter));
+            winnerPrefixes.forEach(item => attachScoreWinnerAutoSync(item.prefix));
+            const btnSyncScoresToStandings = document.getElementById('btn-sync-scores-to-standings');
+            if (btnSyncScoresToStandings) {
+                btnSyncScoresToStandings.addEventListener('click', async () => {
+                    const originalBtnText = btnSyncScoresToStandings.innerHTML;
+                    btnSyncScoresToStandings.disabled = true;
+                    btnSyncScoresToStandings.innerHTML = '⏳ Hesaplanıyor & Aktarılıyor...';
+                    const statusMsg = document.getElementById('standings-sync-status-msg');
+                    if (statusMsg) {
+                        statusMsg.style.display = 'block';
+                        statusMsg.style.color = 'var(--text-muted)';
+                        statusMsg.innerText = 'Puan durumu hesaplanıyor...';
+                    }
+                    try {
+                        readAdminInputsIntoMemory();
+                        if (typeof syncStandingsFromTournamentMatches !== 'function') {
+                            showToast('İstatistik modülü yüklenemedi.', '❌');
+                            return;
+                        }
+                        const result = await syncStandingsFromTournamentMatches(currentEditingTournament, true);
+                        const count = (result && result.matchesProcessed) || 0;
+                        if (statusMsg) {
+                            statusMsg.style.display = 'block';
+                            statusMsg.style.color = '#10b981';
+                            statusMsg.innerText = `✅ Başarılı: ${count} adet maç puan tablosuna ve Supabase buluta aktarıldı!`;
+                        }
+                        showToast(`📊 ${count} maç puan tablosuna eşitlendi!`, '✅');
+                    } catch (err) {
+                        console.error('Puan durumu aktarma hatası:', err);
+                        if (statusMsg) {
+                            statusMsg.style.display = 'block';
+                            statusMsg.style.color = '#ef4444';
+                            statusMsg.innerText = '❌ Aktarım sırasında bir hata oluştu.';
+                        }
+                        showToast('Puan tablosu aktarılırken hata oluştu.', '❌');
+                    } finally {
+                        btnSyncScoresToStandings.disabled = false;
+                        btnSyncScoresToStandings.innerHTML = originalBtnText;
+                    }
+                });
+            }
+            if (saveTournamentBtn) {
+                saveTournamentBtn.addEventListener('click', async () => {
+                    const originalBtnText = saveTournamentBtn.innerHTML;
+                    saveTournamentBtn.disabled = true;
+                    saveTournamentBtn.innerHTML = '⏳ Kaydediliyor...';
+                    try {
+                        readAdminInputsIntoMemory();
+                        const result = await saveTournamentData(currentEditingTournament, true);
+                        renderAllTournamentViews(currentEditingTournament);
+                        if (adminModal) adminModal.classList.remove('active');
+                        if (typeof syncStandingsFromTournamentMatches === 'function') {
+                            syncStandingsFromTournamentMatches(currentEditingTournament, true).catch(() => {});
+                        }
+                        if (result && result.cloudSynced) {
+                            showToast('Turnuva ağacı kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
+                        } else {
+                            showToast('Değişiklikler başarıyla kaydedildi.', '💾');
+                        }
+                    } catch (err) {
+                        console.error('Kaydetme hatası:', err);
+                        showToast('Kaydedilirken hata oluştu.', '❌');
+                    } finally {
+                        saveTournamentBtn.disabled = false;
+                        saveTournamentBtn.innerHTML = originalBtnText;
+                    }
+                });
+            }
+            if (adminResetBtn) {
+                adminResetBtn.addEventListener('click', async () => {
+                    const confirmWord = prompt('⚠️ DİKKAT: Tüm turnuva ağacı varsayılan fikstüre sıfırlanacaktır!\n\nOnaylamak için "SIFIRLA" yazınız:');
+                    if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') return;
+                    const confirmPin = prompt('Yönetici şifrenizi giriniz:');
+                    if (typeof authenticateAdmin !== 'function' || !authenticateAdmin(confirmPin)) {
+                        showToast('Yetkisiz işlem! Hatalı şifre.', '❌');
+                        return;
+                    }
+                    try {
+                        const defaultData = await resetTournamentData();
+                        currentEditingTournament = JSON.parse(JSON.stringify(defaultData));
+                        populateAdminModalValues(currentEditingTournament);
+                        renderAllTournamentViews(currentEditingTournament);
+                        showToast('Turnuva ağacı varsayılana sıfırlandı.', '🔄');
+                    } catch (e) {
+                        showToast('Sıfırlama hatası.', '❌');
+                    }
+                });
+            }
+            if (adminLogoutBtn) {
+                adminLogoutBtn.addEventListener('click', () => {
+                    if (typeof logoutAdmin === 'function') logoutAdmin();
+                    updateAdminStatusUI();
+                    showToast('Yönetici oturumu kapatıldı.', '🚪');
+                });
+            }
+            if (mobileAdminLogoutBtn) {
+                mobileAdminLogoutBtn.addEventListener('click', () => {
+                    if (typeof logoutAdmin === 'function') logoutAdmin();
+                    updateAdminStatusUI();
+                    showToast('Yönetici oturumu kapatıldı.', '🚪');
+                });
+            }
+            if (typeof initTournamentDataSync === 'function') {
+                initTournamentDataSync();
+            }
+            window.addEventListener('turnuva_auth_changed', () => {
+                updateAdminStatusUI();
+            });
+            updateAdminStatusUI();
+        });
+</script>
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
 

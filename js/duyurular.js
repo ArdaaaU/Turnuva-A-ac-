@@ -1,550 +1,484 @@
-
-
-const DEFAULT_ANNOUNCEMENTS = [
-    {
-        id: "d-6",
-        title: "👑 2026 Turnuva Şampiyonu HİT-2! Kupa Sahibini Buldu 🏆",
-        category: "mac",
-        categoryLabel: "🏆 Şampiyonluk & Ödüller",
-        date: "15 Ekim 2026",
-        author: "Turnuva Komitesi",
-        pinned: true,
-        summary: "Büyük Finali kazanan HİT-2 turnuva şampiyonu oldu! Gol Kralı Aykut, En İyi Kaleci ise Gazi oldu.",
-        content: "🏆 2026 Futbol Turnuvamız nefes kesen Büyük Final mücadelesiyle tamamlandı!\n\n👑 BÜYÜK FİNAL SKORU:\n⚡ HİT-2: 6 - 3 WTK-2\n\n🌟 TURNUVA BİREYSEL ÖDÜLLERİ:\n🥇 2026 Turnuva Şampiyonu: HİT-2\n👑 Turnuvanın Gol Kralı: Aykut\n🧤 Turnuvanın En İyi Kalecisi: Gazi\n\nŞampiyon HİT-2 takımını, turnuva boyunca harika bir mücadele sergileyen finalist WTK-2'yi ve turnuvaya emek veren tüm takımlarımızı gönülden tebrik ederiz!"
-    },
-    {
-        id: "d-5",
-        title: "🔥 Yarı Final Maçları Tamamlandı! Büyük Final: WTK vs HİT-2",
-        category: "mac",
-        categoryLabel: "🏆 Yarı Final Sonuçları",
-        date: "13 Ekim 2026",
-        author: "Turnuva Komitesi",
-        pinned: false,
-        summary: "13 Ekim Yarı Finaller: WTK-2 11 - 5 Maliye İşletme, HİT-2 20 - 4 HİT-1. Büyük Finalde WTK-2 ile HİT-2 karşılaşıyor!",
-        content: "🏆 Turnuvamızda yarı final heyecanı nefes kesen maçlarla tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşma Sonuçları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n(Goller: Mehmet 6, Ahmethan 3, Serhat 2 | Toprak 3, Burak 1, Emirhan 1)\n\n⚡ HİT-2: 20 - 4 HİT-1\n(Goller: Aykut 11, Mahmut 5, Çakır 2, Gazi 1, Tamer 1 | Davut 3, Can 1)\n\n👑 BÜYÜK FİNAL (15 Ekim Perşembe):\n🔥 WTK-2 🆚 HİT-2\n\nFinale yükselen her iki takımımıza başarılar dileriz!"
-    },
-    {
-        id: "d-1",
-        title: "🏆 Turnuva 28 Eylül'de Başlıyor! Ön Eleme Maçları Açıklandı",
-        category: "onemli",
-        categoryLabel: "🚨 Önemli Duyuru",
-        date: "28 Eylül 2026",
-        author: "Turnuva Komitesi",
-        pinned: false,
-        summary: "28 Eylül Ön Eleme Maçları: 18:00 maliye isletme -2 vs wtk-2, 19:00 hit-1 vs hit-2. ic mekan tasarim-2 kura ile doğrudan yarı finale yükseldi.",
-        content: "2026 Futbol Turnuvamız tüm coşkusuyla başlıyor! Ön Eleme maçları 28 Eylül 2026 tarihinde oynanacaktır:\n\n⚡ 18:00 | maliye isletme -2 vs wtk-2\n⚡ 19:00 | hit-1 vs hit-2\n\n⭐ ic mekan tasarim-2 kura sonucunda 1. Turu bay geçerek doğrudan 29 Eylül'deki Yarı Final'e yükselmiştir.\n\nTüm takımlarımıza ve sporcularımıza centilmence mücadeleler ve başarılar dileriz!"
-    },
-    {
-        id: "d-2",
-        title: "⚽ Grup & Eleme Aşaması Maç Saatleri ve Saha Kuralları",
-        category: "mac",
-        categoryLabel: "⚽ Maç Bilgisi",
-        date: "28 Eylül 2026",
-        author: "Turnuva Komitesi",
-        pinned: false,
-        summary: "Ön eleme maçları saat 18:00 ve 19:00'da oynanacaktır. Takımların en az 20 dakika önce sahada hazır bulunması gerekmektedir.",
-        content: "Turnuvamızın Ön Eleme maçları 28 Eylül'de saat 18:00 ve 19:00'da oynanacaktır. Maçların aksamaması adına takımların maç saatinden en az 20 dakika önce esame listeleriyle birlikte saha kenarında hazır bulunmaları zorunludur.\n\nMaç süreleri 2 x 25 dakika olarak oynanacak olup, devre arası 5 dakikadır."
-    },
-    {
-        id: "d-3",
-        title: "📜 Kart Cezaları ve Disiplin Talimatı",
-        category: "kural",
-        categoryLabel: "📜 Kural & Disiplin",
-        date: "10 Mart 2026",
-        author: "Hakem Kurulu",
-        pinned: false,
-        summary: "Sarı kart ve kırmızı kart uygulamaları ile disiplin kuralları belirlenmiştir.",
-        content: "Turnuvamızda disiplin ve centilmenlik ön plandadır.\n• Aynı maçta 2 sarı karttan kırmızı kart gören oyuncu takip eden ilk resmi maçta forma giyemez.\n• Doğrudan kırmızı kart durumunda hakem raporuna göre en az 2 maç men cezası uygulanır.\n• Turnuva genelinde 3 sarı karta ulaşan oyuncu bir sonraki maçta cezalı duruma düşer."
-    },
-    {
-        id: "d-4",
-        title: "📊 Canlı İstatistikler ve Takım Kadroları Yayında",
-        category: "genel",
-        categoryLabel: "📢 Genel Bilgilendirme",
-        date: "28 Eylül 2026",
-        author: "Yönetim",
-        pinned: false,
-        summary: "Tüm takımların oyuncu kadrolarını ve detaylı istatistiklerini 'İstatistikler' sayfamızdan inceleyebilirsiniz.",
-        content: "Turnuvada yer alan tüm 5 takımın oyuncu kadrolarını (hit-2, wtk-2, hit-1, maliye isletme -2, ic mekan tasarim-2), puan durumunu ve gol krallığı tablosunu sitemizin 'İstatistikler' sayfasından anlık olarak takip edebilirsiniz."
-    }
-];
-
-function getActiveFixtureMatches() {
-    let tData = null;
-    try {
-        if (typeof getTournamentData === 'function') {
-            tData = getTournamentData();
-        }
-    } catch (e) {}
-
-    const matches = (tData && Array.isArray(tData.matches)) ? tData.matches : [];
-    const findMatch = (id) => matches.find(m => m && m.id === id);
-
-    const m7 = (tData && tData.mac7) || findMatch('mac-7') || {
-        time: '18:00', team1: 'hit-2', team2: 'wtk-2'
-    };
-    const m7b = (tData && tData.mac7b) || findMatch('mac-7b') || {
-        time: '19:00', team1: 'ic mekan tasarim-2', team2: 'maliye isletme -2'
-    };
-    const m8 = (tData && tData.mac8) || findMatch('mac-8') || {
-        time: '18:00', team1: 'maliye isletme -2', team2: 'hit-1'
-    };
-    const m10 = (tData && tData.mac10) || findMatch('mac-10') || {
-        time: '18:00', team1: 'ic mekan tasarim-2', team2: 'hit-1'
-    };
-    const m11 = (tData && tData.mac11) || findMatch('mac-11') || {
-        time: '18:00', team1: 'wtk-2', team2: 'maliye isletme -2'
-    };
-    const m12 = (tData && tData.mac12) || findMatch('mac-12') || {
-        time: '19:00', team1: 'hit-1', team2: 'hit-2'
-    };
-
-    return { m7, m7b, m8, m10, m11, m12 };
-}
-
-function getActiveTournamentDay() {
-    try {
-        if (typeof window !== 'undefined' && window.location && window.location.search) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const dParam = parseInt(urlParams.get('day') || urlParams.get('gun'), 10);
-            if (dParam === 6 || dParam === 7 || dParam === 8 || dParam === 13 || dParam === 15) return dParam;
-        }
-    } catch (e) {}
-
-    const now = new Date();
-    const date = now.getDate();
-    const month = now.getMonth(); 
-
-    if (month === 9) { // Ekim (0-indexed 9)
-        if (date === 6) return 6;
-        if (date === 7) return 7;
-        if (date === 8) return 8;
-        if (date >= 9 && date < 15) return 13;
-        if (date >= 15) return 15;
-        return 15; 
-    }
-
-    if (date === 6) return 6;
-    if (date === 7) return 7;
-    if (date === 8) return 8;
-    if (date >= 9 && date < 15) return 13;
-    return 15; 
-}
-
-function getDailyTournamentAnnouncement() {
-    const day = getActiveTournamentDay();
-    const { m7, m7b, m8, m10, m11, m12 } = getActiveFixtureMatches();
-
-    if (day === 15) {
-        // Büyük Final günü ve sonrası için DEFAULT_ANNOUNCEMENTS içindeki 'd-6' Şampiyonluk duyurusu en başta gösterilir
-        return null;
-    } else if (day === 13) {
-        return {
-            id: 'gunun-maci-otomatik-13',
-            title: `🏆 Yarı Final Sonuçları (13 Ekim Salı) — Finalistler Belirlendi!`,
-            category: 'mac',
-            categoryLabel: '🏆 Yarı Final Sonuçları',
-            date: '13 Ekim 2026',
-            author: 'Turnuva Komitesi',
-            pinned: true,
-            isDynamic: true,
-            summary: `Yarı Final Maçları: WTK-2 11 - 5 Maliye İşletme -2 & HİT-2 20 - 4 HİT-1. Finalistler: WTK-2 ve HİT-2!`,
-            content: `🏆 Yarı final heyecanı tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşmaları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n⚡ HİT-2: 20 - 4 HİT-1\n\n👑 15 Ekim Perşembe Şampiyonluk Maçı: WTK-2 🆚 HİT-2`
-        };
-    } else if (day === 7) {
-        const t1_8 = m8.team1 || 'maliye isletme -2';
-        const t2_8 = m8.team2 || 'hit-1';
-        const time8 = m8.time || '18:00';
-
-        return {
-            id: 'gunun-maci-otomatik-7',
-            title: `⚽ Maç Sonucu (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8}`,
-            category: 'mac',
-            categoryLabel: '⚽ Maç Sonucu',
-            date: '7 Ekim 2026',
-            author: 'Turnuva Komitesi',
-            pinned: true,
-            isDynamic: true,
-            summary: `7 Ekim Çarşamba oynanan maçta ${t2_8}, penaltılar sonucunda galip gelmiştir.`,
-            content: `🏆 7 Ekim Çarşamba günü saat ${time8}'de oynanan ${t1_8} 🆚 ${t2_8} karşılaşması penaltılar ile bitti ve maçı ${t2_8} kazandı!\n\nMücadele eden her iki takımımıza da tebrik eder, kalan maçlarında başarılar dileriz.`
-        };
-    } else if (day === 8) {
-        const t1_10 = m10.team1 || 'ic mekan tasarim-2';
-        const t2_10 = m10.team2 || 'hit-1';
-        const time10 = m10.time || '18:00';
-
-        return {
-            id: 'gunun-maci-otomatik-8',
-            title: `⚽ Maç Sonucu (8 Ekim Perşembe) — ${t1_10} 7-3 ${t2_10}`,
-            category: 'mac',
-            categoryLabel: '⚽ Maç Sonucu',
-            date: '8 Ekim 2026',
-            author: 'Turnuva Komitesi',
-            pinned: true,
-            isDynamic: true,
-            summary: `8 Ekim Perşembe günü oynanan karşılaşmada ${t1_10}, ${t2_10} karşısında 7-3 galip gelmiştir.`,
-            content: `🏆 8 Ekim Perşembe günü saat ${time10}'de oynanan karşılaşma sonucu:\n\n⚡ ${t1_10} 7 - 3 ${t2_10}\n\nKarşılaşmayı kazanan ${t1_10} takımını tebrik eder, mücadele eden her iki takımımıza da teşekkür ederiz!`
-        };
-    } else {
-        const t1_7 = m7.team1 || 'hit-2';
-        const t2_7 = m7.team2 || 'wtk-2';
-        const time7 = m7.time || '18:00';
-
-        const t1_7b = m7b.team1 || 'ic mekan tasarim-2';
-        const t2_7b = m7b.team2 || 'maliye isletme -2';
-        const time7b = m7b.time || '19:00';
-
-        return {
-            id: 'gunun-maci-otomatik-6',
-            title: `⚽ Günün Maçları (6 Ekim Salı) — ${t1_7} vs ${t2_7} & ${t1_7b} vs ${t2_7b}`,
-            category: 'mac',
-            categoryLabel: '⚽ Günün Maçları',
-            date: '6 Ekim 2026',
-            author: 'Turnuva Komitesi',
-            pinned: true,
-            isDynamic: true,
-            summary: `Bugün 2 maç: ${time7} ${t1_7} 🆚 ${t2_7} ve ${time7b} ${t1_7b} 🆚 ${t2_7b}`,
-            content: `🏆 Turnuvada yeni hafta heyecanı başlıyor!\n\nBugün (6 Ekim 2026 Salı) oynanacak karşılaşmalar:\n\n⚡ ${time7} | ${t1_7} 🆚 ${t2_7}\n⚡ ${time7b} | ${t1_7b} 🆚 ${t2_7b}\n\nFikstürde yer alan karşılaşmalarda tüm takımlarımıza ve sporcularımıza centilmence mücadeleler dileriz!`
-        };
-    }
-}
-
-if (typeof window !== 'undefined') {
-    window.addEventListener('turnuva_bracket_updated', () => {
-        try {
-            window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
-        } catch (e) {}
-    });
-}
-
-let inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
-
-function cloneObject(obj) {
-    return JSON.parse(JSON.stringify(obj));
-}
-
-function getAnnouncements() {
-    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
-
-    const dailyAnn = getDailyTournamentAnnouncement();
-    if (dailyAnn) {
-        list = [dailyAnn, ...list];
-    }
-
-    return list;
-}
-
-function saveAnnouncements(list) {
-    const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
-    inMemoryAnnouncements = cloneObject(cleanList);
-    
-    try {
-        window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
-    } catch (evErr) {}
-}
-
-function getLatestAnnouncement() {
-    const list = getAnnouncements();
-    if (!list || list.length === 0) return null;
-    
-    const pinned = list.find(a => a.pinned);
-    return pinned || list[0];
-}
-
-async function addAnnouncement(item) {
-    if (!isAdminAuthenticated()) {
-        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
-        return null;
-    }
-
-    const list = (inMemoryAnnouncements || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
-    const newItem = {
-        id: 'd-' + Date.now(),
-        title: item.title,
-        category: item.category || 'genel',
-        categoryLabel: getCategoryLabel(item.category || 'genel'),
-        date: item.date || formatDate(new Date()),
-        author: item.author || 'Turnuva Komitesi',
-        pinned: Boolean(item.pinned),
-        summary: item.summary || (item.content ? item.content.slice(0, 110) + '...' : ''),
-        content: item.content || ''
-    };
-
-    if (newItem.pinned) {
-        list.unshift(newItem);
-    } else {
-        const firstNonPinned = list.findIndex(a => !a.pinned);
-        if (firstNonPinned === -1) {
-            list.push(newItem);
-        } else {
-            list.splice(firstNonPinned, 0, newItem);
-        }
-    }
-
-    saveAnnouncements(list);
-
-    if (typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            try {
-                await client.from('duyurular').insert({
-                    id: newItem.id,
-                    title: newItem.title,
-                    category: newItem.category,
-                    category_label: newItem.categoryLabel,
-                    date: newItem.date,
-                    author: newItem.author,
-                    pinned: newItem.pinned,
-                    summary: newItem.summary,
-                    content: newItem.content
-                });
-            } catch (err) {
-                console.warn('Supabase duyuru ekleme hatası:', err);
-            }
-        }
-    }
-
-    return newItem;
-}
-
-async function updateAnnouncement(id, updatedFields) {
-    if (!isAdminAuthenticated()) {
-        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
-        return null;
-    }
-
-    const list = cloneObject(inMemoryAnnouncements || []);
-    const index = list.findIndex(a => String(a.id) === String(id));
-    if (index === -1) return null;
-
-    const current = list[index];
-    const category = updatedFields.category || current.category;
-    list[index] = {
-        ...current,
-        ...updatedFields,
-        category: category,
-        categoryLabel: getCategoryLabel(category),
-        summary: updatedFields.summary || (updatedFields.content ? updatedFields.content.slice(0, 110) + '...' : current.summary)
-    };
-
-    list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-    saveAnnouncements(list);
-
-    const updated = list[index];
-
-    if (typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            try {
-                await client.from('duyurular').update({
-                    title: updated.title,
-                    category: updated.category,
-                    category_label: updated.categoryLabel,
-                    date: updated.date,
-                    author: updated.author,
-                    pinned: updated.pinned,
-                    summary: updated.summary,
-                    content: updated.content
-                }).eq('id', id);
-            } catch (err) {
-                console.warn('Supabase duyuru güncelleme hatası:', err);
-            }
-        }
-    }
-
-    return updated;
-}
-
-async function deleteAnnouncement(id) {
-    if (!isAdminAuthenticated()) {
-        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
-        return null;
-    }
-
-    if (!id) return getAnnouncements();
-    const strId = String(id).trim();
-
-    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
-    list = list.filter(a => a && String(a.id) !== strId && !String(a.id).startsWith('gunun-maci-otomatik-'));
-    saveAnnouncements(list);
-
-    if (typeof getSupabaseClient === 'function') {
-        const client = getSupabaseClient();
-        if (client) {
-            try {
-                await client.from('duyurular').delete().eq('id', strId);
-            } catch (err) {
-                console.warn('Supabase duyuru silme hatası:', err);
-            }
-        }
-    }
-
-    return getAnnouncements();
-}
-
-function resetToDefaultAnnouncements() {
-    if (!isAdminAuthenticated()) {
-        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
-        return null;
-    }
-
-    inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
-    saveAnnouncements(inMemoryAnnouncements);
-    return cloneObject(DEFAULT_ANNOUNCEMENTS);
-}
-
-async function syncAnnouncementsFromSupabase() {
-    if (typeof getSupabaseClient !== 'function') return null;
-    const client = getSupabaseClient();
-    if (!client) return null;
-
-    try {
-        const { data, error } = await client
-            .from('duyurular')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) {
-            console.warn('Supabase duyurular çekme hatası:', error);
-            return null;
-        }
-
-        if (Array.isArray(data) && data.length > 0) {
-            const mapped = data
-                .filter(row => row && row.id && !String(row.id).startsWith('system-'))
-                .map(row => ({
-                    id: row.id,
-                    title: row.title,
-                    category: row.category || 'genel',
-                    categoryLabel: row.category_label || getCategoryLabel(row.category || 'genel'),
-                    date: row.date || '',
-                    author: row.author || 'Turnuva Komitesi',
-                    pinned: Boolean(row.pinned),
-                    summary: row.summary || '',
-                    content: row.content || ''
-                }));
-
-            if (mapped.length > 0) {
-                inMemoryAnnouncements = cloneObject(mapped);
-                try {
-                    window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', {
-                        detail: { list: getAnnouncements() }
-                    }));
-                } catch (e) { }
-                return mapped;
-            }
-        } else if (Array.isArray(data) && data.length === 0) {
-            // Tablo boş ise yedeği otomatik Supabase'e yükle
-            console.log('Supabase duyurular tablosu boş, yedek yükleniyor...');
-            const seedItems = DEFAULT_ANNOUNCEMENTS.map(item => ({
-                id: item.id,
-                title: item.title,
-                category: item.category,
-                category_label: item.categoryLabel,
-                date: item.date,
-                author: item.author,
-                pinned: item.pinned,
-                summary: item.summary,
-                content: item.content
-            }));
-
-            try {
-                await client.from('duyurular').upsert(seedItems);
-            } catch (seedErr) {
-                console.warn('Yedek duyuruları Supabase aktarma hatası:', seedErr);
-            }
-
-            inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
-            try {
-                window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', {
-                    detail: { list: getAnnouncements() }
-                }));
-            } catch (e) { }
-            return DEFAULT_ANNOUNCEMENTS;
-        }
-    } catch (err) {
-        console.warn('Supabase duyurular senkronizasyon istisnası:', err);
-    }
-    return null;
-}
-
-
-let _duyurularRealtimeChannel = null;
-function initSupabaseRealtime() {
-    if (_duyurularRealtimeChannel) return;
-    if (typeof getSupabaseClient !== 'function') return;
-    const client = getSupabaseClient();
-    if (!client) return;
-
-    try {
-        _duyurularRealtimeChannel = client.channel('public:duyurular_rt');
-        _duyurularRealtimeChannel
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, function () {
-                syncAnnouncementsFromSupabase();
-            })
-            .subscribe(function (status) {
-                if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-                    _duyurularRealtimeChannel = null;
-                }
-            });
-    } catch (e) {
-        _duyurularRealtimeChannel = null;
-    }
-}
-
-if (typeof window !== 'undefined') {
-    setTimeout(function () {
-        syncAnnouncementsFromSupabase();
-        initSupabaseRealtime();
-    }, 150);
-}
-
-
-function getCategoryLabel(cat) {
-    switch (cat) {
-        case 'onemli': return '🚨 Önemli Duyuru';
-        case 'mac': return '⚽ Maç Bilgisi';
-        case 'kural': return '📜 Kural & Disiplin';
-        case 'genel': return '📢 Genel Bilgilendirme';
-        default: return '📌 Duyuru';
-    }
-}
-
-function formatDate(d) {
-    try {
-        const months = [
-            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
-        ];
-        const dateObj = (typeof d === 'string') ? new Date(d) : d;
-        if (isNaN(dateObj.getTime())) return d;
-        return `${dateObj.getDate()} ${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
-    } catch (e) {
-        return 'Bugün';
-    }
-}
-
-function isAdminAuthenticated() {
-    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
-        return window.TurnuvaAuth.isAuthenticated();
-    }
-    return false;
-}
-
-function authenticateAdmin(pin) {
-    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
-        return window.TurnuvaAuth.authenticate(pin);
-    }
-    return false;
-}
-
-function logoutAdmin() {
-    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
-        window.TurnuvaAuth.logout();
-    }
-}
-
-function exportAnnouncementsJSON() {
-    const list = getAnnouncements();
-    return JSON.stringify(list, null, 4);
-}
+const DEFAULT_ANNOUNCEMENTS = [
+    {
+        id: "d-6",
+        title: "👑 2026 Turnuva Şampiyonu HİT-2! Kupa Sahibini Buldu 🏆",
+        category: "mac",
+        categoryLabel: "🏆 Şampiyonluk & Ödüller",
+        date: "15 Ekim 2026",
+        author: "Turnuva Komitesi",
+        pinned: true,
+        summary: "Büyük Finali kazanan HİT-2 turnuva şampiyonu oldu! Gol Kralı Aykut, En İyi Kaleci ise Gazi oldu.",
+        content: "🏆 2026 Futbol Turnuvamız nefes kesen Büyük Final mücadelesiyle tamamlandı!\n\n👑 BÜYÜK FİNAL SKORU:\n⚡ HİT-2: 6 - 3 WTK-2\n\n🌟 TURNUVA BİREYSEL ÖDÜLLERİ:\n🥇 2026 Turnuva Şampiyonu: HİT-2\n👑 Turnuvanın Gol Kralı: Aykut\n🧤 Turnuvanın En İyi Kalecisi: Gazi\n\nŞampiyon HİT-2 takımını, turnuva boyunca harika bir mücadele sergileyen finalist WTK-2'yi ve turnuvaya emek veren tüm takımlarımızı gönülden tebrik ederiz!"
+    },
+    {
+        id: "d-5",
+        title: "🔥 Yarı Final Maçları Tamamlandı! Büyük Final: WTK vs HİT-2",
+        category: "mac",
+        categoryLabel: "🏆 Yarı Final Sonuçları",
+        date: "13 Ekim 2026",
+        author: "Turnuva Komitesi",
+        pinned: false,
+        summary: "13 Ekim Yarı Finaller: WTK-2 11 - 5 Maliye İşletme, HİT-2 20 - 4 HİT-1. Büyük Finalde WTK-2 ile HİT-2 karşılaşıyor!",
+        content: "🏆 Turnuvamızda yarı final heyecanı nefes kesen maçlarla tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşma Sonuçları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n(Goller: Mehmet 6, Ahmethan 3, Serhat 2 | Toprak 3, Burak 1, Emirhan 1)\n\n⚡ HİT-2: 20 - 4 HİT-1\n(Goller: Aykut 11, Mahmut 5, Çakır 2, Gazi 1, Tamer 1 | Davut 3, Can 1)\n\n👑 BÜYÜK FİNAL (15 Ekim Perşembe):\n🔥 WTK-2 🆚 HİT-2\n\nFinale yükselen her iki takımımıza başarılar dileriz!"
+    },
+    {
+        id: "d-1",
+        title: "🏆 Turnuva 28 Eylül'de Başlıyor! Ön Eleme Maçları Açıklandı",
+        category: "onemli",
+        categoryLabel: "🚨 Önemli Duyuru",
+        date: "28 Eylül 2026",
+        author: "Turnuva Komitesi",
+        pinned: false,
+        summary: "28 Eylül Ön Eleme Maçları: 18:00 maliye isletme -2 vs wtk-2, 19:00 hit-1 vs hit-2. ic mekan tasarim-2 kura ile doğrudan yarı finale yükseldi.",
+        content: "2026 Futbol Turnuvamız tüm coşkusuyla başlıyor! Ön Eleme maçları 28 Eylül 2026 tarihinde oynanacaktır:\n\n⚡ 18:00 | maliye isletme -2 vs wtk-2\n⚡ 19:00 | hit-1 vs hit-2\n\n⭐ ic mekan tasarim-2 kura sonucunda 1. Turu bay geçerek doğrudan 29 Eylül'deki Yarı Final'e yükselmiştir.\n\nTüm takımlarımıza ve sporcularımıza centilmence mücadeleler ve başarılar dileriz!"
+    },
+    {
+        id: "d-2",
+        title: "⚽ Grup & Eleme Aşaması Maç Saatleri ve Saha Kuralları",
+        category: "mac",
+        categoryLabel: "⚽ Maç Bilgisi",
+        date: "28 Eylül 2026",
+        author: "Turnuva Komitesi",
+        pinned: false,
+        summary: "Ön eleme maçları saat 18:00 ve 19:00'da oynanacaktır. Takımların en az 20 dakika önce sahada hazır bulunması gerekmektedir.",
+        content: "Turnuvamızın Ön Eleme maçları 28 Eylül'de saat 18:00 ve 19:00'da oynanacaktır. Maçların aksamaması adına takımların maç saatinden en az 20 dakika önce esame listeleriyle birlikte saha kenarında hazır bulunmaları zorunludur.\n\nMaç süreleri 2 x 25 dakika olarak oynanacak olup, devre arası 5 dakikadır."
+    },
+    {
+        id: "d-3",
+        title: "📜 Kart Cezaları ve Disiplin Talimatı",
+        category: "kural",
+        categoryLabel: "📜 Kural & Disiplin",
+        date: "10 Mart 2026",
+        author: "Hakem Kurulu",
+        pinned: false,
+        summary: "Sarı kart ve kırmızı kart uygulamaları ile disiplin kuralları belirlenmiştir.",
+        content: "Turnuvamızda disiplin ve centilmenlik ön plandadır.\n• Aynı maçta 2 sarı karttan kırmızı kart gören oyuncu takip eden ilk resmi maçta forma giyemez.\n• Doğrudan kırmızı kart durumunda hakem raporuna göre en az 2 maç men cezası uygulanır.\n• Turnuva genelinde 3 sarı karta ulaşan oyuncu bir sonraki maçta cezalı duruma düşer."
+    },
+    {
+        id: "d-4",
+        title: "📊 Canlı İstatistikler ve Takım Kadroları Yayında",
+        category: "genel",
+        categoryLabel: "📢 Genel Bilgilendirme",
+        date: "28 Eylül 2026",
+        author: "Yönetim",
+        pinned: false,
+        summary: "Tüm takımların oyuncu kadrolarını ve detaylı istatistiklerini 'İstatistikler' sayfamızdan inceleyebilirsiniz.",
+        content: "Turnuvada yer alan tüm 5 takımın oyuncu kadrolarını (hit-2, wtk-2, hit-1, maliye isletme -2, ic mekan tasarim-2), puan durumunu ve gol krallığı tablosunu sitemizin 'İstatistikler' sayfasından anlık olarak takip edebilirsiniz."
+    }
+];
+function getActiveFixtureMatches() {
+    let tData = null;
+    try {
+        if (typeof getTournamentData === 'function') {
+            tData = getTournamentData();
+        }
+    } catch (e) {}
+    const matches = (tData && Array.isArray(tData.matches)) ? tData.matches : [];
+    const findMatch = (id) => matches.find(m => m && m.id === id);
+    const m7 = (tData && tData.mac7) || findMatch('mac-7') || {
+        time: '18:00', team1: 'hit-2', team2: 'wtk-2'
+    };
+    const m7b = (tData && tData.mac7b) || findMatch('mac-7b') || {
+        time: '19:00', team1: 'ic mekan tasarim-2', team2: 'maliye isletme -2'
+    };
+    const m8 = (tData && tData.mac8) || findMatch('mac-8') || {
+        time: '18:00', team1: 'maliye isletme -2', team2: 'hit-1'
+    };
+    const m10 = (tData && tData.mac10) || findMatch('mac-10') || {
+        time: '18:00', team1: 'ic mekan tasarim-2', team2: 'hit-1'
+    };
+    const m11 = (tData && tData.mac11) || findMatch('mac-11') || {
+        time: '18:00', team1: 'wtk-2', team2: 'maliye isletme -2'
+    };
+    const m12 = (tData && tData.mac12) || findMatch('mac-12') || {
+        time: '19:00', team1: 'hit-1', team2: 'hit-2'
+    };
+    return { m7, m7b, m8, m10, m11, m12 };
+}
+function getActiveTournamentDay() {
+    try {
+        if (typeof window !== 'undefined' && window.location && window.location.search) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dParam = parseInt(urlParams.get('day') || urlParams.get('gun'), 10);
+            if (dParam === 6 || dParam === 7 || dParam === 8 || dParam === 13 || dParam === 15) return dParam;
+        }
+    } catch (e) {}
+    const now = new Date();
+    const date = now.getDate();
+    const month = now.getMonth(); 
+    if (month === 9) { 
+        if (date === 6) return 6;
+        if (date === 7) return 7;
+        if (date === 8) return 8;
+        if (date >= 9 && date < 15) return 13;
+        if (date >= 15) return 15;
+        return 15; 
+    }
+    if (date === 6) return 6;
+    if (date === 7) return 7;
+    if (date === 8) return 8;
+    if (date >= 9 && date < 15) return 13;
+    return 15; 
+}
+function getDailyTournamentAnnouncement() {
+    const day = getActiveTournamentDay();
+    const { m7, m7b, m8, m10, m11, m12 } = getActiveFixtureMatches();
+    if (day === 15) {
+        return null;
+    } else if (day === 13) {
+        return {
+            id: 'gunun-maci-otomatik-13',
+            title: `🏆 Yarı Final Sonuçları (13 Ekim Salı) — Finalistler Belirlendi!`,
+            category: 'mac',
+            categoryLabel: '🏆 Yarı Final Sonuçları',
+            date: '13 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `Yarı Final Maçları: WTK-2 11 - 5 Maliye İşletme -2 & HİT-2 20 - 4 HİT-1. Finalistler: WTK-2 ve HİT-2!`,
+            content: `🏆 Yarı final heyecanı tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşmaları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n⚡ HİT-2: 20 - 4 HİT-1\n\n👑 15 Ekim Perşembe Şampiyonluk Maçı: WTK-2 🆚 HİT-2`
+        };
+    } else if (day === 7) {
+        const t1_8 = m8.team1 || 'maliye isletme -2';
+        const t2_8 = m8.team2 || 'hit-1';
+        const time8 = m8.time || '18:00';
+        return {
+            id: 'gunun-maci-otomatik-7',
+            title: `⚽ Maç Sonucu (7 Ekim Çarşamba) — ${t1_8} vs ${t2_8}`,
+            category: 'mac',
+            categoryLabel: '⚽ Maç Sonucu',
+            date: '7 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `7 Ekim Çarşamba oynanan maçta ${t2_8}, penaltılar sonucunda galip gelmiştir.`,
+            content: `🏆 7 Ekim Çarşamba günü saat ${time8}'de oynanan ${t1_8} 🆚 ${t2_8} karşılaşması penaltılar ile bitti ve maçı ${t2_8} kazandı!\n\nMücadele eden her iki takımımıza da tebrik eder, kalan maçlarında başarılar dileriz.`
+        };
+    } else if (day === 8) {
+        const t1_10 = m10.team1 || 'ic mekan tasarim-2';
+        const t2_10 = m10.team2 || 'hit-1';
+        const time10 = m10.time || '18:00';
+        return {
+            id: 'gunun-maci-otomatik-8',
+            title: `⚽ Maç Sonucu (8 Ekim Perşembe) — ${t1_10} 7-3 ${t2_10}`,
+            category: 'mac',
+            categoryLabel: '⚽ Maç Sonucu',
+            date: '8 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `8 Ekim Perşembe günü oynanan karşılaşmada ${t1_10}, ${t2_10} karşısında 7-3 galip gelmiştir.`,
+            content: `🏆 8 Ekim Perşembe günü saat ${time10}'de oynanan karşılaşma sonucu:\n\n⚡ ${t1_10} 7 - 3 ${t2_10}\n\nKarşılaşmayı kazanan ${t1_10} takımını tebrik eder, mücadele eden her iki takımımıza da teşekkür ederiz!`
+        };
+    } else {
+        const t1_7 = m7.team1 || 'hit-2';
+        const t2_7 = m7.team2 || 'wtk-2';
+        const time7 = m7.time || '18:00';
+        const t1_7b = m7b.team1 || 'ic mekan tasarim-2';
+        const t2_7b = m7b.team2 || 'maliye isletme -2';
+        const time7b = m7b.time || '19:00';
+        return {
+            id: 'gunun-maci-otomatik-6',
+            title: `⚽ Günün Maçları (6 Ekim Salı) — ${t1_7} vs ${t2_7} & ${t1_7b} vs ${t2_7b}`,
+            category: 'mac',
+            categoryLabel: '⚽ Günün Maçları',
+            date: '6 Ekim 2026',
+            author: 'Turnuva Komitesi',
+            pinned: true,
+            isDynamic: true,
+            summary: `Bugün 2 maç: ${time7} ${t1_7} 🆚 ${t2_7} ve ${time7b} ${t1_7b} 🆚 ${t2_7b}`,
+            content: `🏆 Turnuvada yeni hafta heyecanı başlıyor!\n\nBugün (6 Ekim 2026 Salı) oynanacak karşılaşmalar:\n\n⚡ ${time7} | ${t1_7} 🆚 ${t2_7}\n⚡ ${time7b} | ${t1_7b} 🆚 ${t2_7b}\n\nFikstürde yer alan karşılaşmalarda tüm takımlarımıza ve sporcularımıza centilmence mücadeleler dileriz!`
+        };
+    }
+}
+if (typeof window !== 'undefined') {
+    window.addEventListener('turnuva_bracket_updated', () => {
+        try {
+            window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
+        } catch (e) {}
+    });
+}
+let inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
+function cloneObject(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+function getAnnouncements() {
+    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
+    const dailyAnn = getDailyTournamentAnnouncement();
+    if (dailyAnn) {
+        list = [dailyAnn, ...list];
+    }
+    return list;
+}
+function saveAnnouncements(list) {
+    const cleanList = (list || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
+    inMemoryAnnouncements = cloneObject(cleanList);
+    try {
+        window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', { detail: { list: getAnnouncements() } }));
+    } catch (evErr) {}
+}
+function getLatestAnnouncement() {
+    const list = getAnnouncements();
+    if (!list || list.length === 0) return null;
+    const pinned = list.find(a => a.pinned);
+    return pinned || list[0];
+}
+async function addAnnouncement(item) {
+    if (!isAdminAuthenticated()) {
+        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
+        return null;
+    }
+    const list = (inMemoryAnnouncements || []).filter(a => a && !String(a.id).startsWith('gunun-maci-otomatik-'));
+    const newItem = {
+        id: 'd-' + Date.now(),
+        title: item.title,
+        category: item.category || 'genel',
+        categoryLabel: getCategoryLabel(item.category || 'genel'),
+        date: item.date || formatDate(new Date()),
+        author: item.author || 'Turnuva Komitesi',
+        pinned: Boolean(item.pinned),
+        summary: item.summary || (item.content ? item.content.slice(0, 110) + '...' : ''),
+        content: item.content || ''
+    };
+    if (newItem.pinned) {
+        list.unshift(newItem);
+    } else {
+        const firstNonPinned = list.findIndex(a => !a.pinned);
+        if (firstNonPinned === -1) {
+            list.push(newItem);
+        } else {
+            list.splice(firstNonPinned, 0, newItem);
+        }
+    }
+    saveAnnouncements(list);
+    if (typeof getSupabaseClient === 'function') {
+        const client = getSupabaseClient();
+        if (client) {
+            try {
+                await client.from('duyurular').insert({
+                    id: newItem.id,
+                    title: newItem.title,
+                    category: newItem.category,
+                    category_label: newItem.categoryLabel,
+                    date: newItem.date,
+                    author: newItem.author,
+                    pinned: newItem.pinned,
+                    summary: newItem.summary,
+                    content: newItem.content
+                });
+            } catch (err) {
+                console.warn('Supabase duyuru ekleme hatası:', err);
+            }
+        }
+    }
+    return newItem;
+}
+async function updateAnnouncement(id, updatedFields) {
+    if (!isAdminAuthenticated()) {
+        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
+        return null;
+    }
+    const list = cloneObject(inMemoryAnnouncements || []);
+    const index = list.findIndex(a => String(a.id) === String(id));
+    if (index === -1) return null;
+    const current = list[index];
+    const category = updatedFields.category || current.category;
+    list[index] = {
+        ...current,
+        ...updatedFields,
+        category: category,
+        categoryLabel: getCategoryLabel(category),
+        summary: updatedFields.summary || (updatedFields.content ? updatedFields.content.slice(0, 110) + '...' : current.summary)
+    };
+    list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+    saveAnnouncements(list);
+    const updated = list[index];
+    if (typeof getSupabaseClient === 'function') {
+        const client = getSupabaseClient();
+        if (client) {
+            try {
+                await client.from('duyurular').update({
+                    title: updated.title,
+                    category: updated.category,
+                    category_label: updated.categoryLabel,
+                    date: updated.date,
+                    author: updated.author,
+                    pinned: updated.pinned,
+                    summary: updated.summary,
+                    content: updated.content
+                }).eq('id', id);
+            } catch (err) {
+                console.warn('Supabase duyuru güncelleme hatası:', err);
+            }
+        }
+    }
+    return updated;
+}
+async function deleteAnnouncement(id) {
+    if (!isAdminAuthenticated()) {
+        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
+        return null;
+    }
+    if (!id) return getAnnouncements();
+    const strId = String(id).trim();
+    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
+    list = list.filter(a => a && String(a.id) !== strId && !String(a.id).startsWith('gunun-maci-otomatik-'));
+    saveAnnouncements(list);
+    if (typeof getSupabaseClient === 'function') {
+        const client = getSupabaseClient();
+        if (client) {
+            try {
+                await client.from('duyurular').delete().eq('id', strId);
+            } catch (err) {
+                console.warn('Supabase duyuru silme hatası:', err);
+            }
+        }
+    }
+    return getAnnouncements();
+}
+function resetToDefaultAnnouncements() {
+    if (!isAdminAuthenticated()) {
+        console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
+        return null;
+    }
+    inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
+    saveAnnouncements(inMemoryAnnouncements);
+    return cloneObject(DEFAULT_ANNOUNCEMENTS);
+}
+async function syncAnnouncementsFromSupabase() {
+    if (typeof getSupabaseClient !== 'function') return null;
+    const client = getSupabaseClient();
+    if (!client) return null;
+    try {
+        const { data, error } = await client
+            .from('duyurular')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) {
+            console.warn('Supabase duyurular çekme hatası:', error);
+            return null;
+        }
+        if (Array.isArray(data) && data.length > 0) {
+            const mapped = data
+                .filter(row => row && row.id && !String(row.id).startsWith('system-'))
+                .map(row => ({
+                    id: row.id,
+                    title: row.title,
+                    category: row.category || 'genel',
+                    categoryLabel: row.category_label || getCategoryLabel(row.category || 'genel'),
+                    date: row.date || '',
+                    author: row.author || 'Turnuva Komitesi',
+                    pinned: Boolean(row.pinned),
+                    summary: row.summary || '',
+                    content: row.content || ''
+                }));
+            if (mapped.length > 0) {
+                inMemoryAnnouncements = cloneObject(mapped);
+                try {
+                    window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', {
+                        detail: { list: getAnnouncements() }
+                    }));
+                } catch (e) { }
+                return mapped;
+            }
+        } else if (Array.isArray(data) && data.length === 0) {
+            console.log('Supabase duyurular tablosu boş, yedek yükleniyor...');
+            const seedItems = DEFAULT_ANNOUNCEMENTS.map(item => ({
+                id: item.id,
+                title: item.title,
+                category: item.category,
+                category_label: item.categoryLabel,
+                date: item.date,
+                author: item.author,
+                pinned: item.pinned,
+                summary: item.summary,
+                content: item.content
+            }));
+            try {
+                await client.from('duyurular').upsert(seedItems);
+            } catch (seedErr) {
+                console.warn('Yedek duyuruları Supabase aktarma hatası:', seedErr);
+            }
+            inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
+            try {
+                window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', {
+                    detail: { list: getAnnouncements() }
+                }));
+            } catch (e) { }
+            return DEFAULT_ANNOUNCEMENTS;
+        }
+    } catch (err) {
+        console.warn('Supabase duyurular senkronizasyon istisnası:', err);
+    }
+    return null;
+}
+let _duyurularRealtimeChannel = null;
+function initSupabaseRealtime() {
+    if (_duyurularRealtimeChannel) return;
+    if (typeof getSupabaseClient !== 'function') return;
+    const client = getSupabaseClient();
+    if (!client) return;
+    try {
+        _duyurularRealtimeChannel = client.channel('public:duyurular_rt');
+        _duyurularRealtimeChannel
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'duyurular' }, function () {
+                syncAnnouncementsFromSupabase();
+            })
+            .subscribe(function (status) {
+                if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                    _duyurularRealtimeChannel = null;
+                }
+            });
+    } catch (e) {
+        _duyurularRealtimeChannel = null;
+    }
+}
+if (typeof window !== 'undefined') {
+    setTimeout(function () {
+        syncAnnouncementsFromSupabase();
+        initSupabaseRealtime();
+    }, 150);
+}
+function getCategoryLabel(cat) {
+    switch (cat) {
+        case 'onemli': return '🚨 Önemli Duyuru';
+        case 'mac': return '⚽ Maç Bilgisi';
+        case 'kural': return '📜 Kural & Disiplin';
+        case 'genel': return '📢 Genel Bilgilendirme';
+        default: return '📌 Duyuru';
+    }
+}
+function formatDate(d) {
+    try {
+        const months = [
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+        ];
+        const dateObj = (typeof d === 'string') ? new Date(d) : d;
+        if (isNaN(dateObj.getTime())) return d;
+        return `${dateObj.getDate()} ${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+    } catch (e) {
+        return 'Bugün';
+    }
+}
+function isAdminAuthenticated() {
+    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
+        return window.TurnuvaAuth.isAuthenticated();
+    }
+    return false;
+}
+function authenticateAdmin(pin) {
+    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
+        return window.TurnuvaAuth.authenticate(pin);
+    }
+    return false;
+}
+function logoutAdmin() {
+    if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
+        window.TurnuvaAuth.logout();
+    }
+}
+function exportAnnouncementsJSON() {
+    const list = getAnnouncements();
+    return JSON.stringify(list, null, 4);
+}

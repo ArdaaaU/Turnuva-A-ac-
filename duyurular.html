@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turnuva Duyuruları | Futbol Turnuva Ağacı</title>
     
-    <script>
-        (function() {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isSmallScreen = window.innerWidth <= 900;
-            if (isMobileUA || (isSmallScreen && ('ontouchstart' in window || navigator.maxTouchPoints > 0))) {
-                document.documentElement.classList.add('is-mobile-device');
-            }
-        })();
-    </script>
+    <script>
+        (function() {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isSmallScreen = window.innerWidth <= 900;
+            if (isMobileUA || (isSmallScreen && ('ontouchstart' in window || navigator.maxTouchPoints > 0))) {
+                document.documentElement.classList.add('is-mobile-device');
+            }
+        })();
+</script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1201,558 +1201,475 @@
 
 
 
-    <!-- SUPABASE ONLINE VERİTABANI KÜTÜPHANESİ VE YAPILANDIRMASI -->
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
 
-    <!-- GÜVENLİK VE YÖNETİCİ KİMLİK DOĞRULAMA (BELLEK İÇİ HMAC GÜVENLİK) -->
+    
     <script src="js/security.js"></script>
 
     <script src="js/fikstur.js"></script>
 
-    <!-- DUYURULAR VERİ VE YÖNETİM SCRIPTİ (SUPABASE BULUT SENKRONİZASYONLU) -->
+    
     <script src="js/duyurular.js"></script>
 
-    <!-- SAYFA ETKİLEŞİM VE İŞ MANTIĞI -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', nextTheme);
-            });
-
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const mobileDrawer = document.getElementById('mobile-drawer');
-            const drawerOverlay = document.getElementById('drawer-overlay');
-
-            const toggleDrawer = () => {
-                hamburgerBtn.classList.toggle('active');
-                mobileDrawer.classList.toggle('active');
-                drawerOverlay.classList.toggle('active');
-            };
-
-            hamburgerBtn.addEventListener('click', toggleDrawer);
-            drawerOverlay.addEventListener('click', toggleDrawer);
-
-            const toastEl = document.getElementById('toast-msg');
-            const toastText = document.getElementById('toast-text');
-            const toastIcon = document.getElementById('toast-icon');
-            let toastTimeout = null;
-
-            function showToast(message, icon = '✅') {
-                if (toastTimeout) clearTimeout(toastTimeout);
-                toastText.innerText = message;
-                toastIcon.innerText = icon;
-                toastEl.classList.add('show');
-                toastTimeout = setTimeout(() => {
-                    toastEl.classList.remove('show');
-                }, 3000);
-            }
-
-            const announcementsListEl = document.getElementById('announcements-list');
-            const emptyStateEl = document.getElementById('empty-state');
-            const searchInput = document.getElementById('search-input');
-            const filterChips = document.querySelectorAll('.filter-chip');
-            const totalCountBadge = document.getElementById('total-count-badge');
-            const pinnedCountBadge = document.getElementById('pinned-count-badge');
-            const lastUpdateBadge = document.getElementById('last-update-badge');
-            const countAllEl = document.getElementById('count-all');
-
-            const countOnemli = document.getElementById('count-onemli');
-            const countMac = document.getElementById('count-mac');
-            const countKural = document.getElementById('count-kural');
-            const countGenel = document.getElementById('count-genel');
-
-            let activeCategory = 'all';
-            let searchQuery = '';
-
-            function isMobileClient() {
-                return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
-            }
-
-            function renderAnnouncements() {
-                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
-                const list = getAnnouncements();
-                const isMobile = isMobileClient();
-
-                totalCountBadge.innerText = list.length;
-                countAllEl.innerText = list.length;
-                pinnedCountBadge.innerText = list.filter(a => a.pinned).length;
-                if (list.length > 0) {
-                    lastUpdateBadge.innerText = list[0].date || '-';
-                } else {
-                    lastUpdateBadge.innerText = 'Duyuru yok';
-                }
-
-                if (countOnemli) countOnemli.innerText = list.filter(a => a.category === 'onemli').length;
-                if (countMac) countMac.innerText = list.filter(a => a.category === 'mac').length;
-                if (countKural) countKural.innerText = list.filter(a => a.category === 'kural').length;
-                if (countGenel) countGenel.innerText = list.filter(a => a.category === 'genel').length;
-
-                const filtered = list.filter(item => {
-                    const matchCategory = (activeCategory === 'all') || (item.category === activeCategory);
-                    const q = searchQuery.toLowerCase().trim();
-                    const matchSearch = !q || 
-                        (item.title && item.title.toLowerCase().includes(q)) ||
-                        (item.content && item.content.toLowerCase().includes(q)) ||
-                        (item.author && item.author.toLowerCase().includes(q));
-                    return matchCategory && matchSearch;
-                });
-
-                if (filtered.length === 0) {
-                    announcementsListEl.innerHTML = '';
-                    emptyStateEl.style.display = 'block';
-                    return;
-                }
-
-                emptyStateEl.style.display = 'none';
-
-                announcementsListEl.innerHTML = filtered.map(item => {
-                    const isPinned = Boolean(item.pinned);
-                    const catClass = 'cat-' + (item.category || 'genel');
-
-                    return `
-                        <article class="announcement-card ${isPinned ? 'pinned' : ''}" id="${item.id}">
-                            <div class="card-top-meta">
-                                <div class="badges-wrap">
-                                    ${isPinned ? '<span class="pinned-tag">📌 Sabitlendi</span>' : ''}
-                                    <span class="cat-tag ${catClass}">${item.categoryLabel || '📢 Duyuru'}</span>
-                                </div>
-                                <div class="date-author-wrap">
-                                    <span>📅 ${item.date}</span>
-                                </div>
-                            </div>
-
-                            <h2 class="card-title">${escapeHTML(item.title)}</h2>
-                            <div class="card-body">${escapeHTML(item.content)}</div>
-
-                            <div class="card-footer">
-                                <div class="author-info">
-                                    <span>✍️ ${escapeHTML(item.author || 'Turnuva Komitesi')}</span>
-                                </div>
-
-                                <div class="card-actions">
-                                    <button class="action-icon-btn copy-link-btn" data-id="${item.id}" title="Duyuruyu Kopyala">
-                                        🔗 Paylaş
-                                    </button>
-                                    ${isAuth ? `
-                                        <button class="action-icon-btn edit-ann-btn" data-id="${item.id}" title="Düzenle">
-                                            ✏️ Düzenle
-                                        </button>
-                                        <button class="action-icon-btn delete-btn delete-ann-btn" data-id="${item.id}" title="Sil">
-                                            🗑️ Sil
-                                        </button>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        </article>
-                    `;
-                }).join('');
-
-                attachCardListeners();
-            }
-
-            searchInput.addEventListener('input', (e) => {
-                searchQuery = e.target.value;
-                renderAnnouncements();
-            });
-
-            filterChips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    filterChips.forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    activeCategory = chip.getAttribute('data-category');
-                    renderAnnouncements();
-                });
-            });
-
-            window.addEventListener('turnuva_announcements_updated', renderAnnouncements);
-            window.addEventListener('pageshow', renderAnnouncements);
-
-            if (window.location.hash) {
-                setTimeout(() => {
-                    const targetEl = document.querySelector(window.location.hash);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetEl.style.transition = 'box-shadow 0.4s ease';
-                        targetEl.style.boxShadow = '0 0 0 3px var(--gold)';
-                        setTimeout(() => { targetEl.style.boxShadow = ''; }, 2000);
-                    }
-                }, 300);
-            }
-
-            function escapeHTML(str) {
-                if (!str) return '';
-                return str
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/'/g, '&#039;');
-            }
-
-
-            // ============================================================
-            // YÖNETİCİ GİRİŞİ & DUYURU YÖNETİMİ (SUPABASE SENKRON)
-            // ============================================================
-            const openAdminBtn = document.getElementById('open-admin-btn');
-            const adminLogoutBtn = document.getElementById('admin-logout-btn');
-            const mobileOpenAdminBtn = document.getElementById('mobile-open-admin-btn');
-            const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
-            const adminActionBtns = document.getElementById('admin-action-btns');
-            const openCreateAnnouncementBtn = document.getElementById('open-create-announcement-btn');
-
-            const pinModal = document.getElementById('pin-modal');
-            const closePinModal = document.getElementById('close-pin-modal');
-            const cancelPinBtn = document.getElementById('cancel-pin-btn');
-            const submitPinBtn = document.getElementById('submit-pin-btn');
-            const adminPinInput = document.getElementById('admin-pin-input');
-            const togglePinVisibility = document.getElementById('toggle-pin-visibility');
-
-            const annModal = document.getElementById('announcement-modal');
-            const closeAnnModal = document.getElementById('close-announcement-modal');
-            const cancelAnnBtn = document.getElementById('cancel-announcement-btn');
-            const saveAnnBtn = document.getElementById('save-announcement-btn');
-            const deleteFromEditBtn = document.getElementById('delete-from-edit-btn');
-
-            const deleteConfirmModal = document.getElementById('delete-confirm-modal');
-            const closeDeleteModal = document.getElementById('close-delete-modal');
-            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-            let pendingDeleteId = null;
-
-            function updateAdminUI() {
-                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
-                const openBtn = document.getElementById('open-admin-btn');
-                const btnText = document.getElementById('admin-btn-text');
-                const logoutBtn = document.getElementById('admin-logout-btn');
-                const mobileOpen = document.getElementById('mobile-open-admin-btn');
-                const mobileText = document.getElementById('mobile-admin-btn-text');
-                const mobileLogout = document.getElementById('mobile-admin-logout-btn');
-
-                if (openBtn) {
-                    openBtn.classList.toggle('is-auth', isAuth);
-                    if (btnText) btnText.innerText = isAuth ? 'Yönetim Paneli' : 'Yönetici Girişi';
-                }
-                if (logoutBtn) logoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
-
-                if (mobileOpen) {
-                    mobileOpen.classList.toggle('is-auth', isAuth);
-                    if (mobileText) mobileText.innerText = isAuth ? '⚙️ Yönetim Paneli' : '🔒 Yönetici Girişi';
-                }
-                if (mobileLogout) mobileLogout.style.display = isAuth ? 'inline-flex' : 'none';
-
-                if (adminActionBtns) {
-                    adminActionBtns.style.display = isAuth ? 'block' : 'none';
-                }
-            }
-
-            function handleAdminClick() {
-                if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
-                    openCreateAnnouncementModal();
-                } else if (typeof TurnuvaAuth !== 'undefined' && TurnuvaAuth.openPinModal) {
-                    TurnuvaAuth.openPinModal(() => {
-                        updateAdminUI();
-                        renderAnnouncements();
-                        openCreateAnnouncementModal();
-                    });
-                } else {
-                    if (pinModal) {
-                        if (adminPinInput) adminPinInput.value = '';
-                        pinModal.classList.add('active');
-                        setTimeout(() => { if (adminPinInput) adminPinInput.focus(); }, 100);
-                    }
-                }
-            }
-
-            if (openAdminBtn) openAdminBtn.addEventListener('click', handleAdminClick);
-            if (mobileOpenAdminBtn) {
-                mobileOpenAdminBtn.addEventListener('click', () => {
-                    const mobileDrawer = document.getElementById('mobile-drawer');
-                    const drawerOverlay = document.getElementById('drawer-overlay');
-                    const hamburgerBtn = document.getElementById('hamburger-btn');
-                    if (mobileDrawer) mobileDrawer.classList.remove('active');
-                    if (drawerOverlay) drawerOverlay.classList.remove('active');
-                    if (hamburgerBtn) hamburgerBtn.classList.remove('active');
-                    handleAdminClick();
-                });
-            }
-
-            if (adminLogoutBtn) {
-                adminLogoutBtn.addEventListener('click', () => {
-                    if (typeof logoutAdmin === 'function') logoutAdmin();
-                    updateAdminUI();
-                    renderAnnouncements();
-                    showToast('Yönetici oturumu kapatıldı.', '🚪');
-                });
-            }
-            if (mobileAdminLogoutBtn) {
-                mobileAdminLogoutBtn.addEventListener('click', () => {
-                    if (typeof logoutAdmin === 'function') logoutAdmin();
-                    updateAdminUI();
-                    renderAnnouncements();
-                    showToast('Yönetici oturumu kapatıldı.', '🚪');
-                });
-            }
-
-            if (togglePinVisibility && adminPinInput) {
-                togglePinVisibility.addEventListener('click', () => {
-                    const isPwd = adminPinInput.type === 'password';
-                    adminPinInput.type = isPwd ? 'text' : 'password';
-                    togglePinVisibility.innerText = isPwd ? '🙈' : '👁️';
-                });
-            }
-
-            const pinForm = document.getElementById('pin-form');
-
-            function checkPinSubmit(e) {
-                if (e) e.preventDefault();
-                if (!adminPinInput) return;
-                const pin = adminPinInput.value.trim();
-                const pinErr = document.getElementById('pin-error-msg');
-                if (typeof authenticateAdmin === 'function' && authenticateAdmin(pin)) {
-                    if (pinModal) pinModal.classList.remove('active');
-                    if (pinErr) pinErr.style.display = 'none';
-                    updateAdminUI();
-                    renderAnnouncements();
-                    showToast('Yönetici girişi başarılı!', '🔑');
-                    openCreateAnnouncementModal();
-                } else {
-                    if (pinErr) pinErr.style.display = 'block';
-                    showToast('Hatalı şifre! Lütfen tekrar deneyiniz.', '❌');
-                    adminPinInput.select();
-                    adminPinInput.focus();
-                }
-            }
-
-            if (pinForm) pinForm.addEventListener('submit', checkPinSubmit);
-            if (submitPinBtn && !pinForm) submitPinBtn.addEventListener('click', checkPinSubmit);
-
-
-            if (closePinModal && pinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
-            if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
-
-            function openCreateAnnouncementModal() {
-                if (!isAdminAuthenticated()) {
-                    if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
-                        window.TurnuvaAuth.openPinModal(() => openCreateAnnouncementModal());
-                    }
-                    return;
-                }
-                const titleModal = document.getElementById('announcement-modal-title');
-                const editId = document.getElementById('edit-announcement-id');
-                const titleInput = document.getElementById('announcement-title-input');
-                const catSelect = document.getElementById('announcement-category-select');
-                const dateInput = document.getElementById('announcement-date-input');
-                const authorInput = document.getElementById('announcement-author-input');
-                const pinnedCheck = document.getElementById('announcement-pinned-check');
-                const contentInput = document.getElementById('announcement-content-input');
-
-                if (titleModal) titleModal.innerText = '➕ Yeni Duyuru Paylaş';
-                if (editId) editId.value = '';
-                if (titleInput) titleInput.value = '';
-                if (catSelect) catSelect.value = 'genel';
-
-                // Varsayılan bugünün tarihi
-                const now = new Date();
-                const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-                const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-                if (dateInput) dateInput.value = formattedDate;
-
-                if (authorInput) authorInput.value = 'Turnuva Komitesi';
-                if (pinnedCheck) pinnedCheck.checked = false;
-                if (contentInput) contentInput.value = '';
-                if (deleteFromEditBtn) deleteFromEditBtn.style.display = 'none';
-
-                if (annModal) annModal.classList.add('active');
-            }
-
-            if (openCreateAnnouncementBtn) {
-                openCreateAnnouncementBtn.addEventListener('click', openCreateAnnouncementModal);
-            }
-
-            function openEditAnnouncementModal(id) {
-                if (!isAdminAuthenticated()) {
-                    if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
-                        window.TurnuvaAuth.openPinModal(() => openEditAnnouncementModal(id));
-                    }
-                    return;
-                }
-                const list = getAnnouncements();
-                const item = list.find(a => a.id === id);
-                if (!item) return;
-
-                const titleModal = document.getElementById('announcement-modal-title');
-                const editId = document.getElementById('edit-announcement-id');
-                const titleInput = document.getElementById('announcement-title-input');
-                const catSelect = document.getElementById('announcement-category-select');
-                const dateInput = document.getElementById('announcement-date-input');
-                const authorInput = document.getElementById('announcement-author-input');
-                const pinnedCheck = document.getElementById('announcement-pinned-check');
-                const contentInput = document.getElementById('announcement-content-input');
-
-                if (titleModal) titleModal.innerText = '✏️ Duyuruyu Düzenle';
-                if (editId) editId.value = item.id;
-                if (titleInput) titleInput.value = item.title || '';
-                if (catSelect) catSelect.value = item.category || 'genel';
-                if (dateInput) dateInput.value = item.date || '';
-                if (authorInput) authorInput.value = item.author || 'Turnuva Komitesi';
-                if (pinnedCheck) pinnedCheck.checked = Boolean(item.pinned);
-                if (contentInput) contentInput.value = item.content || '';
-
-                if (deleteFromEditBtn) {
-                    deleteFromEditBtn.style.display = 'inline-block';
-                    deleteFromEditBtn.onclick = () => {
-                        if (annModal) annModal.classList.remove('active');
-                        openDeleteConfirmation(item.id);
-                    };
-                }
-
-                if (annModal) annModal.classList.add('active');
-            }
-
-            if (closeAnnModal && annModal) closeAnnModal.addEventListener('click', () => annModal.classList.remove('active'));
-            if (cancelAnnBtn && annModal) cancelAnnBtn.addEventListener('click', () => annModal.classList.remove('active'));
-
-            // Kaydet butonu
-            if (saveAnnBtn) {
-                saveAnnBtn.addEventListener('click', async () => {
-                    const editId = document.getElementById('edit-announcement-id').value;
-                    const title = document.getElementById('announcement-title-input').value.trim();
-                    const category = document.getElementById('announcement-category-select').value;
-                    const date = document.getElementById('announcement-date-input').value.trim();
-                    const author = document.getElementById('announcement-author-input').value.trim();
-                    const pinned = document.getElementById('announcement-pinned-check').checked;
-                    const contentVal = document.getElementById('announcement-content-input').value.trim();
-
-                    if (!title) {
-                        showToast('Lütfen duyuru başlığı yazınız.', '⚠️');
-                        return;
-                    }
-                    if (!contentVal) {
-                        showToast('Lütfen duyuru içeriği yazınız.', '⚠️');
-                        return;
-                    }
-
-                    const categoryLabels = {
-                        onemli: '🚨 Önemli Duyuru',
-                        mac: '⚽ Maç Bilgisi',
-                        kural: '📜 Kural & Disiplin',
-                        genel: '📢 Genel Bilgilendirme'
-                    };
-
-                    const annData = {
-                        title: title,
-                        category: category,
-                        categoryLabel: categoryLabels[category] || '📢 Duyuru',
-                        date: date || 'Bugün',
-                        author: author || 'Turnuva Komitesi',
-                        pinned: pinned,
-                        content: contentVal
-                    };
-
-                    saveAnnBtn.disabled = true;
-                    saveAnnBtn.innerText = '⏳ Kaydediliyor...';
-
-                    try {
-                        if (editId) {
-                            await updateAnnouncement(editId, annData);
-                            showToast('Duyuru güncellendi ve eşitlendi!', '✅');
-                        } else {
-                            await addAnnouncement(annData);
-                            showToast('Yeni duyuru yayınlandı ve tüm cihazlara eşitlendi!', '📢');
-                        }
-                        if (annModal) annModal.classList.remove('active');
-                        renderAnnouncements();
-                    } catch (e) {
-                        console.error('Duyuru kaydetme hatası:', e);
-                        showToast('Kaydedilirken hata oluştu.', '❌');
-                    } finally {
-                        saveAnnBtn.disabled = false;
-                        saveAnnBtn.innerText = 'Duyuruyu Yayınla';
-                    }
-                });
-            }
-
-            function openDeleteConfirmation(id) {
-                const list = getAnnouncements();
-                const item = list.find(a => a.id === id);
-                if (!item) return;
-
-                pendingDeleteId = id;
-                const titleEl = document.getElementById('delete-target-title');
-                if (titleEl) titleEl.innerText = `"${item.title}" başlıklı duyuruyu silmek istediğinize emin misiniz?`;
-                if (deleteConfirmModal) deleteConfirmModal.classList.add('active');
-            }
-
-            if (closeDeleteModal && deleteConfirmModal) closeDeleteModal.addEventListener('click', () => deleteConfirmModal.classList.remove('active'));
-            if (cancelDeleteBtn && deleteConfirmModal) cancelDeleteBtn.addEventListener('click', () => deleteConfirmModal.classList.remove('active'));
-
-            if (confirmDeleteBtn) {
-                confirmDeleteBtn.addEventListener('click', async () => {
-                    if (!pendingDeleteId) return;
-                    confirmDeleteBtn.disabled = true;
-                    confirmDeleteBtn.innerText = '⏳ Siliniyor...';
-
-                    try {
-                        await deleteAnnouncement(pendingDeleteId);
-                        showToast('Duyuru silindi ve tüm cihazlara eşitlendi.', '🗑️');
-                        if (deleteConfirmModal) deleteConfirmModal.classList.remove('active');
-                        renderAnnouncements();
-                    } catch (e) {
-                        showToast('Silinirken hata oluştu.', '❌');
-                    } finally {
-                        confirmDeleteBtn.disabled = false;
-                        confirmDeleteBtn.innerText = 'Evet, Sil';
-                        pendingDeleteId = null;
-                    }
-                });
-            }
-
-            // Kartlardaki Düzenle ve Sil butonları dinleyicisi
-            function attachCardListeners() {
-                document.querySelectorAll('.copy-link-btn').forEach(btn => {
-                    btn.onclick = () => {
-                        const id = btn.getAttribute('data-id');
-                        const url = window.location.origin + window.location.pathname + '#' + id;
-                        navigator.clipboard.writeText(url).then(() => {
-                            showToast('Duyuru bağlantısı panoya kopyalandı!', '🔗');
-                        }).catch(() => {
-                            showToast('Bağlantı kopyalanamadı.', '❌');
-                        });
-                    };
-                });
-
-                document.querySelectorAll('.edit-ann-btn').forEach(btn => {
-                    btn.onclick = () => {
-                        const id = btn.getAttribute('data-id');
-                        openEditAnnouncementModal(id);
-                    };
-                });
-
-                document.querySelectorAll('.delete-ann-btn').forEach(btn => {
-                    btn.onclick = () => {
-                        const id = btn.getAttribute('data-id');
-                        openDeleteConfirmation(id);
-                    };
-                });
-            }
-
-            // Supabase Realtime ve İlk Senkronizasyon
-            // Supabase Realtime ve İlk Senkronizasyon duyurular.js içinde otomatik başlatılmaktadır.
-
-            window.addEventListener('turnuva_auth_changed', () => {
-                updateAdminUI();
-                renderAnnouncements();
-            });
-
-            updateAdminUI();
-
-            renderAnnouncements();
-        });
-    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', nextTheme);
+            });
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            const drawerOverlay = document.getElementById('drawer-overlay');
+            const toggleDrawer = () => {
+                hamburgerBtn.classList.toggle('active');
+                mobileDrawer.classList.toggle('active');
+                drawerOverlay.classList.toggle('active');
+            };
+            hamburgerBtn.addEventListener('click', toggleDrawer);
+            drawerOverlay.addEventListener('click', toggleDrawer);
+            const toastEl = document.getElementById('toast-msg');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            let toastTimeout = null;
+            function showToast(message, icon = '✅') {
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastText.innerText = message;
+                toastIcon.innerText = icon;
+                toastEl.classList.add('show');
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 3000);
+            }
+            const announcementsListEl = document.getElementById('announcements-list');
+            const emptyStateEl = document.getElementById('empty-state');
+            const searchInput = document.getElementById('search-input');
+            const filterChips = document.querySelectorAll('.filter-chip');
+            const totalCountBadge = document.getElementById('total-count-badge');
+            const pinnedCountBadge = document.getElementById('pinned-count-badge');
+            const lastUpdateBadge = document.getElementById('last-update-badge');
+            const countAllEl = document.getElementById('count-all');
+            const countOnemli = document.getElementById('count-onemli');
+            const countMac = document.getElementById('count-mac');
+            const countKural = document.getElementById('count-kural');
+            const countGenel = document.getElementById('count-genel');
+            let activeCategory = 'all';
+            let searchQuery = '';
+            function isMobileClient() {
+                return window.innerWidth <= 900 || document.documentElement.classList.contains('is-mobile-device');
+            }
+            function renderAnnouncements() {
+                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+                const list = getAnnouncements();
+                const isMobile = isMobileClient();
+                totalCountBadge.innerText = list.length;
+                countAllEl.innerText = list.length;
+                pinnedCountBadge.innerText = list.filter(a => a.pinned).length;
+                if (list.length > 0) {
+                    lastUpdateBadge.innerText = list[0].date || '-';
+                } else {
+                    lastUpdateBadge.innerText = 'Duyuru yok';
+                }
+                if (countOnemli) countOnemli.innerText = list.filter(a => a.category === 'onemli').length;
+                if (countMac) countMac.innerText = list.filter(a => a.category === 'mac').length;
+                if (countKural) countKural.innerText = list.filter(a => a.category === 'kural').length;
+                if (countGenel) countGenel.innerText = list.filter(a => a.category === 'genel').length;
+                const filtered = list.filter(item => {
+                    const matchCategory = (activeCategory === 'all') || (item.category === activeCategory);
+                    const q = searchQuery.toLowerCase().trim();
+                    const matchSearch = !q || 
+                        (item.title && item.title.toLowerCase().includes(q)) ||
+                        (item.content && item.content.toLowerCase().includes(q)) ||
+                        (item.author && item.author.toLowerCase().includes(q));
+                    return matchCategory && matchSearch;
+                });
+                if (filtered.length === 0) {
+                    announcementsListEl.innerHTML = '';
+                    emptyStateEl.style.display = 'block';
+                    return;
+                }
+                emptyStateEl.style.display = 'none';
+                announcementsListEl.innerHTML = filtered.map(item => {
+                    const isPinned = Boolean(item.pinned);
+                    const catClass = 'cat-' + (item.category || 'genel');
+                    return `
+                        <article class="announcement-card ${isPinned ? 'pinned' : ''}" id="${item.id}">
+                            <div class="card-top-meta">
+                                <div class="badges-wrap">
+                                    ${isPinned ? '<span class="pinned-tag">📌 Sabitlendi</span>' : ''}
+                                    <span class="cat-tag ${catClass}">${item.categoryLabel || '📢 Duyuru'}</span>
+                                </div>
+                                <div class="date-author-wrap">
+                                    <span>📅 ${item.date}</span>
+                                </div>
+                            </div>
+                            <h2 class="card-title">${escapeHTML(item.title)}</h2>
+                            <div class="card-body">${escapeHTML(item.content)}</div>
+                            <div class="card-footer">
+                                <div class="author-info">
+                                    <span>✍️ ${escapeHTML(item.author || 'Turnuva Komitesi')}</span>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="action-icon-btn copy-link-btn" data-id="${item.id}" title="Duyuruyu Kopyala">
+                                        🔗 Paylaş
+                                    </button>
+                                    ${isAuth ? `
+                                        <button class="action-icon-btn edit-ann-btn" data-id="${item.id}" title="Düzenle">
+                                            ✏️ Düzenle
+                                        </button>
+                                        <button class="action-icon-btn delete-btn delete-ann-btn" data-id="${item.id}" title="Sil">
+                                            🗑️ Sil
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+                attachCardListeners();
+            }
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderAnnouncements();
+            });
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    activeCategory = chip.getAttribute('data-category');
+                    renderAnnouncements();
+                });
+            });
+            window.addEventListener('turnuva_announcements_updated', renderAnnouncements);
+            window.addEventListener('pageshow', renderAnnouncements);
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetEl = document.querySelector(window.location.hash);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetEl.style.transition = 'box-shadow 0.4s ease';
+                        targetEl.style.boxShadow = '0 0 0 3px var(--gold)';
+                        setTimeout(() => { targetEl.style.boxShadow = ''; }, 2000);
+                    }
+                }, 300);
+            }
+            function escapeHTML(str) {
+                if (!str) return '';
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+            const openAdminBtn = document.getElementById('open-admin-btn');
+            const adminLogoutBtn = document.getElementById('admin-logout-btn');
+            const mobileOpenAdminBtn = document.getElementById('mobile-open-admin-btn');
+            const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
+            const adminActionBtns = document.getElementById('admin-action-btns');
+            const openCreateAnnouncementBtn = document.getElementById('open-create-announcement-btn');
+            const pinModal = document.getElementById('pin-modal');
+            const closePinModal = document.getElementById('close-pin-modal');
+            const cancelPinBtn = document.getElementById('cancel-pin-btn');
+            const submitPinBtn = document.getElementById('submit-pin-btn');
+            const adminPinInput = document.getElementById('admin-pin-input');
+            const togglePinVisibility = document.getElementById('toggle-pin-visibility');
+            const annModal = document.getElementById('announcement-modal');
+            const closeAnnModal = document.getElementById('close-announcement-modal');
+            const cancelAnnBtn = document.getElementById('cancel-announcement-btn');
+            const saveAnnBtn = document.getElementById('save-announcement-btn');
+            const deleteFromEditBtn = document.getElementById('delete-from-edit-btn');
+            const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+            const closeDeleteModal = document.getElementById('close-delete-modal');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            let pendingDeleteId = null;
+            function updateAdminUI() {
+                const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+                const openBtn = document.getElementById('open-admin-btn');
+                const btnText = document.getElementById('admin-btn-text');
+                const logoutBtn = document.getElementById('admin-logout-btn');
+                const mobileOpen = document.getElementById('mobile-open-admin-btn');
+                const mobileText = document.getElementById('mobile-admin-btn-text');
+                const mobileLogout = document.getElementById('mobile-admin-logout-btn');
+                if (openBtn) {
+                    openBtn.classList.toggle('is-auth', isAuth);
+                    if (btnText) btnText.innerText = isAuth ? 'Yönetim Paneli' : 'Yönetici Girişi';
+                }
+                if (logoutBtn) logoutBtn.style.display = isAuth ? 'inline-flex' : 'none';
+                if (mobileOpen) {
+                    mobileOpen.classList.toggle('is-auth', isAuth);
+                    if (mobileText) mobileText.innerText = isAuth ? '⚙️ Yönetim Paneli' : '🔒 Yönetici Girişi';
+                }
+                if (mobileLogout) mobileLogout.style.display = isAuth ? 'inline-flex' : 'none';
+                if (adminActionBtns) {
+                    adminActionBtns.style.display = isAuth ? 'block' : 'none';
+                }
+            }
+            function handleAdminClick() {
+                if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
+                    openCreateAnnouncementModal();
+                } else if (typeof TurnuvaAuth !== 'undefined' && TurnuvaAuth.openPinModal) {
+                    TurnuvaAuth.openPinModal(() => {
+                        updateAdminUI();
+                        renderAnnouncements();
+                        openCreateAnnouncementModal();
+                    });
+                } else {
+                    if (pinModal) {
+                        if (adminPinInput) adminPinInput.value = '';
+                        pinModal.classList.add('active');
+                        setTimeout(() => { if (adminPinInput) adminPinInput.focus(); }, 100);
+                    }
+                }
+            }
+            if (openAdminBtn) openAdminBtn.addEventListener('click', handleAdminClick);
+            if (mobileOpenAdminBtn) {
+                mobileOpenAdminBtn.addEventListener('click', () => {
+                    const mobileDrawer = document.getElementById('mobile-drawer');
+                    const drawerOverlay = document.getElementById('drawer-overlay');
+                    const hamburgerBtn = document.getElementById('hamburger-btn');
+                    if (mobileDrawer) mobileDrawer.classList.remove('active');
+                    if (drawerOverlay) drawerOverlay.classList.remove('active');
+                    if (hamburgerBtn) hamburgerBtn.classList.remove('active');
+                    handleAdminClick();
+                });
+            }
+            if (adminLogoutBtn) {
+                adminLogoutBtn.addEventListener('click', () => {
+                    if (typeof logoutAdmin === 'function') logoutAdmin();
+                    updateAdminUI();
+                    renderAnnouncements();
+                    showToast('Yönetici oturumu kapatıldı.', '🚪');
+                });
+            }
+            if (mobileAdminLogoutBtn) {
+                mobileAdminLogoutBtn.addEventListener('click', () => {
+                    if (typeof logoutAdmin === 'function') logoutAdmin();
+                    updateAdminUI();
+                    renderAnnouncements();
+                    showToast('Yönetici oturumu kapatıldı.', '🚪');
+                });
+            }
+            if (togglePinVisibility && adminPinInput) {
+                togglePinVisibility.addEventListener('click', () => {
+                    const isPwd = adminPinInput.type === 'password';
+                    adminPinInput.type = isPwd ? 'text' : 'password';
+                    togglePinVisibility.innerText = isPwd ? '🙈' : '👁️';
+                });
+            }
+            const pinForm = document.getElementById('pin-form');
+            function checkPinSubmit(e) {
+                if (e) e.preventDefault();
+                if (!adminPinInput) return;
+                const pin = adminPinInput.value.trim();
+                const pinErr = document.getElementById('pin-error-msg');
+                if (typeof authenticateAdmin === 'function' && authenticateAdmin(pin)) {
+                    if (pinModal) pinModal.classList.remove('active');
+                    if (pinErr) pinErr.style.display = 'none';
+                    updateAdminUI();
+                    renderAnnouncements();
+                    showToast('Yönetici girişi başarılı!', '🔑');
+                    openCreateAnnouncementModal();
+                } else {
+                    if (pinErr) pinErr.style.display = 'block';
+                    showToast('Hatalı şifre! Lütfen tekrar deneyiniz.', '❌');
+                    adminPinInput.select();
+                    adminPinInput.focus();
+                }
+            }
+            if (pinForm) pinForm.addEventListener('submit', checkPinSubmit);
+            if (submitPinBtn && !pinForm) submitPinBtn.addEventListener('click', checkPinSubmit);
+            if (closePinModal && pinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
+            if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+            function openCreateAnnouncementModal() {
+                if (!isAdminAuthenticated()) {
+                    if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
+                        window.TurnuvaAuth.openPinModal(() => openCreateAnnouncementModal());
+                    }
+                    return;
+                }
+                const titleModal = document.getElementById('announcement-modal-title');
+                const editId = document.getElementById('edit-announcement-id');
+                const titleInput = document.getElementById('announcement-title-input');
+                const catSelect = document.getElementById('announcement-category-select');
+                const dateInput = document.getElementById('announcement-date-input');
+                const authorInput = document.getElementById('announcement-author-input');
+                const pinnedCheck = document.getElementById('announcement-pinned-check');
+                const contentInput = document.getElementById('announcement-content-input');
+                if (titleModal) titleModal.innerText = '➕ Yeni Duyuru Paylaş';
+                if (editId) editId.value = '';
+                if (titleInput) titleInput.value = '';
+                if (catSelect) catSelect.value = 'genel';
+                const now = new Date();
+                const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+                const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+                if (dateInput) dateInput.value = formattedDate;
+                if (authorInput) authorInput.value = 'Turnuva Komitesi';
+                if (pinnedCheck) pinnedCheck.checked = false;
+                if (contentInput) contentInput.value = '';
+                if (deleteFromEditBtn) deleteFromEditBtn.style.display = 'none';
+                if (annModal) annModal.classList.add('active');
+            }
+            if (openCreateAnnouncementBtn) {
+                openCreateAnnouncementBtn.addEventListener('click', openCreateAnnouncementModal);
+            }
+            function openEditAnnouncementModal(id) {
+                if (!isAdminAuthenticated()) {
+                    if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
+                        window.TurnuvaAuth.openPinModal(() => openEditAnnouncementModal(id));
+                    }
+                    return;
+                }
+                const list = getAnnouncements();
+                const item = list.find(a => a.id === id);
+                if (!item) return;
+                const titleModal = document.getElementById('announcement-modal-title');
+                const editId = document.getElementById('edit-announcement-id');
+                const titleInput = document.getElementById('announcement-title-input');
+                const catSelect = document.getElementById('announcement-category-select');
+                const dateInput = document.getElementById('announcement-date-input');
+                const authorInput = document.getElementById('announcement-author-input');
+                const pinnedCheck = document.getElementById('announcement-pinned-check');
+                const contentInput = document.getElementById('announcement-content-input');
+                if (titleModal) titleModal.innerText = '✏️ Duyuruyu Düzenle';
+                if (editId) editId.value = item.id;
+                if (titleInput) titleInput.value = item.title || '';
+                if (catSelect) catSelect.value = item.category || 'genel';
+                if (dateInput) dateInput.value = item.date || '';
+                if (authorInput) authorInput.value = item.author || 'Turnuva Komitesi';
+                if (pinnedCheck) pinnedCheck.checked = Boolean(item.pinned);
+                if (contentInput) contentInput.value = item.content || '';
+                if (deleteFromEditBtn) {
+                    deleteFromEditBtn.style.display = 'inline-block';
+                    deleteFromEditBtn.onclick = () => {
+                        if (annModal) annModal.classList.remove('active');
+                        openDeleteConfirmation(item.id);
+                    };
+                }
+                if (annModal) annModal.classList.add('active');
+            }
+            if (closeAnnModal && annModal) closeAnnModal.addEventListener('click', () => annModal.classList.remove('active'));
+            if (cancelAnnBtn && annModal) cancelAnnBtn.addEventListener('click', () => annModal.classList.remove('active'));
+            if (saveAnnBtn) {
+                saveAnnBtn.addEventListener('click', async () => {
+                    const editId = document.getElementById('edit-announcement-id').value;
+                    const title = document.getElementById('announcement-title-input').value.trim();
+                    const category = document.getElementById('announcement-category-select').value;
+                    const date = document.getElementById('announcement-date-input').value.trim();
+                    const author = document.getElementById('announcement-author-input').value.trim();
+                    const pinned = document.getElementById('announcement-pinned-check').checked;
+                    const contentVal = document.getElementById('announcement-content-input').value.trim();
+                    if (!title) {
+                        showToast('Lütfen duyuru başlığı yazınız.', '⚠️');
+                        return;
+                    }
+                    if (!contentVal) {
+                        showToast('Lütfen duyuru içeriği yazınız.', '⚠️');
+                        return;
+                    }
+                    const categoryLabels = {
+                        onemli: '🚨 Önemli Duyuru',
+                        mac: '⚽ Maç Bilgisi',
+                        kural: '📜 Kural & Disiplin',
+                        genel: '📢 Genel Bilgilendirme'
+                    };
+                    const annData = {
+                        title: title,
+                        category: category,
+                        categoryLabel: categoryLabels[category] || '📢 Duyuru',
+                        date: date || 'Bugün',
+                        author: author || 'Turnuva Komitesi',
+                        pinned: pinned,
+                        content: contentVal
+                    };
+                    saveAnnBtn.disabled = true;
+                    saveAnnBtn.innerText = '⏳ Kaydediliyor...';
+                    try {
+                        if (editId) {
+                            await updateAnnouncement(editId, annData);
+                            showToast('Duyuru güncellendi ve eşitlendi!', '✅');
+                        } else {
+                            await addAnnouncement(annData);
+                            showToast('Yeni duyuru yayınlandı ve tüm cihazlara eşitlendi!', '📢');
+                        }
+                        if (annModal) annModal.classList.remove('active');
+                        renderAnnouncements();
+                    } catch (e) {
+                        console.error('Duyuru kaydetme hatası:', e);
+                        showToast('Kaydedilirken hata oluştu.', '❌');
+                    } finally {
+                        saveAnnBtn.disabled = false;
+                        saveAnnBtn.innerText = 'Duyuruyu Yayınla';
+                    }
+                });
+            }
+            function openDeleteConfirmation(id) {
+                const list = getAnnouncements();
+                const item = list.find(a => a.id === id);
+                if (!item) return;
+                pendingDeleteId = id;
+                const titleEl = document.getElementById('delete-target-title');
+                if (titleEl) titleEl.innerText = `"${item.title}" başlıklı duyuruyu silmek istediğinize emin misiniz?`;
+                if (deleteConfirmModal) deleteConfirmModal.classList.add('active');
+            }
+            if (closeDeleteModal && deleteConfirmModal) closeDeleteModal.addEventListener('click', () => deleteConfirmModal.classList.remove('active'));
+            if (cancelDeleteBtn && deleteConfirmModal) cancelDeleteBtn.addEventListener('click', () => deleteConfirmModal.classList.remove('active'));
+            if (confirmDeleteBtn) {
+                confirmDeleteBtn.addEventListener('click', async () => {
+                    if (!pendingDeleteId) return;
+                    confirmDeleteBtn.disabled = true;
+                    confirmDeleteBtn.innerText = '⏳ Siliniyor...';
+                    try {
+                        await deleteAnnouncement(pendingDeleteId);
+                        showToast('Duyuru silindi ve tüm cihazlara eşitlendi.', '🗑️');
+                        if (deleteConfirmModal) deleteConfirmModal.classList.remove('active');
+                        renderAnnouncements();
+                    } catch (e) {
+                        showToast('Silinirken hata oluştu.', '❌');
+                    } finally {
+                        confirmDeleteBtn.disabled = false;
+                        confirmDeleteBtn.innerText = 'Evet, Sil';
+                        pendingDeleteId = null;
+                    }
+                });
+            }
+            function attachCardListeners() {
+                document.querySelectorAll('.copy-link-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-id');
+                        const url = window.location.origin + window.location.pathname + '#' + id;
+                        navigator.clipboard.writeText(url).then(() => {
+                            showToast('Duyuru bağlantısı panoya kopyalandı!', '🔗');
+                        }).catch(() => {
+                            showToast('Bağlantı kopyalanamadı.', '❌');
+                        });
+                    };
+                });
+                document.querySelectorAll('.edit-ann-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-id');
+                        openEditAnnouncementModal(id);
+                    };
+                });
+                document.querySelectorAll('.delete-ann-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-id');
+                        openDeleteConfirmation(id);
+                    };
+                });
+            }
+            window.addEventListener('turnuva_auth_changed', () => {
+                updateAdminUI();
+                renderAnnouncements();
+            });
+            updateAdminUI();
+            renderAnnouncements();
+        });
+</script>
 </body>
 </html>
