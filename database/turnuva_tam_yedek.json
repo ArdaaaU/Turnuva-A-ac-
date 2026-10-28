@@ -1,0 +1,477 @@
+{
+  "metadata": {
+    "title": "Futbol Turnuvası 2026 Tam Sistem Yedeği",
+    "backupDate": "2026-10-27",
+    "description": "Sitedeki tüm maç sonuçları, gol krallığı, puan durumu, takım kadroları ve duyuruların eksiksiz yedeği",
+    "champion": "hit-2",
+    "runnerUp": "wtk-2",
+    "topScorer": {
+      "name": "aykut",
+      "team": "hit-2",
+      "goals": 37
+    },
+    "bestGoalkeeper": {
+      "name": "gazi",
+      "team": "hit-2"
+    },
+    "totalTeams": 5,
+    "totalPlayers": 34,
+    "totalMatches": 13
+  },
+  "teamsRoster": {
+    "hit-2": [
+      "aykut",
+      "mahmut",
+      "cakir",
+      "gazi",
+      "sazak",
+      "tamer",
+      "ibo",
+      "mertcan"
+    ],
+    "wtk-2": [
+      "mehmet",
+      "serhat",
+      "muhammet",
+      "oguzhan",
+      "goktug",
+      "mehmet acar",
+      "alpi",
+      "ali",
+      "ahmethan"
+    ],
+    "hit-1": [
+      "davut",
+      "can",
+      "semih",
+      "tunc",
+      "baris",
+      "enes",
+      "bilal",
+      "arda"
+    ],
+    "maliye isletme -2": [
+      "burak",
+      "emirhan",
+      "mert",
+      "toprak",
+      "enes",
+      "umut",
+      "emir",
+      "burak kus",
+      "yigit"
+    ],
+    "ic mekan tasarim-2": [
+      "enes",
+      "samet",
+      "emre"
+    ]
+  },
+  "playerGoals": {
+    "hit-2:aykut": 37,
+    "wtk-2:mehmet": 24,
+    "wtk-2:ahmethan": 18,
+    "hit-2:mahmut": 11,
+    "maliye isletme -2:burak": 11,
+    "wtk-2:serhat": 8,
+    "ic mekan tasarim-2:enes": 8,
+    "hit-2:cakir": 7,
+    "hit-1:davut": 7,
+    "ic mekan tasarim-2:samet": 6,
+    "maliye isletme -2:toprak": 6,
+    "wtk-2:muhammet": 5,
+    "hit-2:gazi": 5,
+    "wtk-2:oguzhan": 4,
+    "hit-1:can": 3,
+    "maliye isletme -2:emirhan": 2,
+    "hit-2:sazak": 2,
+    "maliye isletme -2:mert": 2,
+    "wtk-2:goktug": 2,
+    "hit-2:tamer": 1,
+    "hit-1:arda": 1,
+    "maliye isletme -2:enes": 1,
+    "wtk-2:mehmet acar": 1
+  },
+  "standings": [
+    {
+      "rank": 1,
+      "id": "t-hit2",
+      "name": "hit-2",
+      "o": 4,
+      "g": 3,
+      "b": 0,
+      "m": 1,
+      "av": 23,
+      "p": 9
+    },
+    {
+      "rank": 2,
+      "id": "t-icmekan2",
+      "name": "ic mekan tasarim-2",
+      "o": 4,
+      "g": 3,
+      "b": 0,
+      "m": 1,
+      "av": 5,
+      "p": 9
+    },
+    {
+      "rank": 3,
+      "id": "t-wtk2",
+      "name": "wtk-2",
+      "o": 4,
+      "g": 2,
+      "b": 0,
+      "m": 2,
+      "av": 11,
+      "p": 6
+    },
+    {
+      "rank": 4,
+      "id": "t-hit1",
+      "name": "hit-1",
+      "o": 4,
+      "g": 1,
+      "b": 0,
+      "m": 3,
+      "av": -32,
+      "p": 3
+    },
+    {
+      "rank": 5,
+      "id": "t-maliye2",
+      "name": "maliye isletme -2",
+      "o": 4,
+      "g": 1,
+      "b": 0,
+      "m": 3,
+      "av": -6,
+      "p": 3
+    }
+  ],
+  "matches": [
+    {
+      "id": "mac-1",
+      "stage": "Ön Eleme 1",
+      "date": "28 Eylül 2026",
+      "day": "Pazartesi",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "maliye isletme -2",
+      "score1": 6,
+      "team2": "wtk-2",
+      "score2": 12,
+      "winner": "team2"
+    },
+    {
+      "id": "mac-2",
+      "stage": "Ön Eleme 2",
+      "date": "28 Eylül 2026",
+      "day": "Pazartesi",
+      "time": "19:00",
+      "status": "bitti",
+      "team1": "hit-1",
+      "score1": 0,
+      "team2": "hit-2",
+      "score2": 16,
+      "winner": "team2"
+    },
+    {
+      "id": "mac-3",
+      "stage": "Grup Karşılaşması",
+      "date": "30 Eylül 2026",
+      "day": "Çarşamba",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "ic mekan tasarim-2",
+      "score1": 8,
+      "team2": "hit-2",
+      "score2": 7,
+      "winner": "team1"
+    },
+    {
+      "id": "mac-4",
+      "stage": "Grup Karşılaşması",
+      "date": "30 Eylül 2026",
+      "day": "Çarşamba",
+      "time": "19:00",
+      "status": "bitti",
+      "team1": "wtk-2",
+      "score1": 12,
+      "team2": "hit-1",
+      "score2": 1,
+      "winner": "team1"
+    },
+    {
+      "id": "mac-5",
+      "stage": "3.lük / Klasman",
+      "date": "1 Ekim 2026",
+      "day": "Perşembe",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "maliye isletme -2",
+      "score1": 2,
+      "team2": "hit-2",
+      "score2": 5,
+      "winner": "team2"
+    },
+    {
+      "id": "mac-6",
+      "stage": "Grup Karşılaşması",
+      "date": "1 Ekim 2026",
+      "day": "Perşembe",
+      "time": "19:00",
+      "status": "bitti",
+      "team1": "wtk-2",
+      "score1": 8,
+      "team2": "ic mekan tasarim-2",
+      "score2": 9,
+      "winner": "team2"
+    },
+    {
+      "id": "mac-7",
+      "stage": "Grup Karşılaşması",
+      "date": "6 Ekim 2026",
+      "day": "Salı",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "hit-2",
+      "score1": 8,
+      "team2": "wtk-2",
+      "score2": 3,
+      "winner": "team1"
+    },
+    {
+      "id": "mac-7b",
+      "stage": "Grup Karşılaşması",
+      "date": "6 Ekim 2026",
+      "day": "Salı",
+      "time": "19:00",
+      "status": "bitti",
+      "team1": "ic mekan tasarim-2",
+      "score1": "penaltılar",
+      "team2": "maliye isletme -2",
+      "score2": "ile bitti",
+      "winner": "team2",
+      "note": "Penaltılar ile bitti"
+    },
+    {
+      "id": "mac-8",
+      "stage": "Grup Karşılaşması",
+      "date": "7 Ekim 2026",
+      "day": "Çarşamba",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "maliye isletme -2",
+      "score1": "penaltılar",
+      "team2": "hit-1",
+      "score2": "ile bitti",
+      "winner": "team2",
+      "note": "Penaltılarla"
+    },
+    {
+      "id": "mac-10",
+      "stage": "Grup Karşılaşması",
+      "date": "8 Ekim 2026",
+      "day": "Perşembe",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "ic mekan tasarim-2",
+      "score1": 7,
+      "team2": "hit-1",
+      "score2": 3,
+      "winner": "team1"
+    },
+    {
+      "id": "mac-11",
+      "stage": "1. Yarı Final",
+      "date": "13 Ekim Salı",
+      "day": "Salı",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "wtk-2",
+      "score1": 11,
+      "team2": "maliye isletme -2",
+      "score2": 5,
+      "winner": "team1"
+    },
+    {
+      "id": "mac-12",
+      "stage": "2. Yarı Final",
+      "date": "13 Ekim 2026",
+      "day": "Salı",
+      "time": "19:00",
+      "status": "bitti",
+      "team1": "hit-1",
+      "score1": 4,
+      "team2": "hit-2",
+      "score2": 20,
+      "winner": "team2"
+    },
+    {
+      "id": "final-match",
+      "stage": "Büyük Final (Şampiyonluk)",
+      "date": "15 Ekim 2026",
+      "day": "Perşembe",
+      "time": "12:30",
+      "status": "bitti",
+      "team1": "wtk-2",
+      "score1": 3,
+      "team2": "hit-2",
+      "score2": 6,
+      "winner": "team2",
+      "champion": "hit-2"
+    }
+  ],
+  "tournamentBracket": {
+    "quarters": [
+      {
+        "id": "qf-1",
+        "date": "28 Eylül 2026",
+        "time": "18:00",
+        "status": "bitti",
+        "team1": "maliye isletme -2",
+        "score1": 6,
+        "team2": "wtk-2",
+        "score2": 12,
+        "winner": "team2"
+      },
+      {
+        "id": "qf-2",
+        "date": "28 Eylül 2026",
+        "time": "19:00",
+        "status": "bitti",
+        "team1": "hit-1",
+        "score1": 0,
+        "team2": "hit-2",
+        "score2": 16,
+        "winner": "team2"
+      }
+    ],
+    "tuesdayBay": {
+      "date": "29 Eylül 2026",
+      "title": "BAY Günü",
+      "status": "Maç Yok"
+    },
+    "semis": [
+      {
+        "id": "semi-1",
+        "title": "1. Yarı Final Maçı",
+        "date": "13 Ekim Salı",
+        "time": "18:00",
+        "status": "bitti",
+        "team1": "wtk-2",
+        "score1": 11,
+        "team2": "maliye isletme -2",
+        "score2": 5,
+        "winner": "team1"
+      },
+      {
+        "id": "semi-2",
+        "title": "2. Yarı Final Maçı",
+        "date": "13 Ekim Salı",
+        "time": "19:00",
+        "status": "bitti",
+        "team1": "hit-1",
+        "score1": 4,
+        "team2": "hit-2",
+        "score2": 20,
+        "winner": "team2"
+      }
+    ],
+    "byeTeam": "ic mekan tasarim-2",
+    "thirdPlace": {
+      "id": "third-place-match",
+      "date": "1 Ekim 2026",
+      "time": "18:00",
+      "status": "bitti",
+      "team1": "maliye isletme -2",
+      "score1": 2,
+      "team2": "hit-2",
+      "score2": 5,
+      "winner": "team2"
+    },
+    "final": {
+      "id": "final-match",
+      "title": "Şampiyonluk Maçı",
+      "date": "15 Ekim Perşembe",
+      "day": "Perşembe",
+      "time": "12:30",
+      "status": "bitti",
+      "team1": "wtk-2",
+      "score1": 3,
+      "team2": "hit-2",
+      "score2": 6,
+      "winner": "team2",
+      "champion": "hit-2"
+    }
+  },
+  "announcements": [
+    {
+      "id": "d-6",
+      "title": "👑 2026 Turnuva Şampiyonu HİT-2! Kupa Sahibini Buldu 🏆",
+      "category": "mac",
+      "categoryLabel": "🏆 Şampiyonluk & Ödüller",
+      "date": "15 Ekim 2026",
+      "author": "Turnuva Komitesi",
+      "pinned": true,
+      "summary": "Büyük Finali kazanan HİT-2 turnuva şampiyonu oldu! Gol Kralı Aykut, En İyi Kaleci ise Gazi oldu.",
+      "content": "🏆 2026 Futbol Turnuvamız nefes kesen Büyük Final mücadelesiyle tamamlandı!\n\n👑 BÜYÜK FİNAL SKORU:\n⚡ HİT-2: 6 - 3 WTK-2\n\n🌟 TURNUVA BİREYSEL ÖDÜLLERİ:\n🥇 2026 Turnuva Şampiyonu: HİT-2\n👑 Turnuvanın Gol Kralı: Aykut\n🧤 Turnuvanın En İyi Kalecisi: Gazi\n\nŞampiyon HİT-2 takımını, turnuva boyunca harika bir mücadele sergileyen finalist WTK-2'yi ve turnuvaya emek veren tüm takımlarımızı gönülden tebrik ederiz!"
+    },
+    {
+      "id": "d-5",
+      "title": "🔥 Yarı Final Maçları Tamamlandı! Büyük Final: WTK vs HİT-2",
+      "category": "mac",
+      "categoryLabel": "🏆 Yarı Final Sonuçları",
+      "date": "13 Ekim 2026",
+      "author": "Turnuva Komitesi",
+      "pinned": false,
+      "summary": "13 Ekim Yarı Finaller: WTK-2 11 - 5 Maliye İşletme, HİT-2 20 - 4 HİT-1. Büyük Finalde WTK-2 ile HİT-2 karşılaşıyor!",
+      "content": "🏆 Turnuvamızda yarı final heyecanı nefes kesen maçlarla tamamlandı!\n\n13 Ekim 2026 Salı Yarı Final Karşılaşma Sonuçları:\n\n⚡ WTK-2: 11 - 5 Maliye İşletme -2\n(Goller: Mehmet 6, Ahmethan 3, Serhat 2 | Toprak 3, Burak 1, Emirhan 1)\n\n⚡ HİT-2: 20 - 4 HİT-1\n(Goller: Aykut 11, Mahmut 5, Çakır 2, Gazi 1, Tamer 1 | Davut 3, Can 1)\n\n👑 BÜYÜK FİNAL (15 Ekim Perşembe):\n🔥 WTK-2 🆚 HİT-2\n\nFinale yükselen her iki takımımıza başarılar dileriz!"
+    },
+    {
+      "id": "d-1",
+      "title": "🏆 Turnuva 28 Eylül'de Başlıyor! Ön Eleme Maçları Açıklandı",
+      "category": "onemli",
+      "categoryLabel": "🚨 Önemli Duyuru",
+      "date": "28 Eylül 2026",
+      "author": "Turnuva Komitesi",
+      "pinned": false,
+      "summary": "28 Eylül Ön Eleme Maçları: 18:00 maliye isletme -2 vs wtk-2, 19:00 hit-1 vs hit-2. ic mekan tasarim-2 kura ile doğrudan yarı finale yükseldi.",
+      "content": "2026 Futbol Turnuvamız tüm coşkusuyla başlıyor! Ön Eleme maçları 28 Eylül 2026 tarihinde oynanacaktır:\n\n⚡ 18:00 | maliye isletme -2 vs wtk-2\n⚡ 19:00 | hit-1 vs hit-2\n\n⭐ ic mekan tasarim-2 kura sonucunda 1. Turu bay geçerek doğrudan 29 Eylül'deki Yarı Final'e yükselmiştir.\n\nTüm takımlarımıza ve sporcularımıza centilmence mücadeleler ve başarılar dileriz!"
+    },
+    {
+      "id": "d-2",
+      "title": "⚽ Grup & Eleme Aşaması Maç Saatleri ve Saha Kuralları",
+      "category": "mac",
+      "categoryLabel": "⚽ Maç Bilgisi",
+      "date": "28 Eylül 2026",
+      "author": "Turnuva Komitesi",
+      "pinned": false,
+      "summary": "Ön eleme maçları saat 18:00 ve 19:00'da oynanacaktır. Takımların en az 20 dakika önce sahada hazır bulunması gerekmektedir.",
+      "content": "Turnuvamızın Ön Eleme maçları 28 Eylül'de saat 18:00 ve 19:00'da oynanacaktır. Maçların aksamaması adına takımların maç saatinden en az 20 dakika önce esame listeleriyle birlikte saha kenarında hazır bulunmaları zorunludur.\n\nMaç süreleri 2 x 25 dakika olarak oynanacak olup, devre arası 5 dakikadır."
+    },
+    {
+      "id": "d-3",
+      "title": "📜 Kart Cezaları ve Disiplin Talimatı",
+      "category": "kural",
+      "categoryLabel": "📜 Kural & Disiplin",
+      "date": "10 Mart 2026",
+      "author": "Hakem Kurulu",
+      "pinned": false,
+      "summary": "Sarı kart ve kırmızı kart uygulamaları ile disiplin kuralları belirlenmiştir.",
+      "content": "Turnuvamızda disiplin ve centilmenlik ön plandadır.\n• Aynı maçta 2 sarı karttan kırmızı kart gören oyuncu takip eden ilk resmi maçta forma giyemez.\n• Doğrudan kırmızı kart durumunda hakem raporuna göre en az 2 maç men cezası uygulanır.\n• Turnuva genelinde 3 sarı karta ulaşan oyuncu bir sonraki maçta cezalı duruma düşer."
+    },
+    {
+      "id": "d-4",
+      "title": "📊 Canlı İstatistikler ve Takım Kadroları Yayında",
+      "category": "genel",
+      "categoryLabel": "📢 Genel Bilgilendirme",
+      "date": "28 Eylül 2026",
+      "author": "Yönetim",
+      "pinned": false,
+      "summary": "Tüm takımların oyuncu kadrolarını ve detaylı istatistiklerini 'İstatistikler' sayfamızdan inceleyebilirsiniz.",
+      "content": "Turnuvada yer alan tüm 5 takımın oyuncu kadrolarını (hit-2, wtk-2, hit-1, maliye isletme -2, ic mekan tasarim-2), puan durumunu ve gol krallığı tablosunu sitemizin 'İstatistikler' sayfasından anlık olarak takip edebilirsiniz."
+    }
+  ]
+}
