@@ -166,6 +166,34 @@ REVOKE INSERT, UPDATE, DELETE ON public.turnuva_istatistik FROM anon, authentica
 
 ALTER PUBLICATION supabase_realtime ADD TABLE public.turnuva_istatistik;
 
+CREATE OR REPLACE FUNCTION public.verify_admin_pin(
+    p_pin TEXT
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, extensions
+AS $$
+DECLARE
+    v_expected_hash TEXT := 'dee8e71a4b7ea0f08fac721680637e04dcc9bbe4e138d9a30288deb123e35763';
+    v_computed_hash TEXT;
+BEGIN
+    IF p_pin IS NULL OR trim(p_pin) = '' THEN
+        PERFORM pg_sleep(1.0);
+        RETURN jsonb_build_object('valid', false, 'error', 'PIN girilmedi.');
+    END IF;
+
+    v_computed_hash := encode(digest('Turnuva_Tree_Sec_#2026!' || trim(p_pin) || '@Antigravity_Admin_Auth_99', 'sha256'), 'hex');
+    
+    IF v_computed_hash IS DISTINCT FROM v_expected_hash THEN
+        PERFORM pg_sleep(1.5);
+        RETURN jsonb_build_object('valid', false, 'error', 'Hatalı PIN.');
+    END IF;
+
+    RETURN jsonb_build_object('valid', true);
+END;
+$$;
+
 CREATE OR REPLACE FUNCTION public.admin_manage_announcement(
     p_pin TEXT,
     p_action TEXT,
@@ -189,12 +217,14 @@ DECLARE
     v_computed_hash TEXT;
 BEGIN
     IF p_pin IS NULL OR trim(p_pin) = '' THEN
+        PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Şifre girilmedi.';
     END IF;
 
     v_computed_hash := encode(digest('Turnuva_Tree_Sec_#2026!' || trim(p_pin) || '@Antigravity_Admin_Auth_99', 'sha256'), 'hex');
     
     IF v_computed_hash IS DISTINCT FROM v_expected_hash THEN
+        PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Geçersiz yönetici şifresi.';
     END IF;
 
@@ -326,12 +356,14 @@ DECLARE
     v_computed_hash TEXT;
 BEGIN
     IF p_pin IS NULL OR trim(p_pin) = '' THEN
+        PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Şifre girilmedi.';
     END IF;
 
     v_computed_hash := encode(digest('Turnuva_Tree_Sec_#2026!' || trim(p_pin) || '@Antigravity_Admin_Auth_99', 'sha256'), 'hex');
     
     IF v_computed_hash IS DISTINCT FROM v_expected_hash THEN
+        PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Geçersiz yönetici şifresi.';
     END IF;
 
@@ -359,12 +391,14 @@ DECLARE
     v_computed_hash TEXT;
 BEGIN
     IF p_pin IS NULL OR trim(p_pin) = '' THEN
+        PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Şifre girilmedi.';
     END IF;
 
     v_computed_hash := encode(digest('Turnuva_Tree_Sec_#2026!' || trim(p_pin) || '@Antigravity_Admin_Auth_99', 'sha256'), 'hex');
     
     IF v_computed_hash IS DISTINCT FROM v_expected_hash THEN
+        PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Geçersiz yönetici şifresi.';
     END IF;
 
@@ -378,6 +412,7 @@ BEGIN
 END;
 $$;
 
+GRANT EXECUTE ON FUNCTION public.verify_admin_pin TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_manage_announcement TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_save_fikstur TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_save_istatistik TO anon, authenticated;
