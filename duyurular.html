@@ -1077,7 +1077,7 @@
     <script src="js/fikstur.js"></script>
     <script src="js/duyurular.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function initDuyurularPage() {
             const themeToggleBtn = document.getElementById('theme-toggle');
             themeToggleBtn.addEventListener('click', () => {
                 const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -1126,7 +1126,23 @@
             }
             function renderAnnouncements() {
                 const isAuth = typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
-                const list = getAnnouncements();
+                let list = [];
+                try {
+                    if (typeof getAnnouncements === 'function') {
+                        list = getAnnouncements();
+                    } else if (typeof window.getAnnouncements === 'function') {
+                        list = window.getAnnouncements();
+                    }
+                } catch (e) {
+                    console.warn('Duyuruları alma hatası:', e);
+                }
+                if (!Array.isArray(list) || list.length === 0) {
+                    if (typeof window.DEFAULT_ANNOUNCEMENTS !== 'undefined' && Array.isArray(window.DEFAULT_ANNOUNCEMENTS)) {
+                        list = window.DEFAULT_ANNOUNCEMENTS;
+                    } else if (typeof DEFAULT_ANNOUNCEMENTS !== 'undefined' && Array.isArray(DEFAULT_ANNOUNCEMENTS)) {
+                        list = DEFAULT_ANNOUNCEMENTS;
+                    }
+                }
                 const isMobile = isMobileClient();
                 totalCountBadge.innerText = list.length;
                 countAllEl.innerText = list.length;
@@ -1210,18 +1226,24 @@
             window.addEventListener('pageshow', renderAnnouncements);
             if (window.location.hash) {
                 setTimeout(() => {
-                    const targetEl = document.querySelector(window.location.hash);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetEl.style.transition = 'box-shadow 0.4s ease';
-                        targetEl.style.boxShadow = '0 0 0 3px var(--gold)';
-                        setTimeout(() => { targetEl.style.boxShadow = ''; }, 2000);
-                    }
+                    try {
+                        const targetId = window.location.hash.replace(/^#/, '');
+                        const targetEl = document.getElementById(targetId) || document.querySelector(window.location.hash);
+                        if (targetEl) {
+                            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            targetEl.style.transition = 'box-shadow 0.4s ease';
+                            targetEl.style.boxShadow = '0 0 0 3px var(--gold)';
+                            setTimeout(() => { targetEl.style.boxShadow = ''; }, 2000);
+                        }
+                    } catch (e) {}
                 }, 300);
             }
             function escapeHTML(str) {
+                if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.escapeHtml === 'function') {
+                    return window.TurnuvaAuth.escapeHtml(str);
+                }
                 if (!str && str !== 0) return '';
-                return str
+                return String(str)
                     .replace(/&/g, '&amp;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;')
@@ -1619,7 +1641,13 @@
             });
             updateAdminUI();
             renderAnnouncements();
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDuyurularPage);
+        } else {
+            initDuyurularPage();
+        }
 </script>
 </body>
 </html>

@@ -509,3 +509,14 @@ function exportAnnouncementsJSON() {
     const list = getAnnouncements();
     return JSON.stringify(list, null, 4);
 }
+if (typeof window !== 'undefined') {
+    window.DEFAULT_ANNOUNCEMENTS = DEFAULT_ANNOUNCEMENTS;
+    window.getAnnouncements = getAnnouncements;
+    window.saveAnnouncements = saveAnnouncements;
+    window.getLatestAnnouncement = getLatestAnnouncement;
+    window.addAnnouncement = addAnnouncement;
+    window.updateAnnouncement = updateAnnouncement;
+    window.deleteAnnouncement = deleteAnnouncement;
+    window.resetAnnouncementsToDefault = resetAnnouncementsToDefault;
+    window.syncAnnouncementsFromSupabase = syncAnnouncementsFromSupabase;
+}
