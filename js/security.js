@@ -415,8 +415,8 @@
                 handlePinVerification();
             });
         }
-        if (adminPinInput) {
-            adminPinInput.addEventListener('keydown', function(e) {
+        if (pinInput) {
+            pinInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     handlePinVerification();
