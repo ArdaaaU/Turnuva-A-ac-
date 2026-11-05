@@ -1,4 +1,4 @@
-const DEFAULT_TOURNAMENT_DATA = {
+var DEFAULT_TOURNAMENT_DATA = {
     matches: [
         {
             id: "mac-1",
@@ -360,7 +360,7 @@ const DEFAULT_TOURNAMENT_DATA = {
         winner: "team2"
     }
 };
-let inMemoryTournamentData = cloneObject(DEFAULT_TOURNAMENT_DATA);
+var inMemoryTournamentData = cloneObject(DEFAULT_TOURNAMENT_DATA);
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
@@ -448,7 +448,7 @@ async function fetchTournamentCloudData() {
     }
     return null;
 }
-let _fiksturRealtimeChannel = null;
+var _fiksturRealtimeChannel = null;
 function initFiksturRealtime() {
     if (_fiksturRealtimeChannel) return;
     if (typeof getSupabaseClient !== 'function') return;

@@ -1,4 +1,4 @@
-const DEFAULT_TEAMS_ROSTER = {
+var DEFAULT_TEAMS_ROSTER = {
     "hit-2": [
         "aykut",
         "mahmut",
@@ -47,7 +47,7 @@ const DEFAULT_TEAMS_ROSTER = {
         "emre"
     ]
 };
-const DEFAULT_PLAYER_GOALS = {
+var DEFAULT_PLAYER_GOALS = {
     "hit-2:aykut": 37,
     "wtk-2:mehmet": 24,
     "wtk-2:ahmethan": 18,
@@ -72,8 +72,8 @@ const DEFAULT_PLAYER_GOALS = {
     "maliye isletme -2:enes": 1,
     "wtk-2:mehmet acar": 1
 };
-const DEFAULT_PLAYERS = [];
-let _pCounter = 1;
+var DEFAULT_PLAYERS = [];
+var _pCounter = 1;
 for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
     playerNames.forEach(pName => {
         const goalKey = `${teamName}:${pName}`;
@@ -86,15 +86,15 @@ for (const [teamName, playerNames] of Object.entries(DEFAULT_TEAMS_ROSTER)) {
         });
     });
 }
-const DEFAULT_STANDINGS = [
+var DEFAULT_STANDINGS = [
     { id: "t-hit2", name: "hit-2", o: 4, g: 3, b: 0, m: 1, av: 23, p: 9 },
     { id: "t-icmekan2", name: "ic mekan tasarim-2", o: 4, g: 3, b: 0, m: 1, av: 5, p: 9 },
     { id: "t-wtk2", name: "wtk-2", o: 4, g: 2, b: 0, m: 2, av: 11, p: 6 },
     { id: "t-hit1", name: "hit-1", o: 4, g: 1, b: 0, m: 3, av: -32, p: 3 },
     { id: "t-maliye2", name: "maliye isletme -2", o: 4, g: 1, b: 0, m: 3, av: -6, p: 3 }
 ];
-let inMemoryPlayers = cloneObject(DEFAULT_PLAYERS);
-let inMemoryStandings = cloneObject(DEFAULT_STANDINGS);
+var inMemoryPlayers = cloneObject(DEFAULT_PLAYERS);
+var inMemoryStandings = cloneObject(DEFAULT_STANDINGS);
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
@@ -161,7 +161,7 @@ async function fetchStatsCloudData() {
     }
     return null;
 }
-let _statsRealtimeChannel = null;
+var _statsRealtimeChannel = null;
 function initStatsRealtime() {
     if (_statsRealtimeChannel) return;
     if (typeof getSupabaseClient !== 'function') return;

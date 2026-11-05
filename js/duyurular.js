@@ -1,4 +1,4 @@
-const DEFAULT_ANNOUNCEMENTS = [
+var DEFAULT_ANNOUNCEMENTS = [
     {
         id: "d-6",
         title: "👑 2026 Turnuva Şampiyonu HİT-2! Kupa Sahibini Buldu 🏆",
@@ -198,7 +198,7 @@ if (typeof window !== 'undefined') {
         } catch (e) {}
     });
 }
-let inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
+var inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
 function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
@@ -439,7 +439,7 @@ async function syncAnnouncementsFromSupabase() {
     }
     return null;
 }
-let _duyurularRealtimeChannel = null;
+var _duyurularRealtimeChannel = null;
 function initSupabaseRealtime() {
     if (_duyurularRealtimeChannel) return;
     if (typeof getSupabaseClient !== 'function') return;
