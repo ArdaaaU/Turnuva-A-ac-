@@ -224,7 +224,7 @@ function getLatestAnnouncement() {
     return pinned || list[0];
 }
 async function addAnnouncement(item) {
-    if (!isAdminAuthenticated()) {
+    if (!checkAdminAuth()) {
         console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
         return null;
     }
@@ -277,7 +277,7 @@ async function addAnnouncement(item) {
     return newItem;
 }
 async function updateAnnouncement(id, updatedFields) {
-    if (!isAdminAuthenticated()) {
+    if (!checkAdminAuth()) {
         console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
         return null;
     }
@@ -322,7 +322,7 @@ async function updateAnnouncement(id, updatedFields) {
     return updated;
 }
 async function deleteAnnouncement(id) {
-    if (!isAdminAuthenticated()) {
+    if (!checkAdminAuth()) {
         console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
         return null;
     }
@@ -349,7 +349,7 @@ async function deleteAnnouncement(id) {
     return getAnnouncements();
 }
 async function resetToDefaultAnnouncements() {
-    if (!isAdminAuthenticated()) {
+    if (!checkAdminAuth()) {
         console.error('Yetkisiz işlem: Bu işlem için yönetici girişi gereklidir.');
         return null;
     }
@@ -488,23 +488,23 @@ function formatDate(d) {
         return 'Bugün';
     }
 }
-function isAdminAuthenticated() {
+var checkAdminAuth = function() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
         return window.TurnuvaAuth.isAuthenticated();
     }
     return false;
-}
-function authenticateAdmin(pin) {
+};
+var execAdminAuth = function(pin) {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
         return window.TurnuvaAuth.authenticate(pin);
     }
     return false;
-}
-function logoutAdmin() {
+};
+var execAdminLogout = function() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
         window.TurnuvaAuth.logout();
     }
-}
+};
 function exportAnnouncementsJSON() {
     const list = getAnnouncements();
     return JSON.stringify(list, null, 4);

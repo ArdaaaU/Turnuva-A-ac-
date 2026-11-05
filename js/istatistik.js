@@ -489,23 +489,23 @@ function getTeamSquad(teamName, playersList) {
 function getCardReports() {
     return [];
 }
-function isAdminAuthenticated() {
+var checkAdminAuth = function() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.isAuthenticated === 'function') {
         return window.TurnuvaAuth.isAuthenticated();
     }
     return false;
-}
-function authenticateAdmin(pin) {
+};
+var execAdminAuth = function(pin) {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.authenticate === 'function') {
         return window.TurnuvaAuth.authenticate(pin);
     }
     return false;
-}
-function logoutAdmin() {
+};
+var execAdminLogout = function() {
     if (typeof window !== 'undefined' && window.TurnuvaAuth && typeof window.TurnuvaAuth.logout === 'function') {
         window.TurnuvaAuth.logout();
     }
-}
+};
 if (typeof window !== 'undefined') {
     window.DEFAULT_TEAMS_ROSTER = DEFAULT_TEAMS_ROSTER;
     window.DEFAULT_PLAYER_GOALS = DEFAULT_PLAYER_GOALS;
