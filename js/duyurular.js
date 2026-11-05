@@ -203,7 +203,7 @@ function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 function getAnnouncements() {
-    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
+    let list = cloneObject((Array.isArray(inMemoryAnnouncements) && inMemoryAnnouncements.length > 0) ? inMemoryAnnouncements : DEFAULT_ANNOUNCEMENTS);
     const dailyAnn = getDailyTournamentAnnouncement();
     if (dailyAnn) {
         list = [dailyAnn, ...list];
@@ -328,7 +328,7 @@ async function deleteAnnouncement(id) {
     }
     if (!id) return getAnnouncements();
     const strId = String(id).trim();
-    let list = cloneObject(inMemoryAnnouncements || DEFAULT_ANNOUNCEMENTS);
+    let list = cloneObject((Array.isArray(inMemoryAnnouncements) && inMemoryAnnouncements.length > 0) ? inMemoryAnnouncements : DEFAULT_ANNOUNCEMENTS);
     list = list.filter(a => a && String(a.id) !== strId && !String(a.id).startsWith('gunun-maci-otomatik-'));
     saveAnnouncements(list);
     if (typeof getSupabaseClient === 'function') {
@@ -517,6 +517,7 @@ if (typeof window !== 'undefined') {
     window.addAnnouncement = addAnnouncement;
     window.updateAnnouncement = updateAnnouncement;
     window.deleteAnnouncement = deleteAnnouncement;
-    window.resetAnnouncementsToDefault = resetAnnouncementsToDefault;
+    window.resetToDefaultAnnouncements = resetToDefaultAnnouncements;
+    window.resetAnnouncementsToDefault = resetToDefaultAnnouncements;
     window.syncAnnouncementsFromSupabase = syncAnnouncementsFromSupabase;
 }

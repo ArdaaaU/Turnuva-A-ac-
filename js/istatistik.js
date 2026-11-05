@@ -506,3 +506,21 @@ function logoutAdmin() {
         window.TurnuvaAuth.logout();
     }
 }
+if (typeof window !== 'undefined') {
+    window.DEFAULT_TEAMS_ROSTER = DEFAULT_TEAMS_ROSTER;
+    window.DEFAULT_PLAYER_GOALS = DEFAULT_PLAYER_GOALS;
+    window.DEFAULT_PLAYERS = DEFAULT_PLAYERS;
+    window.DEFAULT_STANDINGS = DEFAULT_STANDINGS;
+    window.getPlayersData = getPlayersData;
+    window.getStandingsData = getStandingsData;
+    window.getSortedStandings = getSortedStandings;
+    window.getTopScorers = getTopScorers;
+    window.getTournamentTeams = getTournamentTeams;
+    window.getTeamSquad = getTeamSquad;
+    window.saveStatsCloudData = saveStatsCloudData;
+    window.saveStandingsData = saveStandingsData;
+    window.savePlayersData = savePlayersData;
+    window.initStatsDataSync = initStatsDataSync;
+    window.resetPlayersData = resetPlayersData;
+    window.resetStandingsData = resetStandingsData;
+}

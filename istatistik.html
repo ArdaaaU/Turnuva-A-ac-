@@ -1203,7 +1203,7 @@
     <script src="js/fikstur.js"></script>
     <script src="js/istatistik.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function initIstatistikPage() {
             const themeToggleBtn = document.getElementById('theme-toggle');
             if (themeToggleBtn) {
                 themeToggleBtn.addEventListener('click', () => {
@@ -1503,8 +1503,28 @@
                 });
             }
             function renderAllStatsViews(playersData, standingsData) {
-                const standings = standingsData || getStandingsData();
-                const players = playersData || getPlayersData();
+                let standings = standingsData;
+                if (!standings || !Array.isArray(standings) || standings.length === 0) {
+                    try {
+                        if (typeof getStandingsData === 'function') standings = getStandingsData();
+                        else if (typeof window.getStandingsData === 'function') standings = window.getStandingsData();
+                    } catch(e) {}
+                }
+                if (!standings || !Array.isArray(standings) || standings.length === 0) {
+                    standings = window.DEFAULT_STANDINGS || [];
+                }
+
+                let players = playersData;
+                if (!players || !Array.isArray(players) || players.length === 0) {
+                    try {
+                        if (typeof getPlayersData === 'function') players = getPlayersData();
+                        else if (typeof window.getPlayersData === 'function') players = window.getPlayersData();
+                    } catch(e) {}
+                }
+                if (!players || !Array.isArray(players) || players.length === 0) {
+                    players = window.DEFAULT_PLAYERS || [];
+                }
+
                 renderStandingsTable(standings);
                 renderTopScorers(players);
                 renderTeamsAccordionTable(players);
@@ -1912,10 +1932,16 @@
                 }
             });
             updateAdminUI();
-                        renderAllStatsViews();
+            renderAllStatsViews();
             window.addEventListener('turnuva_standings_updated', () => renderAllStatsViews());
             window.addEventListener('turnuva_stats_updated', () => renderAllStatsViews());
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initIstatistikPage);
+        } else {
+            initIstatistikPage();
+        }
 </script>
     <script defer src="/_vercel/insights/script.js"></script>
 </body>

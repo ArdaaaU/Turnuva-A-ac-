@@ -487,3 +487,10 @@ async function initTournamentDataSync(onDataLoadedCallback) {
         }
     }
 }
+if (typeof window !== 'undefined') {
+    window.DEFAULT_TOURNAMENT_DATA = DEFAULT_TOURNAMENT_DATA;
+    window.getTournamentData = getTournamentData;
+    window.saveTournamentData = saveTournamentData;
+    window.initTournamentDataSync = initTournamentDataSync;
+    window.fetchTournamentCloudData = fetchTournamentCloudData;
+}
