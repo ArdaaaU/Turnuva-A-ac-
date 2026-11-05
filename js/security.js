@@ -61,14 +61,20 @@
         return result;
     }
 
-    const SESSION_HMAC_SALT = 'Turnuva_Admin_Active_HMAC_Session_#99281!';
+    const RUNTIME_ENTROPY = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Date.now().toString(36);
     const SESSION_DURATION_MS = 2 * 60 * 60 * 1000;
-    const STORAGE_KEY = '_turnuva_auth_token_#2026';
     const ATTEMPTS_KEY = '_turnuva_auth_attempts_#2026';
     const MAX_FAILED_ATTEMPTS = 5;
     const LOCKOUT_DURATION_MS = 5 * 60 * 1000;
 
+    let _inMemoryAdminPin = null;
+    let _inMemoryExpiresAt = 0;
+    let _inMemorySignature = null;
     let _pendingLoginCallback = null;
+
+    function computePrivateSig(pin, exp) {
+        return sha256(RUNTIME_ENTROPY + '::' + pin + '::' + exp);
+    }
 
     function getAttemptState() {
         try {
@@ -105,46 +111,17 @@
         } catch (e) {}
     }
 
-    function computeSessionSignature(issuedAt, expiresAt, nonce) {
-        return sha256(SESSION_HMAC_SALT + ':' + issuedAt + ':' + expiresAt + ':' + nonce);
-    }
-
-    function getStoredSession() {
-        try {
-            if (typeof sessionStorage === 'undefined') return null;
-            const raw = sessionStorage.getItem(STORAGE_KEY);
-            if (!raw) return null;
-            return JSON.parse(raw);
-        } catch (e) {
-            return null;
-        }
-    }
-
-    function setStoredSession(sessionObj) {
-        try {
-            if (typeof sessionStorage === 'undefined') return;
-            if (sessionObj) {
-                sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sessionObj));
-            } else {
-                sessionStorage.removeItem(STORAGE_KEY);
-            }
-        } catch (e) {}
-    }
-
     function isAdminAuthenticated() {
-        const session = getStoredSession();
-        if (!session) return false;
-        if (!session.sig || !session.issuedAt || !session.expiresAt || !session.nonce) {
-            setStoredSession(null);
+        if (!_inMemoryAdminPin || !Number.isFinite(_inMemoryExpiresAt)) {
             return false;
         }
-        if (Date.now() > session.expiresAt) {
-            setStoredSession(null);
+        if (Date.now() > _inMemoryExpiresAt) {
+            logoutAdmin();
             return false;
         }
-        const expectedSig = computeSessionSignature(session.issuedAt, session.expiresAt, session.nonce);
-        if (session.sig !== expectedSig) {
-            setStoredSession(null);
+        const expectedSig = computePrivateSig(_inMemoryAdminPin, _inMemoryExpiresAt);
+        if (_inMemorySignature !== expectedSig) {
+            logoutAdmin();
             return false;
         }
         return true;
@@ -152,8 +129,7 @@
 
     function getAdminPin() {
         if (!isAdminAuthenticated()) return null;
-        const session = getStoredSession();
-        return (session && session.pin) ? session.pin : null;
+        return _inMemoryAdminPin;
     }
 
     async function authenticateAdmin(pin) {
@@ -186,19 +162,10 @@
 
         if (isValid) {
             resetFailedAttempts();
-            const issuedAt = Date.now();
-            const expiresAt = issuedAt + SESSION_DURATION_MS;
-            const nonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-            const signature = computeSessionSignature(issuedAt, expiresAt, nonce);
-            const session = {
-                authenticated: true,
-                pin: cleanPin,
-                issuedAt: issuedAt,
-                expiresAt: expiresAt,
-                nonce: nonce,
-                sig: signature
-            };
-            setStoredSession(session);
+            _inMemoryAdminPin = cleanPin;
+            _inMemoryExpiresAt = Date.now() + SESSION_DURATION_MS;
+            _inMemorySignature = computePrivateSig(cleanPin, _inMemoryExpiresAt);
+
             updateNavAuthUI(true);
             if (typeof _pendingLoginCallback === 'function') {
                 const cb = _pendingLoginCallback;
@@ -223,13 +190,54 @@
     }
 
     function logoutAdmin() {
-        setStoredSession(null);
+        _inMemoryAdminPin = null;
+        _inMemoryExpiresAt = 0;
+        _inMemorySignature = null;
+
+        try {
+            const adminModals = document.querySelectorAll(
+                '#tournament-admin-modal, #stats-admin-modal, #announcement-modal, #delete-confirm-modal'
+            );
+            adminModals.forEach(function (m) {
+                if (m.tagName.toLowerCase() !== 'template') m.remove();
+            });
+            const adminBtns = document.getElementById('admin-action-btns');
+            if (adminBtns) adminBtns.style.display = 'none';
+        } catch (e) {}
+
         updateNavAuthUI(false);
         try {
             window.dispatchEvent(new CustomEvent('turnuva_auth_changed', {
                 detail: { authenticated: false }
             }));
         } catch (e) {}
+    }
+
+    function installDomSecurityWatcher() {
+        if (typeof MutationObserver === 'undefined') return;
+        const observer = new MutationObserver(function () {
+            if (!isAdminAuthenticated()) {
+                const unauthorized = document.querySelectorAll(
+                    '#tournament-admin-modal, #stats-admin-modal, #announcement-modal, #delete-confirm-modal'
+                );
+                unauthorized.forEach(function (node) {
+                    if (node.tagName.toLowerCase() !== 'template') {
+                        node.remove();
+                        console.warn('[Turnuva Güvenlik] Yetkisiz yönetici paneli DOM tespiti yapıldı ve element kaldırıldı.');
+                    }
+                });
+                const adminBtns = document.getElementById('admin-action-btns');
+                if (adminBtns && adminBtns.style.display !== 'none') {
+                    adminBtns.style.display = 'none';
+                }
+            }
+        });
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class', 'style']
+        });
     }
 
     function updateNavAuthUI(isAuth) {
@@ -261,19 +269,21 @@
     }
 
     function openPinModal(onSuccessCallback) {
-        if (typeof onSuccessCallback === 'function') {
-            _pendingLoginCallback = onSuccessCallback;
+        if (isAdminAuthenticated()) {
+            if (typeof onSuccessCallback === 'function') onSuccessCallback();
+            return;
         }
+        _pendingLoginCallback = onSuccessCallback || null;
         const pinModal = document.getElementById('pin-modal');
         const pinInput = document.getElementById('admin-pin-input');
         const pinError = document.getElementById('pin-error-msg');
+        if (pinInput) pinInput.value = '';
         if (pinError) pinError.style.display = 'none';
-        if (pinInput) {
-            pinInput.value = '';
-            setTimeout(() => pinInput.focus(), 80);
-        }
         if (pinModal) {
             pinModal.classList.add('active');
+            setTimeout(function () {
+                if (pinInput) pinInput.focus();
+            }, 100);
         }
     }
 
@@ -290,11 +300,22 @@
     }
 
     function initSecurityEventListeners() {
+        installDomSecurityWatcher();
+
+        try {
+            console.log(
+                '%c⚠️ GÜVENLİK BİLGİLENDİRMESİ\n%cBu konsol ekranı yalnızca teknik geliştirme amaçlıdır. Yönetici paneline şifresiz giriş yapılamaz; her türlü işlem sunucu düzeyinde (Supabase RPC) PIN ile doğrulanır.',
+                'color: #ef4444; font-size: 16px; font-weight: bold;',
+                'color: #94a3b8; font-size: 12px;'
+            );
+        } catch (e) {}
+
         const pinForm = document.getElementById('pin-form');
         const pinInput = document.getElementById('admin-pin-input');
         const pinError = document.getElementById('pin-error-msg');
         const cancelBtn = document.getElementById('cancel-pin-btn');
         const closeBtn = document.getElementById('close-pin-modal-btn') || document.getElementById('close-pin-modal');
+
         if (pinForm) {
             pinForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
@@ -326,12 +347,14 @@
         }
         if (cancelBtn) cancelBtn.addEventListener('click', closePinModal);
         if (closeBtn) closeBtn.addEventListener('click', closePinModal);
+
         const pinModal = document.getElementById('pin-modal');
         if (pinModal) {
             pinModal.addEventListener('click', function (e) {
                 if (e.target === pinModal) closePinModal();
             });
         }
+
         const adminLogoutBtn = document.getElementById('admin-logout-btn');
         if (adminLogoutBtn) {
             adminLogoutBtn.addEventListener('click', function () {
@@ -341,6 +364,7 @@
                 }
             });
         }
+
         const mobileAdminLogoutBtn = document.getElementById('mobile-admin-logout-btn');
         if (mobileAdminLogoutBtn) {
             mobileAdminLogoutBtn.addEventListener('click', function () {
@@ -350,6 +374,7 @@
                 }
             });
         }
+
         updateNavAuthUI();
     }
 
@@ -361,7 +386,7 @@
         }
     }
 
-    const TurnuvaAuth = {
+    const TurnuvaAuth = Object.freeze({
         getAdminPin: getAdminPin,
         authenticate: authenticateAdmin,
         isAuthenticated: isAdminAuthenticated,
@@ -369,12 +394,27 @@
         openPinModal: openPinModal,
         closePinModal: closePinModal,
         updateNavUI: updateNavAuthUI
-    };
-    window.TurnuvaAuth = TurnuvaAuth;
-    window.authenticateAdmin = authenticateAdmin;
-    window.isAdminAuthenticated = isAdminAuthenticated;
-    window.getAdminPin = getAdminPin;
-    window.logoutAdmin = logoutAdmin;
-    window.openPinModal = openPinModal;
-    window.closePinModal = closePinModal;
+    });
+
+    function defineImmutableProperty(target, name, val) {
+        try {
+            Object.defineProperty(target, name, {
+                value: val,
+                writable: false,
+                configurable: false,
+                enumerable: true
+            });
+        } catch (e) {
+            target[name] = val;
+        }
+    }
+
+    defineImmutableProperty(window, 'TurnuvaAuth', TurnuvaAuth);
+    defineImmutableProperty(window, 'authenticateAdmin', authenticateAdmin);
+    defineImmutableProperty(window, 'isAdminAuthenticated', isAdminAuthenticated);
+    defineImmutableProperty(window, 'getAdminPin', getAdminPin);
+    defineImmutableProperty(window, 'logoutAdmin', logoutAdmin);
+    defineImmutableProperty(window, 'openPinModal', openPinModal);
+    defineImmutableProperty(window, 'closePinModal', closePinModal);
+
 })(typeof window !== 'undefined' ? window : this);

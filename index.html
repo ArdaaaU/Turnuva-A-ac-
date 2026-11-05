@@ -2066,7 +2066,8 @@
             </div>
         </div>
     </div>
-    <div class="modal-overlay" id="tournament-admin-modal" role="dialog" aria-modal="true">
+    <template id="tournament-admin-template">
+<div class="modal-overlay" id="tournament-admin-modal" role="dialog" aria-modal="true">
         <div class="admin-modal-card">
             <div class="admin-modal-header">
                 <div>
@@ -2679,7 +2680,8 @@
             </div>
         </div>
     </div>
-        <div class="toast" id="toast-msg">
+</template>
+<div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
@@ -3066,6 +3068,26 @@
                 }
                 if (mobileLogout) mobileLogout.style.display = isAuth ? 'inline-flex' : 'none';
             }
+            function ensureTournamentAdminModal() {
+                let modal = document.getElementById('tournament-admin-modal');
+                if (!modal) {
+                    const tpl = document.getElementById('tournament-admin-template');
+                    if (!tpl) return null;
+                    document.body.appendChild(tpl.content.cloneNode(true));
+                    modal = document.getElementById('tournament-admin-modal');
+                    initTournamentAdminEvents(modal);
+                }
+                return modal;
+            }
+
+            function closeAndDestroyAdminModal() {
+                const modal = document.getElementById('tournament-admin-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.remove();
+                }
+            }
+
             function openAdminModalWithTab(tabId) {
                 const isAuth = typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.isAuthenticated === 'function' && window.TurnuvaAuth.isAuthenticated();
                 if (!isAuth) {
@@ -3074,16 +3096,19 @@
                     }
                     return;
                 }
+                const modal = ensureTournamentAdminModal();
+                if (!modal) return;
+
                 tabId = tabId || 'pane-fixture-1';
                 currentEditingTournament = JSON.parse(JSON.stringify(getTournamentData()));
                 populateAdminModalValues(currentEditingTournament);
-                document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                modal.querySelectorAll('.admin-tab-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
                 });
-                document.querySelectorAll('.admin-tab-pane').forEach(pane => {
+                modal.querySelectorAll('.admin-tab-pane').forEach(pane => {
                     pane.classList.toggle('active', pane.id === tabId);
                 });
-                if (adminModal) adminModal.classList.add('active');
+                modal.classList.add('active');
             }
             function handleAdminClick() {
                 if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
@@ -3110,17 +3135,7 @@
                     handleAdminClick();
                 });
             }
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const tabId = btn.getAttribute('data-tab');
-                    if (!tabId) return;
-                    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
-                    btn.classList.add('active');
-                    const targetPane = document.getElementById(tabId);
-                    if (targetPane) targetPane.classList.add('active');
-                });
-            });
+
             if (togglePinVisibility && adminPinInput) {
                 togglePinVisibility.addEventListener('click', () => {
                     const isPwd = adminPinInput.type === 'password';
@@ -3158,24 +3173,58 @@
             }
             if (closePinModalBtn && pinModal) closePinModalBtn.addEventListener('click', () => pinModal.classList.remove('active'));
             if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
-            if (closeAdminModal && adminModal) closeAdminModal.addEventListener('click', () => adminModal.classList.remove('active'));
-            if (cancelAdminModalBtn && adminModal) cancelAdminModalBtn.addEventListener('click', () => adminModal.classList.remove('active'));
             if (pinModal) {
                 pinModal.addEventListener('click', (e) => {
                     if (e.target === pinModal) pinModal.classList.remove('active');
                 });
             }
-            if (adminModal) {
-                adminModal.addEventListener('click', (e) => {
-                    if (e.target === adminModal) adminModal.classList.remove('active');
-                });
-            }
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     if (pinModal) pinModal.classList.remove('active');
-                    if (adminModal) adminModal.classList.remove('active');
+                    closeAndDestroyAdminModal();
                 }
             });
+
+            function initTournamentAdminEvents(modal) {
+                if (!modal) return;
+                const closeBtn = modal.querySelector('#close-admin-modal');
+                const cancelBtn = modal.querySelector('#cancel-admin-modal-btn');
+                if (closeBtn) closeBtn.addEventListener('click', closeAndDestroyAdminModal);
+                if (cancelBtn) cancelBtn.addEventListener('click', closeAndDestroyAdminModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeAndDestroyAdminModal();
+                });
+
+                modal.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const tabId = btn.getAttribute('data-tab');
+                        if (!tabId) return;
+                        modal.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+                        modal.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
+                        btn.classList.add('active');
+                        const targetPane = modal.querySelector('#' + tabId);
+                        if (targetPane) targetPane.classList.add('active');
+                    });
+                });
+
+                winnerPrefixes.forEach(item => setupWinnerButtons(item.prefix, item.getter));
+                winnerPrefixes.forEach(item => attachScoreWinnerAutoSync(item.prefix));
+
+                const syncScoresBtn = modal.querySelector('#btn-sync-scores-to-standings');
+                if (syncScoresBtn) {
+                    syncScoresBtn.addEventListener('click', handleSyncScoresToStandings);
+                }
+
+                const saveBtn = modal.querySelector('#save-tournament-btn');
+                if (saveBtn) {
+                    saveBtn.addEventListener('click', handleSaveTournament);
+                }
+
+                const resetBtn = modal.querySelector('#admin-reset-btn');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', handleResetTournament);
+                }
+            }
             function setInputValue(id, val) {
                 const el = document.getElementById(id);
                 if (el) el.value = (val !== null && val !== undefined) ? val : '';
@@ -3598,93 +3647,98 @@
             ];
             winnerPrefixes.forEach(item => setupWinnerButtons(item.prefix, item.getter));
             winnerPrefixes.forEach(item => attachScoreWinnerAutoSync(item.prefix));
-            const btnSyncScoresToStandings = document.getElementById('btn-sync-scores-to-standings');
-            if (btnSyncScoresToStandings) {
-                btnSyncScoresToStandings.addEventListener('click', async () => {
-                    const originalBtnText = btnSyncScoresToStandings.innerHTML;
+            async function handleSyncScoresToStandings() {
+                const modal = document.getElementById('tournament-admin-modal');
+                const btnSyncScoresToStandings = modal ? modal.querySelector('#btn-sync-scores-to-standings') : null;
+                const statusMsg = modal ? modal.querySelector('#standings-sync-status-msg') : null;
+                const originalBtnText = btnSyncScoresToStandings ? btnSyncScoresToStandings.innerHTML : '';
+                if (btnSyncScoresToStandings) {
                     btnSyncScoresToStandings.disabled = true;
                     btnSyncScoresToStandings.innerHTML = '⏳ Hesaplanıyor & Aktarılıyor...';
-                    const statusMsg = document.getElementById('standings-sync-status-msg');
+                }
+                if (statusMsg) {
+                    statusMsg.style.display = 'block';
+                    statusMsg.style.color = 'var(--text-muted)';
+                    statusMsg.innerText = 'Puan durumu hesaplanıyor...';
+                }
+                try {
+                    readAdminInputsIntoMemory();
+                    if (typeof syncStandingsFromTournamentMatches !== 'function') {
+                        showToast('İstatistik modülü yüklenemedi.', '❌');
+                        return;
+                    }
+                    const result = await syncStandingsFromTournamentMatches(currentEditingTournament, true);
+                    const count = (result && result.matchesProcessed) || 0;
                     if (statusMsg) {
                         statusMsg.style.display = 'block';
-                        statusMsg.style.color = 'var(--text-muted)';
-                        statusMsg.innerText = 'Puan durumu hesaplanıyor...';
+                        statusMsg.style.color = '#10b981';
+                        statusMsg.innerText = `✅ Başarılı: ${count} adet maç puan tablosuna ve Supabase buluta aktarıldı!`;
                     }
-                    try {
-                        readAdminInputsIntoMemory();
-                        if (typeof syncStandingsFromTournamentMatches !== 'function') {
-                            showToast('İstatistik modülü yüklenemedi.', '❌');
-                            return;
-                        }
-                        const result = await syncStandingsFromTournamentMatches(currentEditingTournament, true);
-                        const count = (result && result.matchesProcessed) || 0;
-                        if (statusMsg) {
-                            statusMsg.style.display = 'block';
-                            statusMsg.style.color = '#10b981';
-                            statusMsg.innerText = `✅ Başarılı: ${count} adet maç puan tablosuna ve Supabase buluta aktarıldı!`;
-                        }
-                        showToast(`📊 ${count} maç puan tablosuna eşitlendi!`, '✅');
-                    } catch (err) {
-                        console.error('Puan durumu aktarma hatası:', err);
-                        if (statusMsg) {
-                            statusMsg.style.display = 'block';
-                            statusMsg.style.color = '#ef4444';
-                            statusMsg.innerText = '❌ Aktarım sırasında bir hata oluştu.';
-                        }
-                        showToast('Puan tablosu aktarılırken hata oluştu.', '❌');
-                    } finally {
+                    showToast(`📊 ${count} maç puan tablosuna eşitlendi!`, '✅');
+                } catch (err) {
+                    console.error('Puan durumu aktarma hatası:', err);
+                    if (statusMsg) {
+                        statusMsg.style.display = 'block';
+                        statusMsg.style.color = '#ef4444';
+                        statusMsg.innerText = '❌ Aktarım sırasında bir hata oluştu.';
+                    }
+                    showToast('Puan tablosu aktarılırken hata oluştu.', '❌');
+                } finally {
+                    if (btnSyncScoresToStandings) {
                         btnSyncScoresToStandings.disabled = false;
                         btnSyncScoresToStandings.innerHTML = originalBtnText;
                     }
-                });
+                }
             }
-            if (saveTournamentBtn) {
-                saveTournamentBtn.addEventListener('click', async () => {
-                    const originalBtnText = saveTournamentBtn.innerHTML;
+            async function handleSaveTournament() {
+                const modal = document.getElementById('tournament-admin-modal');
+                const saveTournamentBtn = modal ? modal.querySelector('#save-tournament-btn') : null;
+                const originalBtnText = saveTournamentBtn ? saveTournamentBtn.innerHTML : '';
+                if (saveTournamentBtn) {
                     saveTournamentBtn.disabled = true;
                     saveTournamentBtn.innerHTML = '⏳ Kaydediliyor...';
-                    try {
-                        readAdminInputsIntoMemory();
-                        const result = await saveTournamentData(currentEditingTournament, true);
-                        renderAllTournamentViews(currentEditingTournament);
-                        if (adminModal) adminModal.classList.remove('active');
-                        if (typeof syncStandingsFromTournamentMatches === 'function') {
-                            syncStandingsFromTournamentMatches(currentEditingTournament, true).catch(() => {});
-                        }
-                        if (result && result.cloudSynced) {
-                            showToast('Turnuva ağacı kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
-                        } else {
-                            showToast('Değişiklikler başarıyla kaydedildi.', '💾');
-                        }
-                    } catch (err) {
-                        console.error('Kaydetme hatası:', err);
-                        showToast('Kaydedilirken hata oluştu.', '❌');
-                    } finally {
+                }
+                try {
+                    readAdminInputsIntoMemory();
+                    const result = await saveTournamentData(currentEditingTournament, true);
+                    renderAllTournamentViews(currentEditingTournament);
+                    closeAndDestroyAdminModal();
+                    if (typeof syncStandingsFromTournamentMatches === 'function') {
+                        syncStandingsFromTournamentMatches(currentEditingTournament, true).catch(() => {});
+                    }
+                    if (result && result.cloudSynced) {
+                        showToast('Turnuva ağacı kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
+                    } else {
+                        showToast('Değişiklikler başarıyla kaydedildi.', '💾');
+                    }
+                } catch (err) {
+                    console.error('Kaydetme hatası:', err);
+                    showToast('Kaydedilirken hata oluştu.', '❌');
+                } finally {
+                    if (saveTournamentBtn) {
                         saveTournamentBtn.disabled = false;
                         saveTournamentBtn.innerHTML = originalBtnText;
                     }
-                });
+                }
             }
-            if (adminResetBtn) {
-                adminResetBtn.addEventListener('click', async () => {
-                    const confirmWord = prompt('⚠️ DİKKAT: Tüm turnuva ağacı varsayılan fikstüre sıfırlanacaktır!\n\nOnaylamak için "SIFIRLA" yazınız:');
-                    if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') return;
-                    const confirmPin = prompt('Yönetici şifrenizi giriniz:');
-                    const isOk = typeof authenticateAdmin === 'function' ? await authenticateAdmin(confirmPin) : false;
-                    if (!isOk) {
-                        showToast('Yetkisiz işlem! Hatalı şifre.', '❌');
-                        return;
-                    }
-                    try {
-                        const defaultData = await resetTournamentData();
-                        currentEditingTournament = JSON.parse(JSON.stringify(defaultData));
-                        populateAdminModalValues(currentEditingTournament);
-                        renderAllTournamentViews(currentEditingTournament);
-                        showToast('Turnuva ağacı varsayılana sıfırlandı.', '🔄');
-                    } catch (e) {
-                        showToast('Sıfırlama hatası.', '❌');
-                    }
-                });
+            async function handleResetTournament() {
+                const confirmWord = prompt('⚠️ DİKKAT: Tüm turnuva ağacı varsayılan fikstüre sıfırlanacaktır!\n\nOnaylamak için "SIFIRLA" yazınız:');
+                if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') return;
+                const confirmPin = prompt('Yönetici şifrenizi giriniz:');
+                const isOk = typeof authenticateAdmin === 'function' ? await authenticateAdmin(confirmPin) : false;
+                if (!isOk) {
+                    showToast('Yetkisiz işlem! Hatalı şifre.', '❌');
+                    return;
+                }
+                try {
+                    const defaultData = await resetTournamentData();
+                    currentEditingTournament = JSON.parse(JSON.stringify(defaultData));
+                    populateAdminModalValues(currentEditingTournament);
+                    renderAllTournamentViews(currentEditingTournament);
+                    showToast('Turnuva ağacı varsayılana sıfırlandı.', '🔄');
+                } catch (e) {
+                    showToast('Sıfırlama hatası.', '❌');
+                }
             }
             if (adminLogoutBtn) {
                 adminLogoutBtn.addEventListener('click', () => {
@@ -3703,8 +3757,11 @@
             if (typeof initTournamentDataSync === 'function') {
                 initTournamentDataSync();
             }
-            window.addEventListener('turnuva_auth_changed', () => {
+            window.addEventListener('turnuva_auth_changed', (e) => {
                 updateAdminStatusUI();
+                if (e.detail && !e.detail.authenticated) {
+                    closeAndDestroyAdminModal();
+                }
             });
             updateAdminStatusUI();
         });

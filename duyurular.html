@@ -987,7 +987,8 @@
             </form>
         </div>
     </div>
-    <div class="modal-overlay" id="announcement-modal">
+    <template id="announcement-modal-template">
+<div class="modal-overlay" id="announcement-modal">
         <div class="modal-card">
             <div class="modal-header">
                 <div>
@@ -1043,7 +1044,9 @@
             </div>
         </div>
     </div>
-    <div class="modal-overlay" id="delete-confirm-modal">
+</template>
+<template id="delete-confirm-template">
+<div class="modal-overlay" id="delete-confirm-modal">
         <div class="modal-card" style="max-width: 440px;">
             <div class="modal-header">
                 <h3 class="modal-title" style="color: var(--red);">🗑️ Duyuruyu Sil</h3>
@@ -1063,7 +1066,8 @@
             </div>
         </div>
     </div>
-    <div class="toast" id="toast-msg">
+</template>
+<div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
@@ -1349,6 +1353,46 @@
             if (submitPinBtn && !pinForm) submitPinBtn.addEventListener('click', checkPinSubmit);
             if (closePinModal && pinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
             if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
+            function ensureAnnouncementModal() {
+                let modal = document.getElementById('announcement-modal');
+                if (!modal) {
+                    const tpl = document.getElementById('announcement-modal-template');
+                    if (!tpl) return null;
+                    document.body.appendChild(tpl.content.cloneNode(true));
+                    modal = document.getElementById('announcement-modal');
+                    initAnnouncementModalEvents(modal);
+                }
+                return modal;
+            }
+
+            function closeAndDestroyAnnouncementModal() {
+                const modal = document.getElementById('announcement-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.remove();
+                }
+            }
+
+            function ensureDeleteConfirmModal() {
+                let modal = document.getElementById('delete-confirm-modal');
+                if (!modal) {
+                    const tpl = document.getElementById('delete-confirm-template');
+                    if (!tpl) return null;
+                    document.body.appendChild(tpl.content.cloneNode(true));
+                    modal = document.getElementById('delete-confirm-modal');
+                    initDeleteConfirmEvents(modal);
+                }
+                return modal;
+            }
+
+            function closeAndDestroyDeleteModal() {
+                const modal = document.getElementById('delete-confirm-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.remove();
+                }
+            }
+
             function openCreateAnnouncementModal() {
                 if (!isAdminAuthenticated()) {
                     if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.openPinModal === 'function') {
@@ -1356,14 +1400,18 @@
                     }
                     return;
                 }
-                const titleModal = document.getElementById('announcement-modal-title');
-                const editId = document.getElementById('edit-announcement-id');
-                const titleInput = document.getElementById('announcement-title-input');
-                const catSelect = document.getElementById('announcement-category-select');
-                const dateInput = document.getElementById('announcement-date-input');
-                const authorInput = document.getElementById('announcement-author-input');
-                const pinnedCheck = document.getElementById('announcement-pinned-check');
-                const contentInput = document.getElementById('announcement-content-input');
+                const modal = ensureAnnouncementModal();
+                if (!modal) return;
+
+                const titleModal = modal.querySelector('#announcement-modal-title');
+                const editId = modal.querySelector('#edit-announcement-id');
+                const titleInput = modal.querySelector('#announcement-title-input');
+                const catSelect = modal.querySelector('#announcement-category-select');
+                const dateInput = modal.querySelector('#announcement-date-input');
+                const authorInput = modal.querySelector('#announcement-author-input');
+                const pinnedCheck = modal.querySelector('#announcement-pinned-check');
+                const contentInput = modal.querySelector('#announcement-content-input');
+                const deleteFromEditBtn = modal.querySelector('#delete-from-edit-btn');
                 if (titleModal) titleModal.innerText = '➕ Yeni Duyuru Paylaş';
                 if (editId) editId.value = '';
                 if (titleInput) titleInput.value = '';
@@ -1376,7 +1424,7 @@
                 if (pinnedCheck) pinnedCheck.checked = false;
                 if (contentInput) contentInput.value = '';
                 if (deleteFromEditBtn) deleteFromEditBtn.style.display = 'none';
-                if (annModal) annModal.classList.add('active');
+                modal.classList.add('active');
             }
             if (openCreateAnnouncementBtn) {
                 openCreateAnnouncementBtn.addEventListener('click', openCreateAnnouncementModal);
@@ -1391,14 +1439,19 @@
                 const list = getAnnouncements();
                 const item = list.find(a => a.id === id);
                 if (!item) return;
-                const titleModal = document.getElementById('announcement-modal-title');
-                const editId = document.getElementById('edit-announcement-id');
-                const titleInput = document.getElementById('announcement-title-input');
-                const catSelect = document.getElementById('announcement-category-select');
-                const dateInput = document.getElementById('announcement-date-input');
-                const authorInput = document.getElementById('announcement-author-input');
-                const pinnedCheck = document.getElementById('announcement-pinned-check');
-                const contentInput = document.getElementById('announcement-content-input');
+                const modal = ensureAnnouncementModal();
+                if (!modal) return;
+
+                const titleModal = modal.querySelector('#announcement-modal-title');
+                const editId = modal.querySelector('#edit-announcement-id');
+                const titleInput = modal.querySelector('#announcement-title-input');
+                const catSelect = modal.querySelector('#announcement-category-select');
+                const dateInput = modal.querySelector('#announcement-date-input');
+                const authorInput = modal.querySelector('#announcement-author-input');
+                const pinnedCheck = modal.querySelector('#announcement-pinned-check');
+                const contentInput = modal.querySelector('#announcement-content-input');
+                const deleteFromEditBtn = modal.querySelector('#delete-from-edit-btn');
+
                 if (titleModal) titleModal.innerText = '✏️ Duyuruyu Düzenle';
                 if (editId) editId.value = item.id;
                 if (titleInput) titleInput.value = item.title || '';
@@ -1410,97 +1463,127 @@
                 if (deleteFromEditBtn) {
                     deleteFromEditBtn.style.display = 'inline-block';
                     deleteFromEditBtn.onclick = () => {
-                        if (annModal) annModal.classList.remove('active');
+                        closeAndDestroyAnnouncementModal();
                         openDeleteConfirmation(item.id);
                     };
                 }
-                if (annModal) annModal.classList.add('active');
+                modal.classList.add('active');
             }
-            if (closeAnnModal && annModal) closeAnnModal.addEventListener('click', () => annModal.classList.remove('active'));
-            if (cancelAnnBtn && annModal) cancelAnnBtn.addEventListener('click', () => annModal.classList.remove('active'));
-            if (saveAnnBtn) {
-                saveAnnBtn.addEventListener('click', async () => {
-                    const editId = document.getElementById('edit-announcement-id').value;
-                    const title = document.getElementById('announcement-title-input').value.trim();
-                    const category = document.getElementById('announcement-category-select').value;
-                    const date = document.getElementById('announcement-date-input').value.trim();
-                    const author = document.getElementById('announcement-author-input').value.trim();
-                    const pinned = document.getElementById('announcement-pinned-check').checked;
-                    const contentVal = document.getElementById('announcement-content-input').value.trim();
-                    if (!title) {
-                        showToast('Lütfen duyuru başlığı yazınız.', '⚠️');
-                        return;
-                    }
-                    if (!contentVal) {
-                        showToast('Lütfen duyuru içeriği yazınız.', '⚠️');
-                        return;
-                    }
-                    const categoryLabels = {
-                        onemli: '🚨 Önemli Duyuru',
-                        mac: '⚽ Maç Bilgisi',
-                        kural: '📜 Kural & Disiplin',
-                        genel: '📢 Genel Bilgilendirme'
-                    };
-                    const annData = {
-                        title: title,
-                        category: category,
-                        categoryLabel: categoryLabels[category] || '📢 Duyuru',
-                        date: date || 'Bugün',
-                        author: author || 'Turnuva Komitesi',
-                        pinned: pinned,
-                        content: contentVal
-                    };
-                    saveAnnBtn.disabled = true;
-                    saveAnnBtn.innerText = '⏳ Kaydediliyor...';
-                    try {
-                        if (editId) {
-                            await updateAnnouncement(editId, annData);
-                            showToast('Duyuru güncellendi ve eşitlendi!', '✅');
-                        } else {
-                            await addAnnouncement(annData);
-                            showToast('Yeni duyuru yayınlandı ve tüm cihazlara eşitlendi!', '📢');
-                        }
-                        if (annModal) annModal.classList.remove('active');
-                        renderAnnouncements();
-                    } catch (e) {
-                        console.error('Duyuru kaydetme hatası:', e);
-                        showToast('Kaydedilirken hata oluştu.', '❌');
-                    } finally {
-                        saveAnnBtn.disabled = false;
-                        saveAnnBtn.innerText = 'Duyuruyu Yayınla';
-                    }
+            function initAnnouncementModalEvents(modal) {
+                if (!modal) return;
+                const closeBtn = modal.querySelector('#close-announcement-modal');
+                const cancelBtn = modal.querySelector('#cancel-announcement-btn');
+                const saveBtn = modal.querySelector('#save-announcement-btn');
+                if (closeBtn) closeBtn.addEventListener('click', closeAndDestroyAnnouncementModal);
+                if (cancelBtn) cancelBtn.addEventListener('click', closeAndDestroyAnnouncementModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeAndDestroyAnnouncementModal();
                 });
+                if (saveBtn) {
+                    saveBtn.addEventListener('click', async () => {
+                        const editId = modal.querySelector('#edit-announcement-id').value;
+                        const title = modal.querySelector('#announcement-title-input').value.trim();
+                        const category = modal.querySelector('#announcement-category-select').value;
+                        const date = modal.querySelector('#announcement-date-input').value.trim();
+                        const author = modal.querySelector('#announcement-author-input').value.trim();
+                        const pinned = modal.querySelector('#announcement-pinned-check').checked;
+                        const contentVal = modal.querySelector('#announcement-content-input').value.trim();
+                        if (!title) {
+                            showToast('Lütfen duyuru başlığı yazınız.', '⚠️');
+                            return;
+                        }
+                        if (!contentVal) {
+                            showToast('Lütfen duyuru içeriği yazınız.', '⚠️');
+                            return;
+                        }
+                        const categoryLabels = {
+                            onemli: '🚨 Önemli Duyuru',
+                            mac: '⚽ Maç Bilgisi',
+                            kural: '📜 Kural & Disiplin',
+                            genel: '📢 Genel Bilgilendirme'
+                        };
+                        const annData = {
+                            title: title,
+                            category: category,
+                            categoryLabel: categoryLabels[category] || '📢 Duyuru',
+                            date: date || 'Bugün',
+                            author: author || 'Turnuva Komitesi',
+                            pinned: pinned,
+                            content: contentVal
+                        };
+                        saveBtn.disabled = true;
+                        saveBtn.innerText = '⏳ Kaydediliyor...';
+                        try {
+                            if (editId) {
+                                await updateAnnouncement(editId, annData);
+                                showToast('Duyuru güncellendi ve eşitlendi!', '✅');
+                            } else {
+                                await addAnnouncement(annData);
+                                showToast('Yeni duyuru yayınlandı ve tüm cihazlara eşitlendi!', '📢');
+                            }
+                            closeAndDestroyAnnouncementModal();
+                            renderAnnouncements();
+                        } catch (e) {
+                            console.error('Duyuru kaydetme hatası:', e);
+                            showToast('Kaydedilirken hata oluştu.', '❌');
+                        } finally {
+                            saveBtn.disabled = false;
+                            saveBtn.innerText = 'Duyuruyu Yayınla';
+                        }
+                    });
+                }
             }
+
+            function initDeleteConfirmEvents(modal) {
+                if (!modal) return;
+                const closeBtn = modal.querySelector('#close-delete-modal');
+                const cancelBtn = modal.querySelector('#cancel-delete-btn');
+                const confirmBtn = modal.querySelector('#confirm-delete-btn');
+                if (closeBtn) closeBtn.addEventListener('click', closeAndDestroyDeleteModal);
+                if (cancelBtn) cancelBtn.addEventListener('click', closeAndDestroyDeleteModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeAndDestroyDeleteModal();
+                });
+                if (confirmBtn) {
+                    confirmBtn.addEventListener('click', async () => {
+                        if (!pendingDeleteId) return;
+                        confirmBtn.disabled = true;
+                        confirmBtn.innerText = '⏳ Siliniyor...';
+                        try {
+                            await deleteAnnouncement(pendingDeleteId);
+                            showToast('Duyuru silindi ve tüm cihazlara eşitlendi.', '🗑️');
+                            closeAndDestroyDeleteModal();
+                            renderAnnouncements();
+                        } catch (e) {
+                            showToast('Silinirken hata oluştu.', '❌');
+                        } finally {
+                            confirmBtn.disabled = false;
+                            confirmBtn.innerText = 'Evet, Sil';
+                            pendingDeleteId = null;
+                        }
+                    });
+                }
+            }
+
             function openDeleteConfirmation(id) {
                 const list = getAnnouncements();
                 const item = list.find(a => a.id === id);
                 if (!item) return;
                 pendingDeleteId = id;
-                const titleEl = document.getElementById('delete-target-title');
+                const modal = ensureDeleteConfirmModal();
+                if (!modal) return;
+                const titleEl = modal.querySelector('#delete-target-title');
                 if (titleEl) titleEl.innerText = `"${item.title}" başlıklı duyuruyu silmek istediğinize emin misiniz?`;
-                if (deleteConfirmModal) deleteConfirmModal.classList.add('active');
+                modal.classList.add('active');
             }
-            if (closeDeleteModal && deleteConfirmModal) closeDeleteModal.addEventListener('click', () => deleteConfirmModal.classList.remove('active'));
-            if (cancelDeleteBtn && deleteConfirmModal) cancelDeleteBtn.addEventListener('click', () => deleteConfirmModal.classList.remove('active'));
-            if (confirmDeleteBtn) {
-                confirmDeleteBtn.addEventListener('click', async () => {
-                    if (!pendingDeleteId) return;
-                    confirmDeleteBtn.disabled = true;
-                    confirmDeleteBtn.innerText = '⏳ Siliniyor...';
-                    try {
-                        await deleteAnnouncement(pendingDeleteId);
-                        showToast('Duyuru silindi ve tüm cihazlara eşitlendi.', '🗑️');
-                        if (deleteConfirmModal) deleteConfirmModal.classList.remove('active');
-                        renderAnnouncements();
-                    } catch (e) {
-                        showToast('Silinirken hata oluştu.', '❌');
-                    } finally {
-                        confirmDeleteBtn.disabled = false;
-                        confirmDeleteBtn.innerText = 'Evet, Sil';
-                        pendingDeleteId = null;
-                    }
-                });
-            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (pinModal) pinModal.classList.remove('active');
+                    closeAndDestroyAnnouncementModal();
+                    closeAndDestroyDeleteModal();
+                }
+            });
             function attachCardListeners() {
                 document.querySelectorAll('.copy-link-btn').forEach(btn => {
                     btn.onclick = () => {
@@ -1526,9 +1609,13 @@
                     };
                 });
             }
-            window.addEventListener('turnuva_auth_changed', () => {
+            window.addEventListener('turnuva_auth_changed', (e) => {
                 updateAdminUI();
                 renderAnnouncements();
+                if (e.detail && !e.detail.authenticated) {
+                    closeAndDestroyAnnouncementModal();
+                    closeAndDestroyDeleteModal();
+                }
             });
             updateAdminUI();
             renderAnnouncements();

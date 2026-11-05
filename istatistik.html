@@ -1080,7 +1080,8 @@
             </div>
         </div>
     </div>
-    <div class="modal-overlay" id="stats-admin-modal" role="dialog" aria-modal="true">
+    <template id="stats-admin-template">
+<div class="modal-overlay" id="stats-admin-modal" role="dialog" aria-modal="true">
         <div class="admin-modal-card">
             <div class="admin-modal-header">
                 <div>
@@ -1191,7 +1192,8 @@
             </div>
         </div>
     </div>
-    <div class="toast" id="toast-msg">
+</template>
+<div class="toast" id="toast-msg">
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
@@ -1543,6 +1545,26 @@
                 }
                 if (mobileLogout) mobileLogout.style.display = isAuth ? 'inline-flex' : 'none';
             }
+            function ensureStatsAdminModal() {
+                let modal = document.getElementById('stats-admin-modal');
+                if (!modal) {
+                    const tpl = document.getElementById('stats-admin-template');
+                    if (!tpl) return null;
+                    document.body.appendChild(tpl.content.cloneNode(true));
+                    modal = document.getElementById('stats-admin-modal');
+                    initStatsAdminEvents(modal);
+                }
+                return modal;
+            }
+
+            function closeAndDestroyStatsModal() {
+                const modal = document.getElementById('stats-admin-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.remove();
+                }
+            }
+
             function openStatsAdminModal() {
                 const isAuth = typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.isAuthenticated === 'function' && window.TurnuvaAuth.isAuthenticated();
                 if (!isAuth) {
@@ -1551,28 +1573,35 @@
                     }
                     return;
                 }
+                const modal = ensureStatsAdminModal();
+                if (!modal) return;
+
                 editingStandings = JSON.parse(JSON.stringify(getStandingsData()));
                 editingPlayers = JSON.parse(JSON.stringify(getPlayersData()));
                 renderAdminStandingsRows();
                 renderAdminPlayersRows();
                 switchStatsTab('admin-pane-standings');
-                if (statsAdminModal) statsAdminModal.classList.add('active');
+                modal.classList.add('active');
             }
             function switchStatsTab(paneId) {
+                const modal = document.getElementById('stats-admin-modal');
+                if (!modal) return;
+                const tabStandings = modal.querySelector('#tab-btn-admin-standings');
+                const tabPlayers = modal.querySelector('#tab-btn-admin-players');
+                const paneStandings = modal.querySelector('#admin-pane-standings');
+                const panePlayers = modal.querySelector('#admin-pane-players');
                 if (paneId === 'admin-pane-standings') {
-                    if (tabBtnAdminStandings) tabBtnAdminStandings.classList.add('active');
-                    if (tabBtnAdminPlayers) tabBtnAdminPlayers.classList.remove('active');
-                    if (adminPaneStandings) adminPaneStandings.style.display = 'block';
-                    if (adminPanePlayers) adminPanePlayers.style.display = 'none';
+                    if (tabStandings) tabStandings.classList.add('active');
+                    if (tabPlayers) tabPlayers.classList.remove('active');
+                    if (paneStandings) paneStandings.style.display = 'block';
+                    if (panePlayers) panePlayers.style.display = 'none';
                 } else {
-                    if (tabBtnAdminStandings) tabBtnAdminStandings.classList.remove('active');
-                    if (tabBtnAdminPlayers) tabBtnAdminPlayers.classList.add('active');
-                    if (adminPaneStandings) adminPaneStandings.style.display = 'none';
-                    if (adminPanePlayers) adminPanePlayers.style.display = 'flex';
+                    if (tabStandings) tabStandings.classList.remove('active');
+                    if (tabPlayers) tabPlayers.classList.add('active');
+                    if (paneStandings) paneStandings.style.display = 'none';
+                    if (panePlayers) panePlayers.style.display = 'flex';
                 }
             }
-            if (tabBtnAdminStandings) tabBtnAdminStandings.addEventListener('click', () => switchStatsTab('admin-pane-standings'));
-            if (tabBtnAdminPlayers) tabBtnAdminPlayers.addEventListener('click', () => switchStatsTab('admin-pane-players'));
             function handleAdminClick() {
                 if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated()) {
                     openStatsAdminModal();
@@ -1635,17 +1664,57 @@
             }
             if (closePinModal && pinModal) closePinModal.addEventListener('click', () => pinModal.classList.remove('active'));
             if (cancelPinBtn && pinModal) cancelPinBtn.addEventListener('click', () => pinModal.classList.remove('active'));
-            if (closeStatsModal && statsAdminModal) closeStatsModal.addEventListener('click', () => statsAdminModal.classList.remove('active'));
-            if (cancelStatsModalBtn && statsAdminModal) cancelStatsModalBtn.addEventListener('click', () => statsAdminModal.classList.remove('active'));
             if (pinModal) {
                 pinModal.addEventListener('click', (e) => {
                     if (e.target === pinModal) pinModal.classList.remove('active');
                 });
             }
-            if (statsAdminModal) {
-                statsAdminModal.addEventListener('click', (e) => {
-                    if (e.target === statsAdminModal) statsAdminModal.classList.remove('active');
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (pinModal) pinModal.classList.remove('active');
+                    closeAndDestroyStatsModal();
+                }
+            });
+
+            function initStatsAdminEvents(modal) {
+                if (!modal) return;
+                const closeBtn = modal.querySelector('#close-stats-modal');
+                const cancelBtn = modal.querySelector('#cancel-stats-modal-btn');
+                if (closeBtn) closeBtn.addEventListener('click', closeAndDestroyStatsModal);
+                if (cancelBtn) cancelBtn.addEventListener('click', closeAndDestroyStatsModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeAndDestroyStatsModal();
                 });
+
+                const tabStandings = modal.querySelector('#tab-btn-admin-standings');
+                const tabPlayers = modal.querySelector('#tab-btn-admin-players');
+                if (tabStandings) tabStandings.addEventListener('click', () => switchStatsTab('admin-pane-standings'));
+                if (tabPlayers) tabPlayers.addEventListener('click', () => switchStatsTab('admin-pane-players'));
+
+                const searchInput = modal.querySelector('#admin-player-search');
+                if (searchInput) {
+                    searchInput.addEventListener('input', renderAdminPlayersRows);
+                }
+
+                const addBtn = modal.querySelector('#btn-add-player');
+                if (addBtn) {
+                    addBtn.addEventListener('click', handleAddPlayer);
+                }
+
+                const pullScoresBtn = modal.querySelector('#btn-pull-scores-to-standings');
+                if (pullScoresBtn) {
+                    pullScoresBtn.addEventListener('click', handlePullScoresToStandings);
+                }
+
+                const saveBtn = modal.querySelector('#save-stats-btn');
+                if (saveBtn) {
+                    saveBtn.addEventListener('click', handleSaveStats);
+                }
+
+                const resetBtn = modal.querySelector('#admin-reset-stats-btn');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', handleResetStats);
+                }
             }
             function renderAdminStandingsRows() {
                 const tbody = document.getElementById('admin-standings-tbody');
@@ -1702,137 +1771,141 @@
                     });
                 });
             }
-            const searchPlayerInput = document.getElementById('admin-player-search');
-            if (searchPlayerInput) {
-                searchPlayerInput.addEventListener('input', renderAdminPlayersRows);
+
+            function handleAddPlayer() {
+                const modal = document.getElementById('stats-admin-modal');
+                if (!modal) return;
+                const nameInput = modal.querySelector('#new-player-name');
+                const teamSelect = modal.querySelector('#new-player-team');
+                const goalsInput = modal.querySelector('#new-player-goals');
+                const name = nameInput ? nameInput.value.trim() : '';
+                const team = teamSelect ? teamSelect.value : 'hit-2';
+                const goals = goalsInput ? parseInt(goalsInput.value, 10) || 0 : 0;
+                if (!name) {
+                    showToast('Lütfen oyuncu adı giriniz.', '⚠️');
+                    if (nameInput) nameInput.focus();
+                    return;
+                }
+                const existing = editingPlayers.find(p => p.name.toLowerCase() === name.toLowerCase() && p.team === team);
+                if (existing) {
+                    existing.goals = goals;
+                    showToast(`"${name}" zaten kayıtlı, golü ${goals} olarak güncellendi.`, 'ℹ️');
+                } else {
+                    editingPlayers.push({ name, team, goals });
+                    showToast(`"${name}" (${team}) başarıyla eklendi!`, '⚽');
+                }
+                if (nameInput) nameInput.value = '';
+                if (goalsInput) goalsInput.value = '0';
+                renderAdminPlayersRows();
             }
-            const btnAddPlayer = document.getElementById('btn-add-player');
-            if (btnAddPlayer) {
-                btnAddPlayer.addEventListener('click', () => {
-                    const nameInput = document.getElementById('new-player-name');
-                    const teamSelect = document.getElementById('new-player-team');
-                    const goalsInput = document.getElementById('new-player-goals');
-                    const name = nameInput ? nameInput.value.trim() : '';
-                    const team = teamSelect ? teamSelect.value : 'hit-2';
-                    const goals = goalsInput ? parseInt(goalsInput.value, 10) || 0 : 0;
-                    if (!name) {
-                        showToast('Lütfen oyuncu adı giriniz.', '⚠️');
-                        if (nameInput) nameInput.focus();
-                        return;
-                    }
-                    const existing = editingPlayers.find(p => p.name.toLowerCase() === name.toLowerCase() && p.team === team);
-                    if (existing) {
-                        existing.goals = goals;
-                        showToast(`"${name}" zaten kayıtlı, golü ${goals} olarak güncellendi.`, 'ℹ️');
-                    } else {
-                        editingPlayers.push({ name, team, goals });
-                        showToast(`"${name}" (${team}) başarıyla eklendi!`, '⚽');
-                    }
-                    if (nameInput) nameInput.value = '';
-                    if (goalsInput) goalsInput.value = '0';
-                    renderAdminPlayersRows();
-                });
-            }
-            const btnPullScoresToStandings = document.getElementById('btn-pull-scores-to-standings');
-            if (btnPullScoresToStandings) {
-                btnPullScoresToStandings.addEventListener('click', async () => {
+            async function handlePullScoresToStandings() {
+                const modal = document.getElementById('stats-admin-modal');
+                const btnPullScoresToStandings = modal ? modal.querySelector('#btn-pull-scores-to-standings') : null;
+                if (btnPullScoresToStandings) {
                     btnPullScoresToStandings.disabled = true;
                     btnPullScoresToStandings.innerText = '⏳ Hesaplanıyor...';
-                    try {
-                        if (typeof syncStandingsFromTournamentMatches === 'function' && typeof getTournamentData === 'function') {
-                            const res = await syncStandingsFromTournamentMatches(getTournamentData(), true);
-                            editingStandings = JSON.parse(JSON.stringify(getStandingsData()));
-                            renderAdminStandingsRows();
-                            showToast(`⚡ ${res.matchesProcessed || 'Tüm'} maç skorları tabloya aktarıldı!`, '✅');
-                        } else {
-                            showToast('Ağaç verisi yüklenemedi.', '❌');
-                        }
-                    } catch (e) {
-                        showToast('Skorlar aktarılırken hata oluştu.', '❌');
-                    } finally {
+                }
+                try {
+                    if (typeof syncStandingsFromTournamentMatches === 'function' && typeof getTournamentData === 'function') {
+                        const res = await syncStandingsFromTournamentMatches(getTournamentData(), true);
+                        editingStandings = JSON.parse(JSON.stringify(getStandingsData()));
+                        renderAdminStandingsRows();
+                        showToast(`⚡ ${res.matchesProcessed || 'Tüm'} maç skorları tabloya aktarıldı!`, '✅');
+                    } else {
+                        showToast('Ağaç verisi yüklenemedi.', '❌');
+                    }
+                } catch (e) {
+                    showToast('Skorlar aktarılırken hata oluştu.', '❌');
+                } finally {
+                    if (btnPullScoresToStandings) {
                         btnPullScoresToStandings.disabled = false;
                         btnPullScoresToStandings.innerText = '⚡ Ağaç Skorlarından Doldur';
                     }
-                });
+                }
             }
-            if (saveStatsBtn) {
-                saveStatsBtn.addEventListener('click', async () => {
-                    const originalText = saveStatsBtn.innerHTML;
+            async function handleSaveStats() {
+                const modal = document.getElementById('stats-admin-modal');
+                const saveStatsBtn = modal ? modal.querySelector('#save-stats-btn') : null;
+                const originalText = saveStatsBtn ? saveStatsBtn.innerHTML : '';
+                if (saveStatsBtn) {
                     saveStatsBtn.disabled = true;
                     saveStatsBtn.innerHTML = '⏳ Kaydediliyor...';
-                    try {
-                        const tbody = document.getElementById('admin-standings-tbody');
-                        if (tbody) {
-                            const rows = tbody.querySelectorAll('tr[data-team-name]');
-                            rows.forEach(r => {
-                                const teamName = r.getAttribute('data-team-name');
-                                const t = editingStandings.find(x => x.name === teamName);
-                                if (t) {
-                                    const o = parseInt(r.querySelector('.input-o').value, 10) || 0;
-                                    const g = parseInt(r.querySelector('.input-g').value, 10) || 0;
-                                    const b = parseInt(r.querySelector('.input-b').value, 10) || 0;
-                                    const m = parseInt(r.querySelector('.input-m').value, 10) || 0;
-                                    const av = parseInt(r.querySelector('.input-av').value, 10) || 0;
-                                    const p = parseInt(r.querySelector('.input-p').value, 10) || 0;
-                                    t.o = o; t.g = g; t.b = b; t.m = m; t.av = av; t.p = p;
-                                }
-                            });
-                        }
-                        if (tbody) {
-                            const playerInputs = document.querySelectorAll('.player-goals-input');
-                            playerInputs.forEach(inp => {
-                                const name = inp.getAttribute('data-name');
-                                const team = inp.getAttribute('data-team');
-                                const target = editingPlayers.find(p => p.name === name && p.team === team);
-                                if (target) {
-                                    target.goals = parseInt(inp.value, 10) || 0;
-                                }
-                            });
-                        }
-                        await saveStandingsData(editingStandings, true);
-                        await savePlayersData(editingPlayers, true);
-                        renderAllStatsViews(editingPlayers, editingStandings);
-                        if (statsAdminModal) statsAdminModal.classList.remove('active');
-                        showToast('Puan durumu ve goller kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
-                    } catch (err) {
-                        console.error('Kaydetme hatası:', err);
-                        showToast('Kaydedilirken hata oluştu.', '❌');
-                    } finally {
+                }
+                try {
+                    const tbody = document.getElementById('admin-standings-tbody');
+                    if (tbody) {
+                        const rows = tbody.querySelectorAll('tr[data-team-name]');
+                        rows.forEach(r => {
+                            const teamName = r.getAttribute('data-team-name');
+                            const t = editingStandings.find(x => x.name === teamName);
+                            if (t) {
+                                const o = parseInt(r.querySelector('.input-o').value, 10) || 0;
+                                const g = parseInt(r.querySelector('.input-g').value, 10) || 0;
+                                const b = parseInt(r.querySelector('.input-b').value, 10) || 0;
+                                const m = parseInt(r.querySelector('.input-m').value, 10) || 0;
+                                const av = parseInt(r.querySelector('.input-av').value, 10) || 0;
+                                const p = parseInt(r.querySelector('.input-p').value, 10) || 0;
+                                t.o = o; t.g = g; t.b = b; t.m = m; t.av = av; t.p = p;
+                            }
+                        });
+                    }
+                    if (tbody) {
+                        const playerInputs = document.querySelectorAll('.player-goals-input');
+                        playerInputs.forEach(inp => {
+                            const name = inp.getAttribute('data-name');
+                            const team = inp.getAttribute('data-team');
+                            const target = editingPlayers.find(p => p.name === name && p.team === team);
+                            if (target) {
+                                target.goals = parseInt(inp.value, 10) || 0;
+                            }
+                        });
+                    }
+                    await saveStandingsData(editingStandings, true);
+                    await savePlayersData(editingPlayers, true);
+                    renderAllStatsViews(editingPlayers, editingStandings);
+                    closeAndDestroyStatsModal();
+                    showToast('Puan durumu ve goller kaydedildi ve tüm cihazlara eşitlendi!', '🌐');
+                } catch (err) {
+                    console.error('Kaydetme hatası:', err);
+                    showToast('Kaydedilirken hata oluştu.', '❌');
+                } finally {
+                    if (saveStatsBtn) {
                         saveStatsBtn.disabled = false;
                         saveStatsBtn.innerHTML = originalText;
                     }
-                });
+                }
             }
-            if (adminResetStatsBtn) {
-                adminResetStatsBtn.addEventListener('click', async () => {
-                    const confirmWord = prompt('⚠️ DİKKAT: Tüm puan durumu ve oyuncu golleri varsayılana sıfırlanacaktır!\n\nOnaylamak için "SIFIRLA" yazınız:');
-                    if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') return;
-                    const confirmPin = prompt('Yönetici şifrenizi giriniz:');
-                    const isOk = typeof authenticateAdmin === 'function' ? await authenticateAdmin(confirmPin) : false;
-                    if (!isOk) {
-                        showToast('Yetkisiz işlem! Hatalı şifre.', '❌');
-                        return;
+            async function handleResetStats() {
+                const confirmWord = prompt('⚠️ DİKKAT: Tüm puan durumu ve oyuncu golleri varsayılana sıfırlanacaktır!\n\nOnaylamak için "SIFIRLA" yazınız:');
+                if (!confirmWord || confirmWord.trim().toUpperCase() !== 'SIFIRLA') return;
+                const confirmPin = prompt('Yönetici şifrenizi giriniz:');
+                const isOk = typeof authenticateAdmin === 'function' ? await authenticateAdmin(confirmPin) : false;
+                if (!isOk) {
+                    showToast('Yetkisiz işlem! Hatalı şifre.', '❌');
+                    return;
+                }
+                try {
+                    if (typeof resetStatsData === 'function') {
+                        await resetStatsData();
                     }
-                    try {
-                        if (typeof resetStatsData === 'function') {
-                            await resetStatsData();
-                        }
-                        editingStandings = JSON.parse(JSON.stringify(getStandingsData()));
-                        editingPlayers = JSON.parse(JSON.stringify(getPlayersData()));
-                        renderAdminStandingsRows();
-                        renderAdminPlayersRows();
-                        renderAllStatsViews(editingPlayers, editingStandings);
-                        showToast('İstatistikler varsayılan duruma sıfırlandı.', '🔄');
-                    } catch (e) {
-                        showToast('Sıfırlama hatası.', '❌');
-                    }
-                });
+                    editingStandings = JSON.parse(JSON.stringify(getStandingsData()));
+                    editingPlayers = JSON.parse(JSON.stringify(getPlayersData()));
+                    renderAdminStandingsRows();
+                    renderAdminPlayersRows();
+                    renderAllStatsViews(editingPlayers, editingStandings);
+                    showToast('İstatistikler varsayılan duruma sıfırlandı.', '🔄');
+                } catch (e) {
+                    showToast('Sıfırlama hatası.', '❌');
+                }
             }
             if (typeof initStatsDataSync === 'function') {
                 initStatsDataSync();
             }
-            window.addEventListener('turnuva_auth_changed', () => {
+            window.addEventListener('turnuva_auth_changed', (e) => {
                 updateAdminUI();
+                if (e.detail && !e.detail.authenticated) {
+                    closeAndDestroyStatsModal();
+                }
             });
             updateAdminUI();
                         renderAllStatsViews();
