@@ -1239,12 +1239,16 @@
                 }, 3200);
             }
             function escapeHtml(str) {
-                if (!str) return '';
+                if (typeof window.TurnuvaAuth !== 'undefined' && typeof window.TurnuvaAuth.escapeHtml === 'function') {
+                    return window.TurnuvaAuth.escapeHtml(str);
+                }
+                if (!str && str !== 0) return '';
                 return String(str)
                     .replace(/&/g, '&amp;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;');
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
             }
             const singleStandingsTbody = document.getElementById('single-standings-tbody');
             const standingsCountBadge = document.getElementById('standings-count-badge');

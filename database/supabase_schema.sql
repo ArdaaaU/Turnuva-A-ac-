@@ -228,6 +228,16 @@ BEGIN
         RAISE EXCEPTION 'Yetkisiz erişim: Geçersiz yönetici şifresi.';
     END IF;
 
+    IF p_id IS NULL OR length(p_id) > 64 THEN
+        RAISE EXCEPTION 'Geçersiz duyuru kimliği (id).';
+    END IF;
+
+    IF (p_title IS NOT NULL AND length(p_title) > 500) OR
+       (p_content IS NOT NULL AND length(p_content) > 50000) OR
+       (p_summary IS NOT NULL AND length(p_summary) > 2000) THEN
+        RAISE EXCEPTION 'Veri uzunluğu izin verilen sınırları aşıyor.';
+    END IF;
+
     IF p_action = 'insert' THEN
         INSERT INTO public.duyurular (
             id, title, category, category_label, date, author, pinned, summary, content, created_at
@@ -367,6 +377,10 @@ BEGIN
         RAISE EXCEPTION 'Yetkisiz erişim: Geçersiz yönetici şifresi.';
     END IF;
 
+    IF p_data IS NULL OR pg_column_size(p_data) > 300000 THEN
+        RAISE EXCEPTION 'Geçersiz veri veya payload boyutu çok yüksek (maks 300KB).';
+    END IF;
+
     INSERT INTO public.turnuva_fikstur (id, data, updated_at)
     VALUES ('main', p_data, now())
     ON CONFLICT (id) DO UPDATE SET
@@ -400,6 +414,10 @@ BEGIN
     IF v_computed_hash IS DISTINCT FROM v_expected_hash THEN
         PERFORM pg_sleep(1.5);
         RAISE EXCEPTION 'Yetkisiz erişim: Geçersiz yönetici şifresi.';
+    END IF;
+
+    IF p_data IS NULL OR pg_column_size(p_data) > 300000 THEN
+        RAISE EXCEPTION 'Geçersiz veri veya payload boyutu çok yüksek (maks 300KB).';
     END IF;
 
     INSERT INTO public.turnuva_istatistik (id, data, updated_at)

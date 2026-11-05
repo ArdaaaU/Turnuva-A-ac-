@@ -61,6 +61,16 @@
         return result;
     }
 
+    function escapeHtml(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     const RUNTIME_ENTROPY = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Date.now().toString(36);
     const SESSION_DURATION_MS = 2 * 60 * 60 * 1000;
     const ATTEMPTS_KEY = '_turnuva_auth_attempts_#2026';
@@ -393,7 +403,8 @@
         logout: logoutAdmin,
         openPinModal: openPinModal,
         closePinModal: closePinModal,
-        updateNavUI: updateNavAuthUI
+        updateNavUI: updateNavAuthUI,
+        escapeHtml: escapeHtml
     });
 
     function defineImmutableProperty(target, name, val) {
@@ -416,5 +427,6 @@
     defineImmutableProperty(window, 'logoutAdmin', logoutAdmin);
     defineImmutableProperty(window, 'openPinModal', openPinModal);
     defineImmutableProperty(window, 'closePinModal', closePinModal);
+    defineImmutableProperty(window, 'escapeHtml', escapeHtml);
 
 })(typeof window !== 'undefined' ? window : this);
