@@ -1071,11 +1071,11 @@
         <span id="toast-icon">✅</span>
         <span id="toast-text">İşlem başarıyla gerçekleştirildi.</span>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js?v=1793904650"></script>
-    <script src="js/security.js?v=1793904650"></script>
-    <script src="js/fikstur.js?v=1793904650"></script>
-    <script src="js/duyurular.js?v=1793904650"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" integrity="sha384-YieCqqg9gQufX7+5HcFvCEg/n3KUEdl8/Jb+A6J0npf1mB740VayvwKjTrtCeUoy" crossorigin="anonymous"></script>
+    <script src="js/supabase-config.js?v=1794055800"></script>
+    <script src="js/security.js?v=1794055800"></script>
+    <script src="js/fikstur.js?v=1794055800"></script>
+    <script src="js/duyurular.js?v=1794055800"></script>
     <script>
         function initDuyurularPage() {
             const themeToggleBtn = document.getElementById('theme-toggle');
@@ -1227,8 +1227,8 @@
             if (window.location.hash) {
                 setTimeout(() => {
                     try {
-                        const targetId = window.location.hash.replace(/^#/, '');
-                        const targetEl = document.getElementById(targetId) || document.querySelector(window.location.hash);
+                        const targetId = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+                        const targetEl = document.getElementById(targetId);
                         if (targetEl) {
                             targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             targetEl.style.transition = 'box-shadow 0.4s ease';

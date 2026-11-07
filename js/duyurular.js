@@ -409,23 +409,6 @@ async function syncAnnouncementsFromSupabase() {
                 return mapped;
             }
         } else if (Array.isArray(data) && data.length === 0) {
-            console.log('Supabase duyurular tablosu boş, yedek yükleniyor...');
-            const seedItems = DEFAULT_ANNOUNCEMENTS.map(item => ({
-                id: item.id,
-                title: item.title,
-                category: item.category,
-                category_label: item.categoryLabel,
-                date: item.date,
-                author: item.author,
-                pinned: item.pinned,
-                summary: item.summary,
-                content: item.content
-            }));
-            try {
-                await client.from('duyurular').upsert(seedItems);
-            } catch (seedErr) {
-                console.warn('Yedek duyuruları Supabase aktarma hatası:', seedErr);
-            }
             inMemoryAnnouncements = cloneObject(DEFAULT_ANNOUNCEMENTS);
             try {
                 window.dispatchEvent(new CustomEvent('turnuva_announcements_updated', {
